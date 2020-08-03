@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://src/character/Line2DDraw.gd" type="Script" id=1]
+[ext_resource path="res://src/character/Human.gd" type="Script" id=2]
+[ext_resource path="res://src/character/LabelLayout.gd" type="Script" id=3]
+[ext_resource path="res://src/character/WanderController.tscn" type="PackedScene" id=4]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 13.2538
+
+[sub_resource type="ConvexPolygonShape2D" id=2]
+points = PoolVector2Array( 0, 0, -540, -311.4, 540, -311.4 )
+
+[node name="Human" type="KinematicBody2D"]
+collision_layer = 2
+script = ExtResource( 2 )
+
+[node name="Line2D" type="Line2D" parent="."]
+position = Vector2( 0, -8 )
+points = PoolVector2Array( 0, -25, -20, 20, 20, 20, 0, -25 )
+width = 2.0
+default_color = Color( 0.117647, 0.392157, 0.631373, 1 )
+antialiased = true
+script = ExtResource( 1 )
+inner_color = Color( 0.282353, 0.623529, 0.141176, 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="LabelLayout" type="Node2D" parent="."]
+script = ExtResource( 3 )
+
+[node name="PlayerName" type="Label" parent="LabelLayout"]
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -38.5
+margin_top = -50.0
+margin_right = 38.5
+margin_bottom = -19.0
+text = "PlayerName
+"
+align = 1
+valign = 1
+clip_text = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="WanderController" parent="." instance=ExtResource( 4 )]
+position = Vector2( 0, -30 )
+
+[node name="Position2D" parent="WanderController" index="0"]
+position = Vector2( 0, -25 )
+
+[node name="PlayerDetectionZone" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionZone"]
+shape = SubResource( 2 )
+
+[editable path="WanderController"]
