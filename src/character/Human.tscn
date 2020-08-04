@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://src/character/Line2DDraw.gd" type="Script" id=1]
 [ext_resource path="res://src/character/Human.gd" type="Script" id=2]
-[ext_resource path="res://src/character/LabelLayout.gd" type="Script" id=3]
-[ext_resource path="res://src/character/WanderController.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/character/status/Status.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/ai/steering/WanderController.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/character/LabelLayout.tscn" type="PackedScene" id=5]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 13.2538
@@ -27,24 +28,7 @@ inner_color = Color( 0.282353, 0.623529, 0.141176, 1 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
-[node name="LabelLayout" type="Node2D" parent="."]
-script = ExtResource( 3 )
-
-[node name="PlayerName" type="Label" parent="LabelLayout"]
-anchor_left = 0.5
-anchor_right = 0.5
-margin_left = -38.5
-margin_top = -50.0
-margin_right = 38.5
-margin_bottom = -19.0
-text = "PlayerName
-"
-align = 1
-valign = 1
-clip_text = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="LabelLayout" parent="." instance=ExtResource( 5 )]
 
 [node name="WanderController" parent="." instance=ExtResource( 4 )]
 position = Vector2( 0, -30 )
@@ -58,5 +42,7 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionZone"]
 shape = SubResource( 2 )
+
+[node name="Status" parent="." instance=ExtResource( 3 )]
 
 [editable path="WanderController"]

@@ -23,6 +23,8 @@ onready var accel := GSAITargetAcceleration.new()
 onready var wanderController = $WanderController
 onready var wanderController_Position = $WanderController/Position2D
 
+onready var status = $Status
+
 func _ready() -> void:
 	agent.linear_speed_max = speed_max
 	agent.linear_acceleration_max = acceleration_max
@@ -37,10 +39,8 @@ func _ready() -> void:
 	face.deceleration_radius = deg2rad(45)
 	
 	
-func update_wander():
+func update_wander() -> void:
 	wanderController.rotation_degrees = rand_range(0,360)
-	#print(wanderCircle.rotation_degrees)
-	
 	proxy_target.position.x = wanderController_Position.global_position.x
 	proxy_target.position.y = wanderController_Position.global_position.y
 	
