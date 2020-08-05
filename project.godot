@@ -248,8 +248,8 @@ texture={
 
 [layer_names]
 
-2d_render/layer_1="world collision"
-2d_render/layer_2="detection"
+2d_render/layer_1="word "
+2d_render/layer_2="player"
 
 [rendering]
 

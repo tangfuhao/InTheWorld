@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-
+export var player_name = "player1"
 export var speed_max := 300
 export var acceleration_max := 300
 export var rotation_speed_max := 360
@@ -25,7 +25,11 @@ onready var wanderController_Position = $WanderController/Position2D
 
 onready var status = $Status
 
+onready var playerName = $LabelLayout/PlayerName
+
 func _ready() -> void:
+	randomize()
+	
 	agent.linear_speed_max = speed_max
 	agent.linear_acceleration_max = acceleration_max
 	agent.angular_speed_max = deg2rad(rotation_speed_max)
@@ -33,10 +37,10 @@ func _ready() -> void:
 	agent.bounding_radius = 10
 	update_agent()
 	update_wander()
-
-
 	face.alignment_tolerance = deg2rad(5)
 	face.deceleration_radius = deg2rad(45)
+	
+	playerName.text = player_name
 	
 	
 func update_wander() -> void:

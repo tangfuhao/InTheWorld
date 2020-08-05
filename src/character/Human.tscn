@@ -5,12 +5,10 @@
 [ext_resource path="res://src/character/status/Status.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/ai/steering/WanderController.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/character/LabelLayout.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/character/PlayerDetectionZone.tscn" type="PackedScene" id=6]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 13.2538
-
-[sub_resource type="ConvexPolygonShape2D" id=2]
-points = PoolVector2Array( 0, 0, -540, -311.4, 540, -311.4 )
 
 [node name="Human" type="KinematicBody2D"]
 collision_layer = 2
@@ -31,17 +29,15 @@ shape = SubResource( 1 )
 [node name="LabelLayout" parent="." instance=ExtResource( 5 )]
 
 [node name="WanderController" parent="." instance=ExtResource( 4 )]
+visible = false
 position = Vector2( 0, -30 )
 
 [node name="Position2D" parent="WanderController" index="0"]
 position = Vector2( 0, -25 )
 
-[node name="PlayerDetectionZone" type="Area2D" parent="."]
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetectionZone"]
-shape = SubResource( 2 )
+[node name="PlayerDetectionZone" parent="." instance=ExtResource( 6 )]
+position = Vector2( 0.181107, -15.9374 )
+monitorable = false
 
 [node name="Status" parent="." instance=ExtResource( 3 )]
 
