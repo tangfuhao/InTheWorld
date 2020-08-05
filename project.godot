@@ -206,7 +206,7 @@ _global_script_class_icons={
 
 [application]
 
-config/name="Core Engine Test"
+config/name="InTheWorld"
 run/main_scene="res://src/world/World.tscn"
 config/icon="res://icon.png"
 
