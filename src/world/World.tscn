@@ -469,8 +469,3 @@ current = true
 zoom = Vector2( 2, 2 )
 limit_smoothed = true
 smoothing_enabled = true
-
-[node name="Player2" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1623.25, 1919.41 )
-rotation = -2.03854
-player_name = "player2"

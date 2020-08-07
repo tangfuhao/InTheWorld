@@ -24,6 +24,7 @@ onready var wanderController = $WanderController
 onready var wanderController_Position = $WanderController/Position2D
 
 onready var status = $Status
+onready var motivation = $Motivation
 
 onready var playerName = $LabelLayout/PlayerName
 
@@ -39,8 +40,10 @@ func _ready() -> void:
 	update_wander()
 	face.alignment_tolerance = deg2rad(5)
 	face.deceleration_radius = deg2rad(45)
-	
 	playerName.text = player_name
+	
+	status.setup()
+	motivation.setup()
 	
 	
 func update_wander() -> void:

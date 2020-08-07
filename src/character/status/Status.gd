@@ -2,17 +2,20 @@ extends Node
 
 
 var statusDic:Dictionary = {}
-
 #一分钟-更新状态值 可以修改快速看到状态值得改变
-export var update_time = 60
+export var update_time = 10
 #暂停时剩余的时间
 var pause_left_time:float = 0
 
 onready var updateTimer := $UpdaterTimer
-func _ready():
-	setup()
+
+
+func setup():
+	load_status_config_and_parse()
+	binding_status_listner_relative()
 	start_update()
-	
+
+
 func pauseUpdate():
 	pause_left_time = 0
 	if updateTimer.is_stopped() == false:
@@ -35,12 +38,6 @@ func update_status():
 		status.update_status(statusDic)
 
 
-
-
-
-func setup():
-	load_status_config_and_parse()
-	binding_status_listner_relative()
 
 func binding_status_listner_relative():
 	for status in statusDic.values():

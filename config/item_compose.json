@@ -1,0 +1,50 @@
+[
+    {
+        "productName": "钢铁",
+        "material": [
+            {
+                "name": "铁块",
+                "num": 1
+            }
+        ]
+    },
+    {
+        "productName": "钢铁侠套装",
+        "material": [
+            {
+                "name": "钢铁",
+                "num": 3
+            }
+        ]
+    },
+    {
+        "productName": "手枪",
+        "material": [
+            {
+                "name": "钢铁",
+                "num": 1
+            },
+            {
+                "name": "石头",
+                "num": 3
+            }
+        ]
+    },
+    {
+        "productName": "原子弹",
+        "material": [
+            {
+                "name": "神笔",
+                "num": 1
+            },
+            {
+                "name": "手枪",
+                "num": 1
+            },
+            {
+                "name": "狙击枪",
+                "num": 1
+            }
+        ]
+    }
+]
