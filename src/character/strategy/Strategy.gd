@@ -6,12 +6,16 @@ var current_strategy_chain:StrategyChain = null
 var current_running_task = null
 var active_motivation = null
 
-signal re_plan_strategy
+#防止规划的抖动
+onready var re_plan_timer = $RePlanTimer
 
 func process_task(_delta: float):
 	if current_running_task:
 		if current_running_task.process(_delta) == false: current_running_task = null
 		return 
+	if current_strategy_chain == null:
+		send_re_plan_signal()
+		return
 	
 	var first_task_in_strategy_chain = null
 	if current_strategy_chain: first_task_in_strategy_chain = current_strategy_chain.pop_first_task()
@@ -20,13 +24,18 @@ func process_task(_delta: float):
 		if current_running_task.process(_delta) == false: current_running_task = null
 	else:
 		current_strategy_chain = null
-		emit_signal("re_plan_strategy")
+		send_re_plan_signal()
+		
+func send_re_plan_signal():
+	if re_plan_timer.is_stopped():
+		re_plan_timer.start(0.5)
 
 func instance_task(task_name_and_params):
 	return null
 
 func setup():
 	randomize()
+	re_plan_timer.connect("timeout",self,"re_plan_strategy")
 	world_status = owner.world_status
 	var motivation_component = owner.motivation
 	motivation_component.connect("highest_priority_motivation_change",self,"highest_priority_motivation_change")
@@ -34,14 +43,16 @@ func setup():
 	
 func highest_priority_motivation_change(motivation):
 	active_motivation = motivation
-	var strategy = get_strategy_by_task_name(motivation.motivation_name)
-	re_plan_strategy(strategy)
+	send_re_plan_signal()
 	
-func re_plan_strategy(strategy):
-	if strategy:
-		var new_strategy_chain = StrategyChain.new()
-		var plan_result = plan_strategy(strategy,0,current_strategy_chain,new_strategy_chain)
-		if plan_result: change_task(new_strategy_chain)
+func re_plan_strategy():
+	if active_motivation.is_active:
+		var strategy = get_strategy_by_task_name(active_motivation.motivation_name)
+		if strategy:
+			var new_strategy_chain = StrategyChain.new()
+			var plan_result = plan_strategy(strategy,0,current_strategy_chain,new_strategy_chain)
+			if plan_result: change_task(new_strategy_chain)
+
 
 func get_strategy_by_task_name(_task_name):
 	if strategy_dic.has(_task_name):
@@ -247,6 +258,4 @@ func load_json_arr(file_path):
 
 #规划器中没有新任务了  重新规划
 func _on_Strategy_re_plan_strategy():
-	if active_motivation.is_active:
-		var strategy = get_strategy_by_task_name(active_motivation.motivation_name)
-		re_plan_strategy(strategy)
+	re_plan_strategy()
