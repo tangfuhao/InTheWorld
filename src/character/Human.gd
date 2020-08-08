@@ -25,6 +25,8 @@ onready var wanderController_Position = $WanderController/Position2D
 
 onready var status = $Status
 onready var motivation = $Motivation
+onready var strategy = $Strategy
+onready var world_status = $WorldStatus
 
 onready var playerName = $LabelLayout/PlayerName
 
@@ -44,6 +46,7 @@ func _ready() -> void:
 	
 	status.setup()
 	motivation.setup()
+	strategy.setup()
 	
 	
 func update_wander() -> void:

@@ -33,6 +33,7 @@ func set_highest_priority_motivation(value):
 		print("最高优先级动机改变为:",highest_priority_motivation.motivation_name)
 		emit_signal("highest_priority_motivation_change",highest_priority_motivation)
 
+
 #动机的激活通知  更新激活动机表
 func motivation_arr_active_change(motivation):
 	if motivation.is_active:

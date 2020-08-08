@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://src/character/Line2DDraw.gd" type="Script" id=1]
 [ext_resource path="res://src/character/Human.gd" type="Script" id=2]
@@ -7,7 +7,8 @@
 [ext_resource path="res://src/character/LabelLayout.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/character/PlayerDetectionZone.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/character/motivation/Motivation.tscn" type="PackedScene" id=7]
-[ext_resource path="res://src/character/Strategy.tscn" type="PackedScene" id=8]
+[ext_resource path="res://src/character/strategy/Strategy.tscn" type="PackedScene" id=8]
+[ext_resource path="res://src/character/world_status/WorldStatus.tscn" type="PackedScene" id=9]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 13.2538
@@ -46,5 +47,7 @@ monitorable = false
 [node name="Motivation" parent="." instance=ExtResource( 7 )]
 
 [node name="Strategy" parent="." instance=ExtResource( 8 )]
+
+[node name="WorldStatus" parent="." instance=ExtResource( 9 )]
 
 [editable path="WanderController"]

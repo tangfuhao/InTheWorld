@@ -175,6 +175,16 @@ _global_script_classes=[ {
 "path": "res://src/character/status/StatusModel.gd"
 }, {
 "base": "Reference",
+"class": "StrategyChain",
+"language": "GDScript",
+"path": "res://src/character/strategy/StrategyChain.gd"
+}, {
+"base": "Reference",
+"class": "StrategyItemModel",
+"language": "GDScript",
+"path": "res://src/character/strategy/StrategyItemModel.gd"
+}, {
+"base": "Reference",
 "class": "StrategyModel",
 "language": "GDScript",
 "path": "res://src/character/strategy/StrategyModel.gd"
@@ -213,6 +223,8 @@ _global_script_class_icons={
 "MotivationModel": "",
 "StatusEffectModel": "",
 "StatusModel": "",
+"StrategyChain": "",
+"StrategyItemModel": "",
 "StrategyModel": ""
 }
 
