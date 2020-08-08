@@ -3,19 +3,43 @@ extends Node2D
 var strategy_dic:Dictionary = {}
 var world_status
 var current_strategy_chain:StrategyChain = null
+var current_running_task = null
+var active_motivation = null
+
+signal re_plan_strategy
+
+func process_task(_delta: float):
+	if current_running_task:
+		if current_running_task.process(_delta) == false: current_running_task = null
+		return 
+	
+	var first_task_in_strategy_chain = null
+	if current_strategy_chain: first_task_in_strategy_chain = current_strategy_chain.pop_first_task()
+	if first_task_in_strategy_chain :
+		current_running_task = instance_task(first_task_in_strategy_chain)
+		if current_running_task.process(_delta) == false: current_running_task = null
+	else:
+		current_strategy_chain = null
+		emit_signal("re_plan_strategy")
+
+func instance_task(task_name_and_params):
+	return null
 
 func setup():
 	randomize()
-	var motivation = owner.motivation
 	world_status = owner.world_status
-	motivation.connect("highest_priority_motivation_change",self,"highest_priority_motivation_change")
+	var motivation_component = owner.motivation
+	motivation_component.connect("highest_priority_motivation_change",self,"highest_priority_motivation_change")
 	laod_strategy_overview()
 	
 func highest_priority_motivation_change(motivation):
+	active_motivation = motivation
 	var strategy = get_strategy_by_task_name(motivation.motivation_name)
+	re_plan_strategy(strategy)
+	
+func re_plan_strategy(strategy):
 	if strategy:
 		var new_strategy_chain = StrategyChain.new()
-		
 		var plan_result = plan_strategy(strategy,0,current_strategy_chain,new_strategy_chain)
 		if plan_result: change_task(new_strategy_chain)
 
@@ -220,3 +244,9 @@ func load_json_arr(file_path):
 		print("unexpected results")
 		return []
 	
+
+#规划器中没有新任务了  重新规划
+func _on_Strategy_re_plan_strategy():
+	if active_motivation.is_active:
+		var strategy = get_strategy_by_task_name(active_motivation.motivation_name)
+		re_plan_strategy(strategy)

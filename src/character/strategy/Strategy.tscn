@@ -6,3 +6,4 @@
 visible = false
 light_mask = 0
 script = ExtResource( 1 )
+[connection signal="re_plan_strategy" from="." to="." method="_on_Strategy_re_plan_strategy"]

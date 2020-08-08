@@ -49,32 +49,34 @@ func _ready() -> void:
 	strategy.setup()
 	
 	
+
+func _process(_delta: float):
+	strategy.process_task(delta)
+
+func _physics_process(_delta: float) -> void:
+#	update_agent()
+#	update_wander()
+#
+#	var movement := -1
+#	direction = GSAIUtils.angle_to_vector2(rotation).normalized()
+#	velocity = velocity.move_toward(direction * speed_max * movement,delta * acceleration_max);
+#	velocity = move_and_slide(velocity)
+#
+#
+#
+#	face.calculate_steering(accel)
+#	if accel.angular == 0:
+#		angular_velocity = 0
+#	else:
+#		angular_velocity += accel.angular * delta
+#		angular_velocity = clamp(angular_velocity, -agent.angular_speed_max, agent.angular_speed_max)
+#		rotation += angular_velocity * delta
+	pass
+	
 func update_wander() -> void:
 	wanderController.rotation_degrees = rand_range(0,360)
 	proxy_target.position.x = wanderController_Position.global_position.x
 	proxy_target.position.y = wanderController_Position.global_position.y
-	
-
-func _physics_process(delta: float) -> void:
-	update_agent()
-	update_wander()
-
-	var movement := -1
-	direction = GSAIUtils.angle_to_vector2(rotation).normalized()
-	velocity = velocity.move_toward(direction * speed_max * movement,delta * acceleration_max);
-	velocity = move_and_slide(velocity)
-	
-	
-
-	face.calculate_steering(accel)
-	if accel.angular == 0:
-		angular_velocity = 0
-	else:
-		angular_velocity += accel.angular * delta
-		angular_velocity = clamp(angular_velocity, -agent.angular_speed_max, agent.angular_speed_max)
-		rotation += angular_velocity * delta
-	
-
 
 func update_agent() -> void:
 	agent.position.x = global_position.x
