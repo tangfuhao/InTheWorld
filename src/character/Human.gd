@@ -51,7 +51,7 @@ func _ready() -> void:
 	
 
 func _process(_delta: float):
-	strategy.process_task(delta)
+	strategy.process_task(_delta)
 
 func _physics_process(_delta: float) -> void:
 #	update_agent()

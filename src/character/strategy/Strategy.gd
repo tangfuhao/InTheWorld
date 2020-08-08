@@ -21,7 +21,7 @@ func process_task(_delta: float):
 	if current_strategy_chain: first_task_in_strategy_chain = current_strategy_chain.pop_first_task()
 	if first_task_in_strategy_chain :
 		current_running_task = instance_task(first_task_in_strategy_chain)
-		if current_running_task.process(_delta) == false: current_running_task = null
+#		if current_running_task.process(_delta) == false: current_running_task = null
 	else:
 		current_strategy_chain = null
 		send_re_plan_signal()
@@ -31,6 +31,7 @@ func send_re_plan_signal():
 		re_plan_timer.start(0.5)
 
 func instance_task(task_name_and_params):
+	print("初始化行为:",task_name_and_params)
 	return null
 
 func setup():
@@ -46,12 +47,14 @@ func highest_priority_motivation_change(motivation):
 	send_re_plan_signal()
 	
 func re_plan_strategy():
-	if active_motivation.is_active:
+	if active_motivation && active_motivation.is_active:
 		var strategy = get_strategy_by_task_name(active_motivation.motivation_name)
 		if strategy:
+			var plan_start_time = OS.get_ticks_msec()
 			var new_strategy_chain = StrategyChain.new()
 			var plan_result = plan_strategy(strategy,0,current_strategy_chain,new_strategy_chain)
 			if plan_result: change_task(new_strategy_chain)
+			print("规划策略:",strategy.task_name,",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
 
 
 func get_strategy_by_task_name(_task_name):
@@ -257,5 +260,5 @@ func load_json_arr(file_path):
 	
 
 #规划器中没有新任务了  重新规划
-func _on_Strategy_re_plan_strategy():
+func _on_RePlanTimer_timeout():
 	re_plan_strategy()
