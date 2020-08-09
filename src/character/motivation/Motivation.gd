@@ -14,13 +14,14 @@ signal highest_priority_motivation_change(motivation)
 func setup():
 	player_status_dic = owner.status.statusDic
 	player_detection_zone = owner.player_detection_zone
-	player_detection_zone.connect("see_new_player",self,"see_new_player")
+	player_detection_zone.connect("see_new_player",self,"fond_new_player")
 	laod_motivation_overview()
 	binding_listening_relative()
 	
-func see_new_player(body):
+func fond_new_player(body):
 	#TODO 对应状态表
 	#print("看见了新玩家在动机里:",body.player_name)
+	pass
 	
 
 func binding_listening_relative():
