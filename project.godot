@@ -10,9 +10,24 @@ config_version=4
 
 _global_script_classes=[ {
 "base": "Reference",
+"class": "AccessToTarget",
+"language": "GDScript",
+"path": "res://src/character/tasks/AccessToTarget.gd"
+}, {
+"base": "Reference",
+"class": "ApproachToTarget",
+"language": "GDScript",
+"path": "res://src/character/tasks/ApproachToTarget.gd"
+}, {
+"base": "Reference",
 "class": "Evaluate",
 "language": "GDScript",
 "path": "res://src/character/status/Evaluate.gd"
+}, {
+"base": "Reference",
+"class": "FurtherAwayTarget",
+"language": "GDScript",
+"path": "res://src/character/tasks/FurtherAwayTarget.gd"
 }, {
 "base": "Reference",
 "class": "GSAIAgentLocation",
@@ -164,6 +179,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/character/motivation/MotivationModel.gd"
 }, {
+"base": "KinematicBody2D",
+"class": "Player",
+"language": "GDScript",
+"path": "res://src/character/Human.gd"
+}, {
 "base": "Reference",
 "class": "StatusEffectModel",
 "language": "GDScript",
@@ -188,9 +208,22 @@ _global_script_classes=[ {
 "class": "StrategyModel",
 "language": "GDScript",
 "path": "res://src/character/strategy/StrategyModel.gd"
+}, {
+"base": "Reference",
+"class": "Task",
+"language": "GDScript",
+"path": "res://src/character/tasks/Task.gd"
+}, {
+"base": "Reference",
+"class": "Wander",
+"language": "GDScript",
+"path": "res://src/character/tasks/Wander.gd"
 } ]
 _global_script_class_icons={
+"AccessToTarget": "",
+"ApproachToTarget": "",
 "Evaluate": "",
+"FurtherAwayTarget": "",
 "GSAIAgentLocation": "",
 "GSAIArrive": "",
 "GSAIAvoidCollisions": "",
@@ -221,11 +254,14 @@ _global_script_class_icons={
 "GSAITargetAcceleration": "",
 "GSAIUtils": "",
 "MotivationModel": "",
+"Player": "",
 "StatusEffectModel": "",
 "StatusModel": "",
 "StrategyChain": "",
 "StrategyItemModel": "",
-"StrategyModel": ""
+"StrategyModel": "",
+"Task": "",
+"Wander": ""
 }
 
 [application]
@@ -273,7 +309,8 @@ texture={
 [layer_names]
 
 2d_render/layer_1="word "
-2d_render/layer_2="player"
+2d_render/layer_2="player1"
+2d_render/layer_3="player2"
 
 [rendering]
 

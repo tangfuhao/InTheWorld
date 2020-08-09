@@ -9,34 +9,71 @@ var active_motivation = null
 #防止规划的抖动
 onready var re_plan_timer = $RePlanTimer
 
+
+
+
 func process_task(_delta: float):
 	if current_running_task:
-		if current_running_task.process(_delta) == false: current_running_task = null
-		return 
-	if current_strategy_chain == null:
-		send_re_plan_signal()
-		return
-	
-	var first_task_in_strategy_chain = null
-	if current_strategy_chain: first_task_in_strategy_chain = current_strategy_chain.pop_first_task()
-	if first_task_in_strategy_chain :
-		current_running_task = instance_task(first_task_in_strategy_chain)
-#		if current_running_task.process(_delta) == false: current_running_task = null
+		var task_state = current_running_task.process(_delta)
+		if task_state == Task.STATE.GOAL_COMPLETED:
+			current_running_task.terminate()
+			current_running_task = run_next_task()
+			return
+		elif task_state == Task.STATE.GOAL_ACTIVE: 
+			return
+		elif task_state == Task.STATE.GOAL_FAILED: 
+			clean_current_task()
 	else:
-		current_strategy_chain = null
-		send_re_plan_signal()
+		current_running_task = run_next_task()
 		
+	if current_running_task == null : send_re_plan_signal()
+	
+	
+func clean_current_task():
+	if current_running_task : 
+		current_running_task.terminate()
+		current_running_task = null
+		current_strategy_chain.clean()
+
 func send_re_plan_signal():
 	if re_plan_timer.is_stopped():
+		clean_current_task()
 		re_plan_timer.start(0.5)
+		
+func run_next_task():
+	if current_strategy_chain:
+		var first_task_in_strategy_chain = current_strategy_chain.pop_first_task()
+		if first_task_in_strategy_chain :
+			current_running_task = instance_task(first_task_in_strategy_chain)
+			current_running_task.active()
+			return current_running_task
+	send_re_plan_signal()
+	return null
 
-func instance_task(task_name_and_params):
-	print("初始化行为:",task_name_and_params)
+func instance_task(task_name_and_params:String):
+	var task_split_value = Array(task_name_and_params.split(":"))
+	var task_name = task_split_value.pop_front()
+	var task_params = task_split_value.pop_front()
+	if task_name == "获取目标":
+		var task:AccessToTarget = AccessToTarget.new()
+		task.init(owner,task_params)
+		return task
+	elif task_name == "远离目标":
+		var task:FurtherAwayTarget = FurtherAwayTarget.new()
+		task.init(owner,task_params)
+		return task
+	elif task_name == "移动到目标":
+		var task:ApproachToTarget = ApproachToTarget.new()
+		task.init(owner,task_params)
+		return task
+	else:
+		print("没有视线的任务",task_name)
+	
 	return null
 
 func setup():
 	randomize()
-	re_plan_timer.connect("timeout",self,"re_plan_strategy")
+#	re_plan_timer.connect("timeout",self,"re_plan_strategy")
 	world_status = owner.world_status
 	var motivation_component = owner.motivation
 	motivation_component.connect("highest_priority_motivation_change",self,"highest_priority_motivation_change")
@@ -134,7 +171,7 @@ class StrategySort:
 		
 func order_sort_select(meet_strategy_arr):
 	meet_strategy_arr.sort_custom(StrategySort,"sort_ascending")
-	return meet_strategy_arr[0]
+	return meet_strategy_arr.front()
 	
 func random_sort_select(meet_strategy_arr,_random_code_arr,level):
 	var random_code

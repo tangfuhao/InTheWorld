@@ -3,6 +3,11 @@ var random_code_arr:Array = []
 var task_name_chian:Dictionary = {}
 var strategy_chain:Array = []
 
+func clean():
+	random_code_arr.clear()
+	strategy_chain.clear()
+	task_name_chian.clear()
+
 func push_task_level(_level,_task):
 	if task_name_chian.has(_level) == false:
 		task_name_chian[_level] = []
@@ -27,6 +32,7 @@ func push_back_strategy(_strategy):
 func roll_back_strategy():
 	strategy_chain.pop_back()
 func get_startegy_by_index(index):
+	if strategy_chain.size() <= 2 : return null
 	return strategy_chain[index]
 	
 

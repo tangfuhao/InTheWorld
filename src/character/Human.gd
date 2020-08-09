@@ -1,4 +1,7 @@
 extends KinematicBody2D
+class_name Player
+
+
 
 export var player_name = "player1"
 export var speed_max := 300
@@ -10,7 +13,7 @@ export var rotation_accel_max := 2000
 #运动属性
 var velocity := Vector2.ZERO
 var angular_velocity := 0.0
-var direction := Vector2.UP
+var direction := Vector2.ZERO
 
 
 #ai steering
@@ -27,10 +30,15 @@ onready var status = $Status
 onready var motivation = $Motivation
 onready var strategy = $Strategy
 onready var world_status = $WorldStatus
-
+onready var player_detection_zone = $PlayerDetectionZone
 onready var playerName = $LabelLayout/PlayerName
 
+#目标
+var target = null setget set_target,get_target
+
+
 func _ready() -> void:
+	
 	randomize()
 	
 	agent.linear_speed_max = speed_max
@@ -39,7 +47,7 @@ func _ready() -> void:
 	agent.angular_acceleration_max = deg2rad(rotation_accel_max)
 	agent.bounding_radius = 10
 	update_agent()
-	update_wander()
+#	update_wander()
 	face.alignment_tolerance = deg2rad(5)
 	face.deceleration_radius = deg2rad(45)
 	playerName.text = player_name
@@ -54,24 +62,27 @@ func _process(_delta: float):
 	strategy.process_task(_delta)
 
 func _physics_process(_delta: float) -> void:
-#	update_agent()
+	update_agent()
 #	update_wander()
-#
-#	var movement := -1
+
+	
+	#计算位移
+	var movement := -1
 #	direction = GSAIUtils.angle_to_vector2(rotation).normalized()
-#	velocity = velocity.move_toward(direction * speed_max * movement,delta * acceleration_max);
-#	velocity = move_and_slide(velocity)
-#
-#
-#
-#	face.calculate_steering(accel)
-#	if accel.angular == 0:
-#		angular_velocity = 0
-#	else:
-#		angular_velocity += accel.angular * delta
-#		angular_velocity = clamp(angular_velocity, -agent.angular_speed_max, agent.angular_speed_max)
-#		rotation += angular_velocity * delta
-	pass
+#	direction = Vector2.ZERO
+	velocity = velocity.move_toward(direction * speed_max * movement, _delta * acceleration_max);
+	velocity = move_and_slide(velocity)
+
+
+	#计算朝向
+	face.calculate_steering(accel)
+	if accel.angular == 0:
+		angular_velocity = 0
+	else:
+		angular_velocity += accel.angular * _delta
+		angular_velocity = clamp(angular_velocity, -agent.angular_speed_max, agent.angular_speed_max)
+		rotation += angular_velocity * _delta
+	
 	
 func update_wander() -> void:
 	wanderController.rotation_degrees = rand_range(0,360)
@@ -85,4 +96,10 @@ func update_agent() -> void:
 	agent.linear_velocity.x = velocity.x
 	agent.linear_velocity.y = velocity.y
 	agent.angular_velocity = angular_velocity
+	
+	
+func set_target(_target):
+	target = _target
+func get_target():
+	return target
 
