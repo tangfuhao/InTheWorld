@@ -7,7 +7,8 @@ enum STATE {GOAL_ACTIVE, GOAL_INACTIVE, GOAL_COMPLETED, GOAL_FAILED}
 
 func init(_human,_params):
 	human = _human
-	params = _params
+	if _params:
+		params = _params
 	
 func active():
 	pass

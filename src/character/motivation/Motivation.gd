@@ -6,15 +6,21 @@ var active_motivation_arr:Array = []
 
 
 
+var player_detection_zone
 var player_status_dic
 signal highest_priority_motivation_change(motivation)
 
 	
 func setup():
 	player_status_dic = owner.status.statusDic
+	player_detection_zone = owner.player_detection_zone
+	player_detection_zone.connect("see_new_player",self,"see_new_player")
 	laod_motivation_overview()
 	binding_listening_relative()
 	
+func see_new_player(body):
+	#TODO 对应状态表
+	#print("看见了新玩家在动机里:",body.player_name)
 	
 
 func binding_listening_relative():
@@ -30,7 +36,7 @@ func binding_listening_relative():
 func set_highest_priority_motivation(value):
 	if highest_priority_motivation != value:
 		highest_priority_motivation = value
-		print("最高优先级动机改变为:",highest_priority_motivation.motivation_name)
+		# print("最高优先级动机改变为:",highest_priority_motivation.motivation_name)
 		emit_signal("highest_priority_motivation_change",highest_priority_motivation)
 
 

@@ -7,7 +7,7 @@ func process(_delta: float):
 		var target = human.get_target()
 		if target:
 			var direction:Vector2 = human.global_position - target.global_position
-			direction.normalized()
+			direction = direction.normalized()
 			human.direction = direction * -1
 			return STATE.GOAL_ACTIVE
 		else:

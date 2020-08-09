@@ -1,11 +1,18 @@
-extends Area2D
+extends Node2D
+class_name VisionSensor
 #视线检测区域  加入了记忆功能
 #最近的见过的人
-var recently_see_stuff_in_vision_arr:Array = []
+var recently_see_stuff_in_vision_arr:Dictionary = {}
+var recently_player_name
 
-
-
+#看见了新的玩家
 signal see_new_player(body)
+#玩家进入视野
+signal player_in_vision
+signal player_out_vision
+
+
+
 #五分钟不见一个人  会重置相见
 export var forget_people_time_in_secords = 5 * 60
 #最近见过的人（已不在视线中）
@@ -15,39 +22,48 @@ onready var rememberTimer = $RememberTimer
 
 
 #遇见时刻
-func _on_PlayerDetectionZone_body_entered(body):
-	update_body_enter_in_vision(body)
-	update_body_enter_in_memory(body)
+func _on_PlayerDetectionZone_body_entered(_body):
+	update_body_enter_in_vision(_body)
+	update_body_enter_in_memory(_body)
+	emit_signal("player_in_vision")
 
-#遇见离开
-func _on_PlayerDetectionZone_body_exited(body):
-	update_body_exit_in_vision(body)
-	update_body_exit_in_memory(body)
+##遇见离开
+#func _on_PlayerDetectionZone_body_exited(_body):
+#	pass
+##	update_body_exit_in_vision(body)
+##	update_body_exit_in_memory(body)
+	
+#感知范围离开
+func _on_PerceptionVision_body_exited(_body):
+	update_body_exit_in_vision(_body)
+	update_body_exit_in_memory(_body)
+	emit_signal("player_out_vision")
 
 
-func update_body_enter_in_vision(body):
-	recently_see_stuff_in_vision_arr.push_back(body)
+func update_body_enter_in_vision(_body):
+	recently_see_stuff_in_vision_arr[_body.player_name] = _body
+	recently_player_name = _body.player_name
 
-func update_body_exit_in_vision(body):
-	var find_index = recently_see_stuff_in_vision_arr.find(body)
-	if find_index >= 0 : recently_see_stuff_in_vision_arr.remove(find_index)
+func update_body_exit_in_vision(_body):
+	recently_see_stuff_in_vision_arr.erase(_body.player_name)
 
 	
-func update_body_enter_in_memory(body):
-	var find_index =  recently_see_stuff_arr_in_memory.find(body)
+func update_body_enter_in_memory(_body):
+	var find_index =  recently_see_stuff_arr_in_memory.find(_body)
 	if find_index == 0:
 		if rememberTimer.is_stopped() == false : rememberTimer.stop()
 		erase_last_see_stuff()
 		update_next_last_see_stuff()
 	elif find_index > 0:
 		recently_see_stuff_arr_in_memory.remove(find_index)
-		recently_see_stuff_record_time_dic.erase(body)
+		recently_see_stuff_record_time_dic.erase(_body)
 	else:
-		print("发现了新玩家："+body.player_name)
-		emit_signal("see_new_player",body)
+		recently_see_stuff_arr_in_memory.push_back(_body)
+		print("发现了新玩家："+_body.player_name)
+		emit_signal("see_new_player",_body)
 		
-func update_body_exit_in_memory(body):
-	record_newest_last_see_stuff(body)
+func update_body_exit_in_memory(_body):
+	record_newest_last_see_stuff(_body)
 	update_next_last_see_stuff()
 
 func _on_RememberTimer_timeout():
@@ -73,14 +89,18 @@ func erase_last_see_stuff():
 	recently_see_stuff_record_time_dic.erase(recently_see_stuff_arr_in_memory.pop_front())
 
 #记录最新的最后见过的人
-func record_newest_last_see_stuff(body):
-	recently_see_stuff_arr_in_memory.push_back(body)
-	recently_see_stuff_record_time_dic[body] = OS.get_ticks_msec()
+func record_newest_last_see_stuff(_body):
+	# recently_see_stuff_arr_in_memory.push_back(_body)
+	recently_see_stuff_record_time_dic[_body] = OS.get_ticks_msec()
 	
 #获取视线里最后的一个人
 func get_recent_target():
-	return recently_see_stuff_in_vision_arr.back()
-	
+	if recently_see_stuff_in_vision_arr.has(recently_player_name):
+		return recently_see_stuff_in_vision_arr[recently_player_name]
+	return null
+
+
+
 
 
 

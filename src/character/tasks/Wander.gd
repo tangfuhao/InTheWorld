@@ -4,15 +4,14 @@ class_name Wander
 
 
 func active():
-	human.set_wander(true)
+	if human:
+		human.is_wander = true
 
 func process(_delta: float):
 	if human:
-		
-		human.update_wander()
 		return STATE.GOAL_ACTIVE
 	return STATE.GOAL_FAILED
 
 func terminate():
 	if human:
-		human.set_wander(false)
+		human.is_wander = false

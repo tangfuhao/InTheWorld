@@ -35,7 +35,7 @@ onready var playerName = $LabelLayout/PlayerName
 
 #目标
 var target = null setget set_target,get_target
-
+var is_wander = false
 
 func _ready() -> void:
 	
@@ -47,6 +47,8 @@ func _ready() -> void:
 	agent.angular_acceleration_max = deg2rad(rotation_accel_max)
 	agent.bounding_radius = 10
 	update_agent()
+	proxy_target.position.x = global_position.x
+	proxy_target.position.y = global_position.y
 #	update_wander()
 	face.alignment_tolerance = deg2rad(5)
 	face.deceleration_radius = deg2rad(45)
@@ -55,7 +57,7 @@ func _ready() -> void:
 	status.setup()
 	motivation.setup()
 	strategy.setup()
-	
+	world_status.setup()
 	
 
 func _process(_delta: float):
@@ -63,13 +65,12 @@ func _process(_delta: float):
 
 func _physics_process(_delta: float) -> void:
 	update_agent()
-#	update_wander()
-
-	
-	#计算位移
 	var movement := -1
-#	direction = GSAIUtils.angle_to_vector2(rotation).normalized()
-#	direction = Vector2.ZERO
+	
+	if is_wander:
+		update_wander()
+		#计算位移
+		direction = GSAIUtils.angle_to_vector2(rotation).normalized()
 	velocity = velocity.move_toward(direction * speed_max * movement, _delta * acceleration_max);
 	velocity = move_and_slide(velocity)
 

@@ -6,9 +6,9 @@ func process(_delta: float):
 	if human:
 		var target = human.get_target()
 		if target:
-			var direction:Vector2 = human.global_position - target.global_position
-			direction.normalized()
-			human.direction = direction
+			var direction:Vector2 = target.global_position - human.global_position
+			direction = direction.normalized()
+			human.direction = direction 
 			return STATE.GOAL_ACTIVE
 		else:
 			return STATE.GOAL_COMPLETED

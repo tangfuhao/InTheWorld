@@ -23,6 +23,7 @@ func process_task(_delta: float):
 			return
 		elif task_state == Task.STATE.GOAL_FAILED: 
 			clean_current_task()
+			current_strategy_chain.clean()
 	else:
 		current_running_task = run_next_task()
 		
@@ -33,12 +34,14 @@ func clean_current_task():
 	if current_running_task : 
 		current_running_task.terminate()
 		current_running_task = null
-		current_strategy_chain.clean()
 
 func send_re_plan_signal():
-	if re_plan_timer.is_stopped():
-		clean_current_task()
-		re_plan_timer.start(0.5)
+
+	re_plan_strategy()
+	
+#	if re_plan_timer.is_stopped():
+#		clean_current_task()
+#		re_plan_timer.start(0.5)
 		
 func run_next_task():
 	if current_strategy_chain:
@@ -47,7 +50,6 @@ func run_next_task():
 			current_running_task = instance_task(first_task_in_strategy_chain)
 			current_running_task.active()
 			return current_running_task
-	send_re_plan_signal()
 	return null
 
 func instance_task(task_name_and_params:String):
@@ -66,18 +68,25 @@ func instance_task(task_name_and_params:String):
 		var task:ApproachToTarget = ApproachToTarget.new()
 		task.init(owner,task_params)
 		return task
+	elif task_name == "周围移动寻找":
+		var task:Wander = Wander.new()
+		task.init(owner,task_params)
+		return task
 	else:
-		print("没有视线的任务",task_name)
+		print("没有实现的任务",task_name)
 	
 	return null
 
 func setup():
 	randomize()
-#	re_plan_timer.connect("timeout",self,"re_plan_strategy")
 	world_status = owner.world_status
+	world_status.connect("world_status_change",self,"world_status_change")
 	var motivation_component = owner.motivation
 	motivation_component.connect("highest_priority_motivation_change",self,"highest_priority_motivation_change")
 	laod_strategy_overview()
+	
+func world_status_change():
+	send_re_plan_signal()
 	
 func highest_priority_motivation_change(motivation):
 	active_motivation = motivation
@@ -90,7 +99,10 @@ func re_plan_strategy():
 			var plan_start_time = OS.get_ticks_msec()
 			var new_strategy_chain = StrategyChain.new()
 			var plan_result = plan_strategy(strategy,0,current_strategy_chain,new_strategy_chain)
-			if plan_result: change_task(new_strategy_chain)
+			if plan_result: 
+				change_task(new_strategy_chain)
+			else:
+				change_task(null)
 			print("规划策略:",strategy.task_name,",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
 
 
@@ -151,6 +163,12 @@ func is_primary_task(task_name):
 		return true
 	elif task_name == "远离目标":
 		return true
+	elif task_name == "移动到目标":
+		return true
+	elif task_name == "周围移动寻找":
+		return true
+	elif task_name == "躲入":
+		return true
 	return false
 
 #根据规则 选择一个策略
@@ -165,7 +183,7 @@ func select_strategy(order_sort_type,meet_strategy_arr,_random_code_arr,level) -
 		
 class StrategySort:
 	static func sort_ascending(a_strategy, b_strategy):
-		if a_strategy.motivation_value > b_strategy.motivation_value:
+		if a_strategy.weight > b_strategy.weight:
 			return true
 		return false
 		
@@ -224,8 +242,10 @@ func check_meet_pre_condition_in_world_status(condition_arr):
 	
 #改变当前的任务
 func change_task(_task_chain):
+	clean_current_task()
 	current_strategy_chain = _task_chain
-	pass
+	
+	
 	
 #加载策略表
 func laod_strategy_overview():

@@ -214,10 +214,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/character/tasks/Task.gd"
 }, {
+"base": "Node2D",
+"class": "VisionSensor",
+"language": "GDScript",
+"path": "res://src/character/PlayerDetectionZone.gd"
+}, {
 "base": "Reference",
 "class": "Wander",
 "language": "GDScript",
 "path": "res://src/character/tasks/Wander.gd"
+}, {
+"base": "Node2D",
+"class": "WorldStatus",
+"language": "GDScript",
+"path": "res://src/character/world_status/WorldStatus.gd"
 } ]
 _global_script_class_icons={
 "AccessToTarget": "",
@@ -261,7 +271,9 @@ _global_script_class_icons={
 "StrategyItemModel": "",
 "StrategyModel": "",
 "Task": "",
-"Wander": ""
+"VisionSensor": "",
+"Wander": "",
+"WorldStatus": ""
 }
 
 [application]
@@ -308,9 +320,9 @@ texture={
 
 [layer_names]
 
-2d_render/layer_1="word "
-2d_render/layer_2="player1"
-2d_render/layer_3="player2"
+2d_physics/layer_1="word "
+2d_physics/layer_2="player1"
+2d_physics/layer_3="player2"
 
 [rendering]
 
