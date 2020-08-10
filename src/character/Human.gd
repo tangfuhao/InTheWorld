@@ -4,8 +4,8 @@ class_name Player
 
 
 export var player_name = "player1"
-export var speed_max := 300
-export var acceleration_max := 300
+export var speed_max := 100
+export var acceleration_max := 500
 export var rotation_speed_max := 360
 export var rotation_accel_max := 2000
 
@@ -103,4 +103,9 @@ func set_target(_target):
 	target = _target
 func get_target():
 	return target
+	
+func is_approach(_target):
+	var tolerance = 100
+	return global_position.distance_squared_to(_target.global_position) < tolerance
+		
 

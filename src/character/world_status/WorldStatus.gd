@@ -20,7 +20,7 @@ func setup():
 	player_detection_zone.connect("player_out_vision",self,"player_num_change_in_world_status")
 	
 func player_num_change_in_world_status():
-	var target = player_detection_zone.get_recent_target()
+	var target = player_detection_zone.get_recent_target("其他人")
 	var has_other_people = target != null
 
 	if world_status_dic["周围有其他人"] != has_other_people:

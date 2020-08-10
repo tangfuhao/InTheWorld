@@ -5,6 +5,9 @@ class_name VisionSensor
 var recently_see_stuff_in_vision_arr:Dictionary = {}
 var recently_player_name
 
+#发现新的事物
+signal find_new_something(body)
+
 #看见了新的玩家
 signal see_new_player(body)
 #玩家进入视野
@@ -23,9 +26,12 @@ onready var rememberTimer = $RememberTimer
 
 #遇见时刻
 func _on_PlayerDetectionZone_body_entered(_body):
-	update_body_enter_in_vision(_body)
-	update_body_enter_in_memory(_body)
-	emit_signal("player_in_vision")
+	if _body is Player:
+		update_body_enter_in_vision(_body)
+		update_body_enter_in_memory(_body)
+		emit_signal("player_in_vision")
+	elif _body is Stuff:
+		emit_signal("find_new_something",_body)
 
 ##遇见离开
 #func _on_PlayerDetectionZone_body_exited(_body):
@@ -94,13 +100,18 @@ func record_newest_last_see_stuff(_body):
 	recently_see_stuff_record_time_dic[_body] = OS.get_ticks_msec()
 	
 #获取视线里最后的一个人
-func get_recent_target():
-	if recently_see_stuff_in_vision_arr.has(recently_player_name):
-		return recently_see_stuff_in_vision_arr[recently_player_name]
-	return null
+func get_recent_target(params):
+	if params == "其他人":
+		if recently_see_stuff_in_vision_arr.has(recently_player_name):
+			return recently_see_stuff_in_vision_arr[recently_player_name]
+	else:
+		return new_stuff
 
 
 
+var new_stuff = null
 
-
-
+func _on_RealVision_area_entered(_area):
+	if _area is Stuff:
+		new_stuff = _area
+		emit_signal("find_new_something",_area)

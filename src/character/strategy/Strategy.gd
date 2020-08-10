@@ -5,6 +5,7 @@ var world_status
 var current_strategy_chain:StrategyChain = null
 var current_running_task = null
 var active_motivation = null
+var base_task_table:Array = []
 
 #防止规划的抖动
 onready var re_plan_timer = $RePlanTimer
@@ -18,15 +19,14 @@ func process_task(_delta: float):
 		if task_state == Task.STATE.GOAL_COMPLETED:
 			current_running_task.terminate()
 			current_running_task = run_next_task()
-			return
-		elif task_state == Task.STATE.GOAL_ACTIVE: 
-			return
+
+#		elif task_state == Task.STATE.GOAL_ACTIVE: 
+
 		elif task_state == Task.STATE.GOAL_FAILED: 
 			clean_current_task()
 			current_strategy_chain.clean()
 	else:
 		current_running_task = run_next_task()
-		
 	if current_running_task == null : send_re_plan_signal()
 	
 	
@@ -36,9 +36,7 @@ func clean_current_task():
 		current_running_task = null
 
 func send_re_plan_signal():
-
 	re_plan_strategy()
-	
 #	if re_plan_timer.is_stopped():
 #		clean_current_task()
 #		re_plan_timer.start(0.5)
@@ -72,6 +70,10 @@ func instance_task(task_name_and_params:String):
 		var task:Wander = Wander.new()
 		task.init(owner,task_params)
 		return task
+	elif task_name == "躲入目标":
+		var task:Hide = Hide.new()
+		task.init(owner,task_params)
+		return task
 	else:
 		print("没有实现的任务",task_name)
 	
@@ -84,6 +86,7 @@ func setup():
 	var motivation_component = owner.motivation
 	motivation_component.connect("highest_priority_motivation_change",self,"highest_priority_motivation_change")
 	laod_strategy_overview()
+	load_base_task()
 	
 func world_status_change():
 	send_re_plan_signal()
@@ -101,9 +104,11 @@ func re_plan_strategy():
 			var plan_result = plan_strategy(strategy,0,current_strategy_chain,new_strategy_chain)
 			if plan_result: 
 				change_task(new_strategy_chain)
+				print("规划策略:",strategy.task_name,",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
 			else:
 				change_task(null)
-			print("规划策略:",strategy.task_name,",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
+				print("规划策略:无策略",",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
+			
 
 
 func get_strategy_by_task_name(_task_name):
@@ -121,7 +126,7 @@ func is_match_current_strategy(_current_strategy_chain,_new_strategy_chain,_leve
 #规划策略
 func plan_strategy(_strategy,level,_current_strategy_chain,_new_strategy_chain) -> bool:
 	_new_strategy_chain.push_back_strategy(_strategy)
-	var meet_strategy_arr = plan_condition_meet_strategy_arr(_strategy.strong_strategy_arr,_strategy.weak_strategy_arr)
+	var meet_strategy_arr:Array = plan_condition_meet_strategy_arr(_strategy.strong_strategy_arr,_strategy.weak_strategy_arr)
 		
 	if meet_strategy_arr.empty() == false:
 		var is_match_current_strategy = is_match_current_strategy(_current_strategy_chain,_new_strategy_chain,level)
@@ -138,7 +143,10 @@ func plan_strategy(_strategy,level,_current_strategy_chain,_new_strategy_chain) 
 				#规划失败的情况
 				_new_strategy_chain.roll_back_level(level)
 				meet_strategy_arr.remove(meet_strategy_arr.find(select_strategy))
-				select_strategy = select_strategy(_strategy.order_sort_type,meet_strategy_arr,random_code_arr,level)
+				if meet_strategy_arr.empty():
+					select_strategy = null
+				else:
+					select_strategy = select_strategy(_strategy.order_sort_type,meet_strategy_arr,random_code_arr,level)
 			else:
 				#规划完成
 				return true
@@ -159,17 +167,7 @@ func get_simple_task_name(task):
 	return task.split(":")[0]
 	
 func is_primary_task(task_name):
-	if task_name == "获取目标":
-		return true
-	elif task_name == "远离目标":
-		return true
-	elif task_name == "移动到目标":
-		return true
-	elif task_name == "周围移动寻找":
-		return true
-	elif task_name == "躲入":
-		return true
-	return false
+	return base_task_table.has(task_name)
 
 #根据规则 选择一个策略
 func select_strategy(order_sort_type,meet_strategy_arr,_random_code_arr,level) -> StrategyItemModel:
@@ -245,7 +243,13 @@ func change_task(_task_chain):
 	clean_current_task()
 	current_strategy_chain = _task_chain
 	
+func load_base_task():
+	var base_task_arr = load_json_arr("res://config/base_tasks.json")
+	parse_base_task(base_task_arr)
 	
+func parse_base_task(base_task_arr):
+	for item in base_task_arr:
+		base_task_table.push_back(item["任务名"])
 	
 #加载策略表
 func laod_strategy_overview():
