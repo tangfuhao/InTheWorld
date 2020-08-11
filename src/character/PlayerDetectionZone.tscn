@@ -3,7 +3,7 @@
 [ext_resource path="res://src/character/PlayerDetectionZone.gd" type="Script" id=1]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 510.912
+radius = 589.258
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
 points = PoolVector2Array( 0, 0, -380, -311.4, 380, -311.4 )

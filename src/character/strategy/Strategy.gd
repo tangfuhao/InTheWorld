@@ -104,7 +104,7 @@ func re_plan_strategy():
 			var plan_result = plan_strategy(strategy,0,current_strategy_chain,new_strategy_chain)
 			if plan_result: 
 				change_task(new_strategy_chain)
-				print("规划策略:",new_strategy_chain.to_string(),",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
+				print("规划策略:",new_strategy_chain.to_list(),",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
 			else:
 				change_task(null)
 				print("规划策略:无策略",",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")

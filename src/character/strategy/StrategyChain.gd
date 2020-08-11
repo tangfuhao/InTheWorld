@@ -35,4 +35,13 @@ func get_startegy_by_index(index):
 	if strategy_chain.size() <= 2 : return null
 	return strategy_chain[index]
 	
+func to_list():
+	var strategy_list:String
+	for item in strategy_chain:
+		strategy_list = strategy_list +  item.task_name + ":"
+	strategy_list = strategy_list + "//"
+	for item in task_name_chian.values():
+		for ii in item:
+			strategy_list = strategy_list + ii  + ":"
+	return strategy_list
 

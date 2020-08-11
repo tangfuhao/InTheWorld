@@ -475,7 +475,7 @@ player_name = "player2"
 update_time = 1000
 
 [node name="Player1" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1031.47, 2450.27 )
+position = Vector2( 1074.03, 2445.46 )
 rotation = 0.755728
 
 [node name="Camera2D" type="Camera2D" parent="Player1"]
