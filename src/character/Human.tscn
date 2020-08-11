@@ -1,14 +1,12 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/character/Line2DDraw.gd" type="Script" id=1]
 [ext_resource path="res://src/character/Human.gd" type="Script" id=2]
-[ext_resource path="res://src/character/status/Status.tscn" type="PackedScene" id=3]
-[ext_resource path="res://src/ai/steering/WanderController.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/character/Movement.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/character/CPU.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/character/LabelLayout.tscn" type="PackedScene" id=5]
-[ext_resource path="res://src/character/PlayerDetectionZone.tscn" type="PackedScene" id=6]
-[ext_resource path="res://src/character/motivation/Motivation.tscn" type="PackedScene" id=7]
-[ext_resource path="res://src/character/strategy/Strategy.tscn" type="PackedScene" id=8]
-[ext_resource path="res://src/character/world_status/WorldStatus.tscn" type="PackedScene" id=9]
+[ext_resource path="res://src/character/Movement.gd" type="Script" id=6]
+[ext_resource path="res://src/character/CPU.gd" type="Script" id=7]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 13.2538
@@ -31,22 +29,14 @@ shape = SubResource( 1 )
 
 [node name="LabelLayout" parent="." instance=ExtResource( 5 )]
 
-[node name="WanderController" parent="." instance=ExtResource( 4 )]
-visible = false
-position = Vector2( 0, -30 )
+[node name="CPU" parent="." instance=ExtResource( 4 )]
+script = ExtResource( 7 )
+control_obj = NodePath("..")
 
-[node name="Position2D" parent="WanderController" index="0"]
-position = Vector2( 0, -25 )
+[node name="Movement" parent="." instance=ExtResource( 3 )]
+script = ExtResource( 6 )
+control_obj = NodePath("..")
 
-[node name="PlayerDetectionZone" parent="." instance=ExtResource( 6 )]
-position = Vector2( 0.181107, -15.9374 )
+[editable path="CPU"]
 
-[node name="Status" parent="." instance=ExtResource( 3 )]
-
-[node name="Motivation" parent="." instance=ExtResource( 7 )]
-
-[node name="Strategy" parent="." instance=ExtResource( 8 )]
-
-[node name="WorldStatus" parent="." instance=ExtResource( 9 )]
-
-[editable path="WanderController"]
+[editable path="Movement"]

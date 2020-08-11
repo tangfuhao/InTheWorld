@@ -11,7 +11,7 @@ func process(_delta: float):
 			else:
 				var direction:Vector2 = human.global_position - target.global_position
 				direction = direction.normalized()
-				human.direction = direction 
+				human.movement.direction = direction 
 				return STATE.GOAL_ACTIVE
 
 		else:
@@ -20,4 +20,4 @@ func process(_delta: float):
 
 func terminate():
 	if human:
-		human.direction = Vector2.ZERO
+		human.movement.direction = Vector2.ZERO

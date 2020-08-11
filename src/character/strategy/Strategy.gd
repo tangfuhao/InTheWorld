@@ -1,7 +1,6 @@
 extends Node2D
 
 var strategy_dic:Dictionary = {}
-var world_status
 var current_strategy_chain:StrategyChain = null
 var current_running_task = null
 var active_motivation = null
@@ -9,9 +8,20 @@ var base_task_table:Array = []
 
 #防止规划的抖动
 onready var re_plan_timer = $RePlanTimer
+onready var control_node:Player
+var world_status:WorldStatus
 
-
-
+func setup(_control_node):
+	randomize()
+	control_node = _control_node
+	
+	world_status = owner.world_status
+	world_status.connect("world_status_change",self,"world_status_change")
+	var motivation_component = owner.motivation
+	motivation_component.connect("highest_priority_motivation_change",self,"highest_priority_motivation_change")
+	
+	laod_strategy_overview()
+	load_base_task()
 
 func process_task(_delta: float):
 	if current_running_task:
@@ -19,9 +29,6 @@ func process_task(_delta: float):
 		if task_state == Task.STATE.GOAL_COMPLETED:
 			current_running_task.terminate()
 			current_running_task = run_next_task()
-
-#		elif task_state == Task.STATE.GOAL_ACTIVE: 
-
 		elif task_state == Task.STATE.GOAL_FAILED: 
 			clean_current_task()
 			current_strategy_chain.clean()
@@ -56,37 +63,30 @@ func instance_task(task_name_and_params:String):
 	var task_params = task_split_value.pop_front()
 	if task_name == "获取目标":
 		var task:AccessToTarget = AccessToTarget.new()
-		task.init(owner,task_params)
+		task.init(control_node,task_params)
 		return task
 	elif task_name == "远离目标":
 		var task:FurtherAwayTarget = FurtherAwayTarget.new()
-		task.init(owner,task_params)
+		task.init(control_node,task_params)
 		return task
 	elif task_name == "移动到目标":
 		var task:ApproachToTarget = ApproachToTarget.new()
-		task.init(owner,task_params)
+		task.init(control_node,task_params)
 		return task
 	elif task_name == "周围移动寻找":
 		var task:Wander = Wander.new()
-		task.init(owner,task_params)
+		task.init(control_node,task_params)
 		return task
 	elif task_name == "躲入目标":
 		var task:Hide = Hide.new()
-		task.init(owner,task_params)
+		task.init(control_node,task_params)
 		return task
 	else:
 		print("没有实现的任务",task_name)
 	
 	return null
 
-func setup():
-	randomize()
-	world_status = owner.world_status
-	world_status.connect("world_status_change",self,"world_status_change")
-	var motivation_component = owner.motivation
-	motivation_component.connect("highest_priority_motivation_change",self,"highest_priority_motivation_change")
-	laod_strategy_overview()
-	load_base_task()
+
 	
 func world_status_change():
 	send_re_plan_signal()
@@ -104,7 +104,7 @@ func re_plan_strategy():
 			var plan_result = plan_strategy(strategy,0,current_strategy_chain,new_strategy_chain)
 			if plan_result: 
 				change_task(new_strategy_chain)
-				print("规划策略:",strategy.task_name,",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
+				print("规划策略:",new_strategy_chain.to_string(),",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
 			else:
 				change_task(null)
 				print("规划策略:无策略",",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")

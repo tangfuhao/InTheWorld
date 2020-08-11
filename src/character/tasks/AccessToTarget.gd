@@ -4,7 +4,7 @@ class_name AccessToTarget
 
 func process(_delta: float):
 	if human:
-		var detection_zone = human.player_detection_zone
+		var detection_zone = human.cpu.player_detection_zone
 		var target = detection_zone.get_recent_target(params)
 		if target:
 			human.set_target(target)

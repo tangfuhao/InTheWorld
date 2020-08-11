@@ -4,16 +4,13 @@ var motivation_dic:Dictionary = {}
 var highest_priority_motivation : MotivationModel = null setget set_highest_priority_motivation
 var active_motivation_arr:Array = []
 
-
-
-var player_detection_zone
-var player_status_dic
+var player_status_dic:Dictionary
 signal highest_priority_motivation_change(motivation)
 
 	
 func setup():
 	player_status_dic = owner.status.statusDic
-	player_detection_zone = owner.player_detection_zone
+	var player_detection_zone = owner.player_detection_zone
 	player_detection_zone.connect("see_new_player",self,"fond_new_player")
 	laod_motivation_overview()
 	binding_listening_relative()

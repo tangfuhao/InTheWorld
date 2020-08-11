@@ -1,0 +1,21 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://src/character/motivation/Motivation.tscn" type="PackedScene" id=5]
+[ext_resource path="res://src/character/strategy/Strategy.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/character/status/Status.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/character/world_status/WorldStatus.tscn" type="PackedScene" id=8]
+[ext_resource path="res://src/character/PlayerDetectionZone.tscn" type="PackedScene" id=10]
+
+[node name="CPU" type="Node2D"]
+
+[node name="Status" parent="." instance=ExtResource( 7 )]
+update_time = 10
+
+[node name="Motivation" parent="." instance=ExtResource( 5 )]
+
+[node name="Strategy" parent="." instance=ExtResource( 6 )]
+
+[node name="WorldStatus" parent="." instance=ExtResource( 8 )]
+
+[node name="PlayerDetectionZone" parent="." instance=ExtResource( 10 )]
+position = Vector2( 0.181107, -15.9374 )
