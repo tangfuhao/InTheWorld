@@ -7,6 +7,7 @@ var find_stuff
 
 func active():
 	if human:
+		human.movement.is_on = true
 		human.movement.is_wander = true
 		player_detection_zone = human.cpu.player_detection_zone
 		player_detection_zone.connect("find_new_something",self,"find_new_something")
@@ -21,6 +22,7 @@ func process(_delta: float):
 
 func terminate():
 	if human:
+		human.movement.direction = Vector2.ZERO
 		human.movement.is_wander = false
 		
 func find_new_something(body:Stuff):

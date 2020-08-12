@@ -21,7 +21,7 @@ onready var face := GSAIFace.new(agent, proxy_target)
 onready var accel := GSAITargetAcceleration.new()
 
 var is_wander = false
-
+var is_on = false
 #巡逻
 onready var wanderController = $WanderController
 onready var wanderController_Position = $WanderController/Position2D
@@ -46,10 +46,11 @@ func _physics_process(_delta: float) -> void:
 	update_agent()
 	var movement := -1
 	
-	if is_wander:
-		update_wander()
+	if is_on:
+		if is_wander:
+			update_wander()
 		#计算位移
-		direction = GSAIUtils.angle_to_vector2(control_node.rotation).normalized()
+		direction = GSAIUtils.angle_to_vector2(control_node.rotation).normalized()	
 	
 	velocity = velocity.move_toward(direction * speed_max * movement, _delta * acceleration_max);
 	velocity = control_node.move_and_slide(velocity)
@@ -77,3 +78,7 @@ func update_agent() -> void:
 	agent.linear_velocity.x = velocity.x
 	agent.linear_velocity.y = velocity.y
 	agent.angular_velocity = angular_velocity
+	
+func set_desired_position(_desired_position:Vector2):
+	proxy_target.position.x = _desired_position.x
+	proxy_target.position.y = _desired_position.y
