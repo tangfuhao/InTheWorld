@@ -11,8 +11,14 @@ func active():
 #		print(human.player_name,"周围移动寻找激活")
 		human.movement.is_on = true
 		human.movement.is_wander = true
+		
 		player_detection_zone = human.cpu.player_detection_zone
-		player_detection_zone.connect("find_new_something",self,"find_new_something")
+		#TODO 是否该如此指定target
+		var target = player_detection_zone.get_recent_target("其他人")
+		if target :
+			find_stuff = target
+		else:
+			player_detection_zone.connect("find_new_something",self,"find_new_something")
 
 func process(_delta: float):
 	if human:

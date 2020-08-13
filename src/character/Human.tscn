@@ -35,7 +35,6 @@ shape = SubResource( 1 )
 [node name="LabelLayout" parent="." instance=ExtResource( 5 )]
 
 [node name="CPU" parent="." instance=ExtResource( 4 )]
-visible = false
 script = ExtResource( 7 )
 control_obj = NodePath("..")
 
