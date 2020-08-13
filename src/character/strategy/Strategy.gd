@@ -81,6 +81,26 @@ func instance_task(task_name_and_params:String):
 		var task:Hide = Hide.new()
 		task.init(control_node,task_params)
 		return task
+	elif task_name == "捡起物品":
+		var task:PickUp = PickUp.new()
+		task.init(control_node,task_params)
+		return task
+	elif task_name == "取出物品":
+		var task:TakeOut = TakeOut.new()
+		task.init(control_node,task_params)
+		return task
+	elif task_name == "用拳头打":
+		var task:Punch = Punch.new()
+		task.init(control_node,task_params)
+		return task
+	elif task_name == "用远程武器攻击":
+		var task:RemoteAttack = RemoteAttack.new()
+		task.init(control_node,task_params)
+		return task
+	elif task_name == "站立":
+		var task:Idle = Idle.new()
+		task.init(control_node,task_params)
+		return task
 	else:
 		print("没有实现的任务",task_name)
 	
@@ -131,7 +151,15 @@ func plan_strategy(_strategy,level,_current_strategy_chain,_new_strategy_chain) 
 	if meet_strategy_arr.empty() == false:
 		var is_match_current_strategy = is_match_current_strategy(_current_strategy_chain,_new_strategy_chain,level)
 		var random_code_arr = _new_strategy_chain.random_code_arr
-		if is_match_current_strategy: random_code_arr = _current_strategy_chain.random_code_arr
+		if is_match_current_strategy: 
+			random_code_arr = _current_strategy_chain.random_code_arr
+		else:
+			#如果当前的策略码数目不足 用之前的补足
+			if random_code_arr.size() < level:
+				_new_strategy_chain.random_code_arr.clear()
+				for index in range(0,level):
+					var random_code = _current_strategy_chain.random_code_arr[index]
+					_new_strategy_chain.random_code_arr.push_back(random_code)
 		
 #		1.选择策略
 #		2.规划策略的任务
@@ -154,13 +182,16 @@ func plan_strategy(_strategy,level,_current_strategy_chain,_new_strategy_chain) 
 	return false
 	
 func plan_task_queue(task_queue,level,_current_strategy_chain,_new_strategy_chain):
+	var plan_result 
 	for task in task_queue:
 		var task_name = get_simple_task_name(task)
 		if is_primary_task(task_name):
 			_new_strategy_chain.push_task_level(level,task)
 		else:
 			var strategy = get_strategy_by_task_name(task_name)
-			return plan_strategy(strategy,level+1,_current_strategy_chain,_new_strategy_chain)
+			plan_result =  plan_strategy(strategy,level+1,_current_strategy_chain,_new_strategy_chain)
+			if plan_result == false:
+				return false
 	return true 
 
 func get_simple_task_name(task):
@@ -253,8 +284,9 @@ func parse_base_task(base_task_arr):
 	
 #加载策略表
 func laod_strategy_overview():
-	var strategy_arr = load_json_arr("res://config/strategy.json")
+	var strategy_arr = load_json_arr("res://config/strategy_life.json")
 	parse_strategys(strategy_arr)
+#	print(strategy_dic)
 	
 func parse_strategys(strategy_arr):
 	for item in strategy_arr :
@@ -280,6 +312,7 @@ func parse_strategy_selector(strategy_selector):
 	var weak_strategy_arr = []
 	
 	for item in strategy_selector:
+		var is_strong_strategy_tag = false
 		var strategy_item = StrategyItemModel.new()
 		if item.has("策略权重"):
 			var weight = item["策略权重"]
@@ -287,6 +320,11 @@ func parse_strategy_selector(strategy_selector):
 		if item.has("策略前置条件"):
 			var pre_condition = item["策略前置条件"]
 			strategy_item.pre_condition_arr = pre_condition.split(",")
+		if item.has("策略强条件"):
+			var pre_condition = item["策略强条件"]
+			strategy_item.pre_condition_arr = pre_condition.split(",")
+			is_strong_strategy_tag = true
+			
 		if item.has("策略完结条件"):
 			var adjust_task_finish_condition = item["策略完结条件"]
 			strategy_item.adjust_task_finish_condition = adjust_task_finish_condition.split(",")
@@ -294,7 +332,7 @@ func parse_strategy_selector(strategy_selector):
 		var task_queue = item["任务队列"]
 		strategy_item.task_queue = task_queue.split(",")
 		
-		if item.has("强策略") && item["强策略"]:
+		if is_strong_strategy_tag:
 			strong_strategy_arr.push_back(strategy_item)
 		else:
 			weak_strategy_arr.push_back(strategy_item)

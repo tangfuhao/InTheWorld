@@ -1,0 +1,2 @@
+class_name PackageItemModel
+var item_name

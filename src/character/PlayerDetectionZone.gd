@@ -107,6 +107,9 @@ func get_recent_target(params):
 	else:
 		return new_stuff
 
+func get_recently_see_people_arr():
+	return recently_see_stuff_in_vision_arr
+
 
 
 var new_stuff = null

@@ -450,6 +450,7 @@ points = PoolVector2Array( 0, 0, 32, 0, 32, 32, 0, 32 )
 radius = 24.9787
 
 [node name="World" type="Node2D"]
+position = Vector2( 12.3217, -118.688 )
 
 [node name="Map" type="Node2D" parent="."]
 
@@ -472,11 +473,17 @@ collision_layer = 4
 player_name = "player2"
 
 [node name="Status" parent="Player2/CPU" index="0"]
-update_time = 1000
+update_time = 20
 
 [node name="Player1" parent="." instance=ExtResource( 4 )]
-position = Vector2( 1074.03, 2445.46 )
+position = Vector2( 495.582, 2370.15 )
 rotation = 0.755728
+
+[node name="LabelLayout" parent="Player1" index="2"]
+visible = true
+
+[node name="Status" parent="Player1/CPU" index="0"]
+update_time = 20
 
 [node name="Camera2D" type="Camera2D" parent="Player1"]
 current = true
@@ -541,3 +548,5 @@ shape = SubResource( 48 )
 [editable path="Player2/CPU"]
 
 [editable path="Player1"]
+
+[editable path="Player1/CPU"]

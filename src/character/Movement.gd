@@ -50,8 +50,10 @@ func _physics_process(_delta: float) -> void:
 		if is_wander:
 			update_wander()
 		#计算位移
-		direction = GSAIUtils.angle_to_vector2(control_node.rotation).normalized()	
-	
+		direction = GSAIUtils.angle_to_vector2(control_node.rotation).normalized()
+	else:
+		velocity = Vector2.ZERO
+
 	velocity = velocity.move_toward(direction * speed_max * movement, _delta * acceleration_max);
 	velocity = control_node.move_and_slide(velocity)
 

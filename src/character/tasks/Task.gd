@@ -14,7 +14,7 @@ func active() ->void:
 	pass
 
 func process(_delta: float):
-	return STATE.GOAL_COMPLETED
+	return STATE.GOAL_ACTIVE
 	
 func terminate() ->void:
 	pass

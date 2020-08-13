@@ -1,4 +1,5 @@
 extends Node2D
+class_name CPU
 
 export(NodePath) var control_obj
 

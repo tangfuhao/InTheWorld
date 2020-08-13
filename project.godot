@@ -19,6 +19,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/character/tasks/ApproachToTarget.gd"
 }, {
+"base": "Node2D",
+"class": "CPU",
+"language": "GDScript",
+"path": "res://src/character/CPU.gd"
+}, {
 "base": "Reference",
 "class": "Evaluate",
 "language": "GDScript",
@@ -180,14 +185,39 @@ _global_script_classes=[ {
 "path": "res://src/character/tasks/Hide.gd"
 }, {
 "base": "Reference",
+"class": "Idle",
+"language": "GDScript",
+"path": "res://src/character/tasks/Idle.gd"
+}, {
+"base": "Reference",
 "class": "MotivationModel",
 "language": "GDScript",
 "path": "res://src/character/motivation/MotivationModel.gd"
+}, {
+"base": "Reference",
+"class": "PackageItemModel",
+"language": "GDScript",
+"path": "res://src/character/package/PackageItemModel.gd"
+}, {
+"base": "Reference",
+"class": "PickUp",
+"language": "GDScript",
+"path": "res://src/character/tasks/PickUp.gd"
 }, {
 "base": "KinematicBody2D",
 "class": "Player",
 "language": "GDScript",
 "path": "res://src/character/Human.gd"
+}, {
+"base": "Reference",
+"class": "Punch",
+"language": "GDScript",
+"path": "res://src/character/tasks/Punch.gd"
+}, {
+"base": "Reference",
+"class": "RemoteAttack",
+"language": "GDScript",
+"path": "res://src/character/tasks/RemoteAttack.gd"
 }, {
 "base": "Reference",
 "class": "StatusEffectModel",
@@ -220,6 +250,11 @@ _global_script_classes=[ {
 "path": "res://src/world/Hide_Stuff.gd"
 }, {
 "base": "Reference",
+"class": "TakeOut",
+"language": "GDScript",
+"path": "res://src/character/tasks/TakeOut.gd"
+}, {
+"base": "Reference",
 "class": "Task",
 "language": "GDScript",
 "path": "res://src/character/tasks/Task.gd"
@@ -242,6 +277,7 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "AccessToTarget": "",
 "ApproachToTarget": "",
+"CPU": "",
 "Evaluate": "",
 "FurtherAwayTarget": "",
 "GSAIAgentLocation": "",
@@ -274,14 +310,20 @@ _global_script_class_icons={
 "GSAITargetAcceleration": "",
 "GSAIUtils": "",
 "Hide": "",
+"Idle": "",
 "MotivationModel": "",
+"PackageItemModel": "",
+"PickUp": "",
 "Player": "",
+"Punch": "",
+"RemoteAttack": "",
 "StatusEffectModel": "",
 "StatusModel": "",
 "StrategyChain": "",
 "StrategyItemModel": "",
 "StrategyModel": "",
 "Stuff": "",
+"TakeOut": "",
 "Task": "",
 "VisionSensor": "",
 "Wander": "",
@@ -336,6 +378,7 @@ texture={
 2d_physics/layer_2="player1"
 2d_physics/layer_3="player2"
 2d_physics/layer_4="stuff"
+2d_physics/layer_5="hurt_player"
 
 [rendering]
 
