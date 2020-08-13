@@ -19,7 +19,14 @@ position = Vector2( 296.308, 546.877 )
 
 [node name="Human2" parent="." instance=ExtResource( 1 )]
 position = Vector2( 1063.92, 139.123 )
+collision_layer = 4
 player_name = "player2"
+
+[node name="PerceptionVision" parent="Human2/CPU/PlayerDetectionZone" index="0"]
+collision_mask = 2
+
+[node name="RealVision" parent="Human2/CPU/PlayerDetectionZone" index="1"]
+collision_mask = 10
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 576.614, 356.669 )
@@ -37,3 +44,11 @@ position = Vector2( 230.012, 133.278 )
 
 [node name="Hide_Stuff6" parent="." instance=ExtResource( 3 )]
 position = Vector2( 961.381, 196.706 )
+
+[editable path="Human2"]
+
+[editable path="Human2/CPU"]
+
+[editable path="Human2/CPU/PlayerDetectionZone"]
+
+[editable path="Human2/Movement"]
