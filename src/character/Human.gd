@@ -10,6 +10,7 @@ onready var hit_box = $HitBox
 #与目标的距离
 var _target_distance = 0
 signal to_target_distance_update(distance)
+signal be_hurt(area)
 #背包
 var package = []
 #目标
@@ -53,3 +54,4 @@ func _on_HurtBox_area_entered(area):
 	var health_status = cpu.status.statusDic["健康状态"]
 	hurt_box.start_invincibility(0.5)
 	hurt_box.show_attack_effect()
+	emit_signal("be_hurt",area)

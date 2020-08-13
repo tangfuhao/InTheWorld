@@ -33,7 +33,6 @@ inner_color = Color( 0.282353, 0.623529, 0.141176, 1 )
 shape = SubResource( 1 )
 
 [node name="LabelLayout" parent="." instance=ExtResource( 5 )]
-visible = false
 
 [node name="CPU" parent="." instance=ExtResource( 4 )]
 visible = false
@@ -55,8 +54,15 @@ monitoring = false
 monitorable = false
 collision_layer = 16
 collision_mask = 0
+
+[node name="CollisionShape2D" parent="HitBox" index="0"]
+position = Vector2( 0, 0 )
 [connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
 
 [editable path="CPU"]
 
 [editable path="Movement"]
+
+[editable path="HurtBox"]
+
+[editable path="HitBox"]

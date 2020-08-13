@@ -4,9 +4,10 @@ class_name Punch
 func active():
 	if human:
 		var hit_box = human.hit_box
-		hit_box.set_deferred("monitorable",false)
+		hit_box.monitorable = true
+		
 
 func terminate():
 	if human:
 		var hit_box = human.hit_box
-		hit_box.monitorable = true
+		hit_box.set_deferred("monitorable",false)

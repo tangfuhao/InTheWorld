@@ -3,7 +3,7 @@
 [ext_resource path="res://src/character/HurtBox.gd" type="Script" id=1]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 18.9661
+radius = 20.0417
 
 [node name="HurtBox" type="Area2D"]
 script = ExtResource( 1 )
