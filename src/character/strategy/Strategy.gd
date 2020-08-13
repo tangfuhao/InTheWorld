@@ -230,11 +230,11 @@ func random_sort_select(meet_strategy_arr,_random_code_arr,level):
 		print("exception")
 
 	
-	var weight_num = 0
+	var weight_num:float = 0
 	for item in meet_strategy_arr:
 		weight_num = weight_num + item.weight
 	
-	var step_weight = 100 / weight_num
+	var step_weight:float = 100.0 / weight_num
 	
 	var random_code_temp = random_code
 	for item in meet_strategy_arr:
