@@ -24,14 +24,14 @@ func set_motivation_value(value):
 	motivation_value = value
 	if motivation_value < 0 : motivation_value = 0
 	is_active = motivation_value < 0.8
-	print(motivation_name,"的值更新为:",motivation_value)
+	# print(motivation_name,"的值更新为:",motivation_value)
 	
 	#激活状态改变
 	if is_active_temp != is_active:
-		if is_active :
-			print(motivation_name,"改变为:激活")
-		else:
-			print(motivation_name,"改变为:未激活")
+		# if is_active :
+		# 	print(motivation_name,"改变为:激活")
+		# else:
+		# 	print(motivation_name,"改变为:未激活")
 		emit_signal("motivation_active_change",self)
 		
 	emit_signal("motivation_value_change",self)

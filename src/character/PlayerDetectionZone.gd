@@ -30,8 +30,8 @@ func _on_PlayerDetectionZone_body_entered(_body):
 		update_body_enter_in_vision(_body)
 		update_body_enter_in_memory(_body)
 		emit_signal("player_in_vision")
-	elif _body is Stuff:
-		emit_signal("find_new_something",_body)
+	emit_signal("find_new_something",_body)
+		
 
 ##遇见离开
 #func _on_PlayerDetectionZone_body_exited(_body):
@@ -64,6 +64,7 @@ func update_body_enter_in_memory(_body):
 	elif find_index > 0:
 		recently_see_stuff_arr_in_memory.remove(find_index)
 		recently_see_stuff_record_time_dic.erase(_body)
+		recently_see_stuff_arr_in_memory.push_back(_body)
 	else:
 		recently_see_stuff_arr_in_memory.push_back(_body)
 		print("发现了新玩家："+_body.player_name)
@@ -82,7 +83,7 @@ func update_next_last_see_stuff():
 	if rememberTimer.is_stopped() == false : return
 	if recently_see_stuff_arr_in_memory.empty() : return
 	
-	var last_see_stuff = recently_see_stuff_arr_in_memory[0]
+	var last_see_stuff = recently_see_stuff_arr_in_memory.front()
 	var last_see_stuff_record_time = recently_see_stuff_record_time_dic[last_see_stuff]
 	var last_see_stuff_past_time = OS.get_ticks_msec() - last_see_stuff_record_time
 	var last_see_stuff_past_time_in_secs:float = (last_see_stuff_past_time * 0.001)

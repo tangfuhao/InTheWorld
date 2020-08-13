@@ -1,6 +1,7 @@
 extends KinematicBody2D
 class_name Player
 
+export var show_log := false
 export var player_name = "player1"
 onready var playerName = $LabelLayout/PlayerName
 onready var movement = $Movement
@@ -55,3 +56,6 @@ func _on_HurtBox_area_entered(area):
 	hurt_box.start_invincibility(0.5)
 	hurt_box.show_attack_effect()
 	emit_signal("be_hurt",area)
+
+func has_attribute(_params):
+	return _params == "其他人"

@@ -34,7 +34,9 @@ func process_task(_delta: float):
 			current_strategy_chain.clean()
 	else:
 		current_running_task = run_next_task()
-	if current_running_task == null : send_re_plan_signal()
+	if current_running_task == null : 
+		print(control_node.player_name,"因为没有任务，重新规划")
+		send_re_plan_signal()
 	
 	
 func clean_current_task():
@@ -109,10 +111,12 @@ func instance_task(task_name_and_params:String):
 
 	
 func world_status_change():
+	print(control_node.player_name,"因为认知改变，重新规划")
 	send_re_plan_signal()
 	
 func highest_priority_motivation_change(motivation):
 	active_motivation = motivation
+	print(control_node.player_name,"因为动机改变，重新规划")
 	send_re_plan_signal()
 	
 func re_plan_strategy():

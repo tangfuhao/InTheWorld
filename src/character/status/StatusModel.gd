@@ -8,7 +8,7 @@ signal status_value_update
 func set_status_value(value):
 	status_value = value
 	if status_value < 0:status_value = 0
-	print(status_name,"--被改为:",status_value)
+	# print(status_name,"--被改为:",status_value)
 	emit_signal("status_value_update",self)
 
 

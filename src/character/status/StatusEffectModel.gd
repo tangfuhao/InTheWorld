@@ -43,10 +43,10 @@ func check_condition_meet():
 		
 
 	if is_active == is_active_temp: return
-	if is_active:
-		print(condition_name,"---被激活")
-	else:
-		print(condition_name,"---停止激活")
+	# if is_active:
+	# 	print(condition_name,"---被激活")
+	# else:
+	# 	print(condition_name,"---停止激活")
 
 func update_effects(statusDic):
 	if is_active == false: return

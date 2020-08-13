@@ -4,4 +4,4 @@ class_name Stuff
 var stuff_name
 
 func has_attribute(_params):
-	return true
+	return _params == "可躲入的"
