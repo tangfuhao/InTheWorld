@@ -14,3 +14,4 @@ shape = SubResource( 1 )
 [node name="Timer" type="Timer" parent="."]
 [connection signal="invincibility_start" from="." to="." method="_on_HurtBox_invincibility_start"]
 [connection signal="invinciblility_end" from="." to="." method="_on_HurtBox_invinciblility_end"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]

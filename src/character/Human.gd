@@ -27,7 +27,7 @@ func update_target_distance():
 	if target:
 		var latest_distance_to_target = global_position.distance_to(target.global_position)
 		var margin_of_error = _target_distance - latest_distance_to_target
-		if margin_of_error > 5:
+		if margin_of_error > 5 || margin_of_error < -5:
 			_target_distance = latest_distance_to_target
 			emit_signal("to_target_distance_update",_target_distance)
 
