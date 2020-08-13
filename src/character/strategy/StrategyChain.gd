@@ -9,13 +9,22 @@ func clean():
 	task_name_chian.clear()
 
 func push_task_level(_level,_task):
-	if task_name_chian.has(_level) == false:
-		task_name_chian[_level] = []
-	var level_task_arr = task_name_chian[_level]
+	var level = _level
+	if task_name_chian.has(level):
+		while task_name_chian.has(level):
+			level = level + 1
+		level = level - 1
+	else:
+		task_name_chian[level] = []
+
+	var level_task_arr = task_name_chian[level]
 	level_task_arr.push_back(_task)
 	
 func roll_back_level(_level):
-	task_name_chian.erase(_level)
+	while task_name_chian.has(_level):
+		task_name_chian.erase(_level)
+		_level = _level + 1
+	
 
 func pop_first_task():
 	for index in rand_range(0,10):
