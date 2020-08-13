@@ -13,6 +13,7 @@ func active():
 				human.global_position.x = target.global_position.x
 				human.global_position.y = target.global_position.y
 				human.is_hide = true
+				human.set_deferred("monitorable",false)
 				hide_record_start_time = 10
 				
 

@@ -55,6 +55,7 @@ func update_body_exit_in_vision(_body):
 
 	
 func update_body_enter_in_memory(_body):
+	
 	var find_index =  recently_see_stuff_arr_in_memory.find(_body)
 	if find_index == 0:
 		if rememberTimer.is_stopped() == false : rememberTimer.stop()

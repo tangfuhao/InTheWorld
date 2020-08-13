@@ -333,7 +333,7 @@ _global_script_class_icons={
 [application]
 
 config/name="InTheWorld"
-run/main_scene="res://src/world/World.tscn"
+run/main_scene="res://src/world/MiniMap.tscn"
 config/icon="res://icon.png"
 
 [display]
