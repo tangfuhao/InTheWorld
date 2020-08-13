@@ -11,7 +11,7 @@ func process(_delta: float):
 		var target = human.get_target()
 		if target:
 			var direction:Vector2 = human.global_position - target.global_position
-			var direction_position = target.normalized() * 10
+			var direction_position = direction.normalized() * 10
 			var desired_position = human.global_position + direction_position
 			human.movement.set_desired_position(desired_position)
 			
