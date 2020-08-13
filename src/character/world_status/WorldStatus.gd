@@ -17,8 +17,8 @@ func setup():
 	world_status_dic["未躲入十秒"] = true
 	world_status_dic["没有远程武器"] = true
 	world_status_dic["有远程武器"] = false
-	world_status_dic["不在近战攻击范围"] = false
-	world_status_dic["不在远程攻击范围"] = false
+	world_status_dic["不在近战攻击范围"] = true
+	world_status_dic["不在远程攻击范围"] = true
 
 
 	
