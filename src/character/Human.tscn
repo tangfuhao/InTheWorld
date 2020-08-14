@@ -38,6 +38,9 @@ shape = SubResource( 1 )
 script = ExtResource( 7 )
 control_obj = NodePath("..")
 
+[node name="Status" parent="CPU" index="0"]
+update_time = 60
+
 [node name="Movement" parent="." instance=ExtResource( 3 )]
 visible = false
 script = ExtResource( 6 )

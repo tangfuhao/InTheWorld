@@ -9,7 +9,7 @@
 [node name="CPU" type="Node2D"]
 
 [node name="Status" parent="." instance=ExtResource( 7 )]
-update_time = 10
+update_time = 5
 
 [node name="Motivation" parent="." instance=ExtResource( 5 )]
 

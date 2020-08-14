@@ -22,6 +22,7 @@ func active():
 				else:
 					human.set_collision_layer_bit(2,false)
 				hide_record_start_time = 10
+				print(human.player_name,"躲入"+target.stuff_name)
 				
 
 func process(_delta: float):
