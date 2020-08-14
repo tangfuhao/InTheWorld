@@ -35,7 +35,8 @@ func process_task(_delta: float):
 	else:
 		current_running_task = run_next_task()
 	if current_running_task == null : 
-		print(control_node.player_name,"因为没有任务，重新规划")
+		if control_node.player_name == "player1":
+			print(control_node.player_name,"因为没有任务，重新规划")
 		send_re_plan_signal()
 	
 	
@@ -153,17 +154,19 @@ func plan_strategy(_strategy,level,_current_strategy_chain,_new_strategy_chain) 
 	var meet_strategy_arr:Array = plan_condition_meet_strategy_arr(_strategy.strong_strategy_arr,_strategy.weak_strategy_arr)
 		
 	if meet_strategy_arr.empty() == false:
-		var is_match_current_strategy = is_match_current_strategy(_current_strategy_chain,_new_strategy_chain,level)
 		var random_code_arr = _new_strategy_chain.random_code_arr
+		var is_match_current_strategy = is_match_current_strategy(_current_strategy_chain,_new_strategy_chain,level)
+
 		if is_match_current_strategy: 
-			random_code_arr = _current_strategy_chain.random_code_arr
-		else:
+			random_code_arr.clear()
 			#如果当前的策略码数目不足 用之前的补足
-			if random_code_arr.size() < level:
-				_new_strategy_chain.random_code_arr.clear()
-				for index in range(0,level):
+			if random_code_arr.size() <= level:
+				var start_index = random_code_arr.size() 
+				var end_index = level+1
+				for index in range(start_index,end_index):
 					var random_code = _current_strategy_chain.random_code_arr[index]
 					_new_strategy_chain.random_code_arr.push_back(random_code)
+
 		
 #		1.选择策略
 #		2.规划策略的任务
@@ -173,6 +176,9 @@ func plan_strategy(_strategy,level,_current_strategy_chain,_new_strategy_chain) 
 		while select_strategy:
 			if plan_task_queue(select_strategy.task_queue,level,_current_strategy_chain,_new_strategy_chain) == false:
 				#规划失败的情况
+				while _new_strategy_chain.random_code_arr.size() > level:
+					_new_strategy_chain.random_code_arr.pop_back()
+					
 				_new_strategy_chain.roll_back_level(level)
 				meet_strategy_arr.remove(meet_strategy_arr.find(select_strategy))
 				if meet_strategy_arr.empty():
@@ -206,13 +212,16 @@ func is_primary_task(task_name):
 
 #根据规则 选择一个策略
 func select_strategy(order_sort_type,meet_strategy_arr,_random_code_arr,level) -> StrategyItemModel:
-	var strategy_result = null
 	if order_sort_type :
-		strategy_result = order_sort_select(meet_strategy_arr)
-		_random_code_arr.push_back(-1)
+		var strategy_result = order_sort_select(meet_strategy_arr)
+		if _random_code_arr.size() == level:
+			_random_code_arr.push_back(-1)
+		
+		return strategy_result
 	else:
-		strategy_result = random_sort_select(meet_strategy_arr,_random_code_arr,level)
-	return strategy_result
+		var strategy_result = random_sort_select(meet_strategy_arr,_random_code_arr,level)
+		return strategy_result
+	
 		
 class StrategySort:
 	static func sort_ascending(a_strategy, b_strategy):
@@ -225,14 +234,21 @@ func order_sort_select(meet_strategy_arr):
 	return meet_strategy_arr.front()
 	
 func random_sort_select(meet_strategy_arr,_random_code_arr,level):
-	var random_code
+	print("随机规划！！！！== ",level)
+	var random_code = 0
+	var new_generate_code = false
 	if _random_code_arr.size() == level:
 		random_code = rand_range(0,100)
+		new_generate_code = true
 	elif _random_code_arr.size() > level:
 		random_code = _random_code_arr[level]
 	else:
-		print("exception")
-
+		var fdas = 454/random_code
+		print("exception",fdas)
+	if new_generate_code:
+		print("新生成随机码:",random_code)
+	else:
+		print("旧随机码:",random_code)
 	
 	var weight_num:float = 0
 	for item in meet_strategy_arr:
@@ -243,8 +259,10 @@ func random_sort_select(meet_strategy_arr,_random_code_arr,level):
 	var random_code_temp = random_code
 	for item in meet_strategy_arr:
 		random_code_temp = random_code_temp - item.weight * step_weight
+		print("遍历策略:",item.task_queue[0]," 剩余:",random_code_temp)
 		if random_code_temp <= 0: 
-			_random_code_arr.push_back(random_code)
+			if new_generate_code:
+				_random_code_arr.push_back(random_code)
 			return item
 	
 	return null
@@ -275,6 +293,10 @@ func check_meet_pre_condition_in_world_status(condition_arr):
 	
 #改变当前的任务
 func change_task(_task_chain):
+#	if current_strategy_chain:
+#		if current_strategy_chain.strategy_chain.size() == _task_chain.strategy_chain.size():
+#			if is_match_current_strategy(current_strategy_chain,_task_chain,current_strategy_chain.strategy_chain.size()):
+#				pass
 	clean_current_task()
 	current_strategy_chain = _task_chain
 	

@@ -46,6 +46,11 @@ func set_target(_target):
 			_target.connect("disappear_notify",self,"handle_target_disappear_notify")
 		target = _target
 		update_target_distance()
+		if target is Stuff:
+			print(player_name,"的目标改为:",target.stuff_name)
+		else:
+			print(player_name,"的目标改为:",target.player_name)
+			
 
 func get_target():
 	return target

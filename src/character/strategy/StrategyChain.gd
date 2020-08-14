@@ -1,5 +1,5 @@
 class_name StrategyChain
-var random_code_arr:Array = []
+var random_code_arr:Array = [] 
 var task_name_chian:Dictionary = {}
 var strategy_chain:Array = []
 
@@ -41,8 +41,10 @@ func push_back_strategy(_strategy):
 func roll_back_strategy():
 	strategy_chain.pop_back()
 func get_startegy_by_index(index):
-	if strategy_chain.size() <= 2 : return null
-	return strategy_chain[index]
+	if strategy_chain.size() > index: 
+		return strategy_chain[index]
+	return null
+	
 	
 func to_list():
 	var strategy_list:String

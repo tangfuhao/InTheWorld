@@ -55,7 +55,7 @@ func to_target_distance_update(_distance):
 	var is_no_remote_attak = world_status_dic["不在远程攻击范围"]
 
 	var is_no_melee_range_new = _distance > 20
-	var is_no_remote_attak_new = _distance > 150
+	var is_no_remote_attak_new = _distance > 200
 	if is_no_melee_range != is_no_melee_range_new || is_no_remote_attak != is_no_remote_attak_new:
 		world_status_dic["不在近战攻击范围"] = is_no_melee_range_new
 		world_status_dic["不在远程攻击范围"] = is_no_remote_attak_new

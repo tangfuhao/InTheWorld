@@ -26,7 +26,7 @@ collision_layer = 4
 player_name = "player2"
 
 [node name="Status" parent="Human2/CPU" index="0"]
-update_time = 10
+update_time = 10000
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 576.614, 356.669 )
@@ -34,13 +34,16 @@ current = true
 zoom = Vector2( 4, 4 )
 
 [node name="Hide_Stuff" parent="." instance=ExtResource( 3 )]
-position = Vector2( 649.818, 135.918 )
+position = Vector2( 757.258, 570.856 )
+stuff_name = "灌木1"
 
 [node name="Hide_Stuff2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 318.437, 67.3118 )
+position = Vector2( 913.887, 124.268 )
+stuff_name = "灌木2"
 
 [node name="Hide_Stuff3" parent="." instance=ExtResource( 3 )]
 position = Vector2( 256.303, 104.851 )
+stuff_name = "灌木3"
 
 [editable path="Human"]
 
