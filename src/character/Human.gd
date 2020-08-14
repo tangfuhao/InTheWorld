@@ -17,8 +17,7 @@ var package = []
 #目标
 var target = null setget set_target,get_target
 
-
-var is_hide = false
+signal disappear_notify
 
 func _process(delta):
 	update_target_distance()
@@ -34,9 +33,20 @@ func update_target_distance():
 func _ready() -> void:
 	playerName.text = player_name
 
+func handle_target_disappear_notify(_target):
+	if target:
+		target.disconnect("disappear_notify",self,"handle_target_disappear_notify")
+	target = null
+
 func set_target(_target):
-	target = _target
-	update_target_distance()
+	if target != _target:
+		if target:
+			target.disconnect("disappear_notify",self,"handle_target_disappear_notify")
+		if _target:
+			_target.connect("disappear_notify",self,"handle_target_disappear_notify")
+		target = _target
+		update_target_distance()
+
 func get_target():
 	return target
 
@@ -61,3 +71,6 @@ func _on_HurtBox_area_entered(area):
 
 func has_attribute(_params):
 	return _params == "其他人"
+	
+func notify_disappear():
+	emit_signal("disappear_notify",self)
