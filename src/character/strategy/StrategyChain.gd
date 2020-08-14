@@ -27,7 +27,7 @@ func roll_back_level(_level):
 	
 
 func pop_first_task():
-	for index in rand_range(0,10):
+	for index in range(0,10):
 		if task_name_chian.has(index):
 			var level_task_arr =  task_name_chian[index]
 			if level_task_arr.empty():
