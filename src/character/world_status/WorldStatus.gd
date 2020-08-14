@@ -23,6 +23,9 @@ func setup():
 	world_status_dic["有远程武器"] = false
 	world_status_dic["不在近战攻击范围"] = true
 	world_status_dic["不在远程攻击范围"] = true
+	world_status_dic["在近战攻击范围"] = false
+	world_status_dic["在远程攻击范围"] = false
+	
 
 
 	
@@ -59,6 +62,8 @@ func to_target_distance_update(_distance):
 	if is_no_melee_range != is_no_melee_range_new || is_no_remote_attak != is_no_remote_attak_new:
 		world_status_dic["不在近战攻击范围"] = is_no_melee_range_new
 		world_status_dic["不在远程攻击范围"] = is_no_remote_attak_new
+		world_status_dic["在近战攻击范围"] = !is_no_melee_range_new
+		world_status_dic["在远程攻击范围"] = !is_no_remote_attak_new
 		print(owner.control_node.player_name,"认知 攻击范围 改变")
 		emit_signal("world_status_change")
 

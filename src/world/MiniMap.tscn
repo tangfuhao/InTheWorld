@@ -20,13 +20,19 @@ position = Vector2( 340.317, 493.805 )
 [node name="Status" parent="Human/CPU" index="0"]
 update_time = 10
 
+[node name="HitBox" parent="Human" index="6"]
+collision_layer = 32
+
 [node name="Human2" parent="." instance=ExtResource( 1 )]
 position = Vector2( 937.063, 489.921 )
 collision_layer = 4
 player_name = "player2"
 
 [node name="Status" parent="Human2/CPU" index="0"]
-update_time = 10000
+update_time = 10
+
+[node name="HurtBox" parent="Human2" index="5"]
+collision_mask = 32
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 576.614, 356.669 )
@@ -49,6 +55,12 @@ stuff_name = "灌木3"
 
 [editable path="Human/CPU"]
 
+[editable path="Human/HurtBox"]
+
 [editable path="Human2"]
 
 [editable path="Human2/CPU"]
+
+[editable path="Human2/HurtBox"]
+
+[editable path="Human2/HitBox"]

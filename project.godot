@@ -379,6 +379,7 @@ texture={
 2d_physics/layer_3="player2"
 2d_physics/layer_4="stuff"
 2d_physics/layer_5="hurt_player"
+2d_physics/layer_6="hurt_enemy"
 
 [rendering]
 
