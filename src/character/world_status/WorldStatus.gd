@@ -28,8 +28,8 @@ func setup():
 	
 	
 	player_detection_zone = owner.player_detection_zone
-	player_detection_zone.connect("player_in_vision",self,"player_num_change_in_world_status")
-	player_detection_zone.connect("player_out_vision",self,"player_num_change_in_world_status")
+	player_detection_zone.connect("find_something",self,"player_num_change_in_world_status")
+	player_detection_zone.connect("un_find_something",self,"player_num_change_in_world_status")
 	
 	var control_node = owner.control_node
 	control_node.connect("to_target_distance_update",self,"to_target_distance_update")
@@ -53,16 +53,15 @@ func to_target_distance_update(_distance):
 	world_status_dic["不在近战攻击范围"] = _distance > 20
 	world_status_dic["不在远程攻击范围"] = _distance > 150
 	
-func player_num_change_in_world_status():
-	var target = player_detection_zone.get_recent_target("其他人")
-	var has_other_people = target != null
+func player_num_change_in_world_status(_body):
+	if _body is Player:
+		var target = player_detection_zone.get_recent_target("其他人")
+		var has_other_people = target != null
 
-	if world_status_dic["周围有其他人"] != has_other_people:
-		world_status_dic["周围有其他人"] = has_other_people
-		world_status_dic["周围没有其他人"] = !has_other_people
-#		emit_signal("world_status_change",["周围有其他人",has_other_people])
-#		emit_signal("world_status_change",["周围没有其他人",!has_other_people])
-		emit_signal("world_status_change")
+		if world_status_dic["周围有其他人"] != has_other_people:
+			world_status_dic["周围有其他人"] = has_other_people
+			world_status_dic["周围没有其他人"] = !has_other_people
+			emit_signal("world_status_change")
 		
 #	if has_other_people:
 #		get_recently_see_people_arr()

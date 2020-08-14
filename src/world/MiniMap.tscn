@@ -22,6 +22,9 @@ position = Vector2( 1063.92, 139.123 )
 collision_layer = 4
 player_name = "player2"
 
+[node name="Status" parent="Human2/CPU" index="0"]
+update_time = 10000
+
 [node name="PerceptionVision" parent="Human2/CPU/PlayerDetectionZone" index="0"]
 collision_mask = 2
 
@@ -34,16 +37,13 @@ current = true
 zoom = Vector2( 4, 4 )
 
 [node name="Hide_Stuff" parent="." instance=ExtResource( 3 )]
-position = Vector2( 167.878, 622.583 )
+position = Vector2( 838.809, 375.393 )
 
 [node name="Hide_Stuff2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 693.428, 617.405 )
+position = Vector2( 318.437, 67.3118 )
 
-[node name="Hide_Stuff5" parent="." instance=ExtResource( 3 )]
-position = Vector2( 230.012, 133.278 )
-
-[node name="Hide_Stuff6" parent="." instance=ExtResource( 3 )]
-position = Vector2( 961.381, 196.706 )
+[node name="Hide_Stuff3" parent="." instance=ExtResource( 3 )]
+position = Vector2( 256.303, 104.851 )
 
 [editable path="Human2"]
 
