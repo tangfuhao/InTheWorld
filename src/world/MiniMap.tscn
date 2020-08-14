@@ -18,12 +18,9 @@ tile_data = PoolIntArray( 0, 1, 65536, 1, 1, 2, 2, 1, 2, 3, 1, 2, 4, 1, 2, 5, 1,
 position = Vector2( 340.317, 493.805 )
 
 [node name="Human2" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1063.92, 139.123 )
+position = Vector2( 937.063, 489.921 )
 collision_layer = 4
 player_name = "player2"
-
-[node name="Status" parent="Human2/CPU" index="0"]
-update_time = 10000
 
 [node name="PerceptionVision" parent="Human2/CPU/PlayerDetectionZone" index="0"]
 collision_mask = 2
@@ -37,13 +34,17 @@ current = true
 zoom = Vector2( 4, 4 )
 
 [node name="Hide_Stuff" parent="." instance=ExtResource( 3 )]
-position = Vector2( 838.809, 375.393 )
+position = Vector2( 649.818, 135.918 )
 
 [node name="Hide_Stuff2" parent="." instance=ExtResource( 3 )]
 position = Vector2( 318.437, 67.3118 )
 
 [node name="Hide_Stuff3" parent="." instance=ExtResource( 3 )]
 position = Vector2( 256.303, 104.851 )
+
+[editable path="Human"]
+
+[editable path="Human/CPU"]
 
 [editable path="Human2"]
 

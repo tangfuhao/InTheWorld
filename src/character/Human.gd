@@ -48,7 +48,9 @@ func pick_up(_target:Stuff) -> void:
 	var item = PackageItemModel.new()
 	item.item_name = _target.stuff_name
 	package.push_back(item)
+	_target.notify_disappear()
 	_target.queue_free()
+	print(player_name,"捡起了",_target.stuff_name)
 
 #受到伤害
 func _on_HurtBox_area_entered(area):

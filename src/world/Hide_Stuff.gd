@@ -3,7 +3,7 @@ class_name Stuff
 
 signal disappear_notify
 
-var stuff_name
+var stuff_name = "灌木"
 var attrubute_arr := []
 func _ready():
 	attrubute_arr.push_back("可躲入的")
