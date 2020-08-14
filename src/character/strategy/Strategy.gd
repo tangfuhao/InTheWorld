@@ -35,8 +35,6 @@ func process_task(_delta: float):
 	else:
 		current_running_task = run_next_task()
 	if current_running_task == null : 
-		if control_node.player_name == "player1":
-			print(control_node.player_name,"因为没有任务，重新规划")
 		send_re_plan_signal()
 	
 	
@@ -234,7 +232,7 @@ func order_sort_select(meet_strategy_arr):
 	return meet_strategy_arr.front()
 	
 func random_sort_select(meet_strategy_arr,_random_code_arr,level):
-	print("随机规划！！！！== ",level)
+	# print("随机规划！！！！== ",level)
 	var random_code = 0
 	var new_generate_code = false
 	if _random_code_arr.size() == level:
@@ -245,10 +243,10 @@ func random_sort_select(meet_strategy_arr,_random_code_arr,level):
 	else:
 		var fdas = 454/random_code
 		print("exception",fdas)
-	if new_generate_code:
-		print("新生成随机码:",random_code)
-	else:
-		print("旧随机码:",random_code)
+	# if new_generate_code:
+	# 	print("新生成随机码:",random_code)
+	# else:
+	# 	print("旧随机码:",random_code)
 	
 	var weight_num:float = 0
 	for item in meet_strategy_arr:
@@ -259,7 +257,7 @@ func random_sort_select(meet_strategy_arr,_random_code_arr,level):
 	var random_code_temp = random_code
 	for item in meet_strategy_arr:
 		random_code_temp = random_code_temp - item.weight * step_weight
-		print("遍历策略:",item.task_queue[0]," 剩余:",random_code_temp)
+		# print("遍历策略:",item.task_queue[0]," 剩余:",random_code_temp)
 		if random_code_temp <= 0: 
 			if new_generate_code:
 				_random_code_arr.push_back(random_code)
