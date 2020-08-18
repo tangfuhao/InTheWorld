@@ -1,11 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/customization/CreateObjectPanel.gd" type="Script" id=1]
 [ext_resource path="res://src/customization/listview/ListViewPanel.tscn" type="PackedScene" id=2]
-[ext_resource path="res://src/customization/GenerateFunctionPanel.tscn" type="PackedScene" id=6]
+[ext_resource path="res://assert/image/Group 4.png" type="Texture" id=3]
 [ext_resource path="res://src/customization/chinese_label_font.tres" type="DynamicFont" id=8]
 [ext_resource path="res://src/customization/EditMenu.tscn" type="PackedScene" id=11]
-[ext_resource path="res://src/customization/ObjectPanal.gd" type="Script" id=12]
 
 [node name="CreateObjectPanel" type="Panel"]
 anchor_right = 4.0
@@ -26,7 +25,6 @@ __meta__ = {
 margin_right = 396.0
 margin_bottom = 720.0
 size_flags_horizontal = 3
-script = ExtResource( 12 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -86,12 +84,29 @@ custom_fonts/font = ExtResource( 8 )
 disabled = true
 text = "删除物品"
 
-[node name="GenerateFunctionPanel" parent="HBoxContainer" instance=ExtResource( 6 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="GenerateFunctionPanel" type="Panel" parent="HBoxContainer"]
 margin_left = 400.0
 margin_right = 480.0
 margin_bottom = 720.0
+rect_min_size = Vector2( 80, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GemerateFunctionButton" type="TextureButton" parent="HBoxContainer/GenerateFunctionPanel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -24.0
+margin_top = -26.0
+margin_right = 476.0
+margin_bottom = 474.0
+rect_scale = Vector2( 0.1, 0.1 )
+texture_normal = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="FunctionAttributeList" parent="HBoxContainer" instance=ExtResource( 2 )]
 anchor_right = 0.0
@@ -117,5 +132,3 @@ current = true
 zoom = Vector2( 4, 4 )
 [connection signal="pressed" from="HBoxContainer/GenerateFunctionPanel/GemerateFunctionButton" to="." method="_on_GemerateFunctionButton_pressed"]
 [connection signal="on_item_selected" from="HBoxContainer/FunctionAttributeList" to="." method="_on_FunctionAttributeList_on_item_selected"]
-
-[editable path="HBoxContainer/GenerateFunctionPanel"]

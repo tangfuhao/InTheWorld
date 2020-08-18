@@ -18,7 +18,7 @@ func calculate_attribute_value(_physics_data):
 	var else_value = null
 	for item in attribute_value_arr:
 		if item.is_all_condition():
-			return item
+			return item.condition_name
 		if item.is_else_condition():
 			else_value = item.condition_name
 		else:
