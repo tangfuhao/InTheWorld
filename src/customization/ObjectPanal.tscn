@@ -1,0 +1,87 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://src/customization/chinese_label_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://src/customization/ObjectPanal.gd" type="Script" id=2]
+[ext_resource path="res://src/customization/PhysicsList.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/customization/EditMenu.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/customization/Title.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/customization/ListView.tscn" type="PackedScene" id=9]
+
+[sub_resource type="StyleBoxFlat" id=1]
+
+[node name="ObjectPanal" type="VBoxContainer"]
+margin_right = 396.0
+margin_bottom = 720.0
+size_flags_horizontal = 3
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NameList" type="VBoxContainer" parent="."]
+margin_right = 396.0
+margin_bottom = 52.0
+
+[node name="StuffName" parent="NameList" instance=ExtResource( 6 )]
+anchor_right = 0.0
+margin_right = 396.0
+margin_bottom = 24.0
+display_label = "物品名称"
+
+[node name="EditMenu2" parent="NameList" instance=ExtResource( 6 )]
+anchor_right = 0.0
+margin_top = 28.0
+margin_right = 396.0
+margin_bottom = 52.0
+display_label = "物品类型"
+
+[node name="PhysicsList" parent="." instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 56.0
+margin_right = 396.0
+margin_bottom = 369.0
+
+[node name="ObjectList" type="VBoxContainer" parent="."]
+margin_top = 373.0
+margin_right = 396.0
+margin_bottom = 686.0
+size_flags_vertical = 3
+
+[node name="Title" parent="ObjectList" instance=ExtResource( 7 )]
+anchor_right = 0.0
+margin_right = 396.0
+rect_min_size = Vector2( 0, 30 )
+size_flags_horizontal = 3
+custom_styles/panel = SubResource( 1 )
+display_label = "物品列表"
+
+[node name="ObjectPanel" parent="ObjectList" instance=ExtResource( 9 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 34.0
+margin_right = 396.0
+margin_bottom = 313.0
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_top = 690.0
+margin_right = 396.0
+margin_bottom = 720.0
+
+[node name="DeleteButton" type="Button" parent="HBoxContainer"]
+margin_right = 196.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 1 )
+disabled = true
+text = "删除物品"
+
+[node name="ModifyButton" type="Button" parent="HBoxContainer"]
+margin_left = 200.0
+margin_right = 396.0
+margin_bottom = 30.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 1 )
+disabled = true
+text = "删除物品"

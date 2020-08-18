@@ -19,10 +19,30 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/character/tasks/ApproachToTarget.gd"
 }, {
+"base": "Reference",
+"class": "CConditionAttributeItem",
+"language": "GDScript",
+"path": "res://src/customization/CConditionAttributeItem.gd"
+}, {
+"base": "Reference",
+"class": "CConditionModel",
+"language": "GDScript",
+"path": "res://src/customization/CConditionModel.gd"
+}, {
+"base": "Reference",
+"class": "CConditionRule",
+"language": "GDScript",
+"path": "res://src/customization/CConditionRule.gd"
+}, {
 "base": "Node2D",
 "class": "CPU",
 "language": "GDScript",
 "path": "res://src/character/CPU.gd"
+}, {
+"base": "Reference",
+"class": "CustomerObjectModel",
+"language": "GDScript",
+"path": "res://src/customization/CustomerObjectModel.gd"
 }, {
 "base": "Reference",
 "class": "Evaluate",
@@ -277,7 +297,11 @@ _global_script_classes=[ {
 _global_script_class_icons={
 "AccessToTarget": "",
 "ApproachToTarget": "",
+"CConditionAttributeItem": "",
+"CConditionModel": "",
+"CConditionRule": "",
 "CPU": "",
+"CustomerObjectModel": "",
 "Evaluate": "",
 "FurtherAwayTarget": "",
 "GSAIAgentLocation": "",
@@ -333,7 +357,7 @@ _global_script_class_icons={
 [application]
 
 config/name="InTheWorld"
-run/main_scene="res://src/world/MiniMap.tscn"
+run/main_scene="res://src/customization/CreateObjectPanel.tscn"
 config/icon="res://icon.png"
 
 [display]
