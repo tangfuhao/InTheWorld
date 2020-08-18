@@ -2,7 +2,7 @@
 extends Panel
 
 const ListItemType1 = preload("res://src/customization/listview/ListViewItemType1.tscn")
-const ListItemType2 = preload("res://src/customization/ParamsListViewLabelItem.tscn")
+const ListItemType2 = preload("res://src/customization/listview/ListViewItemType2.tscn")
 onready var list = $ScrollContainer/List
 
 var last_select_item
@@ -30,7 +30,10 @@ func set_data_dic2(_data_dic:Dictionary,_data_value_dic:Dictionary):
 	clear_item()
 	var item_index = 0
 	for key in _data_dic.keys():
-		var selected_value = _data_value_dic[key]
+		var selected_value
+		if _data_value_dic.has(key):
+			selected_value = _data_value_dic[key]
+			
 		add_item_type_3(item_index,key,_data_dic[key],selected_value)
 		item_index = item_index + 1
 
@@ -66,7 +69,7 @@ func add_item_type_3(_index,_label,_select_arr,_selected_value):
 	
 	list_item.set_label(_label)
 	if _select_arr.empty() == false:
-		list_item.set_selector_arr(_select_arr)
+		list_item.set_selector_arr(_select_arr,_selected_value)
 	
 	
 func _on_item_selected(_index):
@@ -78,3 +81,12 @@ func _on_item_selected(_index):
 	
 func _on_item_active(_index,_is_active):
 	emit_signal("on_item_active",_index,_is_active)
+	
+func get_key_value_data():
+	var data := {}
+	var child_num = list.get_child_count()
+	for index in range(child_num):
+		var child = list.get_child(index)
+		var key_value = child.get_key_and_value()
+		data[key_value[0]] = key_value[1]
+	return data

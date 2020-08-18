@@ -5,14 +5,24 @@ onready var text_edit = $HBoxContainer/Control/TextEdit
 
 var is_show_selector = false
 var item_index
+signal item_value_change(index,key,value)
+
 	
-func set_selector_arr(selector_arr:Array):
+func set_selector_arr(selector_arr:Array,_selected_value):
 	if selector_arr && selector_arr.empty() == false: 
 		is_show_selector = true
 		dropdown.visible = true
 		text_edit.visible = false
+		
+		var index = 0
+		var default_index = -1
 		for item in selector_arr:
-			dropdown.add_item(str(item))
+			dropdown.add_item(str(item),index)
+			if _selected_value && _selected_value == item:
+				default_index = index
+			index = index + 1 
+		if default_index >= 0:
+			dropdown.select(default_index)
 	else:
 		is_show_selector = false
 		dropdown.visible = false
