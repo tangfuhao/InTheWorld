@@ -63,6 +63,7 @@ func _on_GemerateFunctionButton_pressed():
 		customer_object = generate_function(physics_data)
 		customer_object.object_name = object_panel.get_object_name()
 		update_function_attribute_list(customer_object)
+		
 
 func generate_function(_physics_data) -> CustomerObjectModel:
 	var customer_object = CustomerObjectModel.new()
@@ -87,7 +88,7 @@ func update_function_attribute_list(_customer_object):
 
 func on_function_attribute_item_selected(_index):
 	var attribute_name = customer_object.function_attribute_name_arr[_index]
-	var params_arr = customer_object.funciton_attribute_value_dic[attribute_name]
+	var params_dic = customer_object.funciton_attribute_value_dic[attribute_name]
 	var condition_rule =  condition_rule_arr[_index]
 	var config_dir = condition_rule.get_params_dic()
-	params_list_view.set_config(config_dir)
+	params_list_view.set_config(config_dir,params_dic)

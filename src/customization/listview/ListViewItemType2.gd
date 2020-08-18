@@ -30,6 +30,4 @@ func get_key_and_value():
 	else:
 		var edit_text = text_edit.text
 		return [label_str,edit_text]
-		
-func set_params(params):
-	pass
+
