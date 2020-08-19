@@ -31,31 +31,36 @@ func _ready():
 	load_physic_rules()
 	load_stuff_list()
 
-	physic_list.set_data_dic2(physic_param_dic,{})
 	
+	update_physic_list_view()
+	update_object_list_view()
+	
+func update_physic_list_view():
+	physic_list.set_data_dic2(physic_param_dic,{})
+
+func update_object_list_view():
 	var stuff_arr = []
 	for item in stuff_list:
 		stuff_arr.push_back(item["名称"])
 	object_list.set_data_arr(stuff_arr)
-	
-	
 
+func update_function_attribute_list_view():
+	function_attribute_list_view.set_data_dic(customer_object.function_attribute_name_arr,customer_object.funciton_attribute_active_status_dic)
 
 
 #根据物理生成功能
 func _on_GemerateFunctionButton_pressed():
 	var stuff_name_text = stuff_name.get_text()
 	if stuff_name_text:
+		
 		var physics_data = physic_list.get_key_value_data()
 		customer_object = generate_function(physics_data)
 		customer_object.object_name = stuff_name_text
-		update_function_attribute_list(customer_object)
 		save_customer_object_to_file(customer_object)
 		
-		var stuff_arr = []
-		for item in stuff_list:
-			stuff_arr.push_back(item["名称"])
-		object_list.set_data_arr(stuff_arr)
+		update_function_attribute_list_view()
+		update_object_list_view()
+		
 	else:
 		print("物品名为空")
 		
@@ -77,8 +82,7 @@ func generate_function(_physics_data) -> CustomerObjectModel:
 			customer_object.set_funciton_attribute_value_dic(condition_rule,funciton_attribute_value_dic)
 	return customer_object
 		
-func update_function_attribute_list(_customer_object):
-	function_attribute_list_view.set_data_dic(_customer_object.function_attribute_name_arr,_customer_object.funciton_attribute_active_status_dic)
+
 	
 	
 func _on_FunctionAttributeList_on_item_selected(_index):
@@ -88,20 +92,26 @@ func _on_FunctionAttributeList_on_item_selected(_index):
 	var config_dir = condition_rule.get_params_dic()
 	params_list_view.set_data_dic2(config_dir,params_dic)
 
-func save_customer_object_to_file(_customer_object):	
-	var object_name = _customer_object.object_name + "_"
-	var file_path = "user://" + object_name + str(OS.get_unix_time()) +".json"
+func save_customer_object_to_file(_customer_object):
+	var file_path = "user://" + _customer_object.object_name +".json"
+	
 	update_customer_config(_customer_object.object_name,file_path)
+	
 	var object_json = _customer_object.to_json()
 	var file = File.new()
 	file.open(file_path, File.WRITE)
 	file.store_string(object_json)
 	file.close()
+
 func update_customer_config(_object_name,_file_path):
 	var object_dir = {"名称":_object_name,"路径":_file_path}
-	if stuff_list.has(object_dir) == false:
-		stuff_list.push_back(object_dir)
+	for item in stuff_list:
+		if item["路径"] == _file_path:
+			print("更新")
+			return 
+	stuff_list.push_back(object_dir)
 	save_stuff_list()
+
 
 func _on_ObjectList_on_item_selected(index):
 	if object_selected_index == index:
@@ -115,7 +125,7 @@ func _on_ObjectList_on_item_selected(index):
 func update_stuff_config(_stuff_name,_stuff_file_path):
 	stuff_name.set_text(_stuff_name)
 	customer_object = load_stuff_config(_stuff_file_path)
-	update_function_attribute_list(customer_object)
+	update_function_attribute_list_view()
 	
 func load_stuff_config(_stuff_file_path):
 	var customer_object = CustomerObjectModel.new()
@@ -151,14 +161,13 @@ func parse_physics_rules(_physics_arr):
 
 func load_stuff_list():
 	stuff_list = load_json_arr("user://stuff_list.json")
+
 func save_stuff_list():
 	var save_game = File.new()
 	save_game.open("user://stuff_list.json", File.WRITE)
 	save_game.store_string(to_json(stuff_list))
 	save_game.close()
 
-func parse_stuff_config(_stuff_config_arr):
-	pass
 
 func load_json_arr(file_path):
 	var data_file = File.new()
