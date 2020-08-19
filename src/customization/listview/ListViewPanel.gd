@@ -21,8 +21,8 @@ func get_key_value_data():
 func set_data_arr(_data_arr:Array):
 	list_view.set_data_arr(_data_arr)
 
-func set_data_dic(_data_dic:Dictionary):
-	list_view.set_data_dic(_data_dic)
+func set_data_dic(_data_arr:Array,_data_dic:Dictionary):
+	list_view.set_data_dic(_data_arr,_data_dic)
 
 func set_data_dic2(_data_dic:Dictionary,_data_value_dic:Dictionary):
 	list_view.set_data_dic2(_data_dic,_data_value_dic)

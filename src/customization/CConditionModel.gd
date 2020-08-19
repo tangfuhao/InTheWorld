@@ -5,13 +5,27 @@ var condition_listening_key_arr:Array = []
 #条件参数
 var condition_params_dic:Dictionary = {}
 
-func _init(_condition_name,_condition_params_str_arr):
+
+func set_up(_condition_name,_condition_params_str_arr):
 	condition_name = _condition_name
 	for condition_params_str in _condition_params_str_arr:
 		var condition_params:Array = condition_params_str.split(",")
 		var condition_listening_key:String = condition_params[0]
 		condition_params_dic[condition_listening_key] = condition_params
 		condition_listening_key_arr.push_back(condition_listening_key)
+	
+
+func get_json_obejct():
+	var json_object := {}
+	json_object["condition_name"] = condition_name
+	json_object["condition_listening_key_arr"] = condition_listening_key_arr
+	json_object["condition_params_dic"] = condition_params_dic
+	return json_object
+	
+func set_json_obejct(json_object):
+	condition_name = json_object["condition_name"]
+	condition_listening_key_arr = json_object["condition_listening_key_arr"]
+	condition_params_dic = json_object["condition_params_dic"]
 	
 func is_meet_condition(_physics_data):
 	var is_meet = true

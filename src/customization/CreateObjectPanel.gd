@@ -7,7 +7,7 @@ onready var stuff_name = $HBoxContainer/ObjectPanal/NameList/StuffName
 onready var physic_list = $HBoxContainer/ObjectPanal/PhysicsList
 onready var object_list = $HBoxContainer/ObjectPanal/ObjectList
 onready var function_attribute_list_view = $HBoxContainer/FunctionAttributeList
-onready var params_list_view = $HBoxContainer/AttributeEditList
+onready var params_list_view = $HBoxContainer/VBoxContainer/AttributeEditList
 
 const physic_param_dic = {"动力学性质":["刚体","柔性物体","流体","织物"],
 						"尺寸":["0.1","0.5","1","5","10"],
@@ -23,15 +23,18 @@ const physic_param_dic = {"动力学性质":["刚体","柔性物体","流体","�
 
 
 var condition_rule_arr:Array = []
-var stuff_arr:Array = []
+var stuff_list:Array = []
 var customer_object
+var object_selected_index = -1
 
 func _ready():
 	load_physic_rules()
 	load_stuff_list()
-	
-	
+
 	physic_list.set_data_dic2(physic_param_dic,{})
+	var stuff_arr = []
+	for item in stuff_list:
+		stuff_arr.push_back(item["名称"])
 	object_list.set_data_arr(stuff_arr)
 	
 	
@@ -46,6 +49,9 @@ func _on_GemerateFunctionButton_pressed():
 		customer_object = generate_function(physics_data)
 		customer_object.object_name = stuff_name_text
 		update_function_attribute_list(customer_object)
+		save_customer_object_to_file(customer_object)
+	else:
+		print("物品名为空")
 		
 
 func generate_function(_physics_data) -> CustomerObjectModel:
@@ -66,7 +72,8 @@ func generate_function(_physics_data) -> CustomerObjectModel:
 	return customer_object
 		
 func update_function_attribute_list(_customer_object):
-	function_attribute_list_view.set_data_dic(_customer_object.funciton_attribute_active_status_dic)
+	function_attribute_list_view.set_data_dic(_customer_object.function_attribute_name_arr,_customer_object.funciton_attribute_active_status_dic)
+	
 	
 func _on_FunctionAttributeList_on_item_selected(_index):
 	var attribute_name = customer_object.function_attribute_name_arr[_index]
@@ -75,14 +82,40 @@ func _on_FunctionAttributeList_on_item_selected(_index):
 	var config_dir = condition_rule.get_params_dic()
 	params_list_view.set_data_dic2(config_dir,params_dic)
 
+func save_customer_object_to_file(_customer_object):	
+	var object_name = _customer_object.object_name + "_"
+	var file_path = "user://" + object_name + str(OS.get_unix_time()) +".json"
+	update_customer_config(_customer_object.object_name,file_path)
+	var object_json = _customer_object.to_json()
+	var file = File.new()
+	file.open(file_path, File.WRITE)
+	file.store_string(object_json)
+	file.close()
+func update_customer_config(_object_name,_file_path):
+	var object_dir = {"名称":_object_name,"路径":_file_path}
+	if stuff_list.has(object_dir) == false:
+		stuff_list.push_back(object_dir)
+	save_stuff_list()
+
+func _on_ObjectList_on_item_selected(index):
+	if object_selected_index == index:
+		return 
+	object_selected_index = index
+	var stuff_config_dic = stuff_list[index]
+	var stuff_name = stuff_config_dic["名称"]
+	var stuff_file_path = stuff_config_dic["路径"]
+	update_stuff_config(stuff_name,stuff_file_path)
 	
+func update_stuff_config(_stuff_name,_stuff_file_path):
+	stuff_name.set_text(_stuff_name)
+	customer_object = load_stuff_config(_stuff_file_path)
+	update_function_attribute_list(customer_object)
 	
-	
-	
-	
-	
-	
-	
+func load_stuff_config(_stuff_file_path):
+	var customer_object = CustomerObjectModel.new()
+	var object_config_dic = load_json_arr(_stuff_file_path)
+	customer_object.set_config(object_config_dic)
+	return customer_object
 	
 	
 	
@@ -111,15 +144,12 @@ func parse_physics_rules(_physics_arr):
 		condition_rule_arr.push_back(condition_rule)
 
 func load_stuff_list():
-	var stuff_list = load_json_arr("user://config/stuff_list.json")
-	parse_stuff_list(stuff_list)
-
-func parse_stuff_list(_stuff_list):
-	for item in _stuff_list:
-		var config_file_path = item["路径"]
-		var stuff_config_arr = load_json_arr(config_file_path)
-		var stuff_config = parse_stuff_config(stuff_config_arr)
-		stuff_arr.push_back(stuff_config)
+	stuff_list = load_json_arr("user://stuff_list.json")
+func save_stuff_list():
+	var save_game = File.new()
+	save_game.open("user://stuff_list.json", File.WRITE)
+	save_game.store_string(to_json(stuff_list))
+	save_game.close()
 
 func parse_stuff_config(_stuff_config_arr):
 	pass
@@ -137,9 +167,13 @@ func load_json_arr(file_path):
 		
 	if typeof(data_parse.result) == TYPE_ARRAY:
 		return data_parse.result
+	elif typeof(data_parse.result) == TYPE_DICTIONARY:
+		return data_parse.result
 	else:
 		print("unexpected results")
 		return []
+
+
 
 
 

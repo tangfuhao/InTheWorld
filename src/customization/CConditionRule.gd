@@ -23,7 +23,9 @@ func parse_condition_item(_condition_arr):
 		for item in _condition_arr:
 			var condtion_name = item["条件名"]
 			var condtion_arr = item["条件组"]
-			condition_arr.push_back(CConditionModel.new(condtion_name,condtion_arr))
+			var ccondition_model = CConditionModel.new()
+			ccondition_model.set_up(condtion_name,condtion_arr)
+			condition_arr.push_back(ccondition_model)
 	return condition_arr
 	
 func parse_function_attribute(_function_attribute_arr):

@@ -18,10 +18,10 @@ func set_data_arr(_data_arr:Array):
 		add_item_type_1(item_index,item)
 		item_index = item_index + 1
 
-func set_data_dic(_data_dic:Dictionary):
+func set_data_dic(_data_arr:Array,_data_dic:Dictionary):
 	clear_item()
 	var item_index = 0
-	for key in _data_dic.keys():
+	for key in _data_arr:
 		var value = _data_dic[key]
 		add_item_type_2(item_index,key,value)
 		item_index = item_index + 1

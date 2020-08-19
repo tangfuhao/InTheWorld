@@ -12,7 +12,9 @@ func parse_attribute(_attribute_value_arr):
 		for item in _attribute_value_arr:
 			var attribute_value =  item["属性值"]
 			var attribute_condition_arr =  item["条件组"]
-			attribute_value_arr.push_back(CConditionModel.new(attribute_value,attribute_condition_arr))
+			var ccondition_model = CConditionModel.new()
+			ccondition_model.set_up(attribute_value,attribute_condition_arr)
+			attribute_value_arr.push_back(ccondition_model)
 		
 func calculate_attribute_value(_physics_data):
 	var else_value = null
