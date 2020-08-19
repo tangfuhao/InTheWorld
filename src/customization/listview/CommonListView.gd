@@ -79,6 +79,8 @@ func add_item_type_3(_index,_label,_select_arr,_selected_value):
 	list_item.set_label(_label)
 	if _select_arr.empty() == false:
 		list_item.set_selector_arr(_select_arr,_selected_value)
+	else:
+		list_item.set_edit_value(_selected_value)
 		
 func set_item_active(_index,_is_active):
 	var item_view = list.get_child(_index)

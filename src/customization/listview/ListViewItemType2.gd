@@ -18,7 +18,7 @@ func set_selector_arr(selector_arr:Array,_selected_value):
 		var default_index = 0
 		for item in selector_arr:
 			dropdown.add_item(str(item),index)
-			if _selected_value && _selected_value == str(item):
+			if _selected_value && str(_selected_value) == str(item):
 				default_index = index
 			index = index + 1 
 		dropdown.select(default_index)
@@ -29,6 +29,10 @@ func set_selector_arr(selector_arr:Array,_selected_value):
 	
 func set_label(_display_label):
 	label.text = _display_label
+
+func set_edit_value(value):
+	if value:
+		text_edit.text = value
 	
 func get_key_and_value():
 	var label_str = label.text
