@@ -203,11 +203,11 @@ func parse_physics_rules(_physics_arr):
 		condition_rule_arr.push_back(condition_rule)
 
 func load_stuff_list():
-	stuff_list = load_json_arr("user://stuff_list.json")
+	stuff_list = load_json_arr("user://stuff_list_1.json")
 
 func save_stuff_list():
 	var save_game = File.new()
-	save_game.open("user://stuff_list.json", File.WRITE)
+	save_game.open("user://stuff_list_1.json", File.WRITE)
 	save_game.store_string(to_json(stuff_list))
 	save_game.close()
 
