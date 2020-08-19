@@ -62,3 +62,5 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 rect_min_size = Vector2( 10, 40 )
 custom_fonts/font = ExtResource( 1 )
+[connection signal="item_selected" from="HBoxContainer/Control/OptionButton" to="." method="_on_OptionButton_item_selected"]
+[connection signal="text_changed" from="HBoxContainer/Control/TextEdit" to="." method="_on_TextEdit_text_changed"]

@@ -160,4 +160,8 @@ zoom = Vector2( 4, 4 )
 [connection signal="on_item_selected" from="HBoxContainer/ObjectPanal/ObjectList" to="." method="_on_ObjectList_on_item_selected"]
 [connection signal="pressed" from="HBoxContainer/ObjectPanal/HBoxContainer/DeleteButton" to="." method="_on_DeleteButton_pressed"]
 [connection signal="pressed" from="HBoxContainer/GenerateFunctionPanel/GemerateFunctionButton" to="." method="_on_GemerateFunctionButton_pressed"]
+[connection signal="on_item_active" from="HBoxContainer/FunctionAttributeList" to="." method="_on_FunctionAttributeList_on_item_active"]
 [connection signal="on_item_selected" from="HBoxContainer/FunctionAttributeList" to="." method="_on_FunctionAttributeList_on_item_selected"]
+[connection signal="on_item_value_change" from="HBoxContainer/VBoxContainer/AttributeEditList" to="." method="_on_AttributeEditList_on_item_value_change"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/CleanButton" to="." method="_on_CleanButton_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_SaveButton_pressed"]

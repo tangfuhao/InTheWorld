@@ -15,14 +15,13 @@ func set_selector_arr(selector_arr:Array,_selected_value):
 		text_edit.visible = false
 		
 		var index = 0
-		var default_index = -1
+		var default_index = 0
 		for item in selector_arr:
 			dropdown.add_item(str(item),index)
-			if _selected_value && _selected_value == item:
+			if _selected_value && _selected_value == str(item):
 				default_index = index
 			index = index + 1 
-		if default_index >= 0:
-			dropdown.select(default_index)
+		dropdown.select(default_index)
 	else:
 		is_show_selector = false
 		dropdown.visible = false
@@ -41,3 +40,16 @@ func get_key_and_value():
 		var edit_text = text_edit.text
 		return [label_str,edit_text]
 
+
+
+func _on_TextEdit_text_changed():
+	var key = label.text
+	var value = text_edit.text
+	emit_signal("item_value_change",item_index,key,value)
+
+
+func _on_OptionButton_item_selected(index):
+	var key = label.text
+	var id = dropdown.get_selected_id()
+	var value = dropdown.get_item_text(id)
+	emit_signal("item_value_change",item_index,key,value)

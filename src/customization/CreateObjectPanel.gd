@@ -10,6 +10,8 @@ onready var function_attribute_list_view = $HBoxContainer/FunctionAttributeList
 onready var params_list_view = $HBoxContainer/VBoxContainer/AttributeEditList
 onready var delete_button = $HBoxContainer/ObjectPanal/HBoxContainer/DeleteButton
 onready var modify_button = $HBoxContainer/ObjectPanal/HBoxContainer/ModifyButton
+onready var clean_button = $HBoxContainer/VBoxContainer/HBoxContainer/CleanButton
+onready var save_button = $HBoxContainer/VBoxContainer/HBoxContainer/SaveButton
 
 const physic_param_dic = {"动力学性质":["刚体","柔性物体","流体","织物"],
 						"尺寸":["0.1","0.5","1","5","10"],
@@ -28,7 +30,7 @@ var condition_rule_arr:Array = []
 var stuff_list:Array = []
 var customer_object
 var object_selected_index = -1
-
+var function_selected_index = -1
 func _ready():
 	load_physic_rules()
 	load_stuff_list()
@@ -60,6 +62,7 @@ func update_function_attribute_list_view():
 		function_attribute_list_view.set_data_dic(customer_object.function_attribute_name_arr,customer_object.funciton_attribute_active_status_dic)
 	else:
 		function_attribute_list_view.clear_data()
+	function_selected_index = -1
 	params_list_view.clear_data()
 
 func update_object_function_button():
@@ -72,12 +75,31 @@ func update_panel_by_object_update():
 	update_function_attribute_list_view()
 	update_object_function_button()
 	
+func update_object_status_button(_enable):
+	clean_button.disabled = !_enable
+	save_button.disabled = !_enable
+	
+
+func _on_CleanButton_pressed():
+	var stuff_config_dic = stuff_list[object_selected_index]
+	var stuff_file_path = stuff_config_dic["路径"]
+	customer_object = load_stuff_config(stuff_file_path)
+	update_panel_by_object_update()
+	update_object_status_button(false)
+	
+
+
+func _on_SaveButton_pressed():
+	save_customer_object_to_file(customer_object)
+	update_object_status_button(false)
+	
 func _on_DeleteButton_pressed():
 	if customer_object:
 		delete_customer_object(customer_object)
 		customer_object = null
 		object_selected_index = -1
 		update_panel_by_object_update()
+
 #根据物理生成功能
 func _on_GemerateFunctionButton_pressed():
 	var stuff_name_text = stuff_name.get_text()
@@ -91,7 +113,48 @@ func _on_GemerateFunctionButton_pressed():
 		update_panel_by_object_update()
 	else:
 		print("物品名为空")
-		
+
+func _on_ObjectList_on_item_selected(index):
+	if object_selected_index == index:
+		return 
+	object_selected_index = index
+	var stuff_config_dic = stuff_list[index]
+	var stuff_file_path = stuff_config_dic["路径"]
+	
+	customer_object = load_stuff_config(stuff_file_path)
+	update_panel_by_object_update()
+	update_object_status_button(false)
+
+
+func _on_FunctionAttributeList_on_item_selected(_index):
+	function_selected_index = _index
+	var attribute_name = customer_object.function_attribute_name_arr[_index]
+	var params_dic = customer_object.funciton_attribute_value_dic[attribute_name]
+	var condition_rule =  condition_rule_arr[_index]
+	var config_dir = condition_rule.get_params_dic()
+	params_list_view.set_data_dic2(config_dir,params_dic)
+	
+#激活状态切换
+func _on_FunctionAttributeList_on_item_active(index, is_active):
+	var attribute_name = customer_object.function_attribute_name_arr[index]
+	var is_active_function_attrubute = customer_object.funciton_attribute_active_status_dic[attribute_name]
+	if is_active_function_attrubute != is_active:
+		customer_object.funciton_attribute_active_status_dic[attribute_name] = is_active
+		update_object_status_button(true)
+	
+	
+
+#属性值更改
+func _on_AttributeEditList_on_item_value_change(index, key, value):
+	var attribute_name = customer_object.function_attribute_name_arr[function_selected_index]
+	var params_dic = customer_object.funciton_attribute_value_dic[attribute_name]
+	var old_value = params_dic[key]
+	params_dic[key] = value
+	var is_active_function_attrubute = customer_object.funciton_attribute_active_status_dic[attribute_name]
+	if !is_active_function_attrubute:
+		customer_object.funciton_attribute_active_status_dic[attribute_name] = true
+	function_attribute_list_view.set_item_active(function_selected_index,true)
+	update_object_status_button(true)
 
 func generate_function(_physics_data) -> CustomerObjectModel:
 	var customer_object = CustomerObjectModel.new()
@@ -109,16 +172,6 @@ func generate_function(_physics_data) -> CustomerObjectModel:
 			var funciton_attribute_value_dic = condition_rule.check_funciton_attribute_value(_physics_data)
 			customer_object.set_funciton_attribute_value_dic(condition_rule,funciton_attribute_value_dic)
 	return customer_object
-		
-
-	
-	
-func _on_FunctionAttributeList_on_item_selected(_index):
-	var attribute_name = customer_object.function_attribute_name_arr[_index]
-	var params_dic = customer_object.funciton_attribute_value_dic[attribute_name]
-	var condition_rule =  condition_rule_arr[_index]
-	var config_dir = condition_rule.get_params_dic()
-	params_list_view.set_data_dic2(config_dir,params_dic)
 
 func save_customer_object_to_file(_customer_object):
 	var file_path = "user://" + _customer_object.object_name +".json"
@@ -157,28 +210,13 @@ func get_dic_value_index_from_arr(_arr:Array,_key:String,_value:String):
 		if item[_key] == _value:
 			return index
 	return -1
-	
-	
-func _on_ObjectList_on_item_selected(index):
-	if object_selected_index == index:
-		return 
-	object_selected_index = index
-	var stuff_config_dic = stuff_list[index]
-	var stuff_file_path = stuff_config_dic["路径"]
-	
-	customer_object = load_stuff_config(stuff_file_path)
-	update_panel_by_object_update()
-	
-	
+
 func load_stuff_config(_stuff_file_path):
 	var customer_object = CustomerObjectModel.new()
 	var object_config_dic = load_json_arr(_stuff_file_path)
 	customer_object.set_config(object_config_dic)
 	return customer_object
-	
-	
-	
-	
+
 func load_physic_rules():
 	var physics_arr = load_json_arr("res://config/item_physics_rules.json")
 	parse_physics_rules(physics_arr)
@@ -234,4 +272,14 @@ func load_json_arr(file_path):
 func delete_file(_file_path):
 	Directory.new().remove(_file_path)
 	
+
+
+
+
+
+
+
+
+
+
 

@@ -8,7 +8,7 @@ onready var list = $ScrollContainer/List
 var last_select_item
 signal on_item_selected(index)
 signal on_item_active(index,is_active)
-signal on_item_value_change(index,value)
+signal on_item_value_change(index,key,value)
 
 
 func set_data_arr(_data_arr:Array):
@@ -58,6 +58,8 @@ func add_item_type_1(_index,_label):
 	list_item.rect_min_size = Vector2(320,30)
 	list_item.connect("item_selected",self,"_on_item_selected")
 	list_item.connect("active_change",self,"_on_item_active")
+	list_item.connect("item_value_change",self,"_on_item_value_change")
+	
 	list_item.set_label(_label)
 	return list_item
 
@@ -72,10 +74,15 @@ func add_item_type_3(_index,_label,_select_arr,_selected_value):
 	list.add_child(list_item)
 	list_item.item_index = _index
 	list_item.rect_min_size = Vector2(320,30)
+	list_item.connect("item_value_change",self,"_on_item_value_change")
 	
 	list_item.set_label(_label)
 	if _select_arr.empty() == false:
 		list_item.set_selector_arr(_select_arr,_selected_value)
+		
+func set_item_active(_index,_is_active):
+	var item_view = list.get_child(_index)
+	item_view.set_active(_is_active)
 	
 	
 func _on_item_selected(_index):
@@ -87,6 +94,9 @@ func _on_item_selected(_index):
 	
 func _on_item_active(_index,_is_active):
 	emit_signal("on_item_active",_index,_is_active)
+	
+func _on_item_value_change(_index,_key,_value):
+	emit_signal("on_item_value_change",_index,_key,_value)
 	
 func get_key_value_data():
 	var data := {}
