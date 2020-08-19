@@ -36,7 +36,11 @@ func _ready():
 	update_object_list_view()
 	
 func update_physic_list_view():
-	physic_list.set_data_dic2(physic_param_dic,{})
+	if customer_object:
+		physic_list.set_data_dic2(physic_param_dic,customer_object.physics_data)
+	else:
+		physic_list.set_data_dic2(physic_param_dic,{})
+		
 
 func update_object_list_view():
 	var stuff_arr = []
@@ -56,6 +60,7 @@ func _on_GemerateFunctionButton_pressed():
 		var physics_data = physic_list.get_key_value_data()
 		customer_object = generate_function(physics_data)
 		customer_object.object_name = stuff_name_text
+		customer_object.physics_data = physics_data
 		save_customer_object_to_file(customer_object)
 		
 		update_function_attribute_list_view()
@@ -121,6 +126,7 @@ func _on_ObjectList_on_item_selected(index):
 	var stuff_name = stuff_config_dic["名称"]
 	var stuff_file_path = stuff_config_dic["路径"]
 	update_stuff_config(stuff_name,stuff_file_path)
+	update_physic_list_view()
 	
 func update_stuff_config(_stuff_name,_stuff_file_path):
 	stuff_name.set_text(_stuff_name)

@@ -1,6 +1,8 @@
 class_name CustomerObjectModel
 var object_name:String
 
+var physics_data:Dictionary
+
 #条件 是否激活组
 var funciton_attribute_active_status_dic:Dictionary = {}
 #被哪些条件 激活组
@@ -30,6 +32,7 @@ func to_json() -> String:
 	json_object["funciton_attribute_active_condition_dic"] = convert_funciton_attribute_active_condition_dic()
 	json_object["funciton_attribute_value_dic"] = funciton_attribute_value_dic
 	json_object["function_attribute_name_arr"] = function_attribute_name_arr
+	json_object["physics_data"] = physics_data
 
 	return to_json(json_object)
 	
@@ -59,4 +62,5 @@ func set_config(config_dic):
 	funciton_attribute_active_status_dic = config_dic["funciton_attribute_active_status_dic"]
 	funciton_attribute_value_dic = config_dic["funciton_attribute_value_dic"]
 	function_attribute_name_arr = config_dic["function_attribute_name_arr"]
+	physics_data = config_dic["physics_data"]
 	re_convert_funciton_attribute_active_condition_dic(config_dic["funciton_attribute_active_condition_dic"])
