@@ -32,6 +32,7 @@ func _ready():
 	load_stuff_list()
 
 	physic_list.set_data_dic2(physic_param_dic,{})
+	
 	var stuff_arr = []
 	for item in stuff_list:
 		stuff_arr.push_back(item["名称"])
@@ -50,6 +51,11 @@ func _on_GemerateFunctionButton_pressed():
 		customer_object.object_name = stuff_name_text
 		update_function_attribute_list(customer_object)
 		save_customer_object_to_file(customer_object)
+		
+		var stuff_arr = []
+		for item in stuff_list:
+			stuff_arr.push_back(item["名称"])
+		object_list.set_data_arr(stuff_arr)
 	else:
 		print("物品名为空")
 		
