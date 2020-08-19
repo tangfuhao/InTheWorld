@@ -7,6 +7,7 @@ var is_show_selector = false
 var item_index
 signal item_value_change(index,key,value)
 
+
 	
 func set_selector_arr(selector_arr:Array,_selected_value):
 	if selector_arr && selector_arr.empty() == false: 
