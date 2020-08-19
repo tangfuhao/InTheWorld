@@ -44,6 +44,12 @@ func clear_item():
 		list.remove_child(item)
 		item.queue_free()
 
+func set_selected(_index):
+	if last_select_item:
+		last_select_item.get_node("Backgournd").visible = false
+	last_select_item = list.get_child(_index)
+	last_select_item.get_node("Backgournd").visible = true
+
 #只显示文字
 func add_item_type_1(_index,_label):
 	var list_item = ListItemType1.instance()

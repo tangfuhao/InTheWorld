@@ -82,7 +82,7 @@ margin_bottom = 30.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 8 )
 disabled = true
-text = "删除物品"
+text = "修改物品"
 
 [node name="GenerateFunctionPanel" type="Panel" parent="HBoxContainer"]
 margin_left = 400.0
@@ -136,27 +136,28 @@ margin_top = 690.0
 margin_right = 396.0
 margin_bottom = 720.0
 
-[node name="DeleteButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="CleanButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
 margin_right = 196.0
 margin_bottom = 30.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 8 )
 disabled = true
-text = "删除物品"
+text = "清空"
 
-[node name="ModifyButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+[node name="SaveButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
 margin_left = 200.0
 margin_right = 396.0
 margin_bottom = 30.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 8 )
 disabled = true
-text = "删除物品"
+text = "保存"
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 641.116, 358 )
 current = true
 zoom = Vector2( 4, 4 )
 [connection signal="on_item_selected" from="HBoxContainer/ObjectPanal/ObjectList" to="." method="_on_ObjectList_on_item_selected"]
+[connection signal="pressed" from="HBoxContainer/ObjectPanal/HBoxContainer/DeleteButton" to="." method="_on_DeleteButton_pressed"]
 [connection signal="pressed" from="HBoxContainer/GenerateFunctionPanel/GemerateFunctionButton" to="." method="_on_GemerateFunctionButton_pressed"]
 [connection signal="on_item_selected" from="HBoxContainer/FunctionAttributeList" to="." method="_on_FunctionAttributeList_on_item_selected"]

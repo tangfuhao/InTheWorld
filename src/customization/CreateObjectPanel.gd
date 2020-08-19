@@ -8,6 +8,8 @@ onready var physic_list = $HBoxContainer/ObjectPanal/PhysicsList
 onready var object_list = $HBoxContainer/ObjectPanal/ObjectList
 onready var function_attribute_list_view = $HBoxContainer/FunctionAttributeList
 onready var params_list_view = $HBoxContainer/VBoxContainer/AttributeEditList
+onready var delete_button = $HBoxContainer/ObjectPanal/HBoxContainer/DeleteButton
+onready var modify_button = $HBoxContainer/ObjectPanal/HBoxContainer/ModifyButton
 
 const physic_param_dic = {"动力学性质":["刚体","柔性物体","流体","织物"],
 						"尺寸":["0.1","0.5","1","5","10"],
@@ -30,10 +32,13 @@ var object_selected_index = -1
 func _ready():
 	load_physic_rules()
 	load_stuff_list()
+	update_panel_by_object_update()
 
-	
-	update_physic_list_view()
-	update_object_list_view()
+func update_object_name():
+	if customer_object:
+		stuff_name.set_text(customer_object.object_name)
+	else:
+		stuff_name.set_text("")
 	
 func update_physic_list_view():
 	if customer_object:
@@ -47,11 +52,32 @@ func update_object_list_view():
 	for item in stuff_list:
 		stuff_arr.push_back(item["名称"])
 	object_list.set_data_arr(stuff_arr)
+	if object_selected_index >= 0:
+		object_list.set_selected(object_selected_index)
 
 func update_function_attribute_list_view():
-	function_attribute_list_view.set_data_dic(customer_object.function_attribute_name_arr,customer_object.funciton_attribute_active_status_dic)
+	if customer_object:
+		function_attribute_list_view.set_data_dic(customer_object.function_attribute_name_arr,customer_object.funciton_attribute_active_status_dic)
+	else:
+		function_attribute_list_view.clear_data()
+	params_list_view.clear_data()
 
-
+func update_object_function_button():
+	delete_button.disabled = object_selected_index < 0
+	
+func update_panel_by_object_update():
+	update_object_name()
+	update_object_list_view()
+	update_physic_list_view()
+	update_function_attribute_list_view()
+	update_object_function_button()
+	
+func _on_DeleteButton_pressed():
+	if customer_object:
+		delete_customer_object(customer_object)
+		customer_object = null
+		object_selected_index = -1
+		update_panel_by_object_update()
 #根据物理生成功能
 func _on_GemerateFunctionButton_pressed():
 	var stuff_name_text = stuff_name.get_text()
@@ -62,10 +88,7 @@ func _on_GemerateFunctionButton_pressed():
 		customer_object.object_name = stuff_name_text
 		customer_object.physics_data = physics_data
 		save_customer_object_to_file(customer_object)
-		
-		update_function_attribute_list_view()
-		update_object_list_view()
-		
+		update_panel_by_object_update()
 	else:
 		print("物品名为空")
 		
@@ -108,30 +131,44 @@ func save_customer_object_to_file(_customer_object):
 	file.store_string(object_json)
 	file.close()
 
+func delete_customer_object(customer_object):
+	var object_name = customer_object.object_name
+	var index = get_dic_value_index_from_arr(stuff_list,"名称",object_name)
+	if index >= 0:
+		var file_path = stuff_list[index]["路径"]
+		stuff_list.remove(index)
+		save_stuff_list()
+		delete_file(file_path)
+			
+
 func update_customer_config(_object_name,_file_path):
-	var object_dir = {"名称":_object_name,"路径":_file_path}
-	for item in stuff_list:
-		if item["路径"] == _file_path:
-			print("更新")
-			return 
-	stuff_list.push_back(object_dir)
-	save_stuff_list()
+	var index = get_dic_value_index_from_arr(stuff_list,"名称",_object_name)
+	if index >= 0:
+		print("更新")
+	else:
+		var object_dir = {"名称":_object_name,"路径":_file_path}
+		stuff_list.push_back(object_dir)
+		save_stuff_list()
 
-
+func get_dic_value_index_from_arr(_arr:Array,_key:String,_value:String):
+	var list_num = _arr.size()
+	for index in range(list_num):
+		var item = _arr[index]
+		if item[_key] == _value:
+			return index
+	return -1
+	
+	
 func _on_ObjectList_on_item_selected(index):
 	if object_selected_index == index:
 		return 
 	object_selected_index = index
 	var stuff_config_dic = stuff_list[index]
-	var stuff_name = stuff_config_dic["名称"]
 	var stuff_file_path = stuff_config_dic["路径"]
-	update_stuff_config(stuff_name,stuff_file_path)
-	update_physic_list_view()
 	
-func update_stuff_config(_stuff_name,_stuff_file_path):
-	stuff_name.set_text(_stuff_name)
-	customer_object = load_stuff_config(_stuff_file_path)
-	update_function_attribute_list_view()
+	customer_object = load_stuff_config(stuff_file_path)
+	update_panel_by_object_update()
+	
 	
 func load_stuff_config(_stuff_file_path):
 	var customer_object = CustomerObjectModel.new()
@@ -194,9 +231,7 @@ func load_json_arr(file_path):
 		print("unexpected results")
 		return []
 
-
-
-
-
-
+func delete_file(_file_path):
+	Directory.new().remove(_file_path)
+	
 
