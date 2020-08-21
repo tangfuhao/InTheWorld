@@ -82,7 +82,7 @@ func instance_task(task_name_and_params:String):
 		var task:Hide = Hide.new()
 		task.init(control_node,task_params)
 		return task
-	elif task_name == "捡起物品":
+	elif task_name == "捡起目标":
 		var task:PickUp = PickUp.new()
 		task.init(control_node,task_params)
 		return task

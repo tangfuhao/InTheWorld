@@ -26,8 +26,8 @@ func setup():
 	world_status_dic["在近战攻击范围"] = false
 	world_status_dic["在远程攻击范围"] = false
 	
-
-
+	
+	owner.control_node.connect("package_item_change",self,"player_package_item_change")
 	
 	
 	player_detection_zone = owner.player_detection_zone
@@ -37,6 +37,22 @@ func setup():
 	var control_node = owner.control_node
 	control_node.connect("to_target_distance_update",self,"to_target_distance_update")
 	control_node.connect("be_hurt",self,"hurt_box_area_enter")
+	
+func player_package_item_change(_item,_exist):
+	var has_remote_weapons = world_status_dic["有远程武器"]
+	if has_remote_weapons:
+		if _exist == false && _item.has_attribute("可发射的"):
+			var object = owner.control_node.get_item_in_package("可发射的")
+			if object == null:
+				world_status_dic["有远程武器"] = false
+				world_status_dic["没有远程武器"] = true
+				emit_signal("world_status_change")
+	else:
+		if _exist && _item.has_attribute("可发射的"):
+			world_status_dic["有远程武器"] = true
+			world_status_dic["没有远程武器"] = false
+			emit_signal("world_status_change")
+		
 	
 func hurt_box_area_enter(area):
 	var is_hurt_status = world_status_dic["受到攻击"]

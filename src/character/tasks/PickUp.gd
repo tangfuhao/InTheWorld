@@ -6,7 +6,7 @@ func active() ->void:
 	if human:
 		var target = human.get_target()
 		if target:
-			if target is Stuff:
+			if target is CommonStuff:
 				if human.is_approach(target):
 					human.pick_up(target)
 					is_picked = true

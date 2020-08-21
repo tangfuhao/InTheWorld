@@ -46,7 +46,7 @@ func check_meet_condition_arr(_check_condition_arr,_physics_data) -> Array:
 				meet_conditon_arr.push_back(_check_condition)
 	return meet_conditon_arr
 	
-func check_funciton_attribute_value(_physics_data) -> Dictionary:
+func check_function_attribute_value(_physics_data) -> Dictionary:
 	var attribute_and_value = {}
 	for function_attribute in function_attribute_arr:
 		var value = function_attribute.calculate_attribute_value(_physics_data)

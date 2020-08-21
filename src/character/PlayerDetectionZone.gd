@@ -54,7 +54,7 @@ func add_monitoring_arr(_body):
 			listner_target_exist_status(_body)
 			monitoring_arr.push_back(_body)
 			emit_signal("find_something",_body)
-	elif _body is Stuff:
+	elif _body is CommonStuff:
 		var monitoring_arr:Array =  get_monitoring_arr_by_type("stuff")
 		if monitoring_arr.has(_body):
 			remove_object_form_arr(_body,monitoring_arr)
@@ -74,7 +74,7 @@ func remove_monitoring_arr(_body):
 		if remove_object_form_arr(_body,monitoring_arr):
 			un_listner_target_exist_status(_body)
 			emit_signal("un_find_something",_body)
-	elif _body is Stuff:
+	elif _body is CommonStuff:
 		var monitoring_arr:Array =  get_monitoring_arr_by_type("stuff")
 		if remove_object_form_arr(_body,monitoring_arr):
 			un_listner_target_exist_status(_body)
@@ -140,15 +140,18 @@ func get_recent_target(params):
 		return monitoring_arr.front()
 	else:
 		var monitoring_arr:Array =  get_monitoring_arr_by_type("stuff")
-		return monitoring_arr.front()
+		for item in monitoring_arr:
+			if item.has_attribute(params):
+				return item
+		return null
 
 #监听的物品有可能消失
 func listner_target_exist_status(_obj):
-	if _obj is Stuff:
+	if _obj is CommonStuff:
 		_obj.connect("disappear_notify",self,"_on_object_disappear_notify")
 
 func un_listner_target_exist_status(_obj):
-	if _obj is Stuff:
+	if _obj is CommonStuff:
 		_obj.disconnect("disappear_notify",self,"_on_object_disappear_notify")
 		
 func _on_object_disappear_notify(_obj):

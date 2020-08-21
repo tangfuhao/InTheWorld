@@ -18,6 +18,7 @@ var package = []
 var target = null setget set_target,get_target
 
 signal disappear_notify
+signal package_item_change(target,is_exist)
 
 func _process(delta):
 	update_target_distance()
@@ -46,7 +47,7 @@ func set_target(_target):
 			_target.connect("disappear_notify",self,"handle_target_disappear_notify")
 		target = _target
 		update_target_distance()
-		if target is Stuff:
+		if target is CommonStuff:
 			print(player_name,"的目标改为:",target.stuff_name)
 		else:
 			print(player_name,"的目标改为:",target.player_name)
@@ -59,13 +60,17 @@ func is_approach(_target):
 	var tolerance = 100
 	return global_position.distance_squared_to(_target.global_position) < tolerance
 		
-func pick_up(_target:Stuff) -> void:
+func pick_up(_target:CommonStuff) -> void:
 	var item = PackageItemModel.new()
 	item.item_name = _target.stuff_name
 	package.push_back(item)
 	_target.notify_disappear()
 	_target.queue_free()
 	print(player_name,"捡起了",_target.stuff_name)
+	emit_signal("package_item_change",_target,true)
+	
+func get_package():
+	return package
 
 #受到伤害
 func _on_HurtBox_area_entered(area):

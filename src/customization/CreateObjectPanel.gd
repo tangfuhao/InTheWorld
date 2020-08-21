@@ -59,7 +59,7 @@ func update_object_list_view():
 
 func update_function_attribute_list_view():
 	if customer_object:
-		function_attribute_list_view.set_data_dic(customer_object.function_attribute_name_arr,customer_object.funciton_attribute_active_status_dic)
+		function_attribute_list_view.set_data_dic(customer_object.function_attribute_name_arr,customer_object.function_attribute_active_status_dic)
 	else:
 		function_attribute_list_view.clear_data()
 	function_selected_index = -1
@@ -129,7 +129,7 @@ func _on_ObjectList_on_item_selected(index):
 func _on_FunctionAttributeList_on_item_selected(_index):
 	function_selected_index = _index
 	var attribute_name = customer_object.function_attribute_name_arr[_index]
-	var params_dic = customer_object.funciton_attribute_value_dic[attribute_name]
+	var params_dic = customer_object.function_attribute_value_dic[attribute_name]
 	var condition_rule =  condition_rule_arr[_index]
 	var config_dir = condition_rule.get_params_dic()
 	params_list_view.set_data_dic2(config_dir,params_dic)
@@ -137,9 +137,9 @@ func _on_FunctionAttributeList_on_item_selected(_index):
 #激活状态切换
 func _on_FunctionAttributeList_on_item_active(index, is_active):
 	var attribute_name = customer_object.function_attribute_name_arr[index]
-	var is_active_function_attrubute = customer_object.funciton_attribute_active_status_dic[attribute_name]
+	var is_active_function_attrubute = customer_object.function_attribute_active_status_dic[attribute_name]
 	if is_active_function_attrubute != is_active:
-		customer_object.funciton_attribute_active_status_dic[attribute_name] = is_active
+		customer_object.function_attribute_active_status_dic[attribute_name] = is_active
 		update_object_status_button(true)
 	
 	
@@ -147,12 +147,12 @@ func _on_FunctionAttributeList_on_item_active(index, is_active):
 #属性值更改
 func _on_AttributeEditList_on_item_value_change(index, key, value):
 	var attribute_name = customer_object.function_attribute_name_arr[function_selected_index]
-	var params_dic = customer_object.funciton_attribute_value_dic[attribute_name]
+	var params_dic = customer_object.function_attribute_value_dic[attribute_name]
 	var old_value = params_dic[key]
 	params_dic[key] = value
-	var is_active_function_attrubute = customer_object.funciton_attribute_active_status_dic[attribute_name]
+	var is_active_function_attrubute = customer_object.function_attribute_active_status_dic[attribute_name]
 	if !is_active_function_attrubute:
-		customer_object.funciton_attribute_active_status_dic[attribute_name] = true
+		customer_object.function_attribute_active_status_dic[attribute_name] = true
 	function_attribute_list_view.set_item_active(function_selected_index,true)
 	update_object_status_button(true)
 
@@ -164,13 +164,13 @@ func generate_function(_physics_data) -> CustomerObjectModel:
 		if check_meet_active_condition_arr.empty():
 			check_meet_active_condition_arr = condition_rule.check_meet_condition_arr(condition_rule.function_failure_condition_arr,_physics_data)
 			customer_object.set_function_attribute(false,condition_rule,check_meet_active_condition_arr)
-			var funciton_attribute_value_dic = condition_rule.get_default_function_attribute_value()
-			customer_object.set_funciton_attribute_value_dic(condition_rule,funciton_attribute_value_dic)
+			var function_attribute_value_dic = condition_rule.get_default_function_attribute_value()
+			customer_object.set_function_attribute_value_dic(condition_rule,function_attribute_value_dic)
 		else:
 			customer_object.set_function_attribute(true,condition_rule,check_meet_active_condition_arr)
 			#检查激活的属性值
-			var funciton_attribute_value_dic = condition_rule.check_funciton_attribute_value(_physics_data)
-			customer_object.set_funciton_attribute_value_dic(condition_rule,funciton_attribute_value_dic)
+			var function_attribute_value_dic = condition_rule.check_function_attribute_value(_physics_data)
+			customer_object.set_function_attribute_value_dic(condition_rule,function_attribute_value_dic)
 	return customer_object
 
 func save_customer_object_to_file(_customer_object):
