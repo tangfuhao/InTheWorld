@@ -34,6 +34,7 @@ func terminate():
 		print(human.player_name,"周围移动寻找结束")
 		human.movement.direction = Vector2.ZERO
 		human.movement.is_wander = false
+		human.movement.is_on = false
 		
 func find_something(body):
 	if body.has_attribute(params):

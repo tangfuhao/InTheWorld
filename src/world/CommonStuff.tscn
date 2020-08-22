@@ -4,7 +4,7 @@
 
 [sub_resource type="RectangleShape2D" id=1]
 
-[node name="CommonStuff" type="KinematicBody2D"]
+[node name="CommonStuff" type="Area2D"]
 collision_layer = 8
 collision_mask = 0
 script = ExtResource( 1 )

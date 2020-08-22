@@ -60,6 +60,7 @@ collision_mask = 0
 [node name="CollisionShape2D" parent="HitBox" index="0"]
 position = Vector2( 0, 0 )
 [connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
+[connection signal="body_entered" from="HurtBox" to="." method="_on_HurtBox_body_entered"]
 
 [editable path="CPU"]
 

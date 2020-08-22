@@ -1,5 +1,5 @@
 class_name CommonStuff
-extends KinematicBody2D
+extends Area2D
 export var stuff_type_name:String
 onready var stuff_name = stuff_type_name
 

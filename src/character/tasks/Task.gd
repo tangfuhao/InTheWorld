@@ -3,6 +3,8 @@ class_name Task
 var human:Player
 var params
 
+
+
 enum STATE {GOAL_ACTIVE, GOAL_INACTIVE, GOAL_COMPLETED, GOAL_FAILED}
 
 func init(_human:Player,_params) ->void:
