@@ -2,7 +2,7 @@
 
 [ext_resource path="res://src/character/Human.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/world/world_map.tres" type="TileSet" id=2]
-[ext_resource path="res://src/world/bush.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/world/CommonStuff.tscn" type="PackedScene" id=4]
 
 [node name="MiniMap" type="Node2D"]
 
@@ -16,6 +16,8 @@ tile_data = PoolIntArray( 0, 1, 65536, 1, 1, 2, 2, 1, 2, 3, 1, 2, 4, 1, 2, 5, 1,
 
 [node name="Human" parent="." instance=ExtResource( 1 )]
 position = Vector2( 340.317, 493.805 )
+rotation = 0.432842
+bullets_node_path = NodePath("../Bullets")
 
 [node name="Status" parent="Human/CPU" index="0"]
 update_time = 10
@@ -27,9 +29,10 @@ collision_layer = 32
 position = Vector2( 937.063, 489.921 )
 collision_layer = 4
 player_name = "player2"
+bullets_node_path = NodePath("../Bullets")
 
 [node name="Status" parent="Human2/CPU" index="0"]
-update_time = 10
+update_time = 1000
 
 [node name="PerceptionVision" parent="Human2/CPU/PlayerDetectionZone" index="0"]
 collision_mask = 2
@@ -45,21 +48,16 @@ position = Vector2( 576.614, 356.669 )
 current = true
 zoom = Vector2( 4, 4 )
 
-[node name="Hide_Stuff" parent="." instance=ExtResource( 3 )]
-position = Vector2( 757.258, 570.856 )
-stuff_name = "灌木1"
+[node name="CommonStuff" parent="." instance=ExtResource( 4 )]
+position = Vector2( 376.034, 79.9344 )
 
-[node name="Hide_Stuff2" parent="." instance=ExtResource( 3 )]
-position = Vector2( 913.887, 124.268 )
-stuff_name = "灌木2"
-
-[node name="Hide_Stuff3" parent="." instance=ExtResource( 3 )]
-position = Vector2( 256.303, 104.851 )
-stuff_name = "灌木3"
+[node name="Bullets" type="Node2D" parent="."]
 
 [editable path="Human"]
 
 [editable path="Human/CPU"]
+
+[editable path="Human/Movement"]
 
 [editable path="Human/HurtBox"]
 

@@ -2,11 +2,11 @@ extends KinematicBody2D
 
 export var speed := 15000.0
 
-var velocity := Vector2.ZERO
-var player: Node
-
 onready var timer := $Lifetime
 
+var velocity := Vector2.ZERO
+var player: Node
+var damage:float
 
 func _ready() -> void:
 	timer.connect("timeout", self, "_on_Lifetime_timeout")
@@ -25,9 +25,9 @@ func coliision_finish():
 		clear()
 
 
-func start(direction: Vector2) -> void:
+func start(direction: Vector2,_damage:float) -> void:
 	velocity = direction * speed
-
+	damage = _damage
 
 func clear() -> void:
 	queue_free()

@@ -5,6 +5,7 @@ onready var stuff_name = stuff_type_name
 
 onready var collision_shape = $CollisionShape2D
 onready var line2d = $Line2D
+onready var item_display_name = $LabelLayout/PlayerName
 
 var function_attribute_active_dic := {}
 var active_functon_attribute_params_dic := {}
@@ -14,6 +15,7 @@ signal disappear_notify
 
 func _ready():
 	if !stuff_type_name.empty():
+		item_display_name.text = stuff_type_name
 		var stuff_list = load_stuff_list()
 		var stuff_config_params = get_var_by_params_in_arr(stuff_list,"名称",stuff_type_name)
 		if stuff_config_params:
