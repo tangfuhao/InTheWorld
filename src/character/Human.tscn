@@ -1,17 +1,16 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/character/Line2DDraw.gd" type="Script" id=1]
 [ext_resource path="res://src/character/Human.gd" type="Script" id=2]
 [ext_resource path="res://src/character/Movement.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/character/CPU.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/character/LabelLayout.tscn" type="PackedScene" id=5]
-[ext_resource path="res://src/character/Movement.gd" type="Script" id=6]
 [ext_resource path="res://src/character/CPU.gd" type="Script" id=7]
 [ext_resource path="res://src/character/HurtBox.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/character/HitBox.tscn" type="PackedScene" id=9]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 13.2538
+radius = 13.5
 
 [node name="Human" type="KinematicBody2D"]
 collision_layer = 2
@@ -35,6 +34,7 @@ shape = SubResource( 1 )
 [node name="LabelLayout" parent="." instance=ExtResource( 5 )]
 
 [node name="CPU" parent="." instance=ExtResource( 4 )]
+visible = false
 script = ExtResource( 7 )
 control_obj = NodePath("..")
 
@@ -42,9 +42,10 @@ control_obj = NodePath("..")
 update_time = 60
 
 [node name="Movement" parent="." instance=ExtResource( 3 )]
-visible = false
-script = ExtResource( 6 )
 control_obj = NodePath("..")
+
+[node name="WallAvoidRay" parent="Movement" index="1"]
+cast_to = Vector2( 0, 40 )
 
 [node name="HurtBox" parent="." instance=ExtResource( 8 )]
 monitorable = false
