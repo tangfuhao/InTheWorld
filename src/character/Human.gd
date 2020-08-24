@@ -67,25 +67,12 @@ func is_approach(_target):
 	var tolerance = 100
 	return global_position.distance_squared_to(_target.global_position) < tolerance
 
-#func _unhandled_input(event: InputEvent) -> void:
-#	if event is InputEventMouseButton:
-#		if event.button_index == BUTTON_LEFT and event.pressed:
-##			var mouse_pos: Vector2 = event.position
-#			var next_bullet := Bullet.instance()
-#			next_bullet.global_position = global_position 
-##			var direction:Vector2 = global_position - mouse_pos
-##			direction = direction.normalized()
-##			print(direction)
-##			next_bullet.player = self
-##			next_bullet.start(-direction)
-#			bullets_node.add_child(next_bullet)
-
 func shoot(_target_position,_damage):
 	var next_bullet := Bullet.instance()
 	next_bullet.player = self
 	var direction:Vector2 = global_position - _target_position
 	direction = direction.normalized()
-	next_bullet.start(-direction)
+	next_bullet.start(-direction,_damage)
 	bullets_node.add_child(next_bullet)
 	next_bullet.global_position = global_position
 
@@ -117,15 +104,18 @@ func remove_item_in_package(_item):
 #受到伤害
 func _on_HurtBox_area_entered(area):
 	var health_status = cpu.status.statusDic["健康状态"]
+	health_status.status_value = health_status.status_value - 0.1
+	
+	
 	hurt_box.start_invincibility(0.5)
 	hurt_box.show_attack_effect()
 	emit_signal("be_hurt",area)
 	
 #受到伤害
 func _on_HurtBox_body_entered(body):
-#	var health_status = cpu.status.statusDic["健康状态"]
-#	health_status = health_status - 0.1
-#	cpu.status.statusDic["健康状态"] = health_status
+	var health_status = cpu.status.statusDic["健康状态"]
+	health_status.status_value = health_status.status_value - body.damage
+	
 	body.coliision_finish()
 	hurt_box.show_attack_effect()
 	emit_signal("be_hurt",body)
