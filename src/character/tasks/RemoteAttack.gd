@@ -26,6 +26,7 @@ func process(_delta: float):
 				if restore_action:
 					restore_action = false
 					human.shoot(target.global_position,shoot_damage)
+					human.movement.set_desired_position(target.global_position)
 					print(action_timer,"+",shoot_duration)
 					action_timer.start(shoot_duration)
 				return STATE.GOAL_ACTIVE
