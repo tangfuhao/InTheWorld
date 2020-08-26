@@ -10,7 +10,7 @@ var forgetting_player_arr:Array = []
 var forgetting_player_last_see_time_dir:Dictionary = {}
 onready var rememberTimer = $RememberTimer
 
-##给认知变更
+
 #看见了新的玩家
 signal see_new_player(body)
 #发现新的事物
@@ -18,7 +18,10 @@ signal find_something(body)
 signal un_find_something(body)
 
 #视线遇见
-func _on_PlayerDetectionZone_body_entered(_body):
+func _on_RealVision_body_entered(_body):
+	if _body == owner:
+		return 
+
 	if _body is Player:
 		var monitoring_arr:Array =  get_monitoring_arr_by_type("player")
 		if monitoring_arr.has(_body) == false && forgetting_player_arr.has(_body) == false:
@@ -35,6 +38,8 @@ func _on_RealVision_area_entered(_area):
 
 #感知范围离开
 func _on_PerceptionVision_body_exited(_body):
+	if _body == owner:
+		return 
 	add_to_forget_arr(_body)
 	remove_monitoring_arr(_body)
 
@@ -157,6 +162,9 @@ func un_listner_target_exist_status(_obj):
 func _on_object_disappear_notify(_obj):
 	_on_PerceptionVision_area_exited(_obj)
 	
+
+
+
 
 
 

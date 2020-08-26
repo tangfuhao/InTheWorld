@@ -5,7 +5,7 @@
 [ext_resource path="res://src/character/Movement.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/character/CPU.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/character/LabelLayout.tscn" type="PackedScene" id=5]
-[ext_resource path="res://src/character/PlayerDetectionZone.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/character/VisionSensor.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/character/HurtBox.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/character/HitBox.tscn" type="PackedScene" id=9]
 
@@ -13,7 +13,8 @@
 radius = 13.5
 
 [node name="Human" type="KinematicBody2D"]
-collision_layer = 2
+collision_layer = 2147483650
+collision_mask = 3
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
@@ -29,9 +30,8 @@ script = ExtResource( 1 )
 inner_color = Color( 0.282353, 0.623529, 0.141176, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource( 1 )
-
-[node name="NameDisplay" parent="." instance=ExtResource( 5 )]
 
 [node name="VisionSensor" parent="." instance=ExtResource( 6 )]
 position = Vector2( 0.181107, -15.9374 )
@@ -49,25 +49,13 @@ control_obj = NodePath("..")
 cast_to = Vector2( 0, 40 )
 
 [node name="HurtBox" parent="." instance=ExtResource( 8 )]
-monitorable = false
-collision_layer = 0
-collision_mask = 16
 
 [node name="HitBox" parent="." instance=ExtResource( 9 )]
-monitoring = false
-monitorable = false
-collision_layer = 16
-collision_mask = 0
 
-[node name="CollisionShape2D" parent="HitBox" index="0"]
-position = Vector2( 0, 0 )
+[node name="NameDisplay" parent="." instance=ExtResource( 5 )]
 [connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
 [connection signal="body_entered" from="HurtBox" to="." method="_on_HurtBox_body_entered"]
 
 [editable path="CPU"]
 
 [editable path="Movement"]
-
-[editable path="HurtBox"]
-
-[editable path="HitBox"]

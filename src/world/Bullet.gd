@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-export var speed := 15000.0
+export var speed := 3000.0
 
 onready var timer := $Lifetime
 

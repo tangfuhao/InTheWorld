@@ -19,23 +19,11 @@ position = Vector2( 340.317, 493.805 )
 rotation = 0.432842
 bullets_node_path = NodePath("../Bullets")
 
-[node name="Status" parent="Human/CPU" index="0"]
-update_time = 10
-
-[node name="HitBox" parent="Human" index="7"]
-collision_layer = 32
-
 [node name="Human2" parent="." instance=ExtResource( 1 )]
 position = Vector2( 937.063, 489.921 )
-collision_layer = 4
+collision_layer = 2
 player_name = "player2"
 bullets_node_path = NodePath("../Bullets")
-
-[node name="Status" parent="Human2/CPU" index="0"]
-update_time = 10
-
-[node name="HurtBox" parent="Human2" index="6"]
-collision_mask = 32
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2( 576.614, 356.669 )
@@ -46,19 +34,3 @@ zoom = Vector2( 4, 4 )
 position = Vector2( 376.034, 79.9344 )
 
 [node name="Bullets" type="Node2D" parent="."]
-
-[editable path="Human"]
-
-[editable path="Human/CPU"]
-
-[editable path="Human/Movement"]
-
-[editable path="Human/HurtBox"]
-
-[editable path="Human2"]
-
-[editable path="Human2/CPU"]
-
-[editable path="Human2/HurtBox"]
-
-[editable path="Human2/HitBox"]

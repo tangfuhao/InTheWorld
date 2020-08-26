@@ -7,10 +7,9 @@
 radius = 5.43865
 
 [node name="Bullet" type="KinematicBody2D"]
-collision_layer = 32
-collision_mask = 32
+collision_layer = 16
+collision_mask = 0
 script = ExtResource( 1 )
-speed = 2000.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
@@ -21,5 +20,5 @@ stroke = 1.0
 
 [node name="Lifetime" type="Timer" parent="."]
 process_mode = 0
-wait_time = 3.0
+wait_time = 2.0
 one_shot = true

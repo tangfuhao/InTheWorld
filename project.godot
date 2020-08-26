@@ -287,7 +287,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "VisionSensor",
 "language": "GDScript",
-"path": "res://src/character/PlayerDetectionZone.gd"
+"path": "res://src/character/VisionSensor.gd"
 }, {
 "base": "Reference",
 "class": "Wander",
@@ -406,11 +406,9 @@ texture={
 [layer_names]
 
 2d_physics/layer_1="word "
-2d_physics/layer_2="player1"
-2d_physics/layer_3="player2"
+2d_physics/layer_2="player"
 2d_physics/layer_4="stuff"
 2d_physics/layer_5="hurt_player"
-2d_physics/layer_6="hurt_enemy"
 
 [rendering]
 

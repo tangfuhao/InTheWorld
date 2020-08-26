@@ -120,6 +120,9 @@ func remove_item_in_package(_item):
 
 #受到伤害
 func _on_HurtBox_area_entered(area):
+	if area.owner == self:
+		return 
+		
 	var health_status = cpu.status.statusDic["健康状态"]
 	health_status.status_value = health_status.status_value - 0.1
 	
@@ -130,6 +133,9 @@ func _on_HurtBox_area_entered(area):
 	
 #受到伤害
 func _on_HurtBox_body_entered(body):
+	if body.player == self:
+		return 
+		
 	var health_status = cpu.status.statusDic["健康状态"]
 	health_status.status_value = health_status.status_value - body.damage
 	
