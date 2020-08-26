@@ -3,7 +3,7 @@
 [ext_resource path="res://src/character/HitBox.gd" type="Script" id=1]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 28.5037
+radius = 17.1258
 
 [node name="HitBox" type="Area2D"]
 monitoring = false
@@ -13,5 +13,5 @@ collision_mask = 0
 script = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -30 )
+position = Vector2( 0, -33 )
 shape = SubResource( 1 )

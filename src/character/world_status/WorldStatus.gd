@@ -39,7 +39,7 @@ func _on_character_player_package_item_change(_item,_exist):
 	var has_remote_weapons = world_status_dic["有远程武器"]
 	if has_remote_weapons:
 		if _exist == false && _item.has_attribute("可发射的"):
-			var object = control_node.get_item_in_package("可发射的")
+			var object = control_node.get_item_by_function_attribute_in_package("可发射的")
 			if object == null:
 				world_status_dic["有远程武器"] = false
 				world_status_dic["没有远程武器"] = true

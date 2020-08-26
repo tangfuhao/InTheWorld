@@ -10,7 +10,6 @@
 [ext_resource path="res://src/character/HitBox.tscn" type="PackedScene" id=9]
 
 [sub_resource type="CircleShape2D" id=1]
-radius = 13.5
 
 [node name="Human" type="KinematicBody2D"]
 collision_layer = 2147483650
@@ -30,10 +29,10 @@ script = ExtResource( 1 )
 inner_color = Color( 0.282353, 0.623529, 0.141176, 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource( 1 )
 
 [node name="VisionSensor" parent="." instance=ExtResource( 6 )]
+visible = false
 position = Vector2( 0.181107, -15.9374 )
 
 [node name="CPU" parent="." instance=ExtResource( 4 )]

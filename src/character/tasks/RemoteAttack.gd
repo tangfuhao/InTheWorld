@@ -9,6 +9,9 @@ var shoot_damage:int
 var action_timer:Timer = null
 var restore_action = true
 
+func active() ->void:
+	create_action_timer()
+
 func create_action_timer():
 	if action_timer == null:
 		action_timer = Timer.new()
@@ -27,6 +30,7 @@ func process(_delta: float):
 					restore_action = false
 					human.shoot(target.global_position,shoot_damage)
 					human.movement.set_desired_position(target.global_position)
+					shoot_times = shoot_times - 1
 					print(action_timer,"+",shoot_duration)
 					action_timer.start(shoot_duration)
 				return STATE.GOAL_ACTIVE
@@ -58,10 +62,7 @@ func equipment_weapons():
 			shoot_times = int(current_remote_weapon.get_params("发射次数"))
 			shoot_duration = float(current_remote_weapon.get_params("动作时间") )
 			shoot_damage = int(current_remote_weapon.get_params("命中伤害"))
-			if shoot_times <= 0:
-				remove_weapon_form_package(current_remote_weapon)
-				current_remote_weapon = null
-			else:
-				create_action_timer()
+			check_weapons()
 		else:
+			#找不到相应武器了 直接结束
 			return
