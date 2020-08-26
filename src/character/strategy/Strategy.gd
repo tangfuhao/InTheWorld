@@ -2,12 +2,24 @@ extends Node2D
 
 
 var control_node:Player
-var strategy_dic:Dictionary = {}
-var current_strategy_chain:StrategyChain = null
-var current_running_task = null
-var active_motivation = null
-var base_task_table:Array = []
 var world_status:WorldStatus
+
+#策略表
+var strategy_dic:Dictionary = {}
+#当前规划的策略链
+var current_strategy_chain:StrategyChain = null
+#当前执行的任务
+var current_running_task = null
+#当前活跃的动机
+var active_motivation = null
+
+#基础任务列表
+var base_task_table:Array = []
+
+#权重变量
+var strategy_weight_variable_dic = {}
+var current_used_weight_variable_arr = []
+
 
 func setup(_control_node,_world_status,_motivation):
 	randomize()
@@ -222,8 +234,15 @@ class StrategySort:
 		return false
 		
 func order_sort_select(meet_strategy_arr):
-	meet_strategy_arr.sort_custom(StrategySort,"sort_ascending")
-	return meet_strategy_arr.front()
+	var highest_weight_strategy = null
+	for item in meet_strategy_arr:
+		item.calculate_weight(strategy_weight_variable_dic)
+		if highest_weight_strategy:
+			if item.weight > highest_weight_strategy.weight:
+				highest_weight_strategy = item
+		else:
+			highest_weight_strategy = item
+	return highest_weight_strategy
 	
 func random_sort_select(meet_strategy_arr,_random_code_arr,level):
 	# print("随机规划！！！！== ",level)
@@ -244,6 +263,7 @@ func random_sort_select(meet_strategy_arr,_random_code_arr,level):
 	
 	var weight_num:float = 0
 	for item in meet_strategy_arr:
+		item.calculate_weight(strategy_weight_variable_dic)
 		weight_num = weight_num + item.weight
 	
 	var step_weight:float = 100.0 / weight_num
@@ -285,12 +305,14 @@ func check_meet_pre_condition_in_world_status(condition_arr):
 	
 #改变当前的任务
 func change_task(_task_chain):
-#	if current_strategy_chain:
-#		if current_strategy_chain.strategy_chain.size() == _task_chain.strategy_chain.size():
-#			if is_match_current_strategy(current_strategy_chain,_task_chain,current_strategy_chain.strategy_chain.size()):
-#				pass
 	clean_current_task()
 	current_strategy_chain = _task_chain
+	var strategy_chain = current_strategy_chain.strategy_chain
+	var used_strategy_variable_weight_arr = []
+	for item in strategy_chain:
+		if item.used_strategy_variable_weight_arr:
+			used_strategy_variable_weight_arr = used_strategy_variable_weight_arr + item.used_strategy_variable_weight_arr
+	print("用到的权重属性:",used_strategy_variable_weight_arr)
 	
 func load_base_task():
 	var base_task_arr = load_json_arr("res://config/base_tasks.json")
@@ -315,12 +337,13 @@ func parse_strategys(strategy_arr):
 		if item.has("排序方式"):
 			var sort_type = item["排序方式"]
 			strategy_model.order_sort_type = (sort_type == "权重顺序")
-		
+
 		var strategy_selector = item["策略选择"]
 		if typeof(strategy_selector) == TYPE_ARRAY:
 			var strategy_table = parse_strategy_selector(strategy_selector)
 			strategy_model.strong_strategy_arr = strategy_table[0]
 			strategy_model.weak_strategy_arr = strategy_table[1]
+			strategy_model.used_strategy_variable_weight_arr = strategy_table[2]
 		else:
 			print("unexpected results")
 		strategy_dic[task_name] = strategy_model
@@ -328,13 +351,23 @@ func parse_strategys(strategy_arr):
 func parse_strategy_selector(strategy_selector):
 	var strong_strategy_arr = []
 	var weak_strategy_arr = []
+	var strategy_weight_variable_arr = []
 	
 	for item in strategy_selector:
 		var is_strong_strategy_tag = false
 		var strategy_item = StrategyItemModel.new()
 		if item.has("策略权重"):
 			var weight = item["策略权重"]
-			strategy_item.weight = weight
+			if weight is String:
+				var weight_variable = strategy_item.setup_weight_calculate_arr(weight)
+				
+				if not strategy_weight_variable_arr.has(weight_variable):
+					strategy_weight_variable_arr.push_back(weight_variable)
+					
+				if not strategy_weight_variable_dic.has(weight_variable):
+					strategy_weight_variable_dic[weight_variable] = 1
+			else:
+				strategy_item.weight = weight
 		if item.has("策略前置条件"):
 			var pre_condition = item["策略前置条件"]
 			strategy_item.pre_condition_arr = pre_condition.split(",")
@@ -354,7 +387,7 @@ func parse_strategy_selector(strategy_selector):
 			strong_strategy_arr.push_back(strategy_item)
 		else:
 			weak_strategy_arr.push_back(strategy_item)
-	return [strong_strategy_arr,weak_strategy_arr]
+	return [strong_strategy_arr,weak_strategy_arr,strategy_weight_variable_arr]
 
 
 

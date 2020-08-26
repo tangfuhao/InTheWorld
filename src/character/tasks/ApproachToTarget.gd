@@ -10,7 +10,7 @@ func active():
 
 func process(_delta: float):
 	if human:
-		var target = human.get_target()
+		var target = human.target
 		if target:
 			if human.is_approach(target):
 				print(human.player_name,"移动到目标成功")

@@ -10,7 +10,7 @@ var is_hide = false
 func active():
 	if human:
 		world_status = human.cpu.world_status
-		var target = human.get_target()
+		var target = human.target
 		if target:
 			if human.is_approach(target):
 				human.global_position.x = target.global_position.x

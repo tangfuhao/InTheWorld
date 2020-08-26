@@ -81,6 +81,6 @@ func evaluateResult(property, condition, value) -> float:
 		var result = property - value
 		return result
 	elif condition == '+':
-		var result = property - value
+		var result = property + value
 		return result
 	return property

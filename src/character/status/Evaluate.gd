@@ -24,6 +24,6 @@ func evaluateResult(property, condition, value) -> void:
 		property = result
 	
 	elif condition == '+':
-		var result = property - value
+		var result = property + value
 		property = result
 

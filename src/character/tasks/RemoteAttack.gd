@@ -20,7 +20,7 @@ func create_action_timer():
 
 func process(_delta: float):
 	if human:
-		var target = human.get_target()
+		var target = human.target
 		if target:
 			human.movement.set_desired_position(target.global_position)
 			check_weapons()

@@ -21,7 +21,7 @@ onready var visionSensor = $VisionSensor
 
 
 #目标
-var target = null setget set_target,get_target
+var target = null setget set_target
 #与目标的距离
 var _target_distance = 0
 #背包
@@ -76,9 +76,6 @@ func set_target(_target):
 		else:
 			print(player_name,"的目标改为:",target.player_name)
 			
-
-func get_target():
-	return target
 
 func is_approach(_target):
 	var tolerance = 100

@@ -4,7 +4,7 @@ class_name PickUp
 var is_picked = false
 func active() ->void:
 	if human:
-		var target = human.get_target()
+		var target = human.target
 		if target:
 			if target is CommonStuff:
 				if human.is_approach(target):

@@ -38,14 +38,15 @@ func pop_first_task():
 	
 func push_back_strategy(_strategy):
 	strategy_chain.push_back(_strategy)
+
 func roll_back_strategy():
 	strategy_chain.pop_back()
+
 func get_startegy_by_index(index):
 	if strategy_chain.size() > index: 
 		return strategy_chain[index]
 	return null
-	
-	
+
 func to_list():
 	var strategy_list:String
 	for item in strategy_chain:

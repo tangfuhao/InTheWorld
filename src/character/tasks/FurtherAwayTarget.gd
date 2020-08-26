@@ -8,7 +8,7 @@ func active():
 
 func process(_delta: float):
 	if human:
-		var target = human.get_target()
+		var target = human.target
 		if target:
 			var direction:Vector2 = human.global_position - target.global_position
 			var direction_position = direction.normalized() * 10
