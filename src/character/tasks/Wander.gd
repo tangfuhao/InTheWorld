@@ -17,7 +17,7 @@ func init_search():
 	if target:
 		find_stuff = target
 	else:
-		human.connect("find_something",self,"find_something")
+		human.connect("find_something",self,"_on_charactar_find_something")
 
 
 func process(_delta: float):
@@ -35,6 +35,6 @@ func terminate():
 		human.movement.is_on = false
 		human.disconnect("find_something",self,"find_something")
 		
-func find_something(body):
+func _on_charactar_find_something(body):
 	if body.has_attribute(params):
 		find_stuff = body

@@ -28,14 +28,14 @@ func setup(_control_node):
 	world_status_dic["在远程攻击范围"] = false
 	
 	
-	control_node.connect("package_item_change",self,"player_package_item_change")
-	control_node.connect("find_something",self,"player_num_change_in_world_status")
-	control_node.connect("un_find_something",self,"player_num_change_in_world_status")
+	control_node.connect("package_item_change",self,"_on_character_player_package_item_change")
+	control_node.connect("find_something",self,"_on_character_player_num_change_in_world_status")
+	control_node.connect("un_find_something",self,"_on_character_player_num_change_in_world_status")
 	
-	control_node.connect("to_target_distance_update",self,"to_target_distance_update")
-	control_node.connect("be_hurt",self,"hurt_box_area_enter")
+	control_node.connect("to_target_distance_update",self,"_on_character_to_target_distance_update")
+	control_node.connect("be_hurt",self,"_on_character_be_hurt")
 	
-func player_package_item_change(_item,_exist):
+func _on_character_player_package_item_change(_item,_exist):
 	var has_remote_weapons = world_status_dic["有远程武器"]
 	if has_remote_weapons:
 		if _exist == false && _item.has_attribute("可发射的"):
@@ -51,7 +51,7 @@ func player_package_item_change(_item,_exist):
 			emit_signal("world_status_change")
 		
 	
-func hurt_box_area_enter(area):
+func _on_character_be_hurt(area):
 	var is_hurt_status = world_status_dic["受到攻击"]
 	if hurt_time.is_stopped():
 		hurt_time.start(10)
@@ -66,7 +66,7 @@ func hurt_box_area_enter(area):
 	
 	
 	
-func to_target_distance_update(_distance):
+func _on_character_to_target_distance_update(_distance):
 	var is_no_melee_range = world_status_dic["不在近战攻击范围"]
 	var is_no_remote_attak = world_status_dic["不在远程攻击范围"]
 
@@ -83,7 +83,7 @@ func to_target_distance_update(_distance):
 
 
 	
-func player_num_change_in_world_status(_body):
+func _on_character_player_num_change_in_world_status(_body):
 	if _body is Player:
 		var target = control_node.get_recent_target("其他人")
 		var has_other_people = target != null
@@ -93,11 +93,15 @@ func player_num_change_in_world_status(_body):
 			world_status_dic["周围没有其他人"] = !has_other_people
 			print(control_node.player_name,"认知 周围有其他人 改变")
 			emit_signal("world_status_change")
+
+func _on_HurtTimer_timeout():
+	var is_hurt_status = world_status_dic["受到攻击"]
+	if is_hurt_status: 
+		world_status_dic["受到攻击"] = false
+		world_status_dic["不受攻击十秒"] = true
+		print(control_node.player_name,"认知 不受攻击十秒 改变")
+		emit_signal("world_status_change")
 		
-#	if has_other_people:
-#		get_recently_see_people_arr()
-# 	else:
-#		world_status_dic["其他人没有武器"] = true
 		
 
 
@@ -107,10 +111,4 @@ func meet_condition(_condition_item) -> bool :
 	return false
 
 
-func _on_HurtTimer_timeout():
-	var is_hurt_status = world_status_dic["受到攻击"]
-	if is_hurt_status: 
-		world_status_dic["受到攻击"] = false
-		world_status_dic["不受攻击十秒"] = true
-		print(control_node.player_name,"认知 不受攻击十秒 改变")
-		emit_signal("world_status_change")
+

@@ -13,12 +13,12 @@ func setup(_control_node,_world_status,_motivation):
 	randomize()
 	control_node = _control_node
 	world_status = _world_status
-	_motivation.connect("highest_priority_motivation_change",self,"highest_priority_motivation_change")
+	_motivation.connect("highest_priority_motivation_change",self,"_on_motivation_highest_priority_change")
 	
 	laod_strategy_overview()
 	load_base_task()
 
-	world_status.connect("world_status_change",self,"world_status_change")
+	world_status.connect("world_status_change",self,"_on_world_status_change")
 
 func process_task(_delta: float):
 	if current_running_task:
@@ -103,11 +103,11 @@ func instance_task(task_name_and_params:String):
 
 
 	
-func world_status_change():
+func _on_world_status_change():
 	print(control_node.player_name,"因为认知改变，重新规划")
 	send_re_plan_signal()
 	
-func highest_priority_motivation_change(motivation):
+func _on_motivation_highest_priority_change(motivation):
 	active_motivation = motivation
 	print(control_node.player_name,"因为动机改变，重新规划")
 	send_re_plan_signal()

@@ -11,13 +11,13 @@ var is_active:bool = false
 func binding_status_listner_relative(statusDic):
 	for listner_status_name in listner_status_name_dic.keys():
 		var listner_status = statusDic[listner_status_name]
-		listner_status.connect("status_value_update",self,"listner_status_update")
+		listner_status.connect("status_value_update",self,"_on_status_value_update")
 	
 	check_condition_meet()
 
 
 #监听的状态值发生改变
-func listner_status_update(status):
+func _on_status_value_update(status):
 	var status_value = status.status_value
 	listner_status_name_dic[status.status_name] = status_value
 	check_condition_meet()

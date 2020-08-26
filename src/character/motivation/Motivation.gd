@@ -27,8 +27,8 @@ func binding_listening_relative():
 		if player_status_dic.has(listening_status_name):
 			var status_model = player_status_dic[listening_status_name]
 			motivation_model.binding_status_value_change(status_model)
-			motivation_model.connect("motivation_value_change",self,"motivation_arr_value_change")
-			motivation_model.connect("motivation_active_change",self,"motivation_arr_active_change")
+			motivation_model.connect("motivation_value_change",self,"_on_motivation_arr_value_change")
+			motivation_model.connect("motivation_active_change",self,"_on_motivation_arr_active_change")
 		
 
 func set_highest_priority_motivation(value):
@@ -39,7 +39,7 @@ func set_highest_priority_motivation(value):
 
 
 #动机的激活通知  更新激活动机表
-func motivation_arr_active_change(motivation):
+func _on_motivation_arr_active_change(motivation):
 	if motivation.is_active:
 		active_motivation_arr.push_back(motivation)
 	else:
@@ -47,7 +47,7 @@ func motivation_arr_active_change(motivation):
 		active_motivation_arr.remove(find_index)
 
 #动机值改变的激活通知 更新优先级最高的动机
-func motivation_arr_value_change(motivation):
+func _on_motivation_arr_value_change(motivation):
 	if self.highest_priority_motivation == null:
 		if motivation.is_active: 
 			self.highest_priority_motivation = motivation
@@ -94,7 +94,7 @@ func parse_motivations(motivation_arr):
 		
 		if player_status_dic.has(status_name):
 			var status_model = player_status_dic[status_name]
-			motivation_model.update_status_value(status_model)
+			motivation_model._on_status_value_update(status_model)
 		
 		motivation_dic[motivation_name] = motivation_model
 

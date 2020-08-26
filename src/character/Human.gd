@@ -57,17 +57,17 @@ func _ready() -> void:
 	visionSensor.connect("find_something",self,"_on_visionSensor_find_something")
 	visionSensor.connect("un_find_something",self,"_on_visionSensor_un_find_something")
 
-func handle_target_disappear_notify(_target):
+func _on_target_disappear_notify(_target):
 	if target:
-		target.disconnect("disappear_notify",self,"handle_target_disappear_notify")
+		target.disconnect("disappear_notify",self,"_on_target_disappear_notify")
 	target = null
 
 func set_target(_target):
 	if target != _target:
 		if target:
-			target.disconnect("disappear_notify",self,"handle_target_disappear_notify")
+			target.disconnect("disappear_notify",self,"_on_target_disappear_notify")
 		if _target:
-			_target.connect("disappear_notify",self,"handle_target_disappear_notify")
+			_target.connect("disappear_notify",self,"_on_target_disappear_notify")
 		target = _target
 		update_target_distance()
 		
