@@ -5,7 +5,7 @@
 [ext_resource path="res://src/character/Movement.tscn" type="PackedScene" id=3]
 [ext_resource path="res://src/character/CPU.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/character/LabelLayout.tscn" type="PackedScene" id=5]
-[ext_resource path="res://src/character/CPU.gd" type="Script" id=7]
+[ext_resource path="res://src/character/PlayerDetectionZone.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/character/HurtBox.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/character/HitBox.tscn" type="PackedScene" id=9]
 
@@ -31,11 +31,12 @@ inner_color = Color( 0.282353, 0.623529, 0.141176, 1 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 1 )
 
-[node name="LabelLayout" parent="." instance=ExtResource( 5 )]
+[node name="NameDisplay" parent="." instance=ExtResource( 5 )]
+
+[node name="VisionSensor" parent="." instance=ExtResource( 6 )]
+position = Vector2( 0.181107, -15.9374 )
 
 [node name="CPU" parent="." instance=ExtResource( 4 )]
-visible = false
-script = ExtResource( 7 )
 control_obj = NodePath("..")
 
 [node name="Status" parent="CPU" index="0"]

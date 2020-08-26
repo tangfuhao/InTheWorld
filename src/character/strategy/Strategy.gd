@@ -1,27 +1,24 @@
 extends Node2D
 
+
+var control_node:Player
 var strategy_dic:Dictionary = {}
 var current_strategy_chain:StrategyChain = null
 var current_running_task = null
 var active_motivation = null
 var base_task_table:Array = []
-
-#防止规划的抖动
-onready var re_plan_timer = $RePlanTimer
-onready var control_node:Player
 var world_status:WorldStatus
 
-func setup(_control_node):
+func setup(_control_node,_world_status,_motivation):
 	randomize()
 	control_node = _control_node
-	
-	world_status = owner.world_status
-	world_status.connect("world_status_change",self,"world_status_change")
-	var motivation_component = owner.motivation
-	motivation_component.connect("highest_priority_motivation_change",self,"highest_priority_motivation_change")
+	world_status = _world_status
+	_motivation.connect("highest_priority_motivation_change",self,"highest_priority_motivation_change")
 	
 	laod_strategy_overview()
 	load_base_task()
+
+	world_status.connect("world_status_change",self,"world_status_change")
 
 func process_task(_delta: float):
 	if current_running_task:
@@ -45,10 +42,7 @@ func clean_current_task():
 
 func send_re_plan_signal():
 	re_plan_strategy()
-#	if re_plan_timer.is_stopped():
-#		clean_current_task()
-#		re_plan_timer.start(0.5)
-		
+
 func run_next_task():
 	if current_strategy_chain:
 		var first_task_in_strategy_chain = current_strategy_chain.pop_first_task()
@@ -381,7 +375,3 @@ func load_json_arr(file_path):
 		print("unexpected results")
 		return []
 	
-
-#规划器中没有新任务了  重新规划
-func _on_RePlanTimer_timeout():
-	re_plan_strategy()

@@ -23,7 +23,7 @@ func _on_PlayerDetectionZone_body_entered(_body):
 		var monitoring_arr:Array =  get_monitoring_arr_by_type("player")
 		if monitoring_arr.has(_body) == false && forgetting_player_arr.has(_body) == false:
 			emit_signal("see_new_player",_body)
-			print(owner.control_node.player_name,"发现了新玩家",_body.player_name)
+			print(owner.player_name,"发现了新玩家",_body.player_name)
 			
 	add_monitoring_arr(_body)
 	remove_form_forget_arr(_body)
@@ -132,7 +132,7 @@ func re_update_timer():
 func _on_RememberTimer_timeout():
 	var player = forgetting_player_arr.pop_front()
 	forgetting_player_last_see_time_dir.erase(player)
-	print(owner.control_node.player_name,"忘记了玩家",player.player_name)
+	print(owner.player_name,"忘记了玩家",player.player_name)
 	
 func get_recent_target(params):
 	if params == "其他人":

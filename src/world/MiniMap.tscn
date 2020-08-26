@@ -22,7 +22,7 @@ bullets_node_path = NodePath("../Bullets")
 [node name="Status" parent="Human/CPU" index="0"]
 update_time = 10
 
-[node name="HitBox" parent="Human" index="6"]
+[node name="HitBox" parent="Human" index="7"]
 collision_layer = 32
 
 [node name="Human2" parent="." instance=ExtResource( 1 )]
@@ -32,15 +32,9 @@ player_name = "player2"
 bullets_node_path = NodePath("../Bullets")
 
 [node name="Status" parent="Human2/CPU" index="0"]
-update_time = 1000
+update_time = 10
 
-[node name="PerceptionVision" parent="Human2/CPU/PlayerDetectionZone" index="0"]
-collision_mask = 2
-
-[node name="RealVision" parent="Human2/CPU/PlayerDetectionZone" index="1"]
-collision_mask = 10
-
-[node name="HurtBox" parent="Human2" index="5"]
+[node name="HurtBox" parent="Human2" index="6"]
 collision_mask = 32
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -64,8 +58,6 @@ position = Vector2( 376.034, 79.9344 )
 [editable path="Human2"]
 
 [editable path="Human2/CPU"]
-
-[editable path="Human2/CPU/PlayerDetectionZone"]
 
 [editable path="Human2/HurtBox"]
 

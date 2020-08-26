@@ -3,7 +3,7 @@
 [ext_resource path="res://src/character/LabelLayout.gd" type="Script" id=1]
 [ext_resource path="res://src/customization/chinese_label_font.tres" type="DynamicFont" id=2]
 
-[node name="LabelLayout" type="Node2D"]
+[node name="NameDisplay" type="Node2D"]
 script = ExtResource( 1 )
 
 [node name="PlayerName" type="Label" parent="."]

@@ -6,7 +6,3 @@
 visible = false
 light_mask = 0
 script = ExtResource( 1 )
-
-[node name="RePlanTimer" type="Timer" parent="."]
-one_shot = true
-[connection signal="timeout" from="RePlanTimer" to="." method="_on_RePlanTimer_timeout"]

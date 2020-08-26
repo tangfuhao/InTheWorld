@@ -7,15 +7,18 @@ onready var status = $Status
 onready var motivation = $Motivation
 onready var strategy = $Strategy
 onready var world_status = $WorldStatus
-onready var player_detection_zone = $PlayerDetectionZone
 
 onready var control_node:Player = get_node(control_obj)
 
+
 func _ready() -> void:
-	status.setup()
-	motivation.setup()
-	strategy.setup(control_node)
-	world_status.setup()
+	status.setup(control_node)
+	world_status.setup(control_node)
+	motivation.setup(control_node,status.statusDic)
+	strategy.setup(control_node,world_status,motivation)
 
 func _process(_delta: float):
 	strategy.process_task(_delta)
+	
+
+	

@@ -6,25 +6,38 @@ const Bullet = preload("res://src/world/Bullet.tscn")
 export var show_log := false
 export var player_name = "player1"
 export (NodePath) var bullets_node_path
-onready var playerName = $LabelLayout/PlayerName
+var bullets_node
+
+
+
+
+
+onready var playerName = $NameDisplay/PlayerName
 onready var movement = $Movement
-onready var cpu = $"CPU"
+onready var cpu = $CPU
 onready var hurt_box = $HurtBox
 onready var hit_box = $HitBox
+onready var visionSensor = $VisionSensor
 
 
-var bullets_node
-#与目标的距离
-var _target_distance = 0
-signal to_target_distance_update(distance)
-signal be_hurt(area)
-#背包
-var package = []
 #目标
 var target = null setget set_target,get_target
+#与目标的距离
+var _target_distance = 0
+#背包
+var package = []
 
+
+
+signal to_target_distance_update(distance)
+signal be_hurt(area)
 signal disappear_notify
 signal package_item_change(target,is_exist)
+signal find_something(body)
+signal un_find_something(body)
+
+
+
 
 func _process(delta):
 	update_target_distance()
@@ -41,6 +54,9 @@ func _ready() -> void:
 	bullets_node = get_node(bullets_node_path)
 	playerName.text = player_name
 
+	visionSensor.connect("find_something",self,"_on_visionSensor_find_something")
+	visionSensor.connect("un_find_something",self,"_on_visionSensor_un_find_something")
+
 func handle_target_disappear_notify(_target):
 	if target:
 		target.disconnect("disappear_notify",self,"handle_target_disappear_notify")
@@ -54,6 +70,7 @@ func set_target(_target):
 			_target.connect("disappear_notify",self,"handle_target_disappear_notify")
 		target = _target
 		update_target_distance()
+		
 		if target is CommonStuff:
 			print(player_name,"的目标改为:",target.stuff_name)
 		else:
@@ -119,10 +136,20 @@ func _on_HurtBox_body_entered(body):
 	body.coliision_finish()
 	hurt_box.show_attack_effect()
 	emit_signal("be_hurt",body)
+
+func _on_visionSensor_find_something(_body):
+	emit_signal("find_something",_body)
+
+func _on_visionSensor_un_find_something(_body):
+	emit_signal("un_find_something",_body)
 	
 
 func has_attribute(_params):
 	return _params == "其他人"
+
+func get_recent_target(_params):
+	return visionSensor.get_recent_target(_params)
+
 	
 func notify_disappear():
 	emit_signal("disappear_notify",self)

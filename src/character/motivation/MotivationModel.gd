@@ -9,6 +9,9 @@ var is_active = false
 signal motivation_active_change(motivation)
 signal motivation_value_change(motivation)
 
+func binding_status_value_change(_status_model):
+	_status_model.connect("status_value_update",self,"update_status_value")
+
 #更新状态值
 func update_status_value(status):
 	var value = status.status_value

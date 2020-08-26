@@ -10,7 +10,7 @@ var pause_left_time:float = 0
 onready var updateTimer := $UpdaterTimer
 
 
-func setup():
+func setup(_control_node):
 	load_status_config_and_parse()
 	binding_status_listner_relative()
 	start_update()

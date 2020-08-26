@@ -27,7 +27,6 @@ var angular_velocity := 0.0
 var direction := Vector2.ZERO
 
 func _ready() -> void:
-	
 	randomize()
 	
 	agent.linear_speed_max = speed_max
@@ -69,13 +68,6 @@ func _physics_process(_delta: float) -> void:
 				angular_velocity += accel.angular * _delta
 				angular_velocity = clamp(angular_velocity, -agent.angular_speed_max, agent.angular_speed_max)
 				control_node.rotation += angular_velocity * _delta
-			
-			
-
-			
-			
-			
-
 	else:
 		direction = Vector2.ZERO
 

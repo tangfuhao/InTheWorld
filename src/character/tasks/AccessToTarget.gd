@@ -7,13 +7,13 @@ var has_target = false
 func active() ->void:
 	if params == "随机":
 		pass
-	else:
-		if human:
-			var detection_zone = human.cpu.player_detection_zone
-			var target = detection_zone.get_recent_target(params)
-			if target:
-				human.set_target(target)
-				has_target = true
+		
+	if human:
+		var target = human.get_recent_target(params)
+		if target:
+			human.set_target(target)
+			has_target = true
+
 
 func process(_delta: float):
 	if has_target:

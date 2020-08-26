@@ -8,14 +8,14 @@ var player_status_dic:Dictionary
 signal highest_priority_motivation_change(motivation)
 
 	
-func setup():
-	player_status_dic = owner.status.statusDic
-	var player_detection_zone = owner.player_detection_zone
-	player_detection_zone.connect("see_new_player",self,"fond_new_player")
+func setup(_control_node,_statusDic):
+	player_status_dic = _statusDic
 	laod_motivation_overview()
 	binding_listening_relative()
+
+	_control_node.connect("see_new_player",self,"_on_node_found_new_player")
 	
-func fond_new_player(body):
+func _on_node_found_new_player(_body):
 	#TODO 对应状态表
 	#print("看见了新玩家在动机里:",body.player_name)
 	pass
@@ -26,7 +26,7 @@ func binding_listening_relative():
 		var listening_status_name = motivation_model.listner_status_name
 		if player_status_dic.has(listening_status_name):
 			var status_model = player_status_dic[listening_status_name]
-			status_model.connect("status_value_update",motivation_model,"update_status_value")
+			motivation_model.binding_status_value_change(status_model)
 			motivation_model.connect("motivation_value_change",self,"motivation_arr_value_change")
 			motivation_model.connect("motivation_active_change",self,"motivation_arr_active_change")
 		
