@@ -26,9 +26,9 @@ func binding_listening_relative():
 		var listening_status_name = motivation_model.listner_status_name
 		if player_status_dic.has(listening_status_name):
 			var status_model = player_status_dic[listening_status_name]
-			motivation_model.binding_status_value_change(status_model)
 			motivation_model.connect("motivation_value_change",self,"_on_motivation_arr_value_change")
 			motivation_model.connect("motivation_active_change",self,"_on_motivation_arr_active_change")
+			motivation_model.binding_status_value_change(status_model)			
 		
 
 func set_highest_priority_motivation(value):
@@ -94,7 +94,7 @@ func parse_motivations(motivation_arr):
 		
 		if player_status_dic.has(status_name):
 			var status_model = player_status_dic[status_name]
-			motivation_model._on_status_value_update(status_model)
+#			motivation_model._on_status_value_update(status_model)
 		
 		motivation_dic[motivation_name] = motivation_model
 

@@ -26,6 +26,10 @@ func setup(_control_node):
 	world_status_dic["不在远程攻击范围"] = true
 	world_status_dic["在近战攻击范围"] = false
 	world_status_dic["在远程攻击范围"] = false
+
+	world_status_dic["周围有人在喝酒"] = false
+	world_status_dic["周围有人在聊天"] = false
+	
 	
 	
 	control_node.connect("package_item_change",self,"_on_character_player_package_item_change")
@@ -108,6 +112,8 @@ func _on_HurtTimer_timeout():
 func meet_condition(_condition_item) -> bool :
 	if world_status_dic.has(_condition_item):
 		return world_status_dic[_condition_item]
+	else:
+		print("错误 不存在的认知:",_condition_item)
 	return false
 
 

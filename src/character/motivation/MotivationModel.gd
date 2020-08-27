@@ -10,6 +10,7 @@ signal motivation_active_change(motivation)
 signal motivation_value_change(motivation)
 
 func binding_status_value_change(_status_model):
+	_on_status_value_update(_status_model)
 	_status_model.connect("status_value_update",self,"_on_status_value_update")
 
 #更新状态值
@@ -26,7 +27,7 @@ func set_motivation_value(value):
 	var is_active_temp = is_active
 	motivation_value = value
 	if motivation_value < 0 : motivation_value = 0
-	is_active = motivation_value < 0.8
+	is_active = motivation_value <= 0.8
 	# print(motivation_name,"的值更新为:",motivation_value)
 	
 	#激活状态改变

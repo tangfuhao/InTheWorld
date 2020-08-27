@@ -64,6 +64,8 @@ func parse_status(status_arr):
 		var status_model := StatusModel.new()
 		var status_name = item["状态名"]
 		status_model.status_name = status_name
+		if item.has("默认值"):
+			status_model.status_value = item["默认值"]
 		
 		if item.has("影响状态的条件组"):
 			var effects = item["影响状态的条件组"]

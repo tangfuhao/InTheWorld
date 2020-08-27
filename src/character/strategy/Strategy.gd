@@ -25,12 +25,14 @@ func setup(_control_node,_world_status,_motivation):
 	randomize()
 	control_node = _control_node
 	world_status = _world_status
-	_motivation.connect("highest_priority_motivation_change",self,"_on_motivation_highest_priority_change")
 	
 	laod_strategy_overview()
 	load_base_task()
 
 	world_status.connect("world_status_change",self,"_on_world_status_change")
+	_motivation.connect("highest_priority_motivation_change",self,"_on_motivation_highest_priority_change")
+	if _motivation.highest_priority_motivation:
+		_on_motivation_highest_priority_change(_motivation.highest_priority_motivation)
 
 func process_task(_delta: float):
 	if current_running_task:
@@ -324,7 +326,7 @@ func parse_base_task(base_task_arr):
 	
 #加载策略表
 func laod_strategy_overview():
-	var strategy_arr = load_json_arr("res://config/strategy_life.json")
+	var strategy_arr = load_json_arr("res://config/strategy_bored.json")
 	parse_strategys(strategy_arr)
 #	print(strategy_dic)
 	
