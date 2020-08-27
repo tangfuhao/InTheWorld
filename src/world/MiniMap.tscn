@@ -20,6 +20,7 @@ rotation = 0.432842
 bullets_node_path = NodePath("../Bullets")
 
 [node name="Human2" parent="." instance=ExtResource( 1 )]
+pause_mode = 1
 position = Vector2( 885.988, 508.68 )
 collision_layer = 2
 player_name = "player2"

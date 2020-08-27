@@ -13,12 +13,14 @@ var current_running_task = null
 #当前活跃的动机
 var active_motivation = null
 
-#基础任务列表
-var base_task_table:Array = []
+#预加载
+var preload_action_dic = {}
 
 #权重变量
 var strategy_weight_variable_dic = {}
 var current_used_weight_variable_arr = []
+
+
 
 
 func setup(_control_node,_world_status,_motivation):
@@ -70,6 +72,15 @@ func instance_task(task_name_and_params:String):
 	var task_split_value = Array(task_name_and_params.split(":"))
 	var task_name = task_split_value.pop_front()
 	var task_params = task_split_value.pop_front()
+	
+	if preload_action_dic.has(task_name):
+		var task = load(preload_action_dic[task_name]).new()
+		task.init(control_node,task_params)
+		return task
+	else:
+		print("不存在的任务:",task_name)
+		return null
+	
 	if task_name == "获取目标":
 		var task:AccessToTarget = AccessToTarget.new()
 		task.init(control_node,task_params)
@@ -214,7 +225,7 @@ func get_simple_task_name(task):
 	return task.split(":")[0]
 	
 func is_primary_task(task_name):
-	return base_task_table.has(task_name)
+	return preload_action_dic.has(task_name)
 
 #根据规则 选择一个策略
 func select_strategy(order_sort_type,meet_strategy_arr,_random_code_arr,level) -> StrategyItemModel:
@@ -322,7 +333,10 @@ func load_base_task():
 	
 func parse_base_task(base_task_arr):
 	for item in base_task_arr:
-		base_task_table.push_back(item["任务名"])
+		var base_task_name = item["任务名"]
+		var task_file_path = item["文件"]
+		var full_file_path = "res://src/character/tasks/"+task_file_path
+		preload_action_dic[base_task_name] = full_file_path
 	
 #加载策略表
 func laod_strategy_overview():
