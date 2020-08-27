@@ -80,54 +80,7 @@ func instance_task(task_name_and_params:String):
 	else:
 		print("不存在的任务:",task_name)
 		return null
-	
-	if task_name == "获取目标":
-		var task:AccessToTarget = AccessToTarget.new()
-		task.init(control_node,task_params)
-		return task
-	elif task_name == "远离目标":
-		var task:FurtherAwayTarget = FurtherAwayTarget.new()
-		task.init(control_node,task_params)
-		return task
-	elif task_name == "移动到目标":
-		var task:ApproachToTarget = ApproachToTarget.new()
-		task.init(control_node,task_params)
-		return task
-	elif task_name == "周围移动寻找":
-		var task:Wander = Wander.new()
-		task.init(control_node,task_params)
-		return task
-	elif task_name == "躲入目标":
-		var task:Hide = Hide.new()
-		task.init(control_node,task_params)
-		return task
-	elif task_name == "捡起目标":
-		var task:PickUp = PickUp.new()
-		task.init(control_node,task_params)
-		return task
-	elif task_name == "取出物品":
-		var task:TakeOut = TakeOut.new()
-		task.init(control_node,task_params)
-		return task
-	elif task_name == "用拳头打":
-		var task:Punch = Punch.new()
-		task.init(control_node,task_params)
-		return task
-	elif task_name == "用远程武器攻击":
-		var task:RemoteAttack = RemoteAttack.new()
-		task.init(control_node,task_params)
-		return task
-	elif task_name == "站立":
-		var task:Idle = Idle.new()
-		task.init(control_node,task_params)
-		return task
-	else:
-		print("没有实现的任务",task_name)
-	
-	return null
 
-
-	
 func _on_world_status_change():
 	print(control_node.player_name,"因为认知改变，重新规划")
 	send_re_plan_signal()
