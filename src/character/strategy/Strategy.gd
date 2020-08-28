@@ -20,7 +20,7 @@ var preload_action_dic = {}
 var strategy_weight_variable_dic = {}
 var current_used_weight_variable_arr = []
 
-
+var need_to_re_plan = false
 
 
 func setup(_control_node,_world_status,_motivation):
@@ -37,6 +37,10 @@ func setup(_control_node,_world_status,_motivation):
 		_on_motivation_highest_priority_change(_motivation.highest_priority_motivation)
 
 func process_task(_delta: float):
+	if need_to_re_plan:
+		re_plan_strategy()
+		current_running_task = run_next_task()
+	
 	if current_running_task:
 		var task_state = current_running_task.process(_delta)
 		if task_state == Task.STATE.GOAL_COMPLETED:
@@ -47,6 +51,7 @@ func process_task(_delta: float):
 			current_strategy_chain.clean()
 	else:
 		current_running_task = run_next_task()
+
 	if current_running_task == null : 
 		send_re_plan_signal()
 	
@@ -57,7 +62,8 @@ func clean_current_task():
 		current_running_task = null
 
 func send_re_plan_signal():
-	re_plan_strategy()
+	need_to_re_plan = true
+#	re_plan_strategy()
 
 func run_next_task():
 	if current_strategy_chain:
@@ -91,6 +97,7 @@ func _on_motivation_highest_priority_change(motivation):
 	send_re_plan_signal()
 	
 func re_plan_strategy():
+	need_to_re_plan = false
 	if active_motivation && active_motivation.is_active:
 		var strategy = get_strategy_by_task_name(active_motivation.motivation_name)
 		if strategy:
