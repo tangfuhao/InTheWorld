@@ -1,10 +1,11 @@
-extends "res://src/character/tasks/Task.gd"
+extends "res://src/character/tasks/NoLimitTask.gd"
 class_name Wander
 #漫游任务
 
 var find_stuff
 
 func active():
+	.active()
 	print("周围移动寻找激活")
 	if human:
 		print(human.player_name,"周围移动寻找激活")
@@ -13,7 +14,7 @@ func active():
 		init_search()
 
 func init_search():
-	var target = human.get_recent_target(params)
+	var target = human.get_recent_target(get_params())
 	if target:
 		find_stuff = target
 	else:
@@ -36,5 +37,5 @@ func terminate():
 		human.disconnect("find_something",self,"find_something")
 		
 func _on_charactar_find_something(body):
-	if body.has_attribute(params):
+	if body.has_attribute(get_params()):
 		find_stuff = body

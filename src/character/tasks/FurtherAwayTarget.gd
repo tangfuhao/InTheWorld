@@ -1,8 +1,9 @@
-extends "res://src/character/tasks/Task.gd"
+extends "res://src/character/tasks/NoLimitTask.gd"
 class_name FurtherAwayTarget
 #远离目标任务
 
 func active():
+	.active()
 	if human:
 		human.movement.is_on = true
 

@@ -5,11 +5,12 @@ class_name AccessToTarget
 var has_target = false
 
 func active() ->void:
-	if params == "随机":
+	.active()
+	if get_params() == "随机":
 		pass
 		
 	if human:
-		var target = human.get_recent_target(params)
+		var target = human.get_recent_target(get_params())
 		if target:
 			human.set_target(target)
 			has_target = true

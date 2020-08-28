@@ -7,6 +7,10 @@ onready var hurt_time = $HurtTimer
 var world_status_dic:Dictionary = {}
 var control_node
 
+var around_player_dic := {}
+var around_drink_player_dic := {}
+var around_chitchat_player_dic := {}
+
 signal world_status_change
 
 
@@ -33,8 +37,8 @@ func setup(_control_node):
 	
 	
 	control_node.connect("package_item_change",self,"_on_character_player_package_item_change")
-	control_node.connect("find_something",self,"_on_character_player_num_change_in_world_status")
-	control_node.connect("un_find_something",self,"_on_character_player_num_change_in_world_status")
+	control_node.connect("find_something",self,"_on_character_player_find_something")
+	control_node.connect("un_find_something",self,"_on_character_player_un_find_something")
 	
 	control_node.connect("to_target_distance_update",self,"_on_character_to_target_distance_update")
 	control_node.connect("be_hurt",self,"_on_character_be_hurt")
@@ -53,23 +57,8 @@ func _on_character_player_package_item_change(_item,_exist):
 			world_status_dic["有远程武器"] = true
 			world_status_dic["没有远程武器"] = false
 			emit_signal("world_status_change")
-		
-	
-func _on_character_be_hurt(area):
-	var is_hurt_status = world_status_dic["受到攻击"]
-	if hurt_time.is_stopped():
-		hurt_time.start(10)
-	else:
-		hurt_time.stop()
-		hurt_time.start(10)
-	if is_hurt_status == false: 
-		world_status_dic["受到攻击"] = true
-		world_status_dic["不受攻击十秒"] = false
-		print(control_node.player_name,"认知 受到攻击 改变")
-		emit_signal("world_status_change")
-	
-	
-	
+
+
 func _on_character_to_target_distance_update(_distance):
 	var is_no_melee_range = world_status_dic["不在近战攻击范围"]
 	var is_no_remote_attak = world_status_dic["不在远程攻击范围"]
@@ -86,17 +75,102 @@ func _on_character_to_target_distance_update(_distance):
 
 
 
-	
-func _on_character_player_num_change_in_world_status(_body):
+func _on_character_player_find_something(_body):
 	if _body is Player:
-		var target = control_node.get_recent_target("其他人")
-		var has_other_people = target != null
+		around_player_dic[_body.player_name] = _body
+		update_around_player_num(_body)
+		find_around_player_action(_body)
+	
+func _on_character_player_un_find_something(_body):
+	if _body is Player:
+		around_player_dic.erase(_body.player_name)
+		update_around_player_num(_body)
+		un_find_around_player_action(_body)
 
-		if world_status_dic["周围有其他人"] != has_other_people:
-			world_status_dic["周围有其他人"] = has_other_people
-			world_status_dic["周围没有其他人"] = !has_other_people
-			print(control_node.player_name,"认知 周围有其他人 改变")
-			emit_signal("world_status_change")
+func update_around_player_num(_player):
+	var has_other_people = !around_player_dic.empty()
+	if world_status_dic["周围有其他人"] != has_other_people:
+		world_status_dic["周围有其他人"] = has_other_people
+		world_status_dic["周围没有其他人"] = !has_other_people
+		print(control_node.player_name,"认知 周围有其他人 改变")
+		emit_signal("world_status_change")
+
+func meet_player_action(_player,_action_name):
+	return _player.get_current_action_name() == _action_name
+
+func update_around_player_drink():
+	var around_has_people_drink = world_status_dic["周围有人在喝酒"]
+	var still_has_people_drink = !around_drink_player_dic.empty()
+	if around_has_people_drink != still_has_people_drink:
+		world_status_dic["周围有人在喝酒"] = still_has_people_drink
+		print(control_node.player_name,"认知 周围有人在喝酒 改变")
+		emit_signal("world_status_change")
+		
+func update_around_player_chitchat():
+	var around_has_people_chitchat = world_status_dic["周围有人在聊天"]
+	var still_has_people_chitchat = !around_chitchat_player_dic.empty()
+	if around_has_people_chitchat != still_has_people_chitchat:
+		world_status_dic["周围有人在聊天"] = still_has_people_chitchat
+		print(control_node.player_name,"认知 周围有人在聊天 改变")
+		emit_signal("world_status_change")
+	
+func find_around_player_action(_player):
+	_player.connect("player_action_notify",self,"_on_around_player_action_notify")
+	if meet_player_action(_player,"喝酒"):
+		around_drink_player_dic[_player.player_name] = _player
+		update_around_player_drink()
+		
+	if meet_player_action(_player,"聊天"):
+		around_chitchat_player_dic[_player.player_name] = _player
+		update_around_player_chitchat()
+	
+func un_find_around_player_action(_player):
+	_player.disconnect("player_action_notify",self,"_on_around_player_action_notify")
+	if meet_player_action(_player,"喝酒"):
+		around_drink_player_dic.erase(_player.player_name)
+		update_around_player_drink()
+		
+	if meet_player_action(_player,"聊天"):
+		around_chitchat_player_dic.erase(_player.player_name)
+		update_around_player_chitchat()
+
+func _on_around_player_action_notify(_player,_action_name,_is_active):
+	#喝酒
+	if around_drink_player_dic.has(_player.player_name):
+		if not meet_player_action(_player,"喝酒"):
+			around_drink_player_dic.erase(_player.player_name)
+			update_around_player_drink()
+	else:
+		if meet_player_action(_player,"喝酒"):
+			around_drink_player_dic[_player.player_name] = _player
+			update_around_player_drink()
+
+	#聊天
+	if around_chitchat_player_dic.has(_player.player_name):
+		if not meet_player_action(_player,"聊天"):
+			around_chitchat_player_dic.erase(_player.player_name)
+			update_around_player_drink()
+	else:
+		if meet_player_action(_player,"聊天"):
+			around_chitchat_player_dic[_player.player_name] = _player
+			update_around_player_drink()
+
+
+		
+
+
+func _on_character_be_hurt(area):
+	var is_hurt_status = world_status_dic["受到攻击"]
+	if hurt_time.is_stopped():
+		hurt_time.start(10)
+	else:
+		hurt_time.stop()
+		hurt_time.start(10)
+	if is_hurt_status == false: 
+		world_status_dic["受到攻击"] = true
+		world_status_dic["不受攻击十秒"] = false
+		print(control_node.player_name,"认知 受到攻击 改变")
+		emit_signal("world_status_change")
 
 func _on_HurtTimer_timeout():
 	var is_hurt_status = world_status_dic["受到攻击"]

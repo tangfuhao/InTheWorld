@@ -3,6 +3,7 @@ class_name PickUp
 
 var is_picked = false
 func active() ->void:
+	.active()
 	if human:
 		var target = human.target
 		if target:

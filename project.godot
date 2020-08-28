@@ -75,6 +75,11 @@ _global_script_classes=[ {
 "path": "res://src/character/tasks/ConfessionByPhone.gd"
 }, {
 "base": "Reference",
+"class": "ContinueTask",
+"language": "GDScript",
+"path": "res://src/character/tasks/ContinueTask.gd"
+}, {
+"base": "Reference",
 "class": "CustomerObjectModel",
 "language": "GDScript",
 "path": "res://src/customization/CustomerObjectModel.gd"
@@ -325,6 +330,11 @@ _global_script_classes=[ {
 "path": "res://src/character/motivation/MotivationModel.gd"
 }, {
 "base": "Reference",
+"class": "NoLimitTask",
+"language": "GDScript",
+"path": "res://src/character/tasks/NoLimitTask.gd"
+}, {
+"base": "Reference",
 "class": "OOXX",
 "language": "GDScript",
 "path": "res://src/character/tasks/OOXX.gd"
@@ -424,6 +434,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/character/status/StatusModel.gd"
 }, {
+"base": "Node2D",
+"class": "Strategy",
+"language": "GDScript",
+"path": "res://src/character/strategy/Strategy.gd"
+}, {
 "base": "Reference",
 "class": "StrategyChain",
 "language": "GDScript",
@@ -503,6 +518,7 @@ _global_script_class_icons={
 "CommonStuff": "",
 "Confession": "",
 "ConfessionByPhone": "",
+"ContinueTask": "",
 "CustomerObjectModel": "",
 "Dance": "",
 "DoHomework": "",
@@ -553,6 +569,7 @@ _global_script_class_icons={
 "Kiss": "",
 "KissFace": "",
 "MotivationModel": "",
+"NoLimitTask": "",
 "OOXX": "",
 "Open": "",
 "OrderTakeOut": "",
@@ -573,6 +590,7 @@ _global_script_class_icons={
 "Smear": "",
 "StatusEffectModel": "",
 "StatusModel": "",
+"Strategy": "",
 "StrategyChain": "",
 "StrategyItemModel": "",
 "StrategyModel": "",

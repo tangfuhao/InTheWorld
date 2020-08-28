@@ -1,7 +1,8 @@
-extends "res://src/character/tasks/Task.gd"
+extends "res://src/character/tasks/ContinueTask.gd"
 class_name Chat
 #获取目标任务
 func active():
+	.active()
 	if not human:
 		goal_status = STATE.GOAL_FAILED
 		pass

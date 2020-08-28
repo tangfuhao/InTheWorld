@@ -1,6 +1,8 @@
+#不限时任务
 extends "res://src/character/tasks/Task.gd"
-class_name OrderTakeOut
+class_name NoLimitTask
+
 func active() ->void:
 	.active()
 	if human:
-		print(human.player_name,"点外卖")
+		human.quit_group_action()

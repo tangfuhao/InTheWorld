@@ -1,8 +1,9 @@
-extends "res://src/character/tasks/Task.gd"
+extends "res://src/character/tasks/NoLimitTask.gd"
 class_name ApproachToTarget
 #接近目标的任务
 
 func active():
+	.active()
 	print("移动到目标激活")
 	if human:
 		print(human.player_name,"移动到目标激活")

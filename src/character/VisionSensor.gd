@@ -88,7 +88,7 @@ func remove_monitoring_arr(_body):
 		print("不被识别的类型 请重视")
 	
 func get_monitoring_arr_by_type(_type) -> Array:
-	if monitoring_arr_type_dic.has(_type) == false:
+	if not monitoring_arr_type_dic.has(_type):
 		monitoring_arr_type_dic[_type] = []
 	return monitoring_arr_type_dic[_type]
 

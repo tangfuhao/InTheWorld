@@ -106,6 +106,8 @@ func load_json(file_path):
 		
 
 func has_attribute(_params) -> bool :
+	if not _params:
+		return false
 	return active_functon_attribute_params_dic.has(_params)
 func notify_disappear():
 	emit_signal("disappear_notify",self)

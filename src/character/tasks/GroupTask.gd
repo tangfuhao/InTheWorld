@@ -21,11 +21,18 @@ func set_sponsor(_player):
 
 func add_player(_player):
 	if not member_arr.has(_player):
+		#通知其他成员
+		for item in member_arr:
+			item.new_member_join_action(_player)
+			
 		member_arr.push_back(_player)
 		if not sponsor:
 			update_sponsor()
 	else:
-		print("已经存在了  不应该")
+		print("已经存在了 ")
+		
+func has_player(_player):
+	return member_arr.has(_player)
 		
 func update_sponsor():
 	self.sponsor = member_arr.front()

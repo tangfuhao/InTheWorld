@@ -27,7 +27,7 @@ var _target_distance = 0
 #背包
 var package = []
 #组行为
-var current_group_task
+var current_group_task:GroupTask
 #预处理 行为 通知 队列
 var preprocess_action_notify_dic = {}
 
@@ -37,14 +37,13 @@ signal disappear_notify
 signal package_item_change(target,is_exist)
 signal find_something(body)
 signal un_find_something(body)
-signal player_action_notify(action_name,is_active)
-
+signal player_action_notify(body,action_name,is_active)
 
 #设置状态值
 func set_status_value(_status_name,_status_value):
 	cpu.set_status_value(_status_name,_status_value)
 
-func _process(delta):
+func _process(_delta):
 	handle_preprocess_action_notify()
 	update_target_distance()
 
@@ -84,8 +83,9 @@ func set_target(_target):
 			
 
 func is_approach(_target):
-	var tolerance = 100
-	return global_position.distance_squared_to(_target.global_position) < tolerance
+	var tolerance = 30
+	return global_position.distance_to(_target.global_position) < tolerance
+	
 
 func shoot(_target_position,_damage):
 	var next_bullet := Bullet.instance()
@@ -162,8 +162,12 @@ func get_recent_target(_params):
 
 #开始一场组行为
 func start_join_group_action(_action_name):
-	current_group_task = GroupTask.new(_action_name)
-	current_group_task.add_player(self)
+	if current_group_task and current_group_task.action_name == _action_name and current_group_task.is_group_task_running():
+		#旧的组行为仍然存在
+		join_group_action(current_group_task)
+	else:
+		current_group_task = GroupTask.new(_action_name)
+		current_group_task.add_player(self)
 
 #加入一场组行为
 func join_group_action(_group_action):
@@ -172,8 +176,8 @@ func join_group_action(_group_action):
 
 #获取当前的组行为
 func get_group_action():
-	if not current_group_task:
-		print("异常:退出 不存在的组行为")
+	if not current_group_task or not current_group_task.has_player(self):
+		print("异常:退出 不存在的组行为 1")
 	return current_group_task
 
 #退出组行为
@@ -181,8 +185,17 @@ func quit_group_action():
 	if current_group_task:
 		current_group_task.remove_player(self)
 		current_group_task = null
-	else:
-		print("异常:退出 不存在的组行为")
+
+#加入组行为的成员 
+func new_member_join_action(_player):
+	#加入视线监听
+	visionSensor._on_RealVision_body_entered(_player)
+func get_current_action_name():
+	if current_group_task:
+		return current_group_task.action_name
+	elif cpu.strategy.current_running_task:
+		return cpu.strategy.current_running_task.action_name
+	return ""
 
 
 #行为通知 延迟通知
@@ -196,7 +209,7 @@ func notify_action(_action_name,_is_active):
 	
 func handle_preprocess_action_notify():
 	for action_name in preprocess_action_notify_dic.keys():
-		emit_signal("player_action_notify",action_name,preprocess_action_notify_dic[action_name])
+		emit_signal("player_action_notify",self,action_name,preprocess_action_notify_dic[action_name])
 	preprocess_action_notify_dic.clear()
 	
 func notify_disappear():

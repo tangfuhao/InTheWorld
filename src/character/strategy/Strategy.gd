@@ -1,5 +1,5 @@
 extends Node2D
-
+class_name Strategy
 
 var control_node:Player
 var world_status:WorldStatus
@@ -81,7 +81,7 @@ func instance_task(task_name_and_params:String):
 	
 	if preload_action_dic.has(task_name):
 		var task = load(preload_action_dic[task_name]).new()
-		task.init(control_node,task_params)
+		task.init(task_name,control_node,task_params)
 		return task
 	else:
 		print("不存在的任务:",task_name)

@@ -1,4 +1,4 @@
-extends "res://src/character/tasks/Task.gd"
+extends "res://src/character/tasks/NoLimitTask.gd"
 class_name RemoteAttack
 
 var current_remote_weapon = null
@@ -10,6 +10,7 @@ var action_timer:Timer = null
 var restore_action = true
 
 func active() ->void:
+	.active()
 	create_action_timer()
 
 func create_action_timer():

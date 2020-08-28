@@ -2,6 +2,7 @@ extends "res://src/character/tasks/Task.gd"
 class_name ConfessionByPhone
 #获取目标任务
 func active():
+	.active()
 	if human:
 		var target = human.target
 		if target:

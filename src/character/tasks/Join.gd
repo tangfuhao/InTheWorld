@@ -1,5 +1,40 @@
 extends "res://src/character/tasks/Task.gd"
 class_name Join
-func active() ->void:
-	if human:
-		print(human.player_name,"加入")
+
+var want_to_join_group_action = null
+var join_action_name
+#获取目标任务
+func active()->void:
+	if not human:
+		goal_status = STATE.GOAL_FAILED
+		pass
+
+	var target = human.target
+	if target and target is Player and target.get_current_action_name() == get_params():
+		want_to_join_group_action = target.get_group_action()
+		join_action_name = want_to_join_group_action.action_name
+		if not human.is_approach(want_to_join_group_action):
+			human.movement.is_on = true
+			human.movement.set_desired_position(want_to_join_group_action.global_position)
+		else:
+			print(human.player_name,"加入",join_action_name)
+			human.join_group_action(want_to_join_group_action)
+			human.notify_action(join_action_name,true)
+			want_to_join_group_action = null
+	else:
+		goal_status = STATE.GOAL_FAILED
+
+func process(_delta: float):
+	if want_to_join_group_action and human.is_approach(want_to_join_group_action) and want_to_join_group_action.is_group_task_running():
+		human.movement.is_on = false
+		print(human.player_name,"加入",join_action_name)
+		human.join_group_action(want_to_join_group_action)
+		human.notify_action(join_action_name,true)
+		want_to_join_group_action = null
+
+	return goal_status
+	
+func terminate() ->void:
+	human.movement.is_on = false
+	human.quit_group_action()
+	human.notify_action(join_action_name,false)

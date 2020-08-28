@@ -8,6 +8,7 @@ var me_collision_layer = false
 var is_hide = false
 #获取目标任务
 func active():
+	.active()
 	if human:
 		world_status = human.cpu.world_status
 		var target = human.target

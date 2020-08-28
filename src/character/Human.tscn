@@ -10,6 +10,7 @@
 [ext_resource path="res://src/character/HitBox.tscn" type="PackedScene" id=9]
 
 [sub_resource type="CircleShape2D" id=1]
+radius = 8.0
 
 [node name="Human" type="KinematicBody2D"]
 collision_layer = 2147483650
@@ -32,7 +33,6 @@ inner_color = Color( 0.282353, 0.623529, 0.141176, 1 )
 shape = SubResource( 1 )
 
 [node name="VisionSensor" parent="." instance=ExtResource( 6 )]
-visible = false
 position = Vector2( 0.181107, -15.9374 )
 
 [node name="CPU" parent="." instance=ExtResource( 4 )]
@@ -42,14 +42,17 @@ control_obj = NodePath("..")
 update_time = 60
 
 [node name="Movement" parent="." instance=ExtResource( 3 )]
+visible = false
 control_obj = NodePath("..")
 
 [node name="WallAvoidRay" parent="Movement" index="1"]
 cast_to = Vector2( 0, 40 )
 
 [node name="HurtBox" parent="." instance=ExtResource( 8 )]
+visible = false
 
 [node name="HitBox" parent="." instance=ExtResource( 9 )]
+visible = false
 
 [node name="NameDisplay" parent="." instance=ExtResource( 5 )]
 [connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
