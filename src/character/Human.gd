@@ -28,8 +28,8 @@ var _target_distance = 0
 var package = []
 #组行为
 var current_group_task
-
-
+#预处理 行为 通知 队列
+var preprocess_action_notify_dic = {}
 
 signal to_target_distance_update(distance)
 signal be_hurt(area)
@@ -37,6 +37,7 @@ signal disappear_notify
 signal package_item_change(target,is_exist)
 signal find_something(body)
 signal un_find_something(body)
+signal player_action_notify(action_name,is_active)
 
 
 #设置状态值
@@ -44,6 +45,7 @@ func set_status_value(_status_name,_status_value):
 	cpu.set_status_value(_status_name,_status_value)
 
 func _process(delta):
+	handle_preprocess_action_notify()
 	update_target_distance()
 
 func update_target_distance():
@@ -181,7 +183,21 @@ func quit_group_action():
 		current_group_task = null
 	else:
 		print("异常:退出 不存在的组行为")
+
+
+#行为通知 延迟通知
+func notify_action(_action_name,_is_active):
+	if _is_active:
+		print(player_name,"预通知：",_action_name,"开始")
+	else:
+		print(player_name,"预通知：",_action_name,"结束")
+		
+	preprocess_action_notify_dic[_action_name] = _is_active
 	
+func handle_preprocess_action_notify():
+	for action_name in preprocess_action_notify_dic.keys():
+		emit_signal("player_action_notify",action_name,preprocess_action_notify_dic[action_name])
+	preprocess_action_notify_dic.clear()
 	
 func notify_disappear():
 	emit_signal("disappear_notify",self)

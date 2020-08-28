@@ -18,18 +18,22 @@ func active()->void:
 		else:
 			want_to_join_group_action = null
 			human.join_group_action(want_to_join_group_action)
+			human.notify_action(action_name,true)
 			print(human.player_name,"加入喝酒")
 	else:
 		human.start_join_group_action(action_name)
+		human.notify_action(action_name,true)
 		print(human.player_name,"开始喝酒")
 	
 func process(_delta: float):
 	if want_to_join_group_action:
 		if human.is_approach(want_to_join_group_action) and want_to_join_group_action.is_group_task_running():
 			human.join_group_action(want_to_join_group_action)
+			human.notify_action(action_name,true)
 			want_to_join_group_action = null
 			print(human.player_name,"加入喝酒")
 	return goal_status
 	
 func terminate() ->void:
 	human.quit_group_action()
+	human.notify_action(action_name,false)
