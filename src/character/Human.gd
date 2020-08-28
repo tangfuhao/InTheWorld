@@ -26,6 +26,8 @@ var target = null setget set_target
 var _target_distance = 0
 #背包
 var package = []
+#组行为
+var current_group_task
 
 
 
@@ -153,9 +155,36 @@ func has_attribute(_params):
 func get_recent_target(_params):
 	return visionSensor.get_recent_target(_params)
 
+
+#开始一场组行为
+func start_join_group_action(_action_name):
+	current_group_task = GroupTask.new(_action_name)
+	current_group_task.add_player(self)
+
+#加入一场组行为
+func join_group_action(_group_action):
+	current_group_task = _group_action
+	current_group_task.add_player(self)
+
+#获取当前的组行为
+func get_group_action():
+	if not current_group_task:
+		print("异常:退出 不存在的组行为")
+	return current_group_task
+
+#退出组行为
+func quit_group_action():
+	if current_group_task:
+		current_group_task.remove_player(self)
+		current_group_task = null
+	else:
+		print("异常:退出 不存在的组行为")
+	
 	
 func notify_disappear():
 	emit_signal("disappear_notify",self)
+
+
 
 
 

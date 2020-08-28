@@ -45,6 +45,11 @@ _global_script_classes=[ {
 "path": "res://src/character/CPU.gd"
 }, {
 "base": "Reference",
+"class": "ChangeSportState",
+"language": "GDScript",
+"path": "res://src/character/tasks/ChangeSportState.gd"
+}, {
+"base": "Reference",
 "class": "Chat",
 "language": "GDScript",
 "path": "res://src/character/tasks/Chat.gd"
@@ -280,6 +285,11 @@ _global_script_classes=[ {
 "path": "res://src/character/tasks/GoToBedTogether.gd"
 }, {
 "base": "Reference",
+"class": "GroupTask",
+"language": "GDScript",
+"path": "res://src/character/tasks/GroupTask.gd"
+}, {
+"base": "Reference",
 "class": "Hide",
 "language": "GDScript",
 "path": "res://src/character/tasks/Hide.gd"
@@ -343,6 +353,11 @@ _global_script_classes=[ {
 "class": "PlayCards",
 "language": "GDScript",
 "path": "res://src/character/tasks/PlayCards.gd"
+}, {
+"base": "Reference",
+"class": "PlayLoveSongs",
+"language": "GDScript",
+"path": "res://src/character/tasks/PlayLoveSongs.gd"
 }, {
 "base": "Reference",
 "class": "PlayVolleyball",
@@ -482,6 +497,7 @@ _global_script_class_icons={
 "CConditionModel": "",
 "CConditionRule": "",
 "CPU": "",
+"ChangeSportState": "",
 "Chat": "",
 "Close": "",
 "CommonStuff": "",
@@ -529,6 +545,7 @@ _global_script_class_icons={
 "GSAIUtils": "",
 "Give": "",
 "GoToBedTogether": "",
+"GroupTask": "",
 "Hide": "",
 "Humming": "",
 "Idle": "",
@@ -542,6 +559,7 @@ _global_script_class_icons={
 "PackageItemModel": "",
 "PickUp": "",
 "PlayCards": "",
+"PlayLoveSongs": "",
 "PlayVolleyball": "",
 "Player": "",
 "Punch": "",
