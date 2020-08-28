@@ -39,7 +39,9 @@ signal find_something(body)
 signal un_find_something(body)
 
 
-
+#设置状态值
+func set_status_value(_status_name,_status_value):
+	cpu.set_status_value(_status_name,_status_value)
 
 func _process(delta):
 	update_target_distance()

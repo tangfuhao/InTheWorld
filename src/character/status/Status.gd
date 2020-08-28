@@ -37,6 +37,12 @@ func update_status():
 	for status in statusDic.values():
 		status.update_status(statusDic)
 
+func set_status_value(_status_name,_status_value):
+	var status_model = statusDic[_status_name]
+	status_model.set_status_value(_status_value)
+
+
+
 
 
 func binding_status_listner_relative():
