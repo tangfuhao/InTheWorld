@@ -140,6 +140,9 @@ func _on_RememberTimer_timeout():
 	print(owner.player_name,"忘记了玩家",player.player_name)
 	
 func get_recent_target(params):
+	if not params:
+		return null
+		
 	if params == "其他人":
 		var monitoring_arr:Array =  get_monitoring_arr_by_type("player")
 		return monitoring_arr.front()
