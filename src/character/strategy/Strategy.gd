@@ -323,6 +323,12 @@ func parse_base_task(base_task_arr):
 func laod_strategy_overview():
 	var strategy_arr = load_json_arr("res://config/strategy_bored.json")
 	parse_strategys(strategy_arr)
+
+	parse_strategys(load_json_arr("res://config/strategy_clean.json"))
+	parse_strategys(load_json_arr("res://config/strategy_hungry.json"))
+	parse_strategys(load_json_arr("res://config/strategy_love.json"))
+	parse_strategys(load_json_arr("res://config/strategy_shit.json"))
+	parse_strategys(load_json_arr("res://config/strategy_sleep.json"))
 #	print(strategy_dic)
 	
 func parse_strategys(strategy_arr):
