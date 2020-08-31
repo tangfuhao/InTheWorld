@@ -27,8 +27,8 @@ var package = []
 var current_group_task:GroupTask
 #预处理 行为 通知 队列
 var preprocess_action_notify_dic = {}
-#喜爱值表 名-值
-var player_lover_dic = {}
+#维护关系
+var relationship_system:RelationshipSystem
 #行为回复
 var response_system:ResponseSystem
 
@@ -65,6 +65,11 @@ func _ready() -> void:
 
 	visionSensor.connect("find_something",self,"_on_visionSensor_find_something")
 	visionSensor.connect("un_find_something",self,"_on_visionSensor_un_find_something")
+	
+	relationship_system.bind_sensor(visionSensor)
+
+func interaction_action(_player,_action_name):
+	relationship_system.interaction_action(_player,_action_name)
 
 func _on_target_disappear_notify(_target):
 	if target:
@@ -216,7 +221,7 @@ func handle_preprocess_action_notify():
 	preprocess_action_notify_dic.clear()
 	
 func ask_for_action(_asker,_action_name):
-	var lover_value = player_lover_dic[_asker.player_name]
+	var lover_value = relationship_system.get_relation_value_for_player("喜爱值",_asker)
 	var accept_chance = response_system.check_accept_chance_by_lover_value(lover_value,_action_name)
 	var random_chance = rand_range(0,1)
 	return random_chance <= accept_chance
