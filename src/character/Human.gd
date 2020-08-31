@@ -15,8 +15,10 @@ onready var cpu = $CPU
 onready var hurt_box = $HurtBox
 onready var hit_box = $HitBox
 onready var visionSensor = $VisionSensor
-
-
+#维护关系
+onready var relationship_system:RelationshipSystem
+#行为回复
+onready var response_system:ResponseSystem
 #目标
 var target = null setget set_target
 #与目标的距离
@@ -27,10 +29,10 @@ var package = []
 var current_group_task:GroupTask
 #预处理 行为 通知 队列
 var preprocess_action_notify_dic = {}
-#维护关系
-var relationship_system:RelationshipSystem
-#行为回复
-var response_system:ResponseSystem
+
+
+
+
 
 
 signal to_target_distance_update(distance)
@@ -64,15 +66,18 @@ func update_target_distance():
 func _ready() -> void:
 	bullets_node = get_node(bullets_node_path)
 	playerName.text = player_name
-	response_system = ResponseSystem.new()
+	response_system = ResponseSystem.new(self)
+	relationship_system = RelationshipSystem.new()
+	relationship_system.bind_player_vision(self)
 
 	visionSensor.connect("find_something",self,"_on_visionSensor_find_something")
 	visionSensor.connect("un_find_something",self,"_on_visionSensor_un_find_something")
 	
-	relationship_system.bind_sensor(visionSensor)
+	
 
 func interaction_action(_player,_action_name):
 	relationship_system.interaction_action(_player,_action_name)
+	
 
 func _on_target_disappear_notify(_target):
 	if target:
@@ -227,14 +232,22 @@ func notify_action(_action_name,_is_active):
 	
 func handle_preprocess_action_notify():
 	for action_name in preprocess_action_notify_dic.keys():
-		emit_signal("player_action_notify",self,action_name,preprocess_action_notify_dic[action_name])
+		var is_active = preprocess_action_notify_dic[action_name]
+		if is_active:
+			print(player_name,"处理预通知:",action_name,"开始")
+		else:
+			print(player_name,"处理预通知:",action_name,"结束")
+		
+		emit_signal("player_action_notify",self,action_name,is_active)
+		
 	preprocess_action_notify_dic.clear()
 	
 func ask_for_action(_asker,_action_name):
 	var lover_value = relationship_system.get_relation_value_for_player("喜爱值",_asker)
 	var accept_chance = response_system.check_accept_chance_by_lover_value(lover_value,_action_name)
 	var random_chance = rand_range(0,1)
-	return random_chance <= accept_chance
+	var is_accept_action =  random_chance <= accept_chance
+	return is_accept_action
 	
 #加入回应任务
 func add_response_task(_response_action):

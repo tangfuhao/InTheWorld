@@ -1,5 +1,6 @@
-#关系系统
 class_name RelationshipSystem
+#关系系统
+
 #喜爱值表 名-值
 var player_lover_dic = {}
 
@@ -39,6 +40,7 @@ func effect_value_by_action(_action_name,_lover_vale):
 			return 0.1
 		"排泄":
 			return -0.2
+	return 0
 
 
 func effect_value_by_interaction_action(_action_name,_lover_vale):
@@ -83,28 +85,3 @@ func effect_value_by_interaction_action(_action_name,_lover_vale):
 				return -1
 			return 0
 	return 0
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
