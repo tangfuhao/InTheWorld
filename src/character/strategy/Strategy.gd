@@ -46,7 +46,7 @@ func process_task(_delta: float):
 	while(new_create_task && current_running_task):
 		new_create_task = false
 		var task_state = current_running_task.process(_delta)
-		if task_state == Task.STATE.GOAL_COMPLETED or task_state == Task.STATE.GOAL_INSTANCE_COMPLETED:
+		if task_state == Task.STATE.GOAL_COMPLETED:
 			current_running_task.terminate()
 			current_running_task = run_next_task()
 			new_create_task = true
