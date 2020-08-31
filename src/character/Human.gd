@@ -9,9 +9,6 @@ export (NodePath) var bullets_node_path
 var bullets_node
 
 
-
-
-
 onready var playerName = $NameDisplay/PlayerName
 onready var movement = $Movement
 onready var cpu = $CPU
@@ -30,6 +27,11 @@ var package = []
 var current_group_task:GroupTask
 #预处理 行为 通知 队列
 var preprocess_action_notify_dic = {}
+#喜爱值表 名-值
+var player_lover_dic = {}
+#行为回复
+var response_system:ResponseSystem
+
 
 signal to_target_distance_update(distance)
 signal be_hurt(area)
@@ -46,6 +48,7 @@ func set_status_value(_status_name,_status_value):
 func _process(_delta):
 	handle_preprocess_action_notify()
 	update_target_distance()
+	
 
 func update_target_distance():
 	if target:
@@ -58,6 +61,7 @@ func update_target_distance():
 func _ready() -> void:
 	bullets_node = get_node(bullets_node_path)
 	playerName.text = player_name
+	response_system = ResponseSystem.new()
 
 	visionSensor.connect("find_something",self,"_on_visionSensor_find_something")
 	visionSensor.connect("un_find_something",self,"_on_visionSensor_un_find_something")
@@ -204,7 +208,6 @@ func notify_action(_action_name,_is_active):
 		print(player_name,"预通知：",_action_name,"开始")
 	else:
 		print(player_name,"预通知：",_action_name,"结束")
-		
 	preprocess_action_notify_dic[_action_name] = _is_active
 	
 func handle_preprocess_action_notify():
@@ -212,6 +215,13 @@ func handle_preprocess_action_notify():
 		emit_signal("player_action_notify",self,action_name,preprocess_action_notify_dic[action_name])
 	preprocess_action_notify_dic.clear()
 	
+func ask_for_action(_asker,_action_name):
+	var lover_value = player_lover_dic[_asker.player_name]
+	var accept_chance = response_system.check_accept_chance_by_lover_value(lover_value,_action_name)
+	var random_chance = rand_range(0,1)
+	return random_chance <= accept_chance
+	
+
 func notify_disappear():
 	emit_signal("disappear_notify",self)
 
