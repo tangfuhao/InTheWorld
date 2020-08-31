@@ -292,7 +292,7 @@ func check_meet_pre_condition_in_world_status(condition_arr):
 #改变当前的任务
 func change_task(_task_chain):
 	
-	if current_strategy_chain and current_strategy_chain.strategy_chain:
+	if _task_chain and current_strategy_chain and current_strategy_chain.strategy_chain:
 		var new_motivation_name = _task_chain.strategy_chain[0].task_name
 		var motivation_name = current_strategy_chain.strategy_chain[0].task_name
 		if new_motivation_name == motivation_name:
