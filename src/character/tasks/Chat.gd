@@ -6,12 +6,16 @@ func active():
 	if not human:
 		goal_status = STATE.GOAL_FAILED
 		pass
-	if not human.target:
+	var target = human.target
+	if not target:
 		goal_status = STATE.GOAL_FAILED
 		pass
-	if not human.is_approach(human.target):
+	if not human.is_approach(target):
 		goal_status = STATE.GOAL_FAILED
 		pass
+		
 	
+	human.start_join_group_action(action_name)
+	human.notify_action(action_name,true)
 	print(human.player_name,"聊天",target.player_name)
 	

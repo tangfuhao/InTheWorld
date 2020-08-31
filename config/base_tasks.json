@@ -202,6 +202,10 @@
     {
         "任务名": "切换运动状态",
         "文件": "ChangeSportState.gd"
+    },
+    {
+        "任务名": "处理回应队列",
+        "文件": "HandleAskTask.gd"
     }
 
 ]

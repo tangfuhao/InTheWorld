@@ -40,19 +40,32 @@ func process_task(_delta: float):
 	if need_to_re_plan:
 		re_plan_strategy()
 		current_running_task = run_next_task()
-	
-	if current_running_task:
+		
+		
+	var new_create_task = true
+	while(new_create_task && current_running_task):
+		new_create_task = false
 		var task_state = current_running_task.process(_delta)
-		if task_state == Task.STATE.GOAL_COMPLETED:
+		if task_state == Task.STATE.GOAL_COMPLETED or task_state == Task.STATE.GOAL_INSTANCE_COMPLETED:
 			current_running_task.terminate()
 			current_running_task = run_next_task()
+			new_create_task = true
+			_delta = 0
 		elif task_state == Task.STATE.GOAL_FAILED: 
 			clean_current_task()
 			current_strategy_chain.clean()
-	else:
-		current_running_task = run_next_task()
+			
+		
+#	if current_running_task:
+#		var task_state = current_running_task.process(_delta)
+#		if task_state == Task.STATE.GOAL_COMPLETED:
+#			current_running_task.terminate()
+#			current_running_task = run_next_task()
+#		elif task_state == Task.STATE.GOAL_FAILED: 
+#			clean_current_task()
+#			current_strategy_chain.clean()
 
-	if current_running_task == null : 
+	if not current_running_task: 
 		send_re_plan_signal()
 	
 	
@@ -278,6 +291,14 @@ func check_meet_pre_condition_in_world_status(condition_arr):
 	
 #改变当前的任务
 func change_task(_task_chain):
+	
+	if current_strategy_chain and current_strategy_chain.strategy_chain:
+		var new_motivation_name = _task_chain.strategy_chain[0].task_name
+		var motivation_name = current_strategy_chain.strategy_chain[0].task_name
+		if new_motivation_name == motivation_name:
+			print("任务动机  无需更新")
+			pass
+	
 	clean_current_task()
 	current_strategy_chain = _task_chain
 	var strategy_chain = current_strategy_chain.strategy_chain

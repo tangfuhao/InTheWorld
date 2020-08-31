@@ -28,7 +28,7 @@ func binding_listening_relative():
 			var status_model = player_status_dic[listening_status_name]
 			motivation_model.connect("motivation_value_change",self,"_on_motivation_arr_value_change")
 			motivation_model.connect("motivation_active_change",self,"_on_motivation_arr_active_change")
-			motivation_model.binding_status_value_change(status_model)			
+			motivation_model.binding_status_value_change(status_model)
 		
 
 func set_highest_priority_motivation(value):
@@ -77,7 +77,11 @@ func resort_highest_priority():
 func laod_motivation_overview():
 	var motivation_arr = load_json_arr("res://config/motivation.json")
 	parse_motivations(motivation_arr)
-	
+	#手动加入任务动机
+	var response_motivation_model := MotivationModel.new()
+	response_motivation_model.motivation_name = "回应动机"
+	response_motivation_model.listner_status_name = "回应状态"
+	motivation_dic["回应动机"] = response_motivation_model
 
 func parse_motivations(motivation_arr):
 	for item in motivation_arr :

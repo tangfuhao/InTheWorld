@@ -295,6 +295,11 @@ _global_script_classes=[ {
 "path": "res://src/character/tasks/GroupTask.gd"
 }, {
 "base": "Reference",
+"class": "HandleAskTask",
+"language": "GDScript",
+"path": "res://src/character/tasks/HandleAskTask.gd"
+}, {
+"base": "Reference",
 "class": "Hide",
 "language": "GDScript",
 "path": "res://src/character/tasks/Hide.gd"
@@ -572,6 +577,7 @@ _global_script_class_icons={
 "Give": "",
 "GoToBedTogether": "",
 "GroupTask": "",
+"HandleAskTask": "",
 "Hide": "",
 "Humming": "",
 "Idle": "",

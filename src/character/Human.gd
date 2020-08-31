@@ -226,6 +226,15 @@ func ask_for_action(_asker,_action_name):
 	var random_chance = rand_range(0,1)
 	return random_chance <= accept_chance
 	
+#加入回应任务
+func add_response_task(_response_action):
+	#1.激活回应动机
+	set_status_value("回应状态",0.4)
+	#2.加入回应动作到回应列表
+	response_system.add_task_to_queue(_response_action)
+
+	
+
 
 func notify_disappear():
 	emit_signal("disappear_notify",self)
