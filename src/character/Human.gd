@@ -37,8 +37,11 @@ signal to_target_distance_update(distance)
 signal be_hurt(area)
 signal disappear_notify
 signal package_item_change(target,is_exist)
-signal find_something(body)
-signal un_find_something(body)
+signal find_some_one(body)
+signal un_find_some_one(body)
+signal find_some_stuff(body)
+signal un_find_some_stuff(body)
+
 signal player_action_notify(body,action_name,is_active)
 
 #设置状态值
@@ -156,10 +159,17 @@ func _on_HurtBox_body_entered(body):
 	emit_signal("be_hurt",body)
 
 func _on_visionSensor_find_something(_body):
-	emit_signal("find_something",_body)
+	if _body is KinematicBody2D:
+		emit_signal("find_some_one",_body)
+	else:
+		emit_signal("find_some_stuff",_body)
+	
 
 func _on_visionSensor_un_find_something(_body):
-	emit_signal("un_find_something",_body)
+	if _body is KinematicBody2D:
+		emit_signal("un_find_some_one",_body)
+	else:
+		emit_signal("un_find_some_stuff",_body)
 	
 
 func has_attribute(_params):

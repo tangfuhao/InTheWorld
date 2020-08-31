@@ -37,8 +37,8 @@ func setup(_control_node):
 	
 	
 	control_node.connect("package_item_change",self,"_on_character_player_package_item_change")
-	control_node.connect("find_something",self,"_on_character_player_find_something")
-	control_node.connect("un_find_something",self,"_on_character_player_un_find_something")
+	control_node.connect("find_some_one",self,"_on_character_player_find_some_one")
+	control_node.connect("un_find_some_one",self,"_on_character_player_un_find_some_one")
 	
 	control_node.connect("to_target_distance_update",self,"_on_character_to_target_distance_update")
 	control_node.connect("be_hurt",self,"_on_character_be_hurt")
@@ -75,17 +75,15 @@ func _on_character_to_target_distance_update(_distance):
 
 
 
-func _on_character_player_find_something(_body):
-	if _body is Player:
-		around_player_dic[_body.player_name] = _body
-		update_around_player_num(_body)
-		find_around_player_action(_body)
+func _on_character_player_find_some_one(_body):
+	around_player_dic[_body.player_name] = _body
+	update_around_player_num(_body)
+	find_around_player_action(_body)
 	
-func _on_character_player_un_find_something(_body):
-	if _body is Player:
-		around_player_dic.erase(_body.player_name)
-		update_around_player_num(_body)
-		un_find_around_player_action(_body)
+func _on_character_player_un_find_some_one(_body):
+	around_player_dic.erase(_body.player_name)
+	update_around_player_num(_body)
+	un_find_around_player_action(_body)
 
 func update_around_player_num(_player):
 	var has_other_people = !around_player_dic.empty()

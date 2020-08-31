@@ -18,17 +18,15 @@ func interaction_action(_player,_action_name):
 	lover_value = lover_value + effect_value_by_interaction_action(_action_name,lover_value)
 
 #监听默认行为
-func bind_sensor(_sensor):
-	_sensor.connect("find_something",self,"_on_vision_find_something")
-	_sensor.connect("un_find_something",self,"_on_vision_un_find_something")
+func bind_player_vision(_player):
+	_player.connect("find_some_one",self,"_on_vision_some_one")
+	_player.connect("un_find_some_one",self,"_on_vision_un_some_one")
 
-func _on_vision_find_something(_body):
-	if _body is Player:
-		_body.connect("player_action_notify",self,"_on_around_player_action_notify")
+func _on_vision_some_one(_body):
+	_body.connect("player_action_notify",self,"_on_around_player_action_notify")
 	
-func _on_vision_un_find_something(_body):
-	if _body is Player:
-		_body.disconnect("player_action_notify",self,"_on_around_player_action_notify")
+func _on_vision_un_some_one(_body):
+	_body.disconnect("player_action_notify",self,"_on_around_player_action_notify")
 
 func _on_around_player_action_notify(_player,_action_name,_is_active):
 	if _is_active:

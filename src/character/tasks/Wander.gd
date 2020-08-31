@@ -18,7 +18,8 @@ func init_search():
 	if target:
 		find_stuff = target
 	else:
-		human.connect("find_something",self,"_on_charactar_find_something")
+		human.connect("find_some_one",self,"_on_charactar_find_something")
+		human.connect("find_some_stuff",self,"_on_charactar_find_something")
 
 
 func process(_delta: float):
