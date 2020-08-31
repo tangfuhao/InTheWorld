@@ -39,7 +39,7 @@ position = Vector2( 0.181107, -15.9374 )
 control_obj = NodePath("..")
 
 [node name="Status" parent="CPU" index="0"]
-update_time = 60
+update_time = 10
 
 [node name="Movement" parent="." instance=ExtResource( 3 )]
 visible = false
