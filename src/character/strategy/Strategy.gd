@@ -35,13 +35,17 @@ func setup(_control_node,_world_status,_motivation):
 	_motivation.connect("highest_priority_motivation_change",self,"_on_motivation_highest_priority_change")
 	if _motivation.highest_priority_motivation:
 		_on_motivation_highest_priority_change(_motivation.highest_priority_motivation)
+	
+func handle_re_plan_request():
+	if need_to_re_plan:
+		need_to_re_plan = false
+		if not _is_not_need_plan_task():
+			re_plan_strategy()
+			current_running_task = run_next_task()
 
 func process_task(_delta: float):
-	if need_to_re_plan:
-		re_plan_strategy()
-		current_running_task = run_next_task()
-		
-		
+	handle_re_plan_request()
+
 	var new_create_task = true
 	while(new_create_task && current_running_task):
 		new_create_task = false
@@ -110,7 +114,6 @@ func _on_motivation_highest_priority_change(motivation):
 	send_re_plan_signal()
 	
 func re_plan_strategy():
-	need_to_re_plan = false
 	if active_motivation && active_motivation.is_active:
 		var strategy = get_strategy_by_task_name(active_motivation.motivation_name)
 		if strategy:
@@ -289,15 +292,17 @@ func check_meet_pre_condition_in_world_status(condition_arr):
 			return meet_condition
 	return meet_condition
 	
-#改变当前的任务
-func change_task(_task_chain):
-	
-	if _task_chain and current_strategy_chain and current_strategy_chain.strategy_chain:
-		var new_motivation_name = _task_chain.strategy_chain[0].task_name
+func _is_not_need_plan_task() -> bool:
+	if active_motivation and current_strategy_chain and current_strategy_chain.strategy_chain:
+		var new_motivation_name = active_motivation.motivation_name
 		var motivation_name = current_strategy_chain.strategy_chain[0].task_name
 		if new_motivation_name == "回应动机" and motivation_name == "回应动机":
 			print("任务动机  无需更新")
-			return
+			return true
+	return false
+	
+#改变当前的任务
+func change_task(_task_chain):
 	clean_current_task()
 	current_strategy_chain = _task_chain
 	var strategy_chain = current_strategy_chain.strategy_chain
