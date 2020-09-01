@@ -8,6 +8,9 @@ export var player_name = "player1"
 export (NodePath) var bullets_node_path
 var bullets_node
 
+export (NodePath) var shower_room_path
+export (NodePath) var bed_path
+
 
 onready var playerName = $NameDisplay/PlayerName
 onready var movement = $Movement
@@ -29,8 +32,8 @@ var package = []
 var current_group_task:GroupTask
 #预处理 行为 通知 队列
 var preprocess_action_notify_dic = {}
-
-
+#固定记忆
+var fixed_memory = {}
 
 
 
@@ -65,6 +68,10 @@ func update_target_distance():
 
 func _ready() -> void:
 	bullets_node = get_node(bullets_node_path)
+	
+	fixed_memory["淋浴间"] = get_node(shower_room_path)
+	fixed_memory["床"] = get_node(bed_path)
+	
 	playerName.text = player_name
 	response_system = ResponseSystem.new(self)
 	relationship_system = RelationshipSystem.new()
@@ -181,6 +188,8 @@ func has_attribute(_params):
 	return _params == "其他人"
 
 func get_recent_target(_params):
+	if fixed_memory.has(_params):
+		return fixed_memory[_params]
 	return visionSensor.get_recent_target(_params)
 
 

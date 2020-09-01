@@ -6,9 +6,7 @@ var has_target = false
 
 func active() ->void:
 	.active()
-	if get_params() == "随机":
-		pass
-		
+
 	if human:
 		var target = human.get_recent_target(get_params())
 		if target:
