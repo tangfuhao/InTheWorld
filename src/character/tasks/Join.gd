@@ -7,7 +7,7 @@ var join_action_name
 func active()->void:
 	if not human:
 		goal_status = STATE.GOAL_FAILED
-		pass
+		return
 
 	var target = human.target
 	if target and target is Player and target.get_current_action_name() == get_params():

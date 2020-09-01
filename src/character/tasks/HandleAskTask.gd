@@ -4,7 +4,7 @@ class_name HandleAskTask
 func active() ->void:
 	if not human:
 		goal_status = STATE.GOAL_FAILED
-		pass
+		return
 
 func process(_delta: float):
 	if goal_status != STATE.GOAL_ACTIVE:

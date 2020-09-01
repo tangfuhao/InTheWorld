@@ -5,14 +5,14 @@ func active():
 	.active()
 	if not human:
 		goal_status = STATE.GOAL_FAILED
-		pass
+		return
 	var target = human.target
 	if not target:
 		goal_status = STATE.GOAL_FAILED
-		pass
+		return
 	if not human.is_approach(target):
 		goal_status = STATE.GOAL_FAILED
-		pass
+		return
 		
 	
 	human.start_join_group_action(action_name)

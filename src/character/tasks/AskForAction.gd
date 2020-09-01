@@ -5,11 +5,11 @@ func active() ->void:
 	.active()
 	if not human:
 		goal_status = STATE.GOAL_FAILED
-		pass
+		return
 	var target = human.target
 	if not target:
 		goal_status = STATE.GOAL_FAILED
-		pass
+		return
 	
 	var ask_action = get_params()
 	print(human.player_name,"请求许可:",ask_action)

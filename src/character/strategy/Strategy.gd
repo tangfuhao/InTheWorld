@@ -297,8 +297,7 @@ func change_task(_task_chain):
 		var motivation_name = current_strategy_chain.strategy_chain[0].task_name
 		if new_motivation_name == motivation_name:
 			print("任务动机  无需更新")
-			pass
-	
+			return
 	clean_current_task()
 	current_strategy_chain = _task_chain
 	var strategy_chain = current_strategy_chain.strategy_chain

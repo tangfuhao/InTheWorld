@@ -8,7 +8,7 @@ func active()->void:
 	.active()
 	if not human:
 		goal_status = STATE.GOAL_FAILED
-		pass
+		return
 	
 	human.start_join_group_action(action_name)
 	human.notify_action(action_name,true)
