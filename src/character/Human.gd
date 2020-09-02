@@ -34,6 +34,7 @@ var current_group_task:GroupTask
 var preprocess_action_notify_dic = {}
 #固定记忆
 var fixed_memory = {}
+var radius = 8
 
 
 
@@ -48,6 +49,9 @@ signal find_some_stuff(body)
 signal un_find_some_stuff(body)
 
 signal player_action_notify(body,action_name,is_active)
+
+signal fixed_memory_stuff_statu_update(stuff)
+signal location_change(_location_name)
 
 #设置状态值
 func set_status_value(_status_name,_status_value):
@@ -71,6 +75,7 @@ func _ready() -> void:
 	
 	fixed_memory["淋浴间"] = get_node(shower_room_path)
 	fixed_memory["床"] = get_node(bed_path)
+	fixed_memory["淋浴间"].connect("stuff_state_change",self,"_on_stuff_state_change")
 	
 	playerName.text = player_name
 	response_system = ResponseSystem.new(self)
@@ -80,7 +85,8 @@ func _ready() -> void:
 	visionSensor.connect("find_something",self,"_on_visionSensor_find_something")
 	visionSensor.connect("un_find_something",self,"_on_visionSensor_un_find_something")
 	
-	
+func _on_stuff_state_change(_stuff):
+	emit_signal("fixed_memory_stuff_statu_update",_stuff)
 
 func interaction_action(_player,_action_name):
 	relationship_system.interaction_action(_player,_action_name)
@@ -107,7 +113,7 @@ func set_target(_target):
 			
 
 func is_approach(_target):
-	var tolerance = 30
+	var tolerance = radius * 2 + _target.radius * 2
 	return global_position.distance_to(_target.global_position) < tolerance
 	
 
@@ -128,9 +134,26 @@ func pick_up(_target:CommonStuff) -> void:
 	_target.queue_free()
 	print(player_name,"捡起了",_target.stuff_name)
 	emit_signal("package_item_change",_target,true)
+	
+#完成洗澡
+func take_a_bath():
+	set_status_value("清洁状态",1)
 
-func get_package():
-	return package
+	
+var is_wear_clothes = true
+#脱衣服
+func take_off_clothes():
+	if is_wear_clothes:
+		is_wear_clothes = false
+		print(player_name,"脱衣服")
+
+func to_wear_clothes():
+	if not is_wear_clothes:
+		is_wear_clothes = true
+		print(player_name,"穿衣服")
+	
+
+
 
 func get_item_by_function_attribute_in_package(_function_attribute):
 	for item in package:
@@ -143,6 +166,9 @@ func remove_item_in_package(_item):
 	if item_pos != -1:
 		package.remove(item_pos)
 		emit_signal("package_item_change",_item,false)
+		
+func location_change(_location_name):
+	emit_signal("location_change",_location_name)
 	
 
 #受到伤害

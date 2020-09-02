@@ -7,7 +7,7 @@
 
 [node name="CommonStuff" type="Area2D"]
 collision_layer = 8
-collision_mask = 0
+collision_mask = 2
 script = ExtResource( 1 )
 stuff_type_name = "枪"
 
@@ -25,5 +25,7 @@ margin_left = -41.2803
 margin_top = -51.001
 margin_right = 35.7197
 margin_bottom = -0.000991821
+[connection signal="body_entered" from="." to="." method="_on_CommonStuff_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_CommonStuff_body_exited"]
 
 [editable path="LabelLayout"]

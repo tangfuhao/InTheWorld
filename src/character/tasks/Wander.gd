@@ -6,9 +6,9 @@ var find_stuff
 
 func active():
 	.active()
-	print("周围移动寻找激活")
+	# print("周围移动寻找激活")
 	if human:
-		print(human.player_name,"周围移动寻找激活")
+		# print(human.player_name,"周围移动寻找激活")
 		human.movement.is_on = true
 		human.movement.is_wander = true
 		init_search()
@@ -24,14 +24,14 @@ func init_search():
 
 func process(_delta: float):
 	if find_stuff:
-		print(human.player_name,"周围移动寻找完成")
+		# print(human.player_name,"周围移动寻找完成")
 		return STATE.GOAL_COMPLETED
 	else:
 		return STATE.GOAL_ACTIVE
 
 func terminate():
 	if human:
-		print(human.player_name,"周围移动寻找结束")
+		# print(human.player_name,"周围移动寻找结束")
 		human.movement.direction = Vector2.ZERO
 		human.movement.is_wander = false
 		human.movement.is_on = false

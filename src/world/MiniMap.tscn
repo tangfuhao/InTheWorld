@@ -50,6 +50,8 @@ shape = SubResource( 1 )
 [node name="ShowerRoom" parent="." instance=ExtResource( 4 )]
 position = Vector2( 1378.68, 178.802 )
 stuff_type_name = "淋浴间"
+is_location = true
+is_can_be_occupy = true
 
 [node name="CollisionShape2D" parent="ShowerRoom" index="0"]
 shape = SubResource( 2 )

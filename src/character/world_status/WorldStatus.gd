@@ -33,6 +33,9 @@ func setup(_control_node):
 
 	world_status_dic["周围有人在喝酒"] = false
 	world_status_dic["周围有人在聊天"] = false
+	world_status_dic["淋浴间可用"] = true
+	world_status_dic["淋浴间被占用"] = false
+	world_status_dic["化身位置"] = "空地"
 	
 	
 	
@@ -43,6 +46,24 @@ func setup(_control_node):
 	control_node.connect("to_target_distance_update",self,"_on_character_to_target_distance_update")
 	control_node.connect("be_hurt",self,"_on_character_be_hurt")
 	
+	control_node.connect("fixed_memory_stuff_statu_update",self,"_on_character_fixed_memory_stuff_statu_update")
+	control_node.connect("location_change",self,"_on_character_location_change")
+	
+func _on_character_location_change(_location_name):
+	if world_status_dic["化身位置"] != _location_name:
+		world_status_dic["化身位置"] = _location_name
+		print(control_node.player_name,"认知 化身位置 改变")
+		emit_signal("world_status_change")
+	
+func _on_character_fixed_memory_stuff_statu_update(_stuff):
+	if _stuff.stuff_name == "淋浴间":
+		var can_use_new = not _stuff.is_occupy() or _stuff.is_occupy_player(control_node)
+		var can_use_old = !world_status_dic["淋浴间被占用"]
+		if can_use_old != can_use_new:
+			world_status_dic["淋浴间被占用"] = !can_use_new
+			print(control_node.player_name,"认知 淋浴间被占用 改变")
+			emit_signal("world_status_change")
+
 func _on_character_player_package_item_change(_item,_exist):
 	var has_remote_weapons = world_status_dic["有远程武器"]
 	if has_remote_weapons:
@@ -63,7 +84,7 @@ func _on_character_to_target_distance_update(_distance):
 	var is_no_melee_range = world_status_dic["不在近战攻击范围"]
 	var is_no_remote_attak = world_status_dic["不在远程攻击范围"]
 
-	var is_no_melee_range_new = _distance > 20
+	var is_no_melee_range_new = _distance > 40
 	var is_no_remote_attak_new = _distance > 200
 	if is_no_melee_range != is_no_melee_range_new || is_no_remote_attak != is_no_remote_attak_new:
 		world_status_dic["不在近战攻击范围"] = is_no_melee_range_new
@@ -182,8 +203,15 @@ func _on_HurtTimer_timeout():
 
 
 func meet_condition(_condition_item) -> bool :
-	if world_status_dic.has(_condition_item):
-		return world_status_dic[_condition_item]
+	var condition_item_arr := Array(_condition_item.split(":"))
+	var condition_item_name = condition_item_arr.pop_front()
+	var condition_item_param = condition_item_arr.pop_front()
+	if world_status_dic.has(condition_item_name):
+		var value =  world_status_dic[condition_item_name]
+		if value is String:
+			return value == condition_item_param
+		else:
+			return value
 	else:
 		print("错误 不存在的认知:",_condition_item)
 	return false

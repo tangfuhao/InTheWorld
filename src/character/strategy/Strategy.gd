@@ -109,9 +109,10 @@ func _on_world_status_change():
 	send_re_plan_signal()
 	
 func _on_motivation_highest_priority_change(motivation):
-	active_motivation = motivation
-	print(control_node.player_name,"因为动机改变，重新规划")
-	send_re_plan_signal()
+	if active_motivation != motivation:
+		active_motivation = motivation
+		print(control_node.player_name,"因为动机改变为:",active_motivation.motivation_name,"，重新规划")
+		send_re_plan_signal()
 	
 func re_plan_strategy():
 	if active_motivation && active_motivation.is_active:
@@ -310,7 +311,7 @@ func change_task(_task_chain):
 	for item in strategy_chain:
 		if item.used_strategy_variable_weight_arr:
 			used_strategy_variable_weight_arr = used_strategy_variable_weight_arr + item.used_strategy_variable_weight_arr
-	print("用到的权重属性:",used_strategy_variable_weight_arr)
+	# print("用到的权重属性:",used_strategy_variable_weight_arr)
 	
 func load_base_task():
 	var base_task_arr = load_json_arr("res://config/base_tasks.json")

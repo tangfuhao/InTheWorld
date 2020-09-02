@@ -2,6 +2,7 @@
 class_name GroupTask
 var action_name
 var member_arr:Array = []
+var radius = 0
 
 #组行为的地点
 var global_position:Vector2
