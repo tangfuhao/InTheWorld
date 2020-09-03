@@ -157,7 +157,12 @@ func to_wear_clothes():
 		print(player_name,"穿衣服")
 	
 
-
+func pop_item_by_name_in_package(_name):
+	for item in package:
+		if item.item_name == _name:
+			package.erase(item)
+			return item
+	return null
 
 func get_item_by_function_attribute_in_package(_function_attribute):
 	for item in package:

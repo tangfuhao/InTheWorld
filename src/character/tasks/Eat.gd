@@ -5,10 +5,16 @@ func active():
 	.active()
 	if human:
 		var target = human.target
-		if target:
+		var edible_name = get_params()
+		if edible_name:
+			var item = human.pop_item_by_name_in_package(edible_name)
+			print(human.player_name,"吃",item.item_name)
+			human.set_status_value("饥饿状态",1)
+			goal_status = STATE.GOAL_COMPLETED
+		elif target:
 			if human.is_approach(target):
 				print(human.player_name,"吃",target.stuff_name)
+				human.set_status_value("饥饿状态",1)
 				goal_status = STATE.GOAL_COMPLETED
 				return
-				
 	goal_status = STATE.GOAL_FAILED
