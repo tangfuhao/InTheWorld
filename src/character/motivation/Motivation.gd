@@ -5,7 +5,8 @@ var highest_priority_motivation : MotivationModel = null setget set_highest_prio
 var active_motivation_arr:Array = []
 
 var player_status_dic:Dictionary
-signal highest_priority_motivation_change(motivation)
+signal highest_priority_motivation_change(motivation_model)
+signal motivation_item_value_change(motivation_model)
 
 	
 func setup(_control_node,_statusDic):
@@ -39,23 +40,24 @@ func set_highest_priority_motivation(value):
 
 
 #动机的激活通知  更新激活动机表
-func _on_motivation_arr_active_change(motivation):
-	if motivation.is_active:
-		active_motivation_arr.push_back(motivation)
+func _on_motivation_arr_active_change(motivation_model):
+	if motivation_model.is_active:
+		active_motivation_arr.push_back(motivation_model)
 	else:
-		var find_index = active_motivation_arr.find(motivation)
+		var find_index = active_motivation_arr.find(motivation_model)
 		active_motivation_arr.remove(find_index)
 
 #动机值改变的激活通知 更新优先级最高的动机
-func _on_motivation_arr_value_change(motivation):
+func _on_motivation_arr_value_change(motivation_model):
+	emit_signal("motivation_item_value_change",motivation_model)
 	if self.highest_priority_motivation == null:
-		if motivation.is_active: 
-			self.highest_priority_motivation = motivation
+		if motivation_model.is_active: 
+			self.highest_priority_motivation = motivation_model
 	else:
-		if motivation == self.highest_priority_motivation:
+		if motivation_model == self.highest_priority_motivation:
 			self.highest_priority_motivation = resort_highest_priority()
-		elif motivation.motivation_value < self.highest_priority_motivation.motivation_value:
-			self.highest_priority_motivation = motivation
+		elif motivation_model.motivation_value < self.highest_priority_motivation.motivation_value:
+			self.highest_priority_motivation = motivation_model
 
 
 

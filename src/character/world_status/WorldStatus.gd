@@ -36,6 +36,7 @@ func setup(_control_node):
 	world_status_dic["淋浴间可用"] = true
 	world_status_dic["淋浴间被占用"] = false
 	world_status_dic["化身位置"] = "空地"
+	world_status_dic["非常困"] = false
 	
 	
 	
@@ -48,6 +49,15 @@ func setup(_control_node):
 	
 	control_node.connect("fixed_memory_stuff_statu_update",self,"_on_character_fixed_memory_stuff_statu_update")
 	control_node.connect("location_change",self,"_on_character_location_change")
+	control_node.connect("motivation_item_value_change",self,"_on_motivation_item_value_change")
+
+func _on_motivation_item_value_change(motivation_model):
+	if motivation_model.motivation_name == "睡眠动机":
+		var is_drowse = motivation_model.motivation_value < 0.3
+		if is_drowse != world_status_dic["非常困"]:
+			world_status_dic["非常困"] = is_drowse
+			emit_signal("world_status_change")
+
 	
 func _on_character_location_change(_location_name):
 	if world_status_dic["化身位置"] != _location_name:

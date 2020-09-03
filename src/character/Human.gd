@@ -52,6 +52,7 @@ signal player_action_notify(body,action_name,is_active)
 
 signal fixed_memory_stuff_statu_update(stuff)
 signal location_change(_location_name)
+signal motivation_item_value_change(motivation_model)
 
 #设置状态值
 func set_status_value(_status_name,_status_value):
@@ -84,7 +85,11 @@ func _ready() -> void:
 
 	visionSensor.connect("find_something",self,"_on_visionSensor_find_something")
 	visionSensor.connect("un_find_something",self,"_on_visionSensor_un_find_something")
-	
+	cpu.motivation.connect("motivation_item_value_change",self,"_on_motivation_item_value_change")
+
+func _on_motivation_item_value_change(motivation_model):
+	emit_signal("motivation_item_value_change",motivation_model)
+
 func _on_stuff_state_change(_stuff):
 	emit_signal("fixed_memory_stuff_statu_update",_stuff)
 
