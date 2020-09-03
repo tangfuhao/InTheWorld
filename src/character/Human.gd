@@ -115,7 +115,11 @@ func set_target(_target):
 func is_approach(_target):
 	var tolerance = radius * 2 + _target.radius * 2
 	return global_position.distance_to(_target.global_position) < tolerance
-	
+
+func is_interaction_distance(_target):
+	var tolerance = radius * 2 + _target.radius * 2 + 100
+	var distance =  global_position.distance_to(_target.global_position) 
+	return distance < tolerance
 
 func shoot(_target_position,_damage):
 	var next_bullet := Bullet.instance()
@@ -220,12 +224,13 @@ func get_recent_target(_params):
 
 
 #开始一场组行为
-func start_join_group_action(_action_name):
+func start_join_group_action(_action_name,number_num_limit = 1):
 	if current_group_task and current_group_task.action_name == _action_name and current_group_task.is_group_task_running():
 		#旧的组行为仍然存在
 		join_group_action(current_group_task)
 	else:
 		current_group_task = GroupTask.new(_action_name)
+		current_group_task.number_num_limit = number_num_limit
 		current_group_task.add_player(self)
 
 #加入一场组行为
@@ -282,6 +287,9 @@ func ask_for_action(_asker,_action_name):
 	var accept_chance = response_system.check_accept_chance_by_lover_value(lover_value,_action_name)
 	var random_chance = rand_range(0,1)
 	var is_accept_action =  random_chance <= accept_chance
+	if is_accept_action:
+		set_target(_asker)
+		add_response_task("加入:"+_action_name)
 	return is_accept_action
 	
 #加入回应任务

@@ -10,12 +10,12 @@ func active():
 	if not target:
 		goal_status = STATE.GOAL_FAILED
 		return
-	if not human.is_approach(target):
+	if not human.is_interaction_distance(target):
 		goal_status = STATE.GOAL_FAILED
 		return
 		
 	
-	human.start_join_group_action(action_name)
+	human.start_join_group_action(action_name,2)
 	human.notify_action(action_name,true)
 	print(human.player_name,"聊天",target.player_name)
 	

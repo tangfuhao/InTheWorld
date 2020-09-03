@@ -3,11 +3,15 @@ class_name GroupTask
 var action_name
 var member_arr:Array = []
 var radius = 0
+var number_num_limit = 1
 
 #组行为的地点
 var global_position:Vector2
 #发起者
 var sponsor = null setget set_sponsor
+
+signal number_quit(player)
+signal task_quit
 
 func _init(_action_name):
 	action_name = _action_name
@@ -19,6 +23,7 @@ func set_sponsor(_player):
 	sponsor = _player
 	if _player:
 		self.global_position = _player.global_position
+		
 
 func add_player(_player):
 	if not member_arr.has(_player):
@@ -36,14 +41,26 @@ func has_player(_player):
 	return member_arr.has(_player)
 		
 func update_sponsor():
-	self.sponsor = member_arr.front()
+	if not sponsor:
+		self.sponsor = member_arr.front()
 		
 func remove_player(_player):
-	if member_arr.has(_player):
-		var find_index = member_arr.find(_player)
-		member_arr.remove(find_index)
+	if sponsor == _player:
+		sponsor = null
 		
-		if sponsor == _player:
+	if member_arr.has(_player):
+		member_arr.erase(_player)
+		emit_signal("number_quit",_player)
+		
+		var number_remaining = member_arr.size()
+		if number_remaining >= number_num_limit:
+			#更新发起人
 			update_sponsor()
+		else:
+			#人数不满足了
+			emit_signal("task_quit")
+		
+		
+		
 	else:
 		print("不存在玩家  不应该")

@@ -2,7 +2,7 @@ class_name ResponseSystem
 #行为回复
 var response_action_dic = {}
 
-var cache_handle_action_arr :PoolStringArray
+var cache_handle_action_arr
 var cahce_instance_handle_action
 
 var preload_action_dic = {}
@@ -86,14 +86,17 @@ func evaluateBoolean(property, condition, value) -> bool:
 		
 func add_task_to_queue(_response_action):
 	var response_action_arr = _response_action.split(",")
-	cache_handle_action_arr.append_array(response_action_arr)
+	if cache_handle_action_arr:
+		cache_handle_action_arr = cache_handle_action_arr + Array(response_action_arr)
+	else:
+		cache_handle_action_arr = Array(response_action_arr)
 
 
 func get_latest_task():
 	if cahce_instance_handle_action:
 		return cahce_instance_handle_action
 		
-	var latest_task_str = Array(cache_handle_action_arr).pop_front()
+	var latest_task_str = cache_handle_action_arr.pop_front()
 	if latest_task_str:
 		cahce_instance_handle_action = instance_task(latest_task_str)
 		cahce_instance_handle_action.active()
