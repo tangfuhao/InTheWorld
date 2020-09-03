@@ -38,3 +38,8 @@ func process(_delta: float):
 		
 func _on_action_timer_time_out():
 	finish_take_a_bath = true
+
+func terminate() ->void:
+	if action_timer:
+		human.remove_child(action_timer)
+		action_timer = null
