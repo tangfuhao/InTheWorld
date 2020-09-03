@@ -52,7 +52,7 @@ class EXPONENT:
 		operator = _operator
 		priority = _priority
 	func eval(left,right):
-		return left ^ right
+		return int(left) ^ int(right)
 	
 func _init():
 	var op = ADITION.new('+', 100)
