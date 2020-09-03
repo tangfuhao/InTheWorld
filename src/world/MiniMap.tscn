@@ -63,6 +63,14 @@ stuff_type_name = "床"
 [node name="CollisionShape2D" parent="Bed" index="0"]
 shape = SubResource( 3 )
 
+[node name="马桶" parent="." instance=ExtResource( 4 )]
+position = Vector2( 1433.3, 586.96 )
+stuff_type_name = "马桶"
+
+[node name="马桶2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 205.707, 440.397 )
+stuff_type_name = "马桶"
+
 [node name="Bullets" type="Node2D" parent="."]
 
 [editable path="CommonStuff"]
