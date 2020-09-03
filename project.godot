@@ -45,6 +45,11 @@ _global_script_classes=[ {
 "path": "res://src/character/CPU.gd"
 }, {
 "base": "Reference",
+"class": "Calculator",
+"language": "GDScript",
+"path": "res://src/math/Calculator.gd"
+}, {
+"base": "Reference",
 "class": "ChangeSportState",
 "language": "GDScript",
 "path": "res://src/character/tasks/ChangeSportState.gd"
@@ -128,6 +133,11 @@ _global_script_classes=[ {
 "class": "Excretion",
 "language": "GDScript",
 "path": "res://src/character/tasks/Excretion.gd"
+}, {
+"base": "Reference",
+"class": "FormulaParser",
+"language": "GDScript",
+"path": "res://src/math/FormulaParser.gd"
 }, {
 "base": "Reference",
 "class": "FurtherAwayTarget",
@@ -350,6 +360,11 @@ _global_script_classes=[ {
 "path": "res://src/character/tasks/Open.gd"
 }, {
 "base": "Reference",
+"class": "Operator",
+"language": "GDScript",
+"path": "res://src/math/Operator.gd"
+}, {
+"base": "Reference",
 "class": "OrderTakeOut",
 "language": "GDScript",
 "path": "res://src/character/tasks/OrderTakeOut.gd"
@@ -532,6 +547,7 @@ _global_script_class_icons={
 "CConditionModel": "",
 "CConditionRule": "",
 "CPU": "",
+"Calculator": "",
 "ChangeSportState": "",
 "Chat": "",
 "Close": "",
@@ -549,6 +565,7 @@ _global_script_class_icons={
 "Evaluate": "",
 "ExamineElectricalPowerSystems": "",
 "Excretion": "",
+"FormulaParser": "",
 "FurtherAwayTarget": "",
 "GSAIAgentLocation": "",
 "GSAIArrive": "",
@@ -593,6 +610,7 @@ _global_script_class_icons={
 "NoLimitTask": "",
 "OOXX": "",
 "Open": "",
+"Operator": "",
 "OrderTakeOut": "",
 "PackageItemModel": "",
 "PickUp": "",
