@@ -126,5 +126,3 @@ position = Vector2( 994.445, 2211.62 )
 [editable path="Player1"]
 
 [editable path="Player1/CPU"]
-
-[editable path="Player1/CPU/PlayerDetectionZone"]
