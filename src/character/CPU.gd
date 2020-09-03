@@ -23,3 +23,5 @@ func _process(_delta: float):
 func set_status_value(_status_name,_status_value):
 	status.set_status_value(_status_name,_status_value)
 	
+func get_status_value(_status_name):
+	status.get_status_value(_status_name)

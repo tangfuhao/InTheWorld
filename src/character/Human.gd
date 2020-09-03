@@ -58,6 +58,9 @@ signal motivation_item_value_change(motivation_model)
 func set_status_value(_status_name,_status_value):
 	cpu.set_status_value(_status_name,_status_value)
 
+func get_status_value(_status_name):
+	return cpu.get_status_value(_status_name)
+
 func _process(_delta):
 	handle_preprocess_action_notify()
 	update_target_distance()

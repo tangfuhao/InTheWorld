@@ -41,6 +41,9 @@ func set_status_value(_status_name,_status_value):
 	var status_model = statusDic[_status_name]
 	status_model.set_status_value(_status_value)
 
+func get_status_value(_status_name):
+	var status_model = statusDic[_status_name]
+	return status_model.status_value
 
 
 
