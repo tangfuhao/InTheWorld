@@ -11,6 +11,7 @@ var is_active:bool = false
 func binding_status_listner_relative(statusDic):
 	for listner_status_name in listner_status_name_dic.keys():
 		var listner_status = statusDic[listner_status_name]
+		listner_status_name_dic[listner_status_name] = listner_status.status_value
 		listner_status.connect("status_value_update",self,"_on_status_value_update")
 	
 	check_condition_meet()
