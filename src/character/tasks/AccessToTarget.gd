@@ -7,6 +7,7 @@ var has_target = false
 func active() ->void:
 	.active()
 
+	print("获取目标任务激活")
 	if human:
 		var target = human.get_recent_target(get_params())
 		if target:

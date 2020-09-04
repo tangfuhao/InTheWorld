@@ -1,5 +1,5 @@
-extends "res://src/character/tasks/NoLimitTask.gd"
-class_name OOXX
+extends "res://src/character/tasks/Task.gd"
+class_name HoldHands
 #获取目标任务
 func active():
 	.active()
@@ -10,7 +10,7 @@ func active():
 				if target is Player:
 					target.interaction_action(human,action_name)
 					human.set_status_value("爱情动机",0.9)
-				print(human.player_name,"做爱",target.player_name)
+				print(human.player_name,"牵手",target.player_name)
 				goal_status = STATE.GOAL_COMPLETED
 				return
 	goal_status = STATE.GOAL_FAILED

@@ -84,6 +84,7 @@ func _ready() -> void:
 	playerName.text = player_name
 	response_system = ResponseSystem.new(self)
 	relationship_system = RelationshipSystem.new()
+	relationship_system.owner_name = player_name
 	relationship_system.bind_player_vision(self)
 
 	visionSensor.connect("find_something",self,"_on_visionSensor_find_something")
@@ -98,7 +99,10 @@ func _on_stuff_state_change(_stuff):
 
 func interaction_action(_player,_action_name):
 	relationship_system.interaction_action(_player,_action_name)
-	
+
+func is_like_people(_player):
+	var lover_value = relationship_system.get_relation_value_for_player("喜爱值",_player)
+	return lover_value > 0.7
 
 func _on_target_disappear_notify(_target):
 	if target:

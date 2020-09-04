@@ -11,6 +11,8 @@ var around_player_dic := {}
 var around_drink_player_dic := {}
 var around_chitchat_player_dic := {}
 
+var arond_lover_player_dic = {}
+
 signal world_status_change
 
 
@@ -38,6 +40,16 @@ func setup(_control_node):
 	world_status_dic["化身位置"] = "空地"
 	world_status_dic["非常困"] = false
 	
+	world_status_dic["看到喜欢的人"] = false
+	world_status_dic["周围只有喜欢的人"] = false
+	world_status_dic["看到喜欢的人没穿衣服"] = false
+	world_status_dic["和喜欢的人在床上"] = false
+	world_status_dic["周围是黑的"] = false
+	world_status_dic["拥有:可弹情歌的"] = false
+	
+
+	
+
 	
 	
 	control_node.connect("package_item_change",self,"_on_character_player_package_item_change")
@@ -110,11 +122,101 @@ func _on_character_player_find_some_one(_body):
 	around_player_dic[_body.player_name] = _body
 	update_around_player_num(_body)
 	find_around_player_action(_body)
+	find_judge_arond_player_lover(_body)
 	
 func _on_character_player_un_find_some_one(_body):
 	around_player_dic.erase(_body.player_name)
 	update_around_player_num(_body)
 	un_find_around_player_action(_body)
+	un_find_judge_arond_player_lover(_body)
+
+#TODO 喜欢值 实时更新 没有。。。
+func find_judge_arond_player_lover(_body):
+	var is_like_people = control_node.is_like_people(_body)
+	var is_look_like_people = world_status_dic["看到喜欢的人"]
+	var like_people_not_wear = world_status_dic["看到喜欢的人没穿衣服"]
+	var is_like_people_in_bed = world_status_dic["和喜欢的人在床上"]
+	var is_only_has_like_people_in_around = world_status_dic["周围只有喜欢的人"]
+	
+	var update_world_status = false
+	
+	if is_like_people:
+		arond_lover_player_dic[_body.player_name] = _body
+	
+	if not is_look_like_people and is_like_people:
+		is_look_like_people = true
+		world_status_dic["看到喜欢的人"] = is_look_like_people
+		update_world_status = true
+		print(control_node.player_name,"认知 看到喜欢的人 改变")
+		
+	if is_only_has_like_people_in_around and not is_like_people:
+		is_only_has_like_people_in_around = false
+		world_status_dic["周围只有喜欢的人"] = is_only_has_like_people_in_around
+		update_world_status = true
+		print(control_node.player_name,"认知 周围只有喜欢的人 改变")
+	elif not is_only_has_like_people_in_around and is_like_people and arond_lover_player_dic.size() == around_player_dic.size():
+		is_only_has_like_people_in_around = true
+		world_status_dic["周围只有喜欢的人"] = is_only_has_like_people_in_around
+		update_world_status = true
+		print(control_node.player_name,"认知 周围只有喜欢的人 改变")
+
+	if not like_people_not_wear and is_like_people and not _body.is_wear_clothes:
+		like_people_not_wear = true
+		world_status_dic["看到喜欢的人没穿衣服"] = like_people_not_wear
+		print(control_node.player_name,"认知 看到喜欢的人没穿衣服 改变")
+		update_world_status = true
+		
+#	is_like_people_in_bed
+	if update_world_status:
+		emit_signal("world_status_change")
+
+func un_find_judge_arond_player_lover(_body):
+	var is_like_people = arond_lover_player_dic.has(_body.player_name)
+	var is_look_like_people = world_status_dic["看到喜欢的人"]
+	var like_people_not_wear = world_status_dic["看到喜欢的人没穿衣服"]
+	var is_like_people_in_bed = world_status_dic["和喜欢的人在床上"]
+	var is_only_has_like_people_in_around = world_status_dic["周围只有喜欢的人"]
+	
+	var update_world_status = false
+	
+	if is_like_people:
+		arond_lover_player_dic.erase(_body.player_name)
+	
+	if is_look_like_people and is_like_people:
+		is_look_like_people = !arond_lover_player_dic.empty()
+		world_status_dic["看到喜欢的人"] = is_look_like_people
+		update_world_status = true
+		print(control_node.player_name,"认知 看到喜欢的人 改变")
+	
+	if like_people_not_wear and is_like_people:
+		var has_one_people_no_wear = false
+		for item in arond_lover_player_dic.keys():
+			var p = arond_lover_player_dic[item]
+			if not p.is_wear_clothes:
+				has_one_people_no_wear = true
+				break
+		
+		if not has_one_people_no_wear:
+			like_people_not_wear = false
+			update_world_status = true
+			world_status_dic["看到喜欢的人没穿衣服"] = like_people_not_wear
+			print(control_node.player_name,"认知 看到喜欢的人没穿衣服 改变")
+	
+	if is_only_has_like_people_in_around and is_like_people:
+		if arond_lover_player_dic.empty():
+			is_only_has_like_people_in_around = false
+			update_world_status = true
+			world_status_dic["周围只有喜欢的人"] = is_only_has_like_people_in_around
+			print(control_node.player_name,"认知 周围只有喜欢的人 改变")
+		elif arond_lover_player_dic.size() != around_player_dic.size():
+			is_only_has_like_people_in_around = false
+			update_world_status = true
+			world_status_dic["周围只有喜欢的人"] = is_only_has_like_people_in_around
+			print(control_node.player_name,"认知 周围只有喜欢的人 改变")
+			
+	if update_world_status:
+		emit_signal("world_status_change")
+			
 
 func update_around_player_num(_player):
 	var has_other_people = !around_player_dic.empty()

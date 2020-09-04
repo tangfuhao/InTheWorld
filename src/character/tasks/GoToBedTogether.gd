@@ -6,6 +6,8 @@ func active():
 	if human:
 		var target = human.target
 		if target:
+			if target is Player:
+					target.interaction_action(human,action_name)
 			print(human.player_name,"一起上床",target.player_name)
 			return
 	goal_status = STATE.GOAL_FAILED

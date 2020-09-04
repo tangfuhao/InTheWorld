@@ -8,6 +8,7 @@ func active():
 			human.global_position.x = target.global_position.x
 			human.global_position.y = target.global_position.y
 			human.set_status_value("排泄状态",1)
+			human.notify_action("排泄",true)
 			print(human.player_name,"在",target.stuff_name,"排泄")
 			goal_status = STATE.GOAL_COMPLETED
 		else:

@@ -146,6 +146,12 @@ func get_recent_target(params):
 	if params == "其他人":
 		var monitoring_arr:Array =  get_monitoring_arr_by_type("player")
 		return monitoring_arr.front()
+	elif params == "喜欢的人":
+		var monitoring_arr:Array =  get_monitoring_arr_by_type("player")
+		for item in monitoring_arr:
+			if owner.is_like_people(item):
+				return item
+		return null
 	else:
 		var monitoring_arr:Array =  get_monitoring_arr_by_type("stuff")
 		for item in monitoring_arr:
