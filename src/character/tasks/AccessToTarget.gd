@@ -9,7 +9,9 @@ func active() ->void:
 
 	print("获取目标任务激活")
 	if human:
-		var target = human.get_recent_target(get_params())
+		var target = human.target
+		if not target or not target.has_attribute(get_params()):
+			target = human.get_recent_target(get_params())
 		if target:
 			human.set_target(target)
 			has_target = true

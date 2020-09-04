@@ -14,7 +14,9 @@ func active():
 		init_search()
 
 func init_search():
-	var target = human.get_recent_target(get_params())
+	var target = human.target
+	if not target or not target.has_attribute(get_params()):
+		target = human.get_recent_target(get_params())
 	if target:
 		find_stuff = target
 	else:
