@@ -102,7 +102,7 @@ func interaction_action(_player,_action_name):
 
 func is_like_people(_player):
 	var lover_value = relationship_system.get_relation_value_for_player("喜爱值",_player)
-	return lover_value > 0.7
+	return lover_value > 0.6
 
 func _on_target_disappear_notify(_target):
 	if target:
