@@ -71,6 +71,10 @@ stuff_type_name = "马桶"
 position = Vector2( 205.707, 440.397 )
 stuff_type_name = "马桶"
 
+[node name="植物" parent="." instance=ExtResource( 4 )]
+position = Vector2( 709.4, 59.8896 )
+stuff_type_name = "植物"
+
 [node name="Bullets" type="Node2D" parent="."]
 
 [editable path="CommonStuff"]

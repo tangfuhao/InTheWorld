@@ -145,6 +145,7 @@ func shoot(_target_position,_damage):
 func pick_up(_target:CommonStuff) -> void:
 	var item = PackageItemModel.new()
 	item.item_name = _target.stuff_name
+	item.function_attribute_dic = _target.function_attribute_active_dic
 	package.push_back(item)
 	_target.notify_disappear()
 	_target.queue_free()
@@ -172,6 +173,12 @@ func to_wear_clothes():
 func pop_item_by_name_in_package(_name):
 	for item in package:
 		if item.item_name == _name:
+			package.erase(item)
+			return item
+	return null
+func pop_item_by_function_name_in_package(_function_name):
+	for item in package:
+		if item.has_attribute(_function_name):
 			package.erase(item)
 			return item
 	return null
