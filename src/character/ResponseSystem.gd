@@ -13,6 +13,10 @@ var task_cache_dic := {}
 #当前执行中
 var is_current_in_execution = false
 
+#当前执行任务
+var current_execute_task 
+var current_execute_task_flag
+
 func _init(_control_node):
 	control_node = _control_node
 	load_base_task()
@@ -61,19 +65,27 @@ func add_task_to_queue(_asker,_response_action):
 		handle_task_queue.push_back(encode_task_name)
 	
 	
-
+func get_task_queue_encode_task_name(_task_queue):
+	for item in task_cache_dic.keys():
+		if task_cache_dic[item] == _task_queue:
+			return item
+	return null
 
 func get_latest_task(_task_queue,_task_index):
 	if not _task_queue or _task_queue.empty() or _task_queue.size() <= _task_index:
 		return null
-	
-	
-	
+
+	var encode_task_name = get_task_queue_encode_task_name(_task_queue)
+	var task_flag = "%s-%s" % [encode_task_name,String(_task_index)]
+	if current_execute_task and current_execute_task_flag and current_execute_task_flag == task_flag:
+		return current_execute_task
+
 	var latest_task_str = _task_queue[_task_index]
 	if latest_task_str:
-		var task = instance_task(latest_task_str)
-		task.active()
-		return task
+		current_execute_task = instance_task(latest_task_str)
+		current_execute_task_flag = task_flag
+		current_execute_task.active()
+		return current_execute_task
 	return null
 	
 func instance_task(task_name_and_params:String):
