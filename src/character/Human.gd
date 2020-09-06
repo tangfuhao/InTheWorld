@@ -313,15 +313,24 @@ func ask_for_action(_asker,_action_name):
 	var is_accept_action =  random_chance <= accept_chance
 	if is_accept_action:
 		set_target(_asker)
-		add_response_task("加入:"+_action_name)
+		add_response_task(_asker,"加入:"+_action_name)
 	return is_accept_action
+
+
+
+func help_for_request(_asker,_action_name):
+	fixed_memory["发起人"] = _asker
+	add_response_task(_asker,_action_name)
+	
+	
+		
 	
 #加入回应任务
-func add_response_task(_response_action):
+func add_response_task(_asker,_action_name):
 	#1.激活回应动机
 	set_status_value("回应状态",0.4)
 	#2.加入回应动作到回应列表
-	response_system.add_task_to_queue(_response_action)
+	response_system.add_task_to_queue(_asker,_action_name)
 
 	
 

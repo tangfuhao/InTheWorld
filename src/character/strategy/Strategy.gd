@@ -22,6 +22,8 @@ var current_used_weight_variable_arr = []
 
 var need_to_re_plan = false
 
+var ignore_status_change_re_plan = false
+
 
 func setup(_control_node,_world_status,_motivation):
 	randomize()
@@ -58,16 +60,6 @@ func process_task(_delta: float):
 		elif task_state == Task.STATE.GOAL_FAILED: 
 			clean_current_task()
 			current_strategy_chain.clean()
-			
-		
-#	if current_running_task:
-#		var task_state = current_running_task.process(_delta)
-#		if task_state == Task.STATE.GOAL_COMPLETED:
-#			current_running_task.terminate()
-#			current_running_task = run_next_task()
-#		elif task_state == Task.STATE.GOAL_FAILED: 
-#			clean_current_task()
-#			current_strategy_chain.clean()
 
 	if not current_running_task: 
 		send_re_plan_signal()
@@ -80,7 +72,6 @@ func clean_current_task():
 
 func send_re_plan_signal():
 	need_to_re_plan = true
-#	re_plan_strategy()
 
 func run_next_task():
 	if current_strategy_chain:
@@ -105,8 +96,12 @@ func instance_task(task_name_and_params:String):
 		return null
 
 func _on_world_status_change():
-	print(control_node.player_name,"因为认知改变，重新规划")
-	send_re_plan_signal()
+	if not ignore_status_change_re_plan:
+		print(control_node.player_name,"因为认知改变，重新规划")
+		send_re_plan_signal()
+	else:
+		need_to_re_plan = false
+		print(control_node.player_name,"无视认知改变，不规划")
 	
 func _on_motivation_highest_priority_change(motivation):
 	if active_motivation != motivation:

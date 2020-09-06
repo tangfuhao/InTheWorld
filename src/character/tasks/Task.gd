@@ -1,6 +1,6 @@
 class_name Task
 
-var human:Player
+var human
 var params:Array setget set_params
 var action_name
 
