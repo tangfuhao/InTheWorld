@@ -64,11 +64,10 @@ func add_task_to_queue(_asker,_response_action):
 
 
 func get_latest_task(_task_queue,_task_index):
-	if not _task_queue:
+	if not _task_queue or _task_queue.empty() or _task_queue.size() <= _task_index:
 		return null
 	
-	if not _task_queue.has(_task_index):
-		return null
+	
 	
 	var latest_task_str = _task_queue[_task_index]
 	if latest_task_str:
