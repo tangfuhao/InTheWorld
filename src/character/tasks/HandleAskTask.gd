@@ -34,6 +34,11 @@ func process(_delta: float):
 					current_running_task = response_system.get_latest_task(task_queue,task_index)
 					if not current_running_task:
 						#TODO 任务完成
+						var sponer = human.fixed_memory["发起人"]
+						human.fixed_memory["发起人"] = null
+						sponer.interaction_action(human,"回复求助")
+						var current_rinning_task_flag = response_system.get_task_queue_encode_task_name(task_queue)
+						sponer.help_for_result(current_rinning_task_flag)
 						print("任务完成  更新交互")
 					new_create_task = true
 					_delta = 0
@@ -43,10 +48,11 @@ func process(_delta: float):
 		else:
 			task_index = 0
 			response_system.stop_execute()
+			response_system.pop_latest_task()
 	else:
 		goal_status = STATE.GOAL_COMPLETED
 		human.set_status_value("回应状态",1)
-		return goal_status
+	return goal_status
 	
 func terminate() ->void:
 	response_system.stop_execute()

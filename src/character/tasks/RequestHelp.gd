@@ -14,11 +14,21 @@ func active() ->void:
 				print(human.player_name,"向",item.player_name,"发布求助:",get_params())
 	
 	if request_succus:
+		var encode_task_name = "%s-%s" % [human.player_name, get_params()]
 		human.cpu.strategy.ignore_status_change_re_plan = true
+		human.wait_for_help_flag = encode_task_name
 		#TODO 记录发布
 	else:
 		goal_status = STATE.GOAL_FAILED
-		
+
+#等待求组完成
+func process(_delta: float):
+	if human.wait_for_help():
+		goal_status = STATE.GOAL_COMPLETED
+	
+	return goal_status
+
 	
 func terminate() ->void:
 	human.cpu.strategy.ignore_status_change_re_plan = false
+	human.wait_for_help_flag = null

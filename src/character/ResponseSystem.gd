@@ -113,14 +113,17 @@ func get_latest_task_queue():
 	
 	var encode_task_name = handle_task_queue.front()
 	return task_cache_dic[encode_task_name]
+
 	
 func pop_latest_task():
 	if handle_task_queue.empty():
 		return null
 		
 	var encode_task_name = handle_task_queue.pop_front()
+	task_sponsor_dic.erase(task_cache_dic[encode_task_name])
 	task_cache_dic.erase(encode_task_name)
-	task_sponsor_dic.erase(encode_task_name)
+	current_execute_task = null
+	current_execute_task_flag = null
 
 func get_task_sponsor(task_queue):
 	return task_sponsor_dic[task_queue]
