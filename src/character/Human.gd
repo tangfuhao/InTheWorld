@@ -36,7 +36,8 @@ var preprocess_action_notify_dic = {}
 var fixed_memory = {}
 var radius = 8
 
-
+#等到的求助flag
+var wait_for_help_flag
 
 
 signal to_target_distance_update(distance)
@@ -322,8 +323,15 @@ func help_for_request(_asker,_action_name):
 	fixed_memory["发起人"] = _asker
 	add_response_task(_asker,_action_name)
 	
+
+func wait_for_help():
+	if wait_for_help_flag:
+		return false
+	return true
 	
-		
+func help_for_result(_help_flag):
+	if wait_for_help_flag and wait_for_help_flag == _help_flag:
+		wait_for_help_flag = null
 	
 #加入回应任务
 func add_response_task(_asker,_action_name):
