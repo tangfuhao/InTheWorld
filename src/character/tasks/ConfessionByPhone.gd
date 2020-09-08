@@ -4,7 +4,7 @@ class_name ConfessionByPhone
 func active():
 	.active()
 	if human:
-		var target = human.target
+		var target = human.get_target()
 		if target and target is Player:
 			target.interaction_action(human,action_name)
 			human.set_status_value("爱情动机",1)

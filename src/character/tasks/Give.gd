@@ -5,12 +5,12 @@ class_name Give
 func active():
 	.active()
 	if human:
-		var target = human.target
-		if target and target is Player:
+		var target = human.get_target()
+		if target:
 			print(human.player_name,"赠送",target.player_name)
-			var item = human.pop_item_by_function_name_in_package(get_params())
+			var item = human.inventory_system.pop_item_by_function_name_in_package(get_params())
 			if item:
-				target.package.push_back(item)
+				target.inventory_system.add_item_to_package(item)
 				goal_status = STATE.GOAL_COMPLETED
 				return
 	goal_status = STATE.GOAL_FAILED

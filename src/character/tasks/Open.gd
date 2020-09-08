@@ -4,7 +4,7 @@ class_name Open
 func active():
 	.active()
 	if human:
-		var target = human.target
+		var target = human.get_target()
 		if target:
 			if human.is_approach(target):
 				print(human.player_name,"打开",target.stuff_name)

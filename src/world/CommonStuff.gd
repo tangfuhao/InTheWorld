@@ -131,13 +131,6 @@ func load_json(file_path):
 		return []
 		
 
-func has_attribute(_params) -> bool :
-	if not _params:
-		return false
-	return active_functon_attribute_params_dic.has(_params)
-
-func notify_disappear():
-	emit_signal("disappear_notify",self)
 
 
 func _on_CommonStuff_body_entered(body):
@@ -166,5 +159,16 @@ func _on_CommonStuff_body_exited(body):
 		elif wait_player_arr.has(body):
 			wait_player_arr.erase(body)
 			
-			
-			
+func disappear():
+	notify_disappear()
+	queue_free()
+	
+
+func has_attribute(_params) -> bool :
+	if not _params:
+		return false
+	return active_functon_attribute_params_dic.has(_params)
+
+func notify_disappear():
+	emit_signal("disappear_notify",self)
+

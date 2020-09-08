@@ -10,7 +10,7 @@ func active()->void:
 		goal_status = STATE.GOAL_FAILED
 		return
 
-	var target = human.target
+	var target = human.get_target()
 	if target and target is Player and target.get_current_action_name() == get_params():
 		want_to_join_group_action = target.get_group_action()
 		join_action_name = want_to_join_group_action.action_name

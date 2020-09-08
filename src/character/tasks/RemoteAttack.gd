@@ -21,7 +21,7 @@ func create_action_timer():
 
 func process(_delta: float):
 	if human:
-		var target = human.target
+		var target = human.get_target()
 		if target:
 			human.movement.set_desired_position(target.global_position)
 			check_weapons()
@@ -46,7 +46,7 @@ func _on_action_timer_time_out():
 	restore_action = true
 	
 func remove_weapon_form_package(item):
-	human.remove_item_in_package(item)
+	human.inventory_system.remove_item_in_package(item)
 	
 	
 	
@@ -58,7 +58,7 @@ func check_weapons():
 
 func equipment_weapons():
 	while current_remote_weapon == null:
-		current_remote_weapon = human.get_item_by_function_attribute_in_package("可发射的")
+		current_remote_weapon = human.inventory_system.get_item_by_function_attribute_in_package("可发射的")
 		if current_remote_weapon:
 			shoot_times = int(current_remote_weapon.get_params("发射次数"))
 			shoot_duration = float(current_remote_weapon.get_params("动作时间") )

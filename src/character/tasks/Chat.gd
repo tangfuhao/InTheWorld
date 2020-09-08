@@ -6,7 +6,7 @@ func active():
 	if not human:
 		goal_status = STATE.GOAL_FAILED
 		return
-	var target = human.target
+	var target = human.get_target()
 	if not target:
 		goal_status = STATE.GOAL_FAILED
 		return

@@ -5,7 +5,7 @@ class_name Smear
 func active():
 	.active()
 	if human:
-		var target = human.target
+		var target = human.get_target()
 		if target:
 			if human.is_approach(target):
 				print(human.player_name,"涂抹",target.stuff_name)

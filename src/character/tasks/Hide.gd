@@ -11,7 +11,7 @@ func active():
 	.active()
 	if human:
 		world_status = human.cpu.world_status
-		var target = human.target
+		var target = human.get_target()
 		if target:
 			if human.is_approach(target):
 				human.global_position.x = target.global_position.x

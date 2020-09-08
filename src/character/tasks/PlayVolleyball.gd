@@ -4,7 +4,7 @@ class_name PlayVolleyball
 func active():
 	.active()
 	if human:
-		var target = human.target
+		var target = human.get_target()
 		if target:
 			if human.is_interaction_distance(target):
 				print(human.player_name,"打排球",target.player_name)

@@ -5,7 +5,7 @@ var is_picked = false
 func active() ->void:
 	.active()
 	if human:
-		var target = human.target
+		var target = human.get_target()
 		if target:
 			if target is CommonStuff:
 				if human.is_approach(target):

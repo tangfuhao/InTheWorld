@@ -1,6 +1,6 @@
 class_name PackageItemModel
 var item_name
-var function_attribute_dic
+var function_attribute_dic = {}
 
 func has_attribute(_attribute):
 	if function_attribute_dic.has(_attribute):

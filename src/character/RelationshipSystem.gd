@@ -29,8 +29,9 @@ func interaction_action(_player,_action_name):
 
 #监听默认行为
 func bind_player_vision(_player):
-	_player.connect("find_some_one",self,"_on_vision_some_one")
-	_player.connect("un_find_some_one",self,"_on_vision_un_some_one")
+	owner_name = _player.player_name
+	_player.visionSensor.connect("vision_find_player",self,"_on_vision_some_one")
+	_player.visionSensor.connect("vision_lost_player",self,"_on_vision_un_some_one")
 
 func _on_vision_some_one(_body):
 	_body.connect("player_action_notify",self,"_on_around_player_action_notify")

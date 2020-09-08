@@ -14,14 +14,14 @@ func active():
 		init_search()
 
 func init_search():
-	var target = human.target
+	var target = human.get_target()
 	if not target or not target.has_attribute(get_params()):
 		target = human.get_recent_target(get_params())
 	if target:
 		find_stuff = target
 	else:
-		human.connect("find_some_one",self,"_on_charactar_find_something")
-		human.connect("find_some_stuff",self,"_on_charactar_find_something")
+		human.visionSensor.connect("vision_find_player",self,"_on_charactar_find_something")
+		human.visionSensor.connect("vision_find_stuff",self,"_on_charactar_find_something")
 
 
 func process(_delta: float):

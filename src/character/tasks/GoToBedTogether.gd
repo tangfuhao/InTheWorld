@@ -4,7 +4,7 @@ class_name GoToBedTogether
 func active():
 	.active()
 	if human:
-		var target = human.target
+		var target = human.get_target()
 		if target:
 			if target is Player:
 					target.interaction_action(human,action_name)

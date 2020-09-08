@@ -95,7 +95,8 @@ func instance_task(task_name_and_params:String):
 		print("不存在的任务:",task_name)
 		return null
 
-func _on_world_status_change():
+func _on_world_status_change(_world_status_item):
+	#TODO 优化规划
 	if not ignore_status_change_re_plan:
 		print(control_node.player_name,"因为认知改变，重新规划")
 		send_re_plan_signal()

@@ -55,8 +55,6 @@ visible = false
 visible = false
 
 [node name="NameDisplay" parent="." instance=ExtResource( 5 )]
-[connection signal="area_entered" from="HurtBox" to="." method="_on_HurtBox_area_entered"]
-[connection signal="body_entered" from="HurtBox" to="." method="_on_HurtBox_body_entered"]
 
 [editable path="CPU"]
 

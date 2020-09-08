@@ -4,7 +4,7 @@ class_name Kiss
 func active():
 	.active()
 	if human:
-		var target = human.target
+		var target = human.get_target()
 		if target:
 			if human.is_approach(target):
 				if target is Player:

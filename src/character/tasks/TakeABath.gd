@@ -10,7 +10,7 @@ func active():
 	create_action_timer()
 	
 	if human:
-		var target = human.target
+		var target = human.get_target()
 		if target:
 			if human.is_approach(target) and target.can_interaction(human):
 				human.global_position.x = target.global_position.x
@@ -30,7 +30,7 @@ func create_action_timer():
 		
 func process(_delta: float):
 	if finish_take_a_bath:
-		human.take_a_bath()
+		human.set_status_value("清洁状态",1)
 		human.to_wear_clothes()
 		goal_status = STATE.GOAL_COMPLETED
 	return goal_status

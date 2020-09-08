@@ -4,12 +4,12 @@ class_name Eat
 func active():
 	.active()
 	if human:
-		var target = human.target
+		var target = human.get_target()
 		var edible_name = get_params()
 		if edible_name:
-			var item = human.pop_item_by_name_in_package(edible_name)
+			var item = human.inventory_system.pop_item_by_name_in_package(edible_name)
 			if not item:
-				item = human.pop_item_by_function_name_in_package(edible_name)
+				item = human.inventory_system.pop_item_by_function_name_in_package(edible_name)
 			if item:
 				print(human.player_name,"吃",item.item_name)
 				human.set_status_value("饥饿状态",1)
