@@ -35,7 +35,9 @@ func binding_listening_relative():
 func set_highest_priority_motivation(value):
 	if highest_priority_motivation != value:
 		highest_priority_motivation = value
-		# print("最高优先级动机改变为:",highest_priority_motivation.motivation_name)
+		if highest_priority_motivation.motivation_name == "爱情动机":
+			print("最高优先级动机改变为:",highest_priority_motivation.motivation_name)	
+		
 		emit_signal("highest_priority_motivation_change",highest_priority_motivation)
 
 
@@ -68,7 +70,7 @@ class MotivationSort:
 		return false
 
 func resort_highest_priority():
-	if self.highest_priority_motivation.is_active == false: 
+	if not self.highest_priority_motivation.is_active: 
 		if active_motivation_arr.empty(): return null
 		active_motivation_arr.sort_custom(MotivationSort,"sort_ascending")
 		return active_motivation_arr[0]

@@ -69,7 +69,7 @@ func meet_condition(_condition_item) -> bool :
 		else:
 			return value
 	else:
-		print("不存在的认知:",_condition_item," 默认返回false")
+		print(control_node.player_name,":不存在的认知:",condition_item_name," 默认返回false")
 		return false
 
 

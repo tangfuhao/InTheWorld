@@ -96,11 +96,17 @@ func instance_task(task_name_and_params:String):
 		return null
 
 func _on_world_status_change(_world_status_item):
-	#TODO 优化规划
+	if current_strategy_chain and not current_strategy_chain.listening_relation_world_status.has(_world_status_item):
+		print(control_node.player_name,"认知：",_world_status_item,"不属于当前相关认知，不规划")
+		return 
+	
+	
 	if ignore_status_change_re_plan:
 		need_to_re_plan = false
 		print(control_node.player_name,"无视认知改变，不规划")
 		return 
+		
+	
 	
 	print(control_node.player_name,"因为认知改变，重新规划")
 	send_re_plan_signal()
@@ -120,8 +126,11 @@ func re_plan_strategy():
 			var new_strategy_chain = StrategyChain.new()
 			var plan_result = plan_strategy(strategy,0,current_strategy_chain,new_strategy_chain)
 			if plan_result: 
+				#分析相关的世界认知 加入队列
+				new_strategy_chain.analyse_listner_world_status()
 				change_task(new_strategy_chain)
 				print(control_node.player_name,"规划策略:",new_strategy_chain.to_list(),",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
+				print("相关认知:",new_strategy_chain.get_relation_world_status_str())
 			else:
 				change_task(null)
 				print("规划策略:无策略",",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
@@ -139,60 +148,65 @@ func is_match_current_strategy(_current_strategy_chain,_new_strategy_chain,_leve
 	for item in range(0,level_num):
 		if _current_strategy_chain.get_startegy_by_index(item) != _new_strategy_chain.get_startegy_by_index(item): return false
 	return true
+	
+#同步随机码数组
+func sync_random_code_arr(_current_strategy_chain,_new_strategy_chain,_level):
+	var random_code_arr = _new_strategy_chain.random_code_arr
+	var is_match_current_strategy = is_match_current_strategy(_current_strategy_chain,_new_strategy_chain,_level)
+
+	if is_match_current_strategy: 
+		random_code_arr.clear()
+		#如果当前的策略码数目不足 用之前的补足
+		if random_code_arr.size() <= _level:
+			var start_index = random_code_arr.size() 
+			var end_index = _level+1
+			for index in range(start_index,end_index):
+				var random_code = _current_strategy_chain.random_code_arr[index]
+				_new_strategy_chain.random_code_arr.push_back(random_code)
+	return random_code_arr
 
 #规划策略
-func plan_strategy(_strategy,level,_current_strategy_chain,_new_strategy_chain) -> bool:
+func plan_strategy(_strategy,_level,_current_strategy_chain,_new_strategy_chain) -> bool:
 	_new_strategy_chain.push_back_strategy(_strategy)
 	var meet_strategy_arr:Array = plan_condition_meet_strategy_arr(_strategy.strong_strategy_arr,_strategy.weak_strategy_arr)
-		
-	if not meet_strategy_arr.empty():
-		var random_code_arr = _new_strategy_chain.random_code_arr
-		var is_match_current_strategy = is_match_current_strategy(_current_strategy_chain,_new_strategy_chain,level)
-
-		if is_match_current_strategy: 
-			random_code_arr.clear()
-			#如果当前的策略码数目不足 用之前的补足
-			if random_code_arr.size() <= level:
-				var start_index = random_code_arr.size() 
-				var end_index = level+1
-				for index in range(start_index,end_index):
-					var random_code = _current_strategy_chain.random_code_arr[index]
-					_new_strategy_chain.random_code_arr.push_back(random_code)
-
-		
-#		1.选择策略
-#		2.规划策略的任务
-#		3.规划失败，移除当前策略 重新选择策略
-		
-		var select_strategy = select_strategy(_strategy.order_sort_type,meet_strategy_arr,random_code_arr,level)
-		while select_strategy:
-			if plan_task_queue(select_strategy.task_queue,level,_current_strategy_chain,_new_strategy_chain) == false:
-				#规划失败的情况
-				while _new_strategy_chain.random_code_arr.size() > level:
-					_new_strategy_chain.random_code_arr.pop_back()
-					
-				_new_strategy_chain.roll_back_level(level)
-
-
-				meet_strategy_arr.remove(meet_strategy_arr.find(select_strategy))
-				if meet_strategy_arr.empty():
-					select_strategy = null
-				else:
-					select_strategy = select_strategy(_strategy.order_sort_type,meet_strategy_arr,random_code_arr,level)
+	if meet_strategy_arr.empty():
+		_new_strategy_chain.roll_back_strategy()
+		return false
+	
+	var random_code_arr = sync_random_code_arr(_current_strategy_chain,_new_strategy_chain,_level)
+#	1.选择策略
+#	2.规划策略的任务
+#	3.规划失败，移除当前策略 重新选择策略
+	
+	var select_strategy = select_strategy(_strategy.order_sort_type,meet_strategy_arr,random_code_arr,_level)
+	while select_strategy:
+		if not plan_task_queue(select_strategy.task_queue,_level,_current_strategy_chain,_new_strategy_chain):
+			#规划失败的情况
+			while _new_strategy_chain.random_code_arr.size() > _level:
+				_new_strategy_chain.random_code_arr.pop_back()
+				
+			_new_strategy_chain.roll_back_level(_level)
+			
+			meet_strategy_arr.erase(select_strategy)
+			if meet_strategy_arr.empty():
+				select_strategy = null
 			else:
-				#规划完成
-				return true
+				select_strategy = select_strategy(_strategy.order_sort_type,meet_strategy_arr,random_code_arr,_level)
+		else:
+			#规划完成
+			return true
+
 	_new_strategy_chain.roll_back_strategy()
 	return false
 	
-func plan_task_queue(task_queue,level,_current_strategy_chain,_new_strategy_chain):
+func plan_task_queue(task_queue,_level,_current_strategy_chain,_new_strategy_chain):
 	for task in task_queue:
 		var task_name = get_simple_task_name(task)
 		if is_primary_task(task_name):
-			_new_strategy_chain.push_task_level(level,task)
+			_new_strategy_chain.push_task_level(_level,task)
 		else:
 			var strategy = get_strategy_by_task_name(task_name)
-			var plan_result =  plan_strategy(strategy,level+1,_current_strategy_chain,_new_strategy_chain)
+			var plan_result =  plan_strategy(strategy,_level+1,_current_strategy_chain,_new_strategy_chain)
 			if not plan_result:
 				return false
 	return true 

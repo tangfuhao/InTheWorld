@@ -1,7 +1,30 @@
 class_name StrategyChain
+#随机码数组
 var random_code_arr:Array = [] 
+#任务链
 var task_name_chian:Dictionary = {}
+#策略链
 var strategy_chain:Array = []
+#树上有关的认知
+var listening_relation_world_status = []
+
+
+func get_relation_world_status_str():
+	var string_build:PoolStringArray = PoolStringArray(listening_relation_world_status)
+	return string_build.join(";")
+
+#相关认知
+func analyse_listner_world_status():
+	listening_relation_world_status.clear()
+	for strategy in strategy_chain:
+		analyse_strategy_item_relation_world_status(strategy.strong_strategy_arr)
+		analyse_strategy_item_relation_world_status(strategy.weak_strategy_arr)
+		
+func analyse_strategy_item_relation_world_status(strategy_arr):
+	for strategy_item in strategy_arr:
+		var condition_arr = strategy_item.pre_condition_arr
+		for condition_item in condition_arr:
+			listening_relation_world_status.push_back(condition_item)
 
 func clean():
 	random_code_arr.clear()
