@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://src/character/Human.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/world/world_map.tres" type="TileSet" id=2]
 [ext_resource path="res://src/world/World.gd" type="Script" id=3]
 [ext_resource path="res://src/world/CommonStuff.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/world/PlayerMessageAnalyzer.gd" type="Script" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -82,6 +83,9 @@ position = Vector2( 713.506, 419.866 )
 stuff_type_name = "一桶水"
 
 [node name="Bullets" type="Node2D" parent="."]
+
+[node name="角色消息分析器" type="Node" parent="."]
+script = ExtResource( 5 )
 
 [editable path="CommonStuff"]
 
