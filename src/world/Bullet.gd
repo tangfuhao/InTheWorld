@@ -19,7 +19,7 @@ func _physics_process(delta: float) -> void:
 		coliision_finish()
 
 func coliision_finish():
-	if timer.is_stopped() == false:
+	if not timer.is_stopped():
 		timer.stop()
 		clear()
 

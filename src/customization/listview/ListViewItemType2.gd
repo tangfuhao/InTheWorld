@@ -10,7 +10,7 @@ signal item_value_change(index,key,value)
 
 	
 func set_selector_arr(selector_arr:Array,_selected_value):
-	if selector_arr && selector_arr.empty() == false: 
+	if selector_arr && not selector_arr.empty(): 
 		is_show_selector = true
 		dropdown.visible = true
 		text_edit.visible = false

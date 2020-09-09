@@ -18,7 +18,7 @@ func setup(_control_node):
 
 func pauseUpdate():
 	pause_left_time = 0
-	if updateTimer.is_stopped() == false:
+	if not updateTimer.is_stopped():
 		pause_left_time = updateTimer.time_left
 		updateTimer.stop()
 	

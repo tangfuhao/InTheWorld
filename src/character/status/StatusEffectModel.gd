@@ -25,7 +25,7 @@ func _on_status_value_update(status):
 
 func check_condition_meet():
 	var is_active_temp = is_active
-	if condition_arr.empty() == false:
+	if not condition_arr.empty():
 		var is_meet = true
 		var index = 0
 		var size = condition_arr.size()
@@ -50,7 +50,8 @@ func check_condition_meet():
 	# 	print(condition_name,"---停止激活")
 
 func update_effects(statusDic):
-	if is_active == false: return
+	if not is_active: 
+		return
 	for effect in effect_arr:
 		var property_str = effect[0]
 		var condition_str = effect[1]

@@ -33,7 +33,7 @@ func set_active(_active):
 func _gui_input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == BUTTON_LEFT and event.pressed:
-			if item_selected == false:
+			if not item_selected:
 				emit_signal("item_selected",item_index)
 			
 

@@ -77,7 +77,7 @@ func add_item_type_3(_index,_label,_select_arr,_selected_value):
 	list_item.connect("item_value_change",self,"_on_item_value_change")
 	
 	list_item.set_label(_label)
-	if _select_arr.empty() == false:
+	if not _select_arr.empty():
 		list_item.set_selector_arr(_select_arr,_selected_value)
 	else:
 		list_item.set_edit_value(_selected_value)

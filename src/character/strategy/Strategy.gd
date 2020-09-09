@@ -97,13 +97,15 @@ func instance_task(task_name_and_params:String):
 
 func _on_world_status_change(_world_status_item):
 	#TODO 优化规划
-	if not ignore_status_change_re_plan:
-		print(control_node.player_name,"因为认知改变，重新规划")
-		send_re_plan_signal()
-	else:
+	if ignore_status_change_re_plan:
 		need_to_re_plan = false
 		print(control_node.player_name,"无视认知改变，不规划")
+		return 
 	
+	print(control_node.player_name,"因为认知改变，重新规划")
+	send_re_plan_signal()
+
+
 func _on_motivation_highest_priority_change(motivation):
 	if active_motivation != motivation:
 		active_motivation = motivation
@@ -143,7 +145,7 @@ func plan_strategy(_strategy,level,_current_strategy_chain,_new_strategy_chain) 
 	_new_strategy_chain.push_back_strategy(_strategy)
 	var meet_strategy_arr:Array = plan_condition_meet_strategy_arr(_strategy.strong_strategy_arr,_strategy.weak_strategy_arr)
 		
-	if meet_strategy_arr.empty() == false:
+	if not meet_strategy_arr.empty():
 		var random_code_arr = _new_strategy_chain.random_code_arr
 		var is_match_current_strategy = is_match_current_strategy(_current_strategy_chain,_new_strategy_chain,level)
 
@@ -170,6 +172,8 @@ func plan_strategy(_strategy,level,_current_strategy_chain,_new_strategy_chain) 
 					_new_strategy_chain.random_code_arr.pop_back()
 					
 				_new_strategy_chain.roll_back_level(level)
+
+
 				meet_strategy_arr.remove(meet_strategy_arr.find(select_strategy))
 				if meet_strategy_arr.empty():
 					select_strategy = null
@@ -182,15 +186,14 @@ func plan_strategy(_strategy,level,_current_strategy_chain,_new_strategy_chain) 
 	return false
 	
 func plan_task_queue(task_queue,level,_current_strategy_chain,_new_strategy_chain):
-	var plan_result 
 	for task in task_queue:
 		var task_name = get_simple_task_name(task)
 		if is_primary_task(task_name):
 			_new_strategy_chain.push_task_level(level,task)
 		else:
 			var strategy = get_strategy_by_task_name(task_name)
-			plan_result =  plan_strategy(strategy,level+1,_current_strategy_chain,_new_strategy_chain)
-			if plan_result == false:
+			var plan_result =  plan_strategy(strategy,level+1,_current_strategy_chain,_new_strategy_chain)
+			if not plan_result:
 				return false
 	return true 
 
@@ -284,7 +287,7 @@ func check_meet_pre_condition_in_world_status(condition_arr):
 	var meet_condition = true
 	for item in condition_arr:
 		var result = world_status.meet_condition(item)
-		if result == false:
+		if not result:
 			meet_condition = false
 			return meet_condition
 	return meet_condition
