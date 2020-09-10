@@ -480,7 +480,7 @@ _global_script_classes=[ {
 "path": "res://src/character/tasks/SaySorry.gd"
 }, {
 "base": "Sensor",
-"class": "SelfHurtSensor",
+"class": "SelfHurtBoxSensor",
 "language": "GDScript",
 "path": "res://src/character/sensor/SelfHurtSensor.gd"
 }, {
@@ -709,7 +709,7 @@ _global_script_class_icons={
 "RequestHelp": "",
 "ResponseSystem": "",
 "SaySorry": "",
-"SelfHurtSensor": "",
+"SelfHurtBoxSensor": "",
 "SelfInventorySensor": "",
 "SelfLocationSensor": "",
 "SelfStateSensor": "",
