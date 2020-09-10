@@ -17,5 +17,6 @@ func active():
 	
 	human.start_join_group_action(action_name,2)
 	human.notify_action(action_name,true)
-	print(human.player_name,"聊天",target.player_name)
+	GlobalMessageGenerator.send_player_action(human,action_name,target)
+	# print(human.player_name,"聊天",target.player_name)
 	

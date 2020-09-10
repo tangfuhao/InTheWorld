@@ -7,9 +7,9 @@ func active():
 	if human:
 		var target = human.get_target()
 		if target:
-			print(human.player_name,"赠送",target.player_name)
 			var item = human.inventory_system.pop_item_by_function_name_in_package(get_params())
 			if item:
+				GlobalMessageGenerator.send_player_action(human,action_name,target)
 				target.inventory_system.add_item_to_package(item)
 				goal_status = STATE.GOAL_COMPLETED
 				return

@@ -6,9 +6,8 @@ func active():
 	if human:
 		var target = human.get_target()
 		if target:
-			if target is Player:
-				target.interaction_action(human,action_name)
-				human.set_status_value("爱情动机",0.9)
-			print(human.player_name,"弹情歌:",target.player_name)
+			GlobalMessageGenerator.send_player_action(human,action_name,target)
+			target.interaction_action(human,action_name)
+			human.set_status_value("爱情动机",0.9)
 			return
 	goal_status = STATE.GOAL_FAILED

@@ -16,7 +16,8 @@ func active():
 				human.global_position.x = target.global_position.x
 				human.global_position.y = target.global_position.y
 				human.take_off_clothes()
-				print(human.player_name,"在",target.stuff_name,"洗澡")
+				GlobalMessageGenerator.send_player_action(human,action_name,target)
+				# print(human.player_name,"在",target.stuff_name,"洗澡")
 				action_timer.start(5)
 				return
 				

@@ -9,7 +9,8 @@ func active():
 			if human.is_approach(target):
 				human.global_position.x = target.global_position.x
 				human.global_position.y = target.global_position.y
-				print(human.player_name,"在",target.stuff_name,"做作业")
+				# print(human.player_name,"在",target.stuff_name,"做作业")
+				GlobalMessageGenerator.send_player_action(human,action_name,null)
 				return
 
 	goal_status = STATE.GOAL_FAILED

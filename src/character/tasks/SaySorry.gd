@@ -7,7 +7,8 @@ func active():
 		var target = human.get_target()
 		if target:
 			if human.is_interaction_distance(target):
-				print(human.player_name,"道歉",target.player_name)
+				# print(human.player_name,"道歉",target.player_name)
+				GlobalMessageGenerator.send_player_action(human,action_name,target)
 				goal_status = STATE.GOAL_COMPLETED
 				return
 	goal_status = STATE.GOAL_FAILED

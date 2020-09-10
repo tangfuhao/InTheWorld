@@ -23,6 +23,7 @@ func active()->void:
 			human.join_group_action(want_to_join_group_action)
 			human.notify_action(join_action_name,true)
 			want_to_join_group_action = null
+			GlobalMessageGenerator.send_player_action(human,action_name,null)
 	else:
 		goal_status = STATE.GOAL_FAILED
 		
@@ -42,6 +43,7 @@ func process(_delta: float):
 		want_to_join_group_action.connect("")
 		human.notify_action(join_action_name,true)
 		want_to_join_group_action = null
+		GlobalMessageGenerator.send_player_action(human,action_name,null)
 
 	return goal_status
 	

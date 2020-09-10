@@ -26,7 +26,7 @@ func get_dic_str(var message_dic):
 			string_build.append(target)
 			
 			
-		var action = message_dic["action"]
+		var action = message_dic["value"]
 		string_build.append("执行:")
 		string_build.append(action)
 	elif type == "find_in_vision":

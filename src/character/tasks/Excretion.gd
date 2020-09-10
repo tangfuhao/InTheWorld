@@ -9,9 +9,11 @@ func active():
 			human.global_position.y = target.global_position.y
 			human.set_status_value("排泄状态",1)
 			human.notify_action("排泄",true)
-			print(human.player_name,"在",target.stuff_name,"排泄")
+			# print(human.player_name,"在",target.stuff_name,"排泄")
+			GlobalMessageGenerator.send_player_action(human,action_name,target)
 			goal_status = STATE.GOAL_COMPLETED
 		else:
-			print(human.player_name,"直接排泄了")
+			GlobalMessageGenerator.send_player_action(human,action_name,null)
+			# print(human.player_name,"直接排泄了")
 	else:
 		goal_status = STATE.GOAL_FAILED

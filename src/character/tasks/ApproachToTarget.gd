@@ -2,31 +2,34 @@ extends "res://src/character/tasks/NoLimitTask.gd"
 class_name ApproachToTarget
 #接近目标的任务
 
+var approach_target
+
 func active():
 	.active()
 	# print("移动到目标激活")
-	if human:
-		# print(human.player_name,"移动到目标激活")
-		human.movement.is_on = true
+	if human:		
+		approach_target = human.get_target()
+		if approach_target:
+			if human.is_approach(approach_target):
+				goal_status = STATE.GOAL_COMPLETED
+			else:
+				human.movement.is_on = true
+				GlobalMessageGenerator.send_player_action(human,action_name,approach_target)
+			return
+	goal_status = STATE.GOAL_FAILED
+
+		
 
 func process(_delta: float):
-	if human:
-		var target = human.get_target()
-		if target:
-			if human.is_approach(target):
-				#print(human.player_name,"移动到目标成功")
-				return STATE.GOAL_COMPLETED
-			else:
-#				var direction:Vector2 = human.global_position - target.global_position
-#				direction = direction.normalized()
-				human.movement.set_desired_position(target.global_position)
-				return STATE.GOAL_ACTIVE
-	#print(human.player_name,"移动到目标失败")
-	return STATE.GOAL_FAILED
+	if goal_status == STATE.GOAL_ACTIVE:
+		human.movement.set_desired_position(approach_target.global_position)
+		if human.is_approach(approach_target):
+			goal_status = STATE.GOAL_COMPLETED
+		
+	return goal_status
 
 func terminate():
 	if human:
-		#print(human.player_name,"移动到目标结束")
 		human.movement.is_on = false
 		human.movement.direction = Vector2.ZERO
 		

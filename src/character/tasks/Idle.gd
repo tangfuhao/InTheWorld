@@ -3,7 +3,8 @@ class_name Idle
 func active() ->void:
 	.active()
 	if human:
-		print(human.player_name,"站立")
+		GlobalMessageGenerator.send_player_action(human,action_name,null)
+		# print(human.player_name,"站立")
 
 
 func process(_delta: float):
