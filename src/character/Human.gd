@@ -115,10 +115,10 @@ func location_change(_location_name):
 
 func set_target(_target):
 	target_system.set_target(_target)
-	if _target is CommonStuff:
-		print(player_name,"的目标改为:",_target.stuff_name)
-	else:
-		print(player_name,"的目标改为:",_target.player_name)
+#	if _target is CommonStuff:
+#		print(player_name,"的目标改为:",_target.stuff_name)
+#	else:
+#		print(player_name,"的目标改为:",_target.player_name)
 
 func get_target():
 	return target_system.target
@@ -150,7 +150,7 @@ func shoot(_target_position,_damage):
 
 func pick_up(_target:CommonStuff) -> void:
 	inventory_system.add_stuff_to_package(_target)
-	print(player_name,"捡起了",_target.stuff_name)
+	# print(player_name,"捡起了",_target.stuff_name)
 	# emit_signal("package_item_change",_target,true)
 
 
@@ -165,12 +165,12 @@ func be_hurt(_damage):
 func take_off_clothes():
 	if is_wear_clothes:
 		is_wear_clothes = false
-		print(player_name,"脱衣服")
+		# print(player_name,"脱衣服")
 
 func to_wear_clothes():
 	if not is_wear_clothes:
 		is_wear_clothes = true
-		print(player_name,"穿衣服")
+		# print(player_name,"穿衣服")
 
 
 
@@ -192,7 +192,7 @@ func join_group_action(_group_action):
 #获取当前的组行为
 func get_group_action():
 	if not current_group_task or not current_group_task.has_player(self):
-		print(player_name,"不存在的组行为")
+		# print(player_name,"不存在的组行为")
 		return null
 	return current_group_task
 
@@ -221,19 +221,19 @@ func is_togeter_group_action(_player):
 
 #行为通知 延迟通知
 func notify_action(_action_name,_is_active):
-	if _is_active:
-		print(player_name,"预通知：",_action_name,"开始")
-	else:
-		print(player_name,"预通知：",_action_name,"结束")
+	# if _is_active:
+	# 	print(player_name,"预通知：",_action_name,"开始")
+	# else:
+	# 	print(player_name,"预通知：",_action_name,"结束")
 	preprocess_action_notify_dic[_action_name] = _is_active
 	
 func handle_preprocess_action_notify():
 	for action_name in preprocess_action_notify_dic.keys():
 		var is_active = preprocess_action_notify_dic[action_name]
-		if is_active:
-			print(player_name,"处理预通知:",action_name,"开始")
-		else:
-			print(player_name,"处理预通知:",action_name,"结束")
+		# if is_active:
+		# 	print(player_name,"处理预通知:",action_name,"开始")
+		# else:
+		# 	print(player_name,"处理预通知:",action_name,"结束")
 		
 		emit_signal("player_action_notify",self,action_name,is_active)
 		

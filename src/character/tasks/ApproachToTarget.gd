@@ -4,9 +4,9 @@ class_name ApproachToTarget
 
 func active():
 	.active()
-	print("移动到目标激活")
+	# print("移动到目标激活")
 	if human:
-		print(human.player_name,"移动到目标激活")
+		# print(human.player_name,"移动到目标激活")
 		human.movement.is_on = true
 
 func process(_delta: float):

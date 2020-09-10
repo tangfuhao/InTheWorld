@@ -6,7 +6,7 @@ var find_stuff
 
 func active():
 	.active()
-	print("周围移动寻找激活")
+	# print("周围移动寻找激活")
 	if human:
 		# print(human.player_name,"周围移动寻找激活")
 		human.movement.is_on = true

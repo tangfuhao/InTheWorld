@@ -25,7 +25,7 @@ func interaction_action(_player,_action_name):
 	if effect_value:
 		lover_value = lover_value + effect_value
 		set_relation_value_for_player("喜爱值",_player,lover_value)
-		print("由于",_player.player_name,"对",owner_name,"执行:",_action_name,"，",owner_name,"对其喜爱值受影响：",effect_value,".最终为：",lover_value)
+		# print("由于",_player.player_name,"对",owner_name,"执行:",_action_name,"，",owner_name,"对其喜爱值受影响：",effect_value,".最终为：",lover_value)
 
 #监听默认行为
 func bind_player_vision(_player):
@@ -48,7 +48,7 @@ func _on_around_player_action_notify(_player,_action_name,_is_active):
 		if effect_value:
 			lover_value = lover_value + effect_value
 			set_relation_value_for_player("喜爱值",_player,lover_value)
-			print("由于看到",_player.player_name,"执行:",_action_name,"，",owner_name,"对其喜爱值受影响：",effect_value,".最终为：",lover_value)
+			# print("由于看到",_player.player_name,"执行:",_action_name,"，",owner_name,"对其喜爱值受影响：",effect_value,".最终为：",lover_value)
 			
 func effect_value_by_action(_action_name,_lover_vale):
 	match _action_name:

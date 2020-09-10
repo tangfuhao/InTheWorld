@@ -97,25 +97,25 @@ func instance_task(task_name_and_params:String):
 
 func _on_world_status_change(_world_status_item):
 	if current_strategy_chain and not current_strategy_chain.listening_relation_world_status.has(_world_status_item):
-		print(control_node.player_name,"认知：",_world_status_item,"不属于当前相关认知，不规划")
+		# print(control_node.player_name,"认知：",_world_status_item,"不属于当前相关认知，不规划")
 		return 
 	
 	
 	if ignore_status_change_re_plan:
 		need_to_re_plan = false
-		print(control_node.player_name,"无视认知改变，不规划")
+		# print(control_node.player_name,"无视认知改变，不规划")
 		return 
 		
 	
 	
-	print(control_node.player_name,"因为认知改变，重新规划")
+	# print(control_node.player_name,"因为认知改变，重新规划")
 	send_re_plan_signal()
 
 
 func _on_motivation_highest_priority_change(motivation):
 	if active_motivation != motivation:
 		active_motivation = motivation
-		print(control_node.player_name,"因为动机改变为:",active_motivation.motivation_name,"，重新规划")
+		# print(control_node.player_name,"因为动机改变为:",active_motivation.motivation_name,"，重新规划")
 		send_re_plan_signal()
 	
 func re_plan_strategy():
@@ -129,8 +129,8 @@ func re_plan_strategy():
 				#分析相关的世界认知 加入队列
 				new_strategy_chain.analyse_listner_world_status()
 				change_task(new_strategy_chain)
-				print(control_node.player_name,"规划策略:",new_strategy_chain.to_list(),",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
-				print("相关认知:",new_strategy_chain.get_relation_world_status_str())
+				# print(control_node.player_name,"规划策略:",new_strategy_chain.to_list(),",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
+				# print("相关认知:",new_strategy_chain.get_relation_world_status_str())
 			else:
 				change_task(null)
 				print("规划策略:无策略",",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
