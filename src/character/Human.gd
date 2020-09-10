@@ -8,8 +8,7 @@ export var player_name = "player1"
 export (NodePath) var bullets_node_path
 var bullets_node_layer
 
-export (NodePath) var shower_room_path
-export (NodePath) var bed_path
+
 
 
 
@@ -31,24 +30,31 @@ var inventory_system:InventorySystem
 #目标
 var target_system:TargetSystem
 
-
 #传感器组
 var sensor_arr = []
 
-
 #组行为
 var current_group_task:GroupTask
+#等到的求助flag
+var wait_for_help_flag
 #预处理 行为 通知 队列
 var preprocess_action_notify_dic = {}
+
+
+
+
 #固定记忆
+export (NodePath) var shower_room_path
+export (NodePath) var bed_path
 var fixed_memory = {}
 var radius = 8
 
 
-#等到的求助flag
-var wait_for_help_flag
 var is_wear_clothes = true
 var location
+
+#每个实体都会生成一个唯一的node_id
+var node_name
 
 
 signal disappear_notify
@@ -68,6 +74,7 @@ func _process(_delta):
 
 func _ready() -> void:
 	playerName.text = player_name
+	node_name = player_name + GlobalMessageGenerator.pop_id_index()
 
 	bullets_node_layer = get_node(bullets_node_path)
 	fixed_memory["淋浴间"] = get_node(shower_room_path)
@@ -85,6 +92,7 @@ func _ready() -> void:
 	add_sensors()
 
 func add_sensors():
+	
 	add_sensor(AroundPeopleSensor.new())
 	add_sensor(AroundLikePeopleSensor.new())
 	add_sensor(AroundPeopleActionSensor.new())
@@ -92,7 +100,7 @@ func add_sensors():
 	add_sensor(SelfInventorySensor.new())
 	add_sensor(SelfLocationSensor.new())
 	add_sensor(SelfStateSensor.new())
-	add_sensor(SelfHurtSensor.new())
+	add_sensor(SelfHurtBoxSensor.new())
 	add_sensor(MemorySensor.new())
 	add_sensor(AttackRangeSensor.new())
 	
