@@ -50,11 +50,13 @@ func set_world_status(_world_status_item,_status_value):
 		var old_status_value = world_status_dic[_world_status_item]
 		if old_status_value != _status_value:
 			world_status_dic[_world_status_item] = _status_value
+			GlobalMessageGenerator.send_player_world_status_change(control_node,_world_status_item,_status_value)
 			# print(control_node.player_name,"的认知:",_world_status_item," 改变为:",String(_status_value))
 			emit_signal("world_status_change",_world_status_item)
 	else:
 		world_status_dic[_world_status_item] = _status_value
 		if _status_value:
+			GlobalMessageGenerator.send_player_world_status_change(control_node,_world_status_item,_status_value)
 			# print(control_node.player_name,"的认知:",_world_status_item," 改变为:",String(_status_value))
 			emit_signal("world_status_change",_world_status_item)
 

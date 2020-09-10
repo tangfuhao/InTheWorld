@@ -75,13 +75,16 @@ func send_player_world_status_change(_player,_world_status,_value):
 	emit_signal("message_dispatch",message_dic)
 	
 #角色动机值改变	
-func send_player_motivation_value_change(_player,_motivation,_value):
+func send_player_motivation_value_change(_player,_motivation):
+	if not _player:
+		return 
+		
 	var message_dic := {}
 	message_dic["timestamp"] = OS.get_system_time_secs()
 	message_dic["player"] = _player.node_name
 	message_dic["type"] = "motivation_change"
-	message_dic["target"] = _motivation
-	message_dic["value"] = _value
+	message_dic["target"] = _motivation.motivation_name
+	message_dic["value"] = _motivation.motivation_value
 	
 	emit_signal("message_dispatch",message_dic)
 

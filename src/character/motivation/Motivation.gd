@@ -3,6 +3,7 @@ extends Node
 var motivation_dic:Dictionary = {}
 var highest_priority_motivation : MotivationModel = null setget set_highest_priority_motivation
 var active_motivation_arr:Array = []
+var control_node
 
 var player_status_dic:Dictionary
 signal highest_priority_motivation_change(motivation_model)
@@ -13,7 +14,8 @@ func setup(_control_node,_statusDic):
 	player_status_dic = _statusDic
 	laod_motivation_overview()
 	binding_listening_relative()
-
+	
+	control_node = _control_node
 	_control_node.connect("see_new_player",self,"_on_node_found_new_player")
 	
 func _on_node_found_new_player(_body):
@@ -52,6 +54,7 @@ func _on_motivation_arr_active_change(motivation_model):
 #动机值改变的激活通知 更新优先级最高的动机
 func _on_motivation_arr_value_change(motivation_model):
 	emit_signal("motivation_item_value_change",motivation_model)
+	GlobalMessageGenerator.send_player_motivation_value_change(control_node,motivation_model)
 	if self.highest_priority_motivation == null:
 		if motivation_model.is_active: 
 			self.highest_priority_motivation = motivation_model

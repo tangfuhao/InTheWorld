@@ -1,6 +1,6 @@
 class_name RelationshipSystem
 #关系系统
-var owner_name
+var owner
 
 #喜爱值表 名-值
 var player_lover_dic = {}
@@ -17,6 +17,8 @@ func set_relation_value_for_player(_relation_name,_player,_value):
 	if _value > 0.9:
 		_value = 0.9
 	player_lover_dic[_player.player_name] = _value
+	if _relation_name == "喜爱值":
+		GlobalMessageGenerator.send_player_lover_value_change(owner,_player,_value)
 	
 #交互行为
 func interaction_action(_player,_action_name):
@@ -29,7 +31,7 @@ func interaction_action(_player,_action_name):
 
 #监听默认行为
 func bind_player_vision(_player):
-	owner_name = _player.player_name
+	owner = _player
 	_player.visionSensor.connect("vision_find_player",self,"_on_vision_some_one")
 	_player.visionSensor.connect("vision_lost_player",self,"_on_vision_un_some_one")
 
