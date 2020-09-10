@@ -1,5 +1,6 @@
-class_name SelfHurtSensor
 extends Sensor
+class_name SelfHurtBoxSensor
+
 #伤害传感器
 
 var hurt_timer
@@ -12,7 +13,7 @@ func setup(_control_node):
 	
 	hurt_timer = Timer.new()
 	hurt_timer.connect("timeout",self,"_on_HurtTimer_timeout")
-	control_node.add_child(hurt_timer)
+	add_child(hurt_timer)
 
 
 func on_character_be_hurt(area):
