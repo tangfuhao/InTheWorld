@@ -100,6 +100,20 @@ func send_player_target_change(_player,_target):
 	
 	emit_signal("message_dispatch",message_dic)
 
+func send_player_strategy_plan_succuss(_player,_strategy_chain):
+	var strategy_record_arr =  _strategy_chain.strategy_record_arr
+	for item in strategy_record_arr:
+		var message_dic := {}
+		message_dic["timestamp"] = OS.get_system_time_secs()
+		message_dic["player"] = _player.node_name
+		message_dic["type"] = "strategy_plan_succuss"
+		message_dic["target"] = item
+
+		
+		emit_signal("message_dispatch",message_dic)
+	
+
+
 
 #角色策略规划
 func send_player_strategy_plan(_player,_plan_strategy_record,_selected_strategy,_plan_result):
@@ -109,11 +123,6 @@ func send_player_strategy_plan(_player,_plan_strategy_record,_selected_strategy,
 
 	var strategy_record_str_arr = PoolStringArray(_plan_strategy_record)
 	strategy_record_str_arr.append(select_strategy)
-	
-#	if _plan_result:
-#		strategy_record_str_arr.append("成功")
-#	else:
-#		strategy_record_str_arr.append("失败")
 
 	var strategy_record_str = strategy_record_str_arr.join("-")
 	

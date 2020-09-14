@@ -37,7 +37,7 @@ func process(_delta: float):
 
 	if want_to_join_group_action and human.is_interaction_distance(want_to_join_group_action) and want_to_join_group_action.is_group_task_running():
 		human.movement.is_on = false
-		print(human.player_name,"加入",join_action_name)
+		# print(human.player_name,"加入",join_action_name)
 		want_to_join_group_action.connect("task_quit",self,"_on_group_task_quit")
 		human.join_group_action(want_to_join_group_action)
 		want_to_join_group_action.connect("")

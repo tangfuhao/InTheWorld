@@ -57,7 +57,7 @@ func record_other_people(_message_dic):
 	
 func on_global_message_handle(message_dic):
 	#简单输出log
-	print(message_dic["timestamp"],":",get_dic_str(message_dic))
+#	print(message_dic["timestamp"],":",get_dic_str(message_dic))
 #	return
 	
 	var player_name = message_dic["player"]
@@ -96,7 +96,12 @@ func on_global_message_handle(message_dic):
 		if startegy_plan_dic.has(strategy_record):
 			var content = startegy_plan_dic[strategy_record]
 			log_str = repleace_match_text(content,message_dic)
-		
+	elif type == "strategy_plan_succuss":
+		var strategy_record = message_dic["target"]
+
+		if startegy_sucuss_dic.has(strategy_record):
+			var content = startegy_sucuss_dic[strategy_record]
+			log_str = repleace_match_text(content,message_dic)
 		
 	if log_str:
 		print(log_str)

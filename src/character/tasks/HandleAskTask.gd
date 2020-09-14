@@ -39,7 +39,7 @@ func process(_delta: float):
 						sponer.interaction_action(human,"回复求助")
 						var current_rinning_task_flag = response_system.get_task_queue_encode_task_name(task_queue)
 						sponer.help_for_result(current_rinning_task_flag)
-						print("任务完成  更新交互")
+						# print("任务完成  更新交互")
 					new_create_task = true
 					_delta = 0
 				elif task_state == Task.STATE.GOAL_FAILED:

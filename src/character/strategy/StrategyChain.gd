@@ -9,6 +9,12 @@ var strategy_chain:Array = []
 var listening_relation_world_status = []
 
 
+var strategy_record_arr = []
+
+func add_strategy_record(_strategy_record):
+	strategy_record_arr.push_back(_strategy_record)
+
+
 func get_relation_world_status_str():
 	var string_build:PoolStringArray = PoolStringArray(listening_relation_world_status)
 	return string_build.join(";")
@@ -70,13 +76,13 @@ func get_startegy_by_index(index):
 		return strategy_chain[index]
 	return null
 
-func to_list():
-	var strategy_list:String
-	for item in strategy_chain:
-		strategy_list = strategy_list +  item.task_name + ":"
-	strategy_list = strategy_list + "//"
-	for item in task_name_chian.values():
-		for ii in item:
-			strategy_list = strategy_list + ii  + ":"
-	return strategy_list
+#func to_list():
+#	var strategy_list:String
+#	for item in strategy_chain:
+#		strategy_list = strategy_list +  item.task_name + ":"
+#	strategy_list = strategy_list + "//"
+#	for item in task_name_chian.values():
+#		for ii in item:
+#			strategy_list = strategy_list + ii  + ":"
+#	return strategy_list
 

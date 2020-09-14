@@ -57,6 +57,10 @@ func process_task(_delta: float):
 			current_running_task = run_next_task()
 			new_create_task = true
 			_delta = 0
+			
+			if current_running_task == null:
+				GlobalMessageGenerator.send_player_strategy_plan_succuss(control_node,current_strategy_chain)
+			
 		elif task_state == Task.STATE.GOAL_FAILED: 
 			clean_current_task()
 			current_strategy_chain.clean()
@@ -180,7 +184,6 @@ func plan_strategy(_strategy,_level,_current_strategy_chain,_new_strategy_chain,
 #	1.选择策略
 #	2.规划策略的任务
 #	3.规划失败，移除当前策略 重新选择策略
-	
 	var select_strategy = select_strategy(_strategy.order_sort_type,meet_strategy_arr,random_code_arr,_level)
 	while select_strategy:
 		if not plan_task_queue(select_strategy.task_queue,_level,_current_strategy_chain,_new_strategy_chain,_plan_strategy_record):
@@ -198,6 +201,14 @@ func plan_strategy(_strategy,_level,_current_strategy_chain,_new_strategy_chain,
 				select_strategy = select_strategy(_strategy.order_sort_type,meet_strategy_arr,random_code_arr,_level)
 		else:
 			GlobalMessageGenerator.send_player_strategy_plan(control_node,_plan_strategy_record,select_strategy,true)
+			
+			var strategy_display_name = select_strategy.strategy_display_name
+			if not _plan_strategy_record.has(strategy_display_name):
+				var strategy_record_str_arr = PoolStringArray(_plan_strategy_record)
+				strategy_record_str_arr.append(strategy_display_name)
+				var strategy_record_str = strategy_record_str_arr.join("-")
+				_new_strategy_chain.add_strategy_record(strategy_record_str)
+
 			return true
 
 	_plan_strategy_record.pop_back()
