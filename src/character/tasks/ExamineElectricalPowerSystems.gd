@@ -5,4 +5,10 @@ func active() ->void:
 		# print(human.player_name,"检查电力系统")
 		# human.notify_action("检查电力系统",true)
 		human.notify_action(action_name,true)
+		excute_action = true
 		GlobalMessageGenerator.send_player_action(human,action_name,null)
+
+
+func terminate() ->void:
+	if excute_action:
+		GlobalMessageGenerator.send_player_stop_action(human,action_name,null)

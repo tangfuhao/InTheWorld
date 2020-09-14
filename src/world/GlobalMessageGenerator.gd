@@ -21,6 +21,19 @@ func send_player_action(_player,_action,_target):
 		message_dic["target"] = _target.node_name
 	
 	emit_signal("message_dispatch",message_dic)
+	
+func send_player_stop_action(_player,_action,_target):
+	var message_dic := {}
+	message_dic["timestamp"] = OS.get_system_time_secs()
+	message_dic["player"] = _player.node_name
+	message_dic["type"] = "stop_action"
+	message_dic["value"] = _action
+	if _target and _target is String:
+		message_dic["target"] = _target
+	elif _target:
+		message_dic["target"] = _target.node_name
+	
+	emit_signal("message_dispatch",message_dic)
 
 #角色视线检测
 func send_player_find_player_in_vision(_player,_target):

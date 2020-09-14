@@ -14,6 +14,7 @@ func active():
 				goal_status = STATE.GOAL_COMPLETED
 			else:
 				human.movement.is_on = true
+				excute_action = true
 				GlobalMessageGenerator.send_player_action(human,action_name,approach_target)
 			return
 	goal_status = STATE.GOAL_FAILED
@@ -32,4 +33,7 @@ func terminate():
 	if human:
 		human.movement.is_on = false
 		human.movement.direction = Vector2.ZERO
+
+	if excute_action:
+		GlobalMessageGenerator.send_player_stop_action(human,action_name,approach_target)
 		

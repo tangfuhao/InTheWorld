@@ -10,6 +10,8 @@ func active():
 		furtheraway_target = human.get_target()
 		if furtheraway_target:
 			human.movement.is_on = true
+
+			excute_action = true
 			GlobalMessageGenerator.send_player_action(human,action_name,furtheraway_target)
 			return
 	goal_status = STATE.GOAL_FAILED
@@ -26,3 +28,6 @@ func terminate():
 	if human:
 		human.movement.is_on = false
 		human.movement.direction = Vector2.ZERO
+
+	if excute_action:
+		GlobalMessageGenerator.send_player_stop_action(human,action_name,furtheraway_target)

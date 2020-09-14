@@ -1,22 +1,28 @@
 extends "res://src/character/tasks/NoLimitTask.gd"
 class_name TakeABath
+#获取目标任务
 
 var action_timer:Timer = null
 var finish_take_a_bath = false
 
-#获取目标任务
+var action_target
+
+
+
+
 func active():
 	.active()
 	create_action_timer()
 	
 	if human:
-		var target = human.get_target()
-		if target:
-			if human.is_approach(target) and target.can_interaction(human):
-				human.global_position.x = target.global_position.x
-				human.global_position.y = target.global_position.y
+		action_target = human.get_target()
+		if action_target:
+			if human.is_approach(action_target) and action_target.can_interaction(human):
+				human.global_position.x = action_target.global_position.x
+				human.global_position.y = action_target.global_position.y
 				human.take_off_clothes()
-				GlobalMessageGenerator.send_player_action(human,action_name,target)
+				excute_action = true
+				GlobalMessageGenerator.send_player_action(human,action_name,action_target)
 				# print(human.player_name,"在",target.stuff_name,"洗澡")
 				action_timer.start(5)
 				return
@@ -44,3 +50,6 @@ func terminate() ->void:
 	if action_timer:
 		human.remove_child(action_timer)
 		action_timer = null
+
+	if excute_action:
+		GlobalMessageGenerator.send_player_stop_action(human,action_name,action_target)

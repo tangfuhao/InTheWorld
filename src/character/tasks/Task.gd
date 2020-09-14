@@ -3,6 +3,7 @@ class_name Task
 var human
 var params:Array setget set_params
 var action_name
+var excute_action = false
 
 
 enum STATE {GOAL_ACTIVE, GOAL_INACTIVE, GOAL_COMPLETED, GOAL_FAILED}

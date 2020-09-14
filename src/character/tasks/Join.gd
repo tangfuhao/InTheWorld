@@ -18,11 +18,13 @@ func active()->void:
 			human.movement.is_on = true
 			human.movement.set_desired_position(want_to_join_group_action.global_position)
 		else:
-			print(human.player_name,"加入",join_action_name)
+			# print(human.player_name,"加入",join_action_name)
 			want_to_join_group_action.connect("task_quit",self,"_on_group_task_quit")
 			human.join_group_action(want_to_join_group_action)
 			human.notify_action(join_action_name,true)
 			want_to_join_group_action = null
+
+			excute_action = true
 			GlobalMessageGenerator.send_player_action(human,action_name,join_action_name)
 	else:
 		goal_status = STATE.GOAL_FAILED
@@ -43,11 +45,12 @@ func process(_delta: float):
 		want_to_join_group_action.connect("")
 		human.notify_action(join_action_name,true)
 		want_to_join_group_action = null
+
+		excute_action = true
 		GlobalMessageGenerator.send_player_action(human,action_name,join_action_name)
 
 	return goal_status
 	
-#func terminate() ->void:
-#	human.movement.is_on = false
-#	human.quit_group_action()
-#	human.notify_action(join_action_name,false)
+func terminate() ->void:
+	if excute_action:
+		GlobalMessageGenerator.send_player_stop_action(human,action_name,join_action_name)

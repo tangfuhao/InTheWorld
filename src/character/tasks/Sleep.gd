@@ -2,6 +2,7 @@ extends "res://src/character/tasks/Task.gd"
 class_name Sleep
 #睡觉每5秒 增加 0.05
 
+var action_target
 
 var action_timer:Timer = null
 
@@ -15,13 +16,14 @@ func create_action_timer():
 func active():
 	create_action_timer()
 	if human:
-		var target = human.get_target()
-		if target:
-			if human.is_approach(target):
-				human.global_position.x = target.global_position.x
-				human.global_position.y = target.global_position.y
+		action_target = human.get_target()
+		if action_target:
+			if human.is_approach(action_target):
+				human.global_position.x = action_target.global_position.x
+				human.global_position.y = action_target.global_position.y
 				# print(human.player_name,"睡在",target.stuff_name)
-				GlobalMessageGenerator.send_player_action(human,action_name,target)
+				excute_action = true
+				GlobalMessageGenerator.send_player_action(human,action_name,action_target)
 				action_timer.start(5)
 				return
 	goal_status = STATE.GOAL_FAILED
@@ -30,6 +32,9 @@ func terminate() ->void:
 	if action_timer:
 		human.remove_child(action_timer)
 		action_timer = null
+
+	if excute_action:
+		GlobalMessageGenerator.send_player_stop_action(human,action_name,action_target)
 		
 		
 func _on_action_timer_time_out():

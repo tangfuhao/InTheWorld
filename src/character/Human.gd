@@ -175,12 +175,15 @@ func take_off_clothes():
 	if is_wear_clothes:
 		is_wear_clothes = false
 		GlobalMessageGenerator.send_player_action(self,"脱衣服",null)
+		GlobalMessageGenerator.send_player_stop_action(self,"脱衣服",null)
+		
 		# print(player_name,"脱衣服")
 
 func to_wear_clothes():
 	if not is_wear_clothes:
 		is_wear_clothes = true
 		GlobalMessageGenerator.send_player_action(self,"穿衣服",null)
+		GlobalMessageGenerator.send_player_stop_action(self,"穿衣服",null)
 		# print(player_name,"穿衣服")
 
 

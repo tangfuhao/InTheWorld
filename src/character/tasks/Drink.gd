@@ -12,9 +12,11 @@ func active()->void:
 	
 	human.start_join_group_action(action_name)
 	human.notify_action(action_name,true)
+
+	excute_action = true
 	GlobalMessageGenerator.send_player_action(human,action_name,null)
 	# print(human.player_name,"开始喝酒")
 	
-# func terminate() ->void:
-# 	human.quit_group_action()
-# 	human.notify_action(action_name,false)
+func terminate() ->void:
+	if excute_action:
+		GlobalMessageGenerator.send_player_stop_action(human,action_name,null)

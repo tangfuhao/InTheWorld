@@ -55,6 +55,16 @@ func record_other_people(_message_dic):
 	if not all_people_state_dic.has(player_name):
 		all_people_state_dic[player_name] = ["喜欢"]
 	
+	var type = _message_dic["type"]
+	if type == "execute_action":
+		var action = _message_dic["value"]
+		var people_param_arr = all_people_state_dic[player_name]
+		people_param_arr.push_back(action)
+	elif type == "stop_action":
+		var action = _message_dic["value"]
+		var people_param_arr = all_people_state_dic[player_name]
+		people_param_arr.erase(action)
+
 func on_global_message_handle(message_dic):
 	#简单输出log
 #	print(message_dic["timestamp"],":",get_dic_str(message_dic))

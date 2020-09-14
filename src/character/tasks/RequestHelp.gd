@@ -14,6 +14,7 @@ func active() ->void:
 				print(human.player_name,"向",item.player_name,"发布求助:",get_params())
 	
 	if request_succus:
+		excute_action = true
 		GlobalMessageGenerator.send_player_action(human,action_name,null)
 		var encode_task_name = "%s-%s" % [human.player_name, get_params()]
 		human.cpu.strategy.ignore_status_change_re_plan = true
@@ -33,3 +34,6 @@ func process(_delta: float):
 func terminate() ->void:
 	human.cpu.strategy.ignore_status_change_re_plan = false
 	human.wait_for_help_flag = null
+
+	if excute_action:
+		GlobalMessageGenerator.send_player_stop_action(human,action_name,null)
