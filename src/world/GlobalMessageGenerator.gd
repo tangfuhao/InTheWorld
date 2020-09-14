@@ -110,10 +110,10 @@ func send_player_strategy_plan(_player,_plan_strategy_record,_selected_strategy,
 	var strategy_record_str_arr = PoolStringArray(_plan_strategy_record)
 	strategy_record_str_arr.append(select_strategy)
 	
-	if _plan_result:
-		strategy_record_str_arr.append("成功")
-	else:
-		strategy_record_str_arr.append("失败")
+#	if _plan_result:
+#		strategy_record_str_arr.append("成功")
+#	else:
+#		strategy_record_str_arr.append("失败")
 
 	var strategy_record_str = strategy_record_str_arr.join("-")
 	
@@ -122,6 +122,7 @@ func send_player_strategy_plan(_player,_plan_strategy_record,_selected_strategy,
 	message_dic["player"] = _player.node_name
 	message_dic["type"] = "strategy_plan"
 	message_dic["target"] = strategy_record_str
+	message_dic["value"] = _plan_result
 	
 	emit_signal("message_dispatch",message_dic)
 

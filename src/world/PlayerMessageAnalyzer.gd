@@ -12,6 +12,9 @@ var monitor_people_arr = []
 
 var action_dic = {}
 var world_status_dic = {}
+var startegy_plan_dic = {}
+var startegy_sucuss_dic = {}
+var startegy_fail_dic = {}
 
 var not_like_people_arr = []
 
@@ -34,6 +37,19 @@ func _ready():
 		var content = item["对应文本"]
 		world_status_dic[key] = content
 		
+	var strategy_plan_arr = load_json_arr("res://config/text/strategy_to_text.json")
+	for item in strategy_plan_arr:
+		var key = item["策略"]
+		var content = item["规划文本"]
+		startegy_plan_dic[key] = content
+		if item.has("成功文本"):
+			var sucuss_content = item["成功文本"]
+			startegy_sucuss_dic[key] = sucuss_content
+		if item.has("失败文本"):
+			var sucuss_content = item["失败文本"]
+			startegy_sucuss_dic[key] = sucuss_content
+
+
 func record_other_people(_message_dic):
 	var player_name = _message_dic["player"]
 	if not all_people_state_dic.has(player_name):
@@ -41,7 +57,7 @@ func record_other_people(_message_dic):
 	
 func on_global_message_handle(message_dic):
 	#简单输出log
-#	print(message_dic["timestamp"],":",get_dic_str(message_dic))
+	print(message_dic["timestamp"],":",get_dic_str(message_dic))
 #	return
 	
 	var player_name = message_dic["player"]
@@ -74,7 +90,14 @@ func on_global_message_handle(message_dic):
 		var target = message_dic["target"]
 		if not monitor_people_arr.has(target):
 			monitor_people_arr.erase(target)
-
+	elif type == "strategy_plan":
+		var strategy_record = message_dic["target"]
+		var plan_result = message_dic["value"]
+		if startegy_plan_dic.has(strategy_record):
+			var content = startegy_plan_dic[strategy_record]
+			log_str = repleace_match_text(content,message_dic)
+		
+		
 	if log_str:
 		print(log_str)
 
