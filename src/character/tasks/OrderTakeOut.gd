@@ -4,7 +4,7 @@ func active() ->void:
 	.active()
 	if human:
 		# print(human.player_name,"叫外卖")
-		GlobalMessageGenerator.send_player_action(human,action_name,target)
+		GlobalMessageGenerator.send_player_action(human,action_name,null)
 		var item = PackageItemModel.new()
 		item.item_name = "外卖"
 		human.inventory_system.add_item_to_package(item)

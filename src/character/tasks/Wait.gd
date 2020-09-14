@@ -2,8 +2,8 @@ extends "res://src/character/tasks/NoLimitTask.gd"
 class_name Wait
 func active() ->void:
 	.active()
-	if human:
-		print(human.player_name,"等待")
+	# if human:
+	# 	print(human.player_name,"等待")
 
 
 func process(_delta: float):
