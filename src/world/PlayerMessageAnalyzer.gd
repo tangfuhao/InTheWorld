@@ -18,6 +18,9 @@ var startegy_fail_dic = {}
 
 var not_like_people_arr = []
 
+
+var active_motivation_aar = []
+
 var regex
 
 func _ready():
@@ -112,7 +115,45 @@ func on_global_message_handle(message_dic):
 		if startegy_sucuss_dic.has(strategy_record):
 			var content = startegy_sucuss_dic[strategy_record]
 			log_str = repleace_match_text(content,message_dic)
+	elif type == "motivation_change":
+		var motivation = message_dic["target"]
+		var value = message_dic["value"]
+		var is_active = value < 0.8 
+		if is_active and not active_motivation_aar.has(motivation):
+			active_motivation_aar.push_back(motivation)
+			
+			
+			if motivation == "清洁动机":
+				log_str = "哎呀，身体好像变脏了"
+			elif motivation == "饥饿动机":
+				log_str = "我摸了摸自己的肚子，感觉有点饿了"
+			elif motivation == "爱情动机":
+				log_str = "咦……这，这就是爱情的味道吗？"
+			elif motivation == "排泄动机":
+				log_str = "哎呀不行了，屎，要出来了！"
+			elif motivation == "睡眠动机":
+				log_str = "有段时间没休息了，不得不说，真的有点累"
+
+		elif not is_active and active_motivation_aar.has(motivation):
+			active_motivation_aar.erase(motivation)
+
+	elif type == "highest_priority_motivation":
+		var motivation = message_dic["target"]
 		
+		
+		if motivation == "无聊动机":
+			log_str = "糟糕，没事做了，该干点什么呢？"
+		elif motivation == "清洁动机":
+			log_str = "是时候去洗个澡了"
+		elif motivation == "饥饿动机":
+			log_str = "不行，我得去找点吃的"
+		elif motivation == "爱情动机":
+			log_str = "我需要想想办法，怎么样才能成功表白，就算她不喜欢我"
+		elif motivation == "排泄动机":
+			log_str = "没带备用内裤，要找个地方拉屎才行"
+		elif motivation == "睡眠动机":
+			log_str = "找个地方睡一觉吧"
+	
 	if log_str:
 		print(log_str)
 
@@ -215,6 +256,16 @@ func get_dic_str(var message_dic):
 			
 		var action = message_dic["value"]
 		string_build.append("执行:")
+		string_build.append(action)
+	elif type == "stop_action":
+		if message_dic.has("target"):
+			var target = message_dic["target"]
+			string_build.append("对")
+			string_build.append(target)
+			
+			
+		var action = message_dic["value"]
+		string_build.append("停止执行:")
 		string_build.append(action)
 	elif type == "find_in_vision":
 		var target = message_dic["target"]

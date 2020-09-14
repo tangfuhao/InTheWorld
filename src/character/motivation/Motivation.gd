@@ -11,11 +11,12 @@ signal motivation_item_value_change(motivation_model)
 
 	
 func setup(_control_node,_statusDic):
+	control_node = _control_node
 	player_status_dic = _statusDic
 	laod_motivation_overview()
 	binding_listening_relative()
 	
-	control_node = _control_node
+	
 	_control_node.connect("see_new_player",self,"_on_node_found_new_player")
 	
 func _on_node_found_new_player(_body):
@@ -37,10 +38,8 @@ func binding_listening_relative():
 func set_highest_priority_motivation(value):
 	if highest_priority_motivation != value:
 		highest_priority_motivation = value
-		if highest_priority_motivation.motivation_name == "爱情动机":
-			print("最高优先级动机改变为:",highest_priority_motivation.motivation_name)	
-		
 		emit_signal("highest_priority_motivation_change",highest_priority_motivation)
+		GlobalMessageGenerator.send_highest_priority_motivation(control_node,highest_priority_motivation)
 
 
 #动机的激活通知  更新激活动机表
