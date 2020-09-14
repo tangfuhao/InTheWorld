@@ -11,7 +11,7 @@ func active() ->void:
 			if item != human:
 				request_succus = true
 				item.help_for_request(human,get_params())
-				print(human.player_name,"向",item.player_name,"发布求助:",get_params())
+				# print(human.player_name,"向",item.player_name,"发布求助:",get_params())
 	
 	if request_succus:
 		excute_action = true
