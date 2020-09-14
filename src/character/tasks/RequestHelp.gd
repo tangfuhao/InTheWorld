@@ -17,7 +17,6 @@ func active() ->void:
 		excute_action = true
 		GlobalMessageGenerator.send_player_action(human,action_name,null)
 		var encode_task_name = "%s-%s" % [human.player_name, get_params()]
-		human.cpu.strategy.ignore_status_change_re_plan = true
 		human.wait_for_help_flag = encode_task_name
 		#TODO 记录发布
 	else:
@@ -32,7 +31,6 @@ func process(_delta: float):
 
 	
 func terminate() ->void:
-	human.cpu.strategy.ignore_status_change_re_plan = false
 	human.wait_for_help_flag = null
 
 	if excute_action:

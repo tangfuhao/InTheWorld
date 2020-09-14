@@ -22,7 +22,7 @@ var current_used_weight_variable_arr = []
 
 var need_to_re_plan = false
 
-var ignore_status_change_re_plan = false
+# var ignore_status_change_re_plan = false
 
 
 func setup(_control_node,_world_status,_motivation):
@@ -41,9 +41,11 @@ func setup(_control_node,_world_status,_motivation):
 func handle_re_plan_request():
 	if need_to_re_plan:
 		need_to_re_plan = false
-		if not _is_not_need_plan_task():
-			re_plan_strategy()
-			current_running_task = run_next_task()
+		re_plan_strategy()
+		current_running_task = run_next_task()
+#		if not _is_not_need_plan_task():
+#			re_plan_strategy()
+#			current_running_task = run_next_task()
 
 func process_task(_delta: float):
 	handle_re_plan_request()
@@ -105,10 +107,10 @@ func _on_world_status_change(_world_status_item):
 		return 
 	
 	
-	if ignore_status_change_re_plan:
-		need_to_re_plan = false
-		# print(control_node.player_name,"无视认知改变，不规划")
-		return 
+	# if ignore_status_change_re_plan:
+	# 	need_to_re_plan = false
+	# 	# print(control_node.player_name,"无视认知改变，不规划")
+	# 	return 
 		
 	
 	
@@ -170,24 +172,47 @@ func sync_random_code_arr(_current_strategy_chain,_new_strategy_chain,_level):
 				_new_strategy_chain.random_code_arr.push_back(random_code)
 	return random_code_arr
 
+func generate_strategy_plan_path(_selected_strategy,_plan_strategy_record):
+	var select_strategy = _selected_strategy.strategy_display_name
+	
+	#TODO 这里的处理
+	if _plan_strategy_record.has(select_strategy):
+		return null
+
+	var strategy_record_str_arr = PoolStringArray(_plan_strategy_record)
+	strategy_record_str_arr.append(select_strategy)
+	var strategy_record_str = strategy_record_str_arr.join("-")
+	
+	return strategy_record_str
+
 #规划策略
 func plan_strategy(_strategy,_level,_current_strategy_chain,_new_strategy_chain,_plan_strategy_record) -> bool:
 	_new_strategy_chain.push_back_strategy(_strategy)
 	_plan_strategy_record.push_back(_strategy.task_name)
 	
+	#检测是否有满足的子策略
 	var meet_strategy_arr:Array = plan_condition_meet_strategy_arr(_strategy.strong_strategy_arr,_strategy.weak_strategy_arr)
 	if meet_strategy_arr.empty():
 		_new_strategy_chain.roll_back_strategy()
 		return false
-	
+		
+	#同步随机码
 	var random_code_arr = sync_random_code_arr(_current_strategy_chain,_new_strategy_chain,_level)
+	
+	
 #	1.选择策略
 #	2.规划策略的任务
 #	3.规划失败，移除当前策略 重新选择策略
 	var select_strategy = select_strategy(_strategy.order_sort_type,meet_strategy_arr,random_code_arr,_level)
 	while select_strategy:
 		if not plan_task_queue(select_strategy.task_queue,_level,_current_strategy_chain,_new_strategy_chain,_plan_strategy_record):
-			GlobalMessageGenerator.send_player_strategy_plan(control_node,_plan_strategy_record,select_strategy,false)
+			#策略规划失败的埋点
+			var strategy_plan_path = generate_strategy_plan_path(select_strategy,_plan_strategy_record)
+			if strategy_plan_path:
+				GlobalMessageGenerator.send_player_strategy_plan(control_node,strategy_plan_path,false)
+
+
+
 			#规划失败的情况
 			while _new_strategy_chain.random_code_arr.size() > _level:
 				_new_strategy_chain.random_code_arr.pop_back()
@@ -200,15 +225,12 @@ func plan_strategy(_strategy,_level,_current_strategy_chain,_new_strategy_chain,
 			else:
 				select_strategy = select_strategy(_strategy.order_sort_type,meet_strategy_arr,random_code_arr,_level)
 		else:
-			GlobalMessageGenerator.send_player_strategy_plan(control_node,_plan_strategy_record,select_strategy,true)
-			
-			var strategy_display_name = select_strategy.strategy_display_name
-			if not _plan_strategy_record.has(strategy_display_name):
-				var strategy_record_str_arr = PoolStringArray(_plan_strategy_record)
-				strategy_record_str_arr.append(strategy_display_name)
-				var strategy_record_str = strategy_record_str_arr.join("-")
-				_new_strategy_chain.add_strategy_record(strategy_record_str)
-
+			#策略规划成功的埋点
+			#策略规划的路径
+			var strategy_plan_path = generate_strategy_plan_path(select_strategy,_plan_strategy_record)
+			if strategy_plan_path:
+				GlobalMessageGenerator.send_player_strategy_plan(control_node,strategy_plan_path,true)
+				_new_strategy_chain.add_strategy_record(strategy_plan_path)
 			return true
 
 	_plan_strategy_record.pop_back()
@@ -322,14 +344,14 @@ func check_meet_pre_condition_in_world_status(condition_arr):
 			return meet_condition
 	return meet_condition
 	
-func _is_not_need_plan_task() -> bool:
-	if active_motivation and current_strategy_chain and current_strategy_chain.strategy_chain:
-		var new_motivation_name = active_motivation.motivation_name
-		var motivation_name = current_strategy_chain.strategy_chain[0].task_name
-		if new_motivation_name == "回应动机" and motivation_name == "回应动机":
-			print("任务动机  无需更新")
-			return true
-	return false
+#func _is_not_need_plan_task() -> bool:
+#	if active_motivation and current_strategy_chain and current_strategy_chain.strategy_chain:
+#		var new_motivation_name = active_motivation.motivation_name
+#		var motivation_name = current_strategy_chain.strategy_chain[0].task_name
+#		if new_motivation_name == "回应动机" and motivation_name == "回应动机":
+#			print("任务动机  无需更新")
+#			return true
+#	return false
 	
 #改变当前的任务
 func change_task(_task_chain):

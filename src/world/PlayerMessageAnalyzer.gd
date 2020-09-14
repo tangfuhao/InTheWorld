@@ -17,8 +17,6 @@ var startegy_sucuss_dic = {}
 var startegy_fail_dic = {}
 
 var not_like_people_arr = []
-
-
 var active_motivation_aar = []
 
 var regex
@@ -70,8 +68,8 @@ func record_other_people(_message_dic):
 
 func on_global_message_handle(message_dic):
 	#简单输出log
-#	print(message_dic["timestamp"],":",get_dic_str(message_dic))
-#	return
+	print(message_dic["timestamp"],":",get_dic_str(message_dic))
+	return
 	
 	var player_name = message_dic["player"]
 	if player_name != player_id:
@@ -247,7 +245,6 @@ func get_dic_str(var message_dic):
 	var type = message_dic["type"]
 	if type == "execute_action":
 		string_build.append(player_name)
-
 		if message_dic.has("target"):
 			var target = message_dic["target"]
 			string_build.append("对")
@@ -258,6 +255,7 @@ func get_dic_str(var message_dic):
 		string_build.append("执行:")
 		string_build.append(action)
 	elif type == "stop_action":
+		string_build.append(player_name)
 		if message_dic.has("target"):
 			var target = message_dic["target"]
 			string_build.append("对")
@@ -267,13 +265,13 @@ func get_dic_str(var message_dic):
 		var action = message_dic["value"]
 		string_build.append("停止执行:")
 		string_build.append(action)
-	elif type == "find_in_vision":
+	elif type == "find_in_vision" or type == "find_player_in_vision":
 		var target = message_dic["target"]
 		string_build.append(target)
 		string_build.append("出现在")
 		string_build.append(player_name)
 		string_build.append("视线中")
-	elif type == "lost_in_vision":
+	elif type == "lost_in_vision" or type == "lost_player_in_vision":
 		var target = message_dic["target"]
 		string_build.append(target)
 		string_build.append("消失在")
@@ -326,6 +324,21 @@ func get_dic_str(var message_dic):
 		string_build.append(player_name)
 		string_build.append("目标改为:")
 		string_build.append(target)
+	elif type == "highest_priority_motivation":
+		var highest_motivation = message_dic["target"]
+		string_build.append(player_name)
+		string_build.append("最高级动机改为:")
+		string_build.append(highest_motivation)
+	elif type == "strategy_plan_succuss":
+		var strategy_path = message_dic["target"]
+		string_build.append(player_name)
+		string_build.append("策略规划成功:")
+		string_build.append(strategy_path)
+		
+	
+		
+	if string_build.empty():
+		print("ssss")
 	
 	return string_build.join("")
 	
