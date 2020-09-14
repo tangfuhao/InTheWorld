@@ -36,7 +36,7 @@ func parse_task_to_task_chain(_response_action):
 			var strategy = strategy_component.get_strategy_by_task_name(task_name)
 			if strategy:
 				var new_strategy_chain = StrategyChain.new()
-				var plan_result = strategy_component.plan_strategy(strategy,0,null,new_strategy_chain)
+				var plan_result = strategy_component.plan_strategy(strategy,0,null,new_strategy_chain,[])
 				if plan_result: 
 					var task_item = new_strategy_chain.pop_first_task()
 					while task_item:

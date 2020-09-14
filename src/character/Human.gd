@@ -86,7 +86,7 @@ func _ready() -> void:
 	relationship_system.bind_player_vision(self)
 	
 	inventory_system = InventorySystem.new()
-	target_system = TargetSystem.new()
+	target_system = TargetSystem.new(self)
 	
 
 	add_sensors()
@@ -101,6 +101,7 @@ func add_sensors():
 	add_sensor(SelfLocationSensor.new())
 	add_sensor(SelfStateSensor.new())
 	add_sensor(SelfHurtBoxSensor.new())
+	add_sensor(StuffStateSensor.new())
 	add_sensor(MemorySensor.new())
 	add_sensor(AttackRangeSensor.new())
 	

@@ -31,7 +31,7 @@ func start_update():
 func _on_UpdaterTimer_timeout():
 	update_status()
 	start_update()
-	print("=====================")
+	# print("=====================")
 
 func update_status():
 	for status in statusDic.values():

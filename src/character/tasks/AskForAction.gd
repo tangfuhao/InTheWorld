@@ -13,7 +13,8 @@ func active() ->void:
 	
 	var ask_action = get_params()
 	# print(human.player_name,"请求许可:",ask_action)
-	GlobalMessageGenerator.send_player_action(human,action_name,target)
+	var full_action = "%s:%s" % [action_name,ask_action]
+	GlobalMessageGenerator.send_player_action(human,full_action,target)
 	if target.ask_for_action(human,ask_action):
 		target.interaction_action(human,ask_action)
 		# print(target.player_name,"允许请求:",ask_action)

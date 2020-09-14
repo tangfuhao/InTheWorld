@@ -122,9 +122,10 @@ func re_plan_strategy():
 	if active_motivation && active_motivation.is_active:
 		var strategy = get_strategy_by_task_name(active_motivation.motivation_name)
 		if strategy:
-			var plan_start_time = OS.get_ticks_msec()
+#			var plan_start_time = OS.get_ticks_msec()
 			var new_strategy_chain = StrategyChain.new()
-			var plan_result = plan_strategy(strategy,0,current_strategy_chain,new_strategy_chain)
+			var plan_strategy_record = []
+			var plan_result = plan_strategy(strategy,0,current_strategy_chain,new_strategy_chain,plan_strategy_record)
 			if plan_result: 
 				#分析相关的世界认知 加入队列
 				new_strategy_chain.analyse_listner_world_status()
@@ -133,7 +134,7 @@ func re_plan_strategy():
 				# print("相关认知:",new_strategy_chain.get_relation_world_status_str())
 			else:
 				change_task(null)
-				print("规划策略:无策略",",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
+#				print("规划策略:无策略",",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
 			
 
 
@@ -166,8 +167,10 @@ func sync_random_code_arr(_current_strategy_chain,_new_strategy_chain,_level):
 	return random_code_arr
 
 #规划策略
-func plan_strategy(_strategy,_level,_current_strategy_chain,_new_strategy_chain) -> bool:
+func plan_strategy(_strategy,_level,_current_strategy_chain,_new_strategy_chain,_plan_strategy_record) -> bool:
 	_new_strategy_chain.push_back_strategy(_strategy)
+	_plan_strategy_record.push_back(_strategy.task_name)
+	
 	var meet_strategy_arr:Array = plan_condition_meet_strategy_arr(_strategy.strong_strategy_arr,_strategy.weak_strategy_arr)
 	if meet_strategy_arr.empty():
 		_new_strategy_chain.roll_back_strategy()
@@ -180,7 +183,8 @@ func plan_strategy(_strategy,_level,_current_strategy_chain,_new_strategy_chain)
 	
 	var select_strategy = select_strategy(_strategy.order_sort_type,meet_strategy_arr,random_code_arr,_level)
 	while select_strategy:
-		if not plan_task_queue(select_strategy.task_queue,_level,_current_strategy_chain,_new_strategy_chain):
+		if not plan_task_queue(select_strategy.task_queue,_level,_current_strategy_chain,_new_strategy_chain,_plan_strategy_record):
+			GlobalMessageGenerator.send_player_strategy_plan(control_node,_plan_strategy_record,select_strategy,false)
 			#规划失败的情况
 			while _new_strategy_chain.random_code_arr.size() > _level:
 				_new_strategy_chain.random_code_arr.pop_back()
@@ -193,20 +197,21 @@ func plan_strategy(_strategy,_level,_current_strategy_chain,_new_strategy_chain)
 			else:
 				select_strategy = select_strategy(_strategy.order_sort_type,meet_strategy_arr,random_code_arr,_level)
 		else:
-			#规划完成
+			GlobalMessageGenerator.send_player_strategy_plan(control_node,_plan_strategy_record,select_strategy,true)
 			return true
 
+	_plan_strategy_record.pop_back()
 	_new_strategy_chain.roll_back_strategy()
 	return false
 	
-func plan_task_queue(task_queue,_level,_current_strategy_chain,_new_strategy_chain):
+func plan_task_queue(task_queue,_level,_current_strategy_chain,_new_strategy_chain,_plan_strategy_record):
 	for task in task_queue:
 		var task_name = get_simple_task_name(task)
 		if is_primary_task(task_name):
 			_new_strategy_chain.push_task_level(_level,task)
 		else:
 			var strategy = get_strategy_by_task_name(task_name)
-			var plan_result =  plan_strategy(strategy,_level+1,_current_strategy_chain,_new_strategy_chain)
+			var plan_result =  plan_strategy(strategy,_level+1,_current_strategy_chain,_new_strategy_chain,_plan_strategy_record)
 			if not plan_result:
 				return false
 	return true 
@@ -400,6 +405,9 @@ func parse_strategy_selector(strategy_selector):
 		if item.has("策略完结条件"):
 			var adjust_task_finish_condition = item["策略完结条件"]
 			strategy_item.adjust_task_finish_condition = adjust_task_finish_condition.split(",")
+
+		if item.has("策略名称"):
+			strategy_item.strategy_display_name = item["策略名称"]
 			
 		var task_queue = item["任务队列"]
 		strategy_item.task_queue = task_queue.split(",")

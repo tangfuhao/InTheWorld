@@ -3,8 +3,8 @@ var weight :float= 1
 var pre_condition_arr:Array
 var adjust_task_finish_condition:Array
 var task_queue:Array
-
 var weight_calculate_arr:Array 
+var strategy_display_name
 
 func setup_weight_calculate_arr(_weight_arr:String):
 	weight_calculate_arr = _weight_arr.split(",")

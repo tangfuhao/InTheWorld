@@ -9,7 +9,7 @@ func setup(_control_node):
 	control_node.visionSensor.connect("vision_find_stuff",self,"on_vision_lost_stuff")
 	
 	var fixed_memory = control_node.fixed_memory
-	for item in fixed_memory:
+	for item in fixed_memory.values():
 		item.connect("stuff_state_change",self,"_on_stuff_state_change")
 	
 

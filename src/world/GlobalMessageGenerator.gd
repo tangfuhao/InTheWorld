@@ -15,7 +15,9 @@ func send_player_action(_player,_action,_target):
 	message_dic["player"] = _player.node_name
 	message_dic["type"] = "execute_action"
 	message_dic["value"] = _action
-	if _target:
+	if _target and _target is String:
+		message_dic["target"] = _target
+	elif _target:
 		message_dic["target"] = _target.node_name
 	
 	emit_signal("message_dispatch",message_dic)
@@ -25,7 +27,7 @@ func send_player_find_player_in_vision(_player,_target):
 	var message_dic := {}
 	message_dic["timestamp"] = OS.get_system_time_secs()
 	message_dic["player"] = _player.node_name
-	message_dic["type"] = "find_in_vision"
+	message_dic["type"] = "find_player_in_vision"
 	message_dic["target"] = _target.node_name
 	emit_signal("message_dispatch",message_dic)
 	
@@ -33,7 +35,7 @@ func send_player_lost_player_in_vision(_player,_target):
 	var message_dic := {}
 	message_dic["timestamp"] = OS.get_system_time_secs()
 	message_dic["player"] = _player.node_name
-	message_dic["type"] = "lost_in_vision"
+	message_dic["type"] = "lost_player_in_vision"
 	message_dic["target"] = _target.node_name
 	emit_signal("message_dispatch",message_dic)
 	
@@ -97,11 +99,31 @@ func send_player_target_change(_player,_target):
 	message_dic["target"] = _target.node_name
 	
 	emit_signal("message_dispatch",message_dic)
-	
+
 
 #角色策略规划
-func send_player_strategy_plan():
-	pass
+func send_player_strategy_plan(_player,_plan_strategy_record,_selected_strategy,_plan_result):
+	var select_strategy = _selected_strategy.strategy_display_name
+	if _plan_strategy_record.has(select_strategy):
+		return
+
+	var strategy_record_str_arr = PoolStringArray(_plan_strategy_record)
+	strategy_record_str_arr.append(select_strategy)
+	
+	if _plan_result:
+		strategy_record_str_arr.append("成功")
+	else:
+		strategy_record_str_arr.append("失败")
+
+	var strategy_record_str = strategy_record_str_arr.join("-")
+	
+	var message_dic := {}
+	message_dic["timestamp"] = OS.get_system_time_secs()
+	message_dic["player"] = _player.node_name
+	message_dic["type"] = "strategy_plan"
+	message_dic["target"] = strategy_record_str
+	
+	emit_signal("message_dispatch",message_dic)
 
 #喜爱值改变
 func send_player_lover_value_change(_player,_target,_lover_value):

@@ -35,7 +35,7 @@ func _on_RememberTimer_timeout():
 func check_found_new_player(_body):
 	if not forgetting_player_arr.has(_body):
 		emit_signal("see_new_player",_body)
-		print(control_node.player_name,"发现了新玩家",_body.player_name)
+		# print(control_node.player_name,"发现了新玩家",_body.player_name)
 
 #加入到遗忘队列
 func add_to_forget_arr(_body):
