@@ -19,7 +19,7 @@ func active():
 		else:
 			action_target = null
 			excute_action = true
-			GlobalMessageGenerator.send_player_action(human,action_name,null)
+			GlobalMessageGenerator.send_player_action(human,action_name,action_target)
 			# print(human.player_name,"直接排泄了")
 	else:
 		goal_status = STATE.GOAL_FAILED
