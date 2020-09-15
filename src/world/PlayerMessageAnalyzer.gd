@@ -200,7 +200,15 @@ func on_global_message_handle(message_dic):
 		string_build.append("的喜爱值，改变为：")
 		string_build.append(lover_value)
 		log_str = string_build.join("")
-	
+	elif type == "lover_increase_effect":
+		var action = message_dic["value"]
+		var target = message_dic["target"]
+		log_str = "%s还有点意思，感觉有一点喜欢他呢" % target
+	elif type == "lover_decrease_effect":
+		var action = message_dic["value"]
+		var target = message_dic["target"]
+		log_str = "%s竟然在我面前%s，我感觉我不会喜欢他了" % [target,action]
+		
 	if log_str:
 		print(log_str)
 

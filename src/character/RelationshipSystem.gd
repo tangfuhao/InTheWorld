@@ -50,6 +50,8 @@ func _on_around_player_action_notify(_player,_action_name,_is_active):
 		if effect_value:
 			lover_value = lover_value + effect_value
 			set_relation_value_for_player("喜爱值",_player,lover_value)
+			GlobalMessageGenerator.send_player_lover_effect(owner,_player,effect_value,_action_name)
+				
 			# print("由于看到",_player.player_name,"执行:",_action_name,"，",owner_name,"对其喜爱值受影响：",effect_value,".最终为：",lover_value)
 			
 func effect_value_by_action(_action_name,_lover_vale):

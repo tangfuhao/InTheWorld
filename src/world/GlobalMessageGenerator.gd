@@ -148,3 +148,15 @@ func send_player_lover_value_change(_player,_target,_lover_value):
 	message_dic["value"] = _lover_value
 	
 	send_message_to_subscriber(message_dic)
+
+func send_player_lover_effect(_player,_target,_effect_value,_action):
+	var message_dic
+	if _effect_value > 0:
+		message_dic = create_common_message(_player,"lover_increase_effect")
+	else:
+		message_dic = create_common_message(_player,"lover_decrease_effect")
+		
+	message_dic["target"] = _target.node_name
+	message_dic["value"] = _action
+	
+	send_message_to_subscriber(message_dic)
