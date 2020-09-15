@@ -25,6 +25,8 @@ func _ready():
 	regex = RegEx.new()
 	regex.compile("\\#\\{(.+?)\\}")
 	
+	monitor_people_arr.push_back(player_id)
+	
 	GlobalMessageGenerator.connect("message_dispatch",self,"on_global_message_handle")
 	var action_arr = load_json_arr("res://config/text/action_to_text.json")
 	for item in action_arr:
@@ -49,34 +51,62 @@ func _ready():
 		if item.has("失败文本"):
 			var sucuss_content = item["失败文本"]
 			startegy_sucuss_dic[key] = sucuss_content
+			
 
-
-func record_other_people(_message_dic):
-	var player_name = _message_dic["player"]
-	if not all_people_state_dic.has(player_name):
-		all_people_state_dic[player_name] = ["喜欢"]
+#获取玩家行为状态表
+func get_people_action_state_dic(_player_name):
+	if not all_people_state_dic.has(_player_name):
+		if _player_name != player_id:
+			all_people_state_dic[_player_name] = ["喜欢"]
+		else:
+			all_people_state_dic[_player_name] = []
 	
+	return all_people_state_dic[_player_name]
+
+func get_exit_people_action_state_dic(_player_name):
+	if all_people_state_dic.has(_player_name):
+		return all_people_state_dic[_player_name]
+	return null
+
+#记录玩家的行为状态
+func record_people_action_state(_message_dic):
+	var player_name = _message_dic["player"]
 	var type = _message_dic["type"]
+	
 	if type == "execute_action":
 		var action = _message_dic["value"]
-		var people_param_arr = all_people_state_dic[player_name]
+		if action == "喝酒" or action == "聊天":
+			print("asdasd")
+		var people_param_arr = get_people_action_state_dic(player_name)
 		people_param_arr.push_back(action)
+		
+		if _message_dic.has("target"):
+			var target_player_name = _message_dic["target"]
+			people_param_arr = get_exit_people_action_state_dic(target_player_name)
+			if people_param_arr:
+				people_param_arr.push_back(action)
 	elif type == "stop_action":
 		var action = _message_dic["value"]
-		var people_param_arr = all_people_state_dic[player_name]
+		var people_param_arr = get_people_action_state_dic(player_name)
 		people_param_arr.erase(action)
+		
+		if _message_dic.has("target"):
+			var target_player_name = _message_dic["target"]
+			people_param_arr = get_exit_people_action_state_dic(target_player_name)
+			if people_param_arr:
+				people_param_arr.erase(action)
 
 func on_global_message_handle(message_dic):
 	#简单输出log
-	print(message_dic["timestamp"],":",get_dic_str(message_dic))
-	return
-	
+#	print(message_dic["timestamp"],":",get_dic_str(message_dic))
+#	return
+
+	record_people_action_state(message_dic)
+	var log_str = null
 	var player_name = message_dic["player"]
 	if player_name != player_id:
-		record_other_people(message_dic)
 		return 
-		
-	var log_str = null
+
 	var type = message_dic["type"]
 	if type == "execute_action":
 		var action = message_dic["value"]
@@ -134,11 +164,20 @@ func on_global_message_handle(message_dic):
 
 		elif not is_active and active_motivation_aar.has(motivation):
 			active_motivation_aar.erase(motivation)
+			
+			if motivation == "清洁动机":
+				log_str = "终于干净了"
+			elif motivation == "饥饿动机":
+				log_str = "我摸了摸圆鼓鼓的肚子，这一顿算是解决了"
+			elif motivation == "爱情动机":
+				log_str = "我竟然成功了……这……这太不可思议了"
+			elif motivation == "排泄动机":
+				log_str = "还好没有拉在裤子上，不然就没脸见人了"
+			elif motivation == "睡眠动机":
+				log_str = "睡得真开心，就该这样，不能活得太刺激"
 
 	elif type == "highest_priority_motivation":
 		var motivation = message_dic["target"]
-		
-		
 		if motivation == "无聊动机":
 			log_str = "糟糕，没事做了，该干点什么呢？"
 		elif motivation == "清洁动机":
@@ -151,6 +190,16 @@ func on_global_message_handle(message_dic):
 			log_str = "没带备用内裤，要找个地方拉屎才行"
 		elif motivation == "睡眠动机":
 			log_str = "找个地方睡一觉吧"
+	elif type == "lover_value_change":
+		var string_build:PoolStringArray
+		var target = message_dic["target"]
+		var lover_value = message_dic["value"]
+		string_build.append(player_name)
+		string_build.append("对")
+		string_build.append(target)
+		string_build.append("的喜爱值，改变为：")
+		string_build.append(lover_value)
+		log_str = string_build.join("")
 	
 	if log_str:
 		print(log_str)
@@ -163,6 +212,8 @@ func repleace_match_text(_content,_message_dic):
 		for match_item in result_arr:
 			var match_name = match_item.get_string(1)
 			var match_value = convert_match_name_to_value(match_name,_message_dic)
+			if not match_value:
+				match_value = convert_match_name_to_value(match_name,_message_dic)
 			assert(match_value != null)
 			
 			var match_text = match_item.get_string(0)
@@ -191,6 +242,8 @@ func convert_match_name_to_value(_match_name,_message_dic):
 			return player_id
 		else:
 			return value
+	elif match_name_item == "角色代词":
+		assert(false)
 	else:
 		print(_match_name)
 
@@ -254,6 +307,8 @@ func get_dic_str(var message_dic):
 		var action = message_dic["value"]
 		string_build.append("执行:")
 		string_build.append(action)
+		
+		
 	elif type == "stop_action":
 		string_build.append(player_name)
 		if message_dic.has("target"):
