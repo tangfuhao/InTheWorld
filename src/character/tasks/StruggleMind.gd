@@ -6,7 +6,7 @@ func active() ->void:
 		# print(human.player_name,"纠结")
 		excute_action = true
 		GlobalMessageGenerator.send_player_action(human,action_name,null)
-		human.set_status_value("爱情动机",0.9)
+		human.set_status_value("爱情状态",0.9)
 
 
 func terminate() ->void:

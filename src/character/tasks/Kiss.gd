@@ -11,7 +11,7 @@ func active():
 		if action_target:
 			if human.is_approach(action_target):
 				action_target.interaction_action(human,action_name)
-				human.set_status_value("爱情动机",0.9)
+				human.set_status_value("爱情状态",0.9)
 				# print(human.player_name,"亲吻",target.player_name)
 				excute_action = true
 				GlobalMessageGenerator.send_player_action(human,action_name,action_target)
