@@ -19,7 +19,7 @@ func calculate_weight(_strategy_weight_variable_dic:Dictionary):
 			weight = evaluateResult(weight_param_value,weight_calculate_arr[1],float(weight_calculate_arr[2]))
 		else:
 			weight = evaluateFormula(_strategy_weight_variable_dic,weight_calculate_arr[1])
-			print("复合函数 权重计算:",weight)
+			# print("复合函数 权重计算:",weight)
 
 func evaluateFormula(_strategy_weight_variable_dic, expression) -> float:
 	var parser = FormulaParser.new()
