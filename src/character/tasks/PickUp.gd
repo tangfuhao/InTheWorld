@@ -15,6 +15,7 @@ func active() ->void:
 				GlobalMessageGenerator.send_player_action(human,action_name,action_target)
 
 				goal_status = STATE.GOAL_COMPLETED
+				return
 	goal_status = STATE.GOAL_FAILED
 
 func process(_delta: float):
