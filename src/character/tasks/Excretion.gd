@@ -10,11 +10,13 @@ func active():
 		if action_target and human.is_approach(action_target):
 			human.global_position.x = action_target.global_position.x
 			human.global_position.y = action_target.global_position.y
-			human.set_status_value("排泄状态",1)
+			
 			human.notify_action("排泄",true)
 			# print(human.player_name,"在",target.stuff_name,"排泄")
 			excute_action = true
 			GlobalMessageGenerator.send_player_action(human,action_name,action_target)
+			
+			human.set_status_value("排泄状态",1)
 			goal_status = STATE.GOAL_COMPLETED
 		else:
 			action_target = null

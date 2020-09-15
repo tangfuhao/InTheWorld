@@ -11,10 +11,12 @@ func active():
 		action_target = human.get_target()
 		if action_target:			
 			action_target.interaction_action(human,action_name)
-			human.set_status_value("爱情状态",0.9)
+			
 
 			excute_action = true
 			GlobalMessageGenerator.send_player_action(human,action_name,action_target)
+
+			human.set_status_value("爱情状态",0.9)
 			return
 	goal_status = STATE.GOAL_FAILED
 

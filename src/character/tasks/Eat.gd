@@ -24,10 +24,9 @@ func active():
 				return
 		elif target:
 			if human.is_approach(target):
-
 				action_target = target
+
 				excute_action = true
-				
 				GlobalMessageGenerator.send_player_action(human,action_name,action_target)
 				# print(human.player_name,"吃",target.stuff_name)
 				human.set_status_value("饥饿状态",1)
