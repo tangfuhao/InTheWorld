@@ -12,6 +12,7 @@ var current_strategy_chain:StrategyChain = null
 var current_running_task = null
 #当前活跃的动机
 var active_motivation = null
+var new_active_motivation = null
 
 #预加载
 var preload_action_dic = {}
@@ -68,7 +69,7 @@ func process_task(_delta: float):
 			current_strategy_chain.clean()
 
 	if not current_running_task: 
-		send_re_plan_signal()
+		send_re_plan_signal(true)
 	
 	
 func clean_current_task():
@@ -76,8 +77,8 @@ func clean_current_task():
 		current_running_task.terminate()
 		current_running_task = null
 
-func send_re_plan_signal():
-	need_to_re_plan = true
+func send_re_plan_signal(_value):
+	need_to_re_plan = _value
 
 func run_next_task():
 	if current_strategy_chain:
@@ -115,17 +116,25 @@ func _on_world_status_change(_world_status_item):
 	
 	
 	# print(control_node.player_name,"因为认知改变，重新规划")
-	send_re_plan_signal()
+	send_re_plan_signal(true)
 
 
 func _on_motivation_highest_priority_change(motivation):
 	if active_motivation != motivation:
-		active_motivation = motivation
+		new_active_motivation = motivation
 		# print(control_node.player_name,"因为动机改变为:",active_motivation.motivation_name,"，重新规划")
-		send_re_plan_signal()
+		send_re_plan_signal(true)
+	else:
+		new_active_motivation = motivation
+		send_re_plan_signal(false)
+		
 	
 func re_plan_strategy():
-	if active_motivation && active_motivation.is_active:
+	if new_active_motivation and new_active_motivation != active_motivation and new_active_motivation.is_active:
+		active_motivation = new_active_motivation
+		GlobalMessageGenerator.send_highest_priority_motivation(control_node,active_motivation)
+		
+		
 		var strategy = get_strategy_by_task_name(active_motivation.motivation_name)
 		if strategy:
 #			var plan_start_time = OS.get_ticks_msec()

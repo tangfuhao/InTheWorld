@@ -39,7 +39,6 @@ func set_highest_priority_motivation(value):
 	if highest_priority_motivation != value:
 		highest_priority_motivation = value
 		emit_signal("highest_priority_motivation_change",highest_priority_motivation)
-		GlobalMessageGenerator.send_highest_priority_motivation(control_node,highest_priority_motivation)
 
 
 #动机的激活通知  更新激活动机表
