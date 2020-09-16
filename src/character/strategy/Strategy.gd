@@ -70,6 +70,7 @@ func process_task(_delta: float):
 				new_create_task = true
 				current_delta = 0
 		elif task_state == Task.STATE.GOAL_FAILED: 
+			GlobalMessageGenerator.send_player_strategy_plan_fail(control_node,current_strategy_chain)
 			clean_current_task()
 			current_strategy_chain.clean()
 

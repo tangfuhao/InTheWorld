@@ -128,7 +128,13 @@ func send_player_strategy_plan_succuss(_player,_strategy_chain):
 		var message_dic = create_common_message(_player,"strategy_plan_succuss")
 		message_dic["target"] = item
 		send_message_to_subscriber(message_dic)
-	
+
+func send_player_strategy_plan_fail(_player,_strategy_chain):
+	var strategy_record_arr =  _strategy_chain.strategy_record_arr
+	for item in strategy_record_arr:
+		var message_dic = create_common_message(_player,"strategy_plan_fail")
+		message_dic["target"] = item
+		send_message_to_subscriber(message_dic)
 
 
 
