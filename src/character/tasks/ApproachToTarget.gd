@@ -7,7 +7,7 @@ var approach_target
 func active():
 	.active()
 	# print("移动到目标激活")
-	if human:		
+	if human:
 		approach_target = human.get_target()
 		if approach_target:
 			if human.is_approach(approach_target):
@@ -23,10 +23,12 @@ func active():
 
 func process(_delta: float):
 	if goal_status == STATE.GOAL_ACTIVE:
-		human.movement.set_desired_position(approach_target.global_position)
-		if human.is_approach(approach_target):
-			goal_status = STATE.GOAL_COMPLETED
-		
+		if approach_target:
+			human.movement.set_desired_position(approach_target.global_position)
+			if human.is_approach(approach_target):
+				goal_status = STATE.GOAL_COMPLETED
+		else:
+			goal_status = STATE.GOAL_FAILED
 	return goal_status
 
 func terminate():
