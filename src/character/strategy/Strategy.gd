@@ -44,26 +44,31 @@ func handle_re_plan_request():
 		need_to_re_plan = false
 		re_plan_strategy()
 		current_running_task = run_next_task()
-#		if not _is_not_need_plan_task():
-#			re_plan_strategy()
-#			current_running_task = run_next_task()
+		if current_running_task:
+			current_running_task.active()
 
 func process_task(_delta: float):
+	var current_delta = _delta
 	handle_re_plan_request()
 
 	var new_create_task = true
 	while(new_create_task && current_running_task):
 		new_create_task = false
-		var task_state = current_running_task.process(_delta)
+		var task_state = current_running_task.process(current_delta)
 		if task_state == Task.STATE.GOAL_COMPLETED:
-			current_running_task.terminate()
-			current_running_task = run_next_task()
-			new_create_task = true
-			_delta = 0
+			var  replace_running_task = run_next_task()
 			
-			if current_running_task == null:
+			if replace_running_task == null:
 				GlobalMessageGenerator.send_player_strategy_plan_succuss(control_node,current_strategy_chain)
+				
+			current_running_task.terminate()
 			
+			
+			current_running_task = replace_running_task
+			if current_running_task:
+				current_running_task.active()
+				new_create_task = true
+				current_delta = 0
 		elif task_state == Task.STATE.GOAL_FAILED: 
 			clean_current_task()
 			current_strategy_chain.clean()
@@ -84,9 +89,8 @@ func run_next_task():
 	if current_strategy_chain:
 		var first_task_in_strategy_chain = current_strategy_chain.pop_first_task()
 		if first_task_in_strategy_chain :
-			current_running_task = instance_task(first_task_in_strategy_chain)
-			current_running_task.active()
-			return current_running_task
+			var task = instance_task(first_task_in_strategy_chain)
+			return task
 	return null
 
 func instance_task(task_name_and_params:String):
