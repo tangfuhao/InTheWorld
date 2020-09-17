@@ -46,7 +46,7 @@ func update_sponsor():
 		
 func remove_player(_player):
 	if sponsor == _player:
-		sponsor = null
+		self.sponsor = null
 		
 	if member_arr.has(_player):
 		member_arr.erase(_player)

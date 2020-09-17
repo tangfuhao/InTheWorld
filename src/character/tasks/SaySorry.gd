@@ -1,23 +1,18 @@
 extends "res://src/character/tasks/Task.gd"
 class_name SaySorry
-#获取目标任务
 
-var action_target
+
 
 func active():
 	.active()
-	if human:
-		action_target = human.get_target()
-		if action_target:
-			if human.is_interaction_distance(action_target):
-				# print(human.player_name,"道歉",target.player_name)
-				excute_action = true
-				GlobalMessageGenerator.send_player_action(human,action_name,action_target)
-				goal_status = STATE.GOAL_COMPLETED
-				return
-	goal_status = STATE.GOAL_FAILED
 
+	self.action_target = human.get_target()
+	if not action_target:
+		goal_status = STATE.GOAL_FAILED
+		return
 
-func terminate() ->void:
-	if excute_action:
-		GlobalMessageGenerator.send_player_stop_action(human,action_name,action_target)
+	if not human.is_interaction_distance(action_target):
+		goal_status = STATE.GOAL_FAILED
+		return
+
+	goal_status = STATE.GOAL_COMPLETED

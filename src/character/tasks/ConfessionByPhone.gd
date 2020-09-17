@@ -1,24 +1,22 @@
 extends "res://src/character/tasks/Task.gd"
 class_name ConfessionByPhone
-#获取目标任务
+
+
+
 func active():
 	.active()
-	if human:
-		var target = human.get_target()
-		if target and target is Player:
-			target.interaction_action(human,action_name)
-			
-			# print(human.player_name,"用手机表白",target.player_name)
-			excute_action = true
-			GlobalMessageGenerator.send_player_action(human,action_name,target)
+	self.action_target = human.get_target()
 
-			human.set_status_value("爱情状态",1)
-			goal_status = STATE.GOAL_COMPLETED
-			return
-	goal_status = STATE.GOAL_FAILED
+	if not action_target:
+		goal_status = STATE.GOAL_FAILED
+		return
 
+	goal_status = STATE.GOAL_COMPLETED
+	status_recover = true
 
 
 func terminate() ->void:
-	if excute_action:
-		GlobalMessageGenerator.send_player_stop_action(human,action_name,target)
+	.terminate()
+	if status_recover:
+		human.set_status_value("爱情状态",1)
+	

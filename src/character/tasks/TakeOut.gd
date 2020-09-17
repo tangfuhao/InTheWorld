@@ -1,6 +1,8 @@
 extends "res://src/character/tasks/Task.gd"
 class_name TakeOut
 
+#基本废弃的行为 
+
 func active() ->void:
 	.active()
 	if human:

@@ -4,5 +4,5 @@ class_name NoLimitTask
 
 func active() ->void:
 	.active()
-	if human:
-		human.quit_group_action()
+	human.quit_group_action()
+		

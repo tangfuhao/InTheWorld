@@ -1,5 +1,8 @@
 extends "res://src/character/tasks/NoLimitTask.gd"
 class_name Wait
+
+#这个任务应该废弃
+
 func active() ->void:
 	.active()
 	# if human:

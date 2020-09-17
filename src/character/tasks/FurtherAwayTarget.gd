@@ -2,32 +2,34 @@ extends "res://src/character/tasks/NoLimitTask.gd"
 class_name FurtherAwayTarget
 #远离目标任务
 
-var furtheraway_target
+var action_target
 
 func active():
 	.active()
-	if human:		
-		furtheraway_target = human.get_target()
-		if furtheraway_target:
-			human.movement.is_on = true
 
-			excute_action = true
-			GlobalMessageGenerator.send_player_action(human,action_name,furtheraway_target)
-			return
-	goal_status = STATE.GOAL_FAILED
+	self.action_target = human.get_target()
+	if not action_target:
+		goal_status = STATE.GOAL_FAILED
+		return 
+
+	human.movement.is_on = true
 
 func process(_delta: float):
-	if goal_status == STATE.GOAL_ACTIVE:
-		var direction:Vector2 = human.global_position - furtheraway_target.global_position
-		var direction_position = direction.normalized() * 10
-		var desired_position = human.global_position + direction_position
-		human.movement.set_desired_position(desired_position)
+	if not action_target:
+		goal_status = STATE.GOAL_FAILED
+
+	if goal_status != STATE.GOAL_ACTIVE:
+		return goal_status
+
+	var direction:Vector2 = human.global_position - action_target.global_position
+	var direction_position = direction.normalized() * 10
+	var desired_position = human.global_position + direction_position
+	human.movement.set_desired_position(desired_position)
+
 	return goal_status
 
 func terminate():
-	if human:
-		human.movement.is_on = false
-		human.movement.direction = Vector2.ZERO
+	.terminate()
+	human.movement.is_on = false
+	human.movement.direction = Vector2.ZERO
 
-	if excute_action:
-		GlobalMessageGenerator.send_player_stop_action(human,action_name,furtheraway_target)

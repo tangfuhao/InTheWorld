@@ -1,14 +1,21 @@
 extends "res://src/character/tasks/NoLimitTask.gd"
 class_name StruggleMind
-func active() ->void:
+
+#纠结5s
+var action_time = 5
+
+func active():
 	.active()
-	if human:
-		# print(human.player_name,"纠结")
-		excute_action = true
-		GlobalMessageGenerator.send_player_action(human,action_name,null)
+
+
+func process(_delta: float):
+	.process(_delta)
+
+	if action_time < 0:
+		return goal_status
+
+	action_time = action_time - _delta
+	if action_time < 0:
 		human.set_status_value("爱情状态",0.9)
 
-
-func terminate() ->void:
-	if excute_action:
-		GlobalMessageGenerator.send_player_stop_action(human,action_name,null)
+	return goal_status
