@@ -40,9 +40,9 @@ shower_room_path = NodePath("../ShowerRoom")
 bed_path = NodePath("../Bed")
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2( 800, 400 )
+anchor_mode = 0
 current = true
-zoom = Vector2( 5, 5 )
+zoom = Vector2( 1.5, 1.5 )
 
 [node name="CommonStuff" parent="." instance=ExtResource( 4 )]
 position = Vector2( 376.034, 79.9344 )
