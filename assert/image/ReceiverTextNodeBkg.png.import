@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Grass.png-2ef925811d54e9baeeb9ef4db3cac2c7.stex"
+path="res://.import/ReceiverTextNodeBkg.png-bcd3bbbe1be2e14b706021532cb8ef30.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assert/World/Grass.png"
-dest_files=[ "res://.import/Grass.png-2ef925811d54e9baeeb9ef4db3cac2c7.stex" ]
+source_file="res://assert/image/ReceiverTextNodeBkg.png"
+dest_files=[ "res://.import/ReceiverTextNodeBkg.png-bcd3bbbe1be2e14b706021532cb8ef30.stex" ]
 
 [params]
 

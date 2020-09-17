@@ -1,0 +1,71 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://src/customization/listview/ListViewItemType1.gd" type="Script" id=1]
+[ext_resource path="res://assert/image/xiao_ming.png" type="Texture" id=2]
+[ext_resource path="res://src/customization/chinese_label_font.tres" type="DynamicFont" id=3]
+[ext_resource path="res://assert/image/SenderTextNodeBkg.png" type="Texture" id=4]
+
+[node name="ListViewItemType3" type="Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 0, 80 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/margin_right = 10
+custom_constants/margin_top = 10
+custom_constants/margin_left = 10
+custom_constants/margin_bottom = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 1014.0
+margin_bottom = 590.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NinePatchRect" type="NinePatchRect" parent="MarginContainer/HBoxContainer"]
+margin_left = 850.0
+margin_right = 950.0
+margin_bottom = 580.0
+rect_min_size = Vector2( 100, 0 )
+texture = ExtResource( 4 )
+region_rect = Rect2( 1, 0, 15, 11 )
+patch_margin_left = 11
+patch_margin_top = 9
+patch_margin_right = 13
+patch_margin_bottom = 4
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/NinePatchRect"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 10.0
+margin_right = 28.0
+custom_fonts/font = ExtResource( 3 )
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+text = "按时发发发"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Photo" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+margin_left = 954.0
+margin_right = 1004.0
+margin_bottom = 50.0
+size_flags_vertical = 0
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

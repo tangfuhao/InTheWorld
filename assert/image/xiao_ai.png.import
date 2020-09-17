@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/CliffTileset.png-75614bef7bf397aa98f2937a84c0148f.stex"
+path="res://.import/xiao_ai.png-fabd9b8abe7c1f49a38e485260248ed2.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assert/World/CliffTileset.png"
-dest_files=[ "res://.import/CliffTileset.png-75614bef7bf397aa98f2937a84c0148f.stex" ]
+source_file="res://assert/image/xiao_ai.png"
+dest_files=[ "res://.import/xiao_ai.png-fabd9b8abe7c1f49a38e485260248ed2.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/DirtTileset.png-6bd7b4e237edb8d5c6eaca28f6f858eb.stex"
+path="res://.import/xiao_ming.png-1427faecb5c82136a6b86dca38112f88.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assert/World/DirtTileset.png"
-dest_files=[ "res://.import/DirtTileset.png-6bd7b4e237edb8d5c6eaca28f6f858eb.stex" ]
+source_file="res://assert/image/xiao_ming.png"
+dest_files=[ "res://.import/xiao_ming.png-1427faecb5c82136a6b86dca38112f88.stex" ]
 
 [params]
 

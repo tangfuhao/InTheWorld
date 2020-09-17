@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Tree.png-9f6f11c6dc67891beb370bd473645a3d.stex"
+path="res://.import/SenderTextNodeBkg.png-0bd13467a764d671b116552f4bc752d0.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assert/World/Tree.png"
-dest_files=[ "res://.import/Tree.png-9f6f11c6dc67891beb370bd473645a3d.stex" ]
+source_file="res://assert/image/SenderTextNodeBkg.png"
+dest_files=[ "res://.import/SenderTextNodeBkg.png-0bd13467a764d671b116552f4bc752d0.stex" ]
 
 [params]
 
