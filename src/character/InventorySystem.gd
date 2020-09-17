@@ -31,7 +31,7 @@ func pop_item_by_name_in_package(_name):
 func pop_item_by_function_name_in_package(_function_name):
 	for item in package:
 		if item.has_attribute(_function_name):
-			package.erase(item)
+			remove_item_in_package(item)
 			return item
 	return null
 
