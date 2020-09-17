@@ -33,7 +33,7 @@ func active()->void:
 
 
 	join_action_name = want_to_join_group_action.action_name
-	full_target = join_action_name
+	full_action = join_action_name
 
 	want_to_join_group_action.connect("task_quit",self,"_on_group_task_quit")
 	human.join_group_action(want_to_join_group_action)
@@ -45,6 +45,7 @@ func _on_group_task_quit():
 	is_quit_task = true
 
 func process(_delta: float):
+	.process(_delta)
 	if is_quit_task:
 		human.movement.is_on = false
 		goal_status = STATE.GOAL_COMPLETED
