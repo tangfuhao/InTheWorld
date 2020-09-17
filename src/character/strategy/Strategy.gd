@@ -138,22 +138,22 @@ func re_plan_strategy():
 	if new_active_motivation and new_active_motivation != active_motivation and new_active_motivation.is_active:
 		active_motivation = new_active_motivation
 		GlobalMessageGenerator.send_highest_priority_motivation(control_node,active_motivation)
-		
-		
-		var strategy = get_strategy_by_task_name(active_motivation.motivation_name)
-		if strategy:
+
+
+	var strategy = get_strategy_by_task_name(active_motivation.motivation_name)
+	if strategy:
 #			var plan_start_time = OS.get_ticks_msec()
-			var new_strategy_chain = StrategyChain.new()
-			var plan_strategy_record = []
-			var plan_result = plan_strategy(strategy,0,current_strategy_chain,new_strategy_chain,plan_strategy_record)
-			if plan_result: 
-				#分析相关的世界认知 加入队列
-				new_strategy_chain.analyse_listner_world_status()
-				change_task(new_strategy_chain)
-				# print(control_node.player_name,"规划策略:",new_strategy_chain.to_list(),",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
-				# print("相关认知:",new_strategy_chain.get_relation_world_status_str())
-			else:
-				change_task(null)
+		var new_strategy_chain = StrategyChain.new()
+		var plan_strategy_record = []
+		var plan_result = plan_strategy(strategy,0,current_strategy_chain,new_strategy_chain,plan_strategy_record)
+		if plan_result: 
+			#分析相关的世界认知 加入队列
+			new_strategy_chain.analyse_listner_world_status()
+			change_task(new_strategy_chain)
+			# print(control_node.player_name,"规划策略:",new_strategy_chain.to_list(),",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
+			# print("相关认知:",new_strategy_chain.get_relation_world_status_str())
+		else:
+			change_task(null)
 #				print("规划策略:无策略",",耗时:",OS.get_ticks_msec() - plan_start_time,"毫秒")
 			
 

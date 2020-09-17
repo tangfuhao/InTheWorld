@@ -10,6 +10,7 @@ func active() ->void:
 
 
 func process(_delta: float):
+	.process(_delta)
 	if human:
 		var target = human.get_target()
 		if target:

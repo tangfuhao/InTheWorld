@@ -28,7 +28,7 @@ func process(_delta: float):
 	.process(_delta)
 
 	if goal_status == STATE.GOAL_ACTIVE:
-		human.movement.set_desired_position(target.global_position)
+		human.movement.set_desired_position(action_target.global_position)
 		equipment_weapons()
 		if not shoot_use_weapons():
 			goal_status = STATE.GOAL_COMPLETED

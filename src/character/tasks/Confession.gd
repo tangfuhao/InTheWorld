@@ -9,7 +9,7 @@ func active():
 		goal_status = STATE.GOAL_FAILED
 		return
 
-	if not human.is_interaction_distance(target):
+	if not human.is_interaction_distance(action_target):
 		goal_status = STATE.GOAL_FAILED
 		return
 
