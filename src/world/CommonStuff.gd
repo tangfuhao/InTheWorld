@@ -169,7 +169,14 @@ func disappear():
 func has_attribute(_params) -> bool :
 	if not _params:
 		return false
+		
+	if stuff_name == _params:
+		return true
+
 	return active_functon_attribute_params_dic.has(_params)
+	
+func get_type():
+	return "stuff"
 
 func notify_disappear():
 	emit_signal("disappear_notify",self)

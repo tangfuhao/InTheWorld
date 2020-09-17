@@ -288,4 +288,12 @@ func notify_disappear():
 	emit_signal("disappear_notify",self)
 
 func has_attribute(_params):
+	if not _params:
+		return false
+		
+	if player_name == _params:
+		return true
 	return _params == "其他人"
+	
+func get_type():
+	return "player"
