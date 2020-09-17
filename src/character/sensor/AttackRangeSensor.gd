@@ -17,7 +17,7 @@ func _process(_delta):
 
 func update_target_distance():
 	var target = control_node.get_target()
-	if target:
+	if target and target.get_type() != "package_item":
 		var latest_distance_to_target = control_node.global_position.distance_to(target.global_position)
 		var margin_of_error = _target_distance - latest_distance_to_target
 		if margin_of_error > 5 || margin_of_error < -5:

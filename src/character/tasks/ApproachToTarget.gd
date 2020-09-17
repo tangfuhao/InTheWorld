@@ -9,6 +9,10 @@ func active():
 	if not action_target:
 		goal_status = STATE.GOAL_FAILED
 		return
+		
+	if action_target.get_type() == "package_item":
+		goal_status = STATE.GOAL_COMPLETED
+		return
 
 	if human.is_approach(action_target):
 		goal_status = STATE.GOAL_COMPLETED

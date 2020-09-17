@@ -5,9 +5,6 @@ var response_system
 var task_index = 0
 
 func active() ->void:
-	if not human:
-		goal_status = STATE.GOAL_FAILED
-		return
 	response_system = human.response_system
 	
 

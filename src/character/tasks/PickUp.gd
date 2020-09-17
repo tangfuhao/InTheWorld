@@ -10,6 +10,11 @@ func active() ->void:
 	if not action_target:
 		goal_status = STATE.GOAL_FAILED
 		return
+		
+	if action_target.get_type() == "package_item":
+		goal_status = STATE.GOAL_COMPLETED
+		return
+	
 	if not human.is_interaction_distance(action_target):
 		goal_status = STATE.GOAL_FAILED
 		return

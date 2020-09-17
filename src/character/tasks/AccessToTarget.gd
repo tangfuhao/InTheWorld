@@ -9,12 +9,23 @@ func active() ->void:
 
 	# print("获取目标任务激活")
 	self.action_target = human.get_target()
-	if not action_target or not action_target.has_attribute(get_params()):
-		self.action_target = human.get_recent_target(get_params())
-
-	if action_target:
+	if action_target and action_target.has_attribute(get_params()):
 		human.set_target(action_target)
 		goal_status = STATE.GOAL_COMPLETED
-	else:
-		goal_status = STATE.GOAL_FAILED
+		return
+
+	self.action_target = human.get_recent_target(get_params())
+	if action_target and action_target.has_attribute(get_params()):
+		human.set_target(action_target)
+		goal_status = STATE.GOAL_COMPLETED
+		return
+		
+	self.action_target = human.inventory_system.get_item_by_function_attribute_in_package(get_params())
+	if action_target and action_target.has_attribute(get_params()):
+		human.set_target(action_target)
+		goal_status = STATE.GOAL_COMPLETED
+		return
+	
+	full_target = get_params()
+	goal_status = STATE.GOAL_FAILED
 

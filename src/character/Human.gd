@@ -293,7 +293,7 @@ func has_attribute(_params):
 		
 	if player_name == _params:
 		return true
-	return _params == "其他人"
+	return _params == "其他人" or _params == "发起人"
 	
 func get_type():
 	return "player"
