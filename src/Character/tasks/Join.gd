@@ -1,4 +1,4 @@
-extends "res://src/character/tasks/Task.gd"
+extends "res://src/Character/tasks/Task.gd"
 class_name Join
 
 var want_to_join_group_action = null

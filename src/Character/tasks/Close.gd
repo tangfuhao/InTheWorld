@@ -1,4 +1,4 @@
-extends "res://src/character/tasks/Task.gd"
+extends "res://src/Character/tasks/Task.gd"
 class_name Close
 #获取目标任务
 func active():

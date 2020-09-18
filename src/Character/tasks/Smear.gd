@@ -1,5 +1,5 @@
 #涂抹
-extends "res://src/character/tasks/NoLimitTask.gd"
+extends "res://src/Character/tasks/NoLimitTask.gd"
 class_name Smear
 
 func active():

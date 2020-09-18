@@ -1,4 +1,4 @@
-extends "res://src/character/tasks/ContinueTask.gd"
+extends "res://src/Character/tasks/ContinueTask.gd"
 class_name Chat
 
 func active():

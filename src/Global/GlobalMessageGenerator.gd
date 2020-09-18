@@ -6,9 +6,6 @@ enum MessageType { execute_action, stop_action, find_player_in_vision,lost_playe
 location }
 
 
-
-
-
 func create_common_message(_player,_type):
 	var message_dic := {}
 	message_dic["timestamp"] = OS.get_system_time_secs()

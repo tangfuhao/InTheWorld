@@ -9,7 +9,7 @@ onready var timer = $Timer
 
 
 func show_attack_effect():
-	var GrassEffect = load("res://src/character/AttachEffect.tscn")
+	var GrassEffect = load("res://src/Character/AttachEffect.tscn")
 	var grassEffect = GrassEffect.instance()
 	get_tree().current_scene.add_child(grassEffect)
 	grassEffect.global_position = global_position

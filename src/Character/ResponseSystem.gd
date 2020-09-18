@@ -152,7 +152,7 @@ func parse_base_task(base_task_arr):
 	for item in base_task_arr:
 		var base_task_name = item["任务名"]
 		var task_file_path = item["文件"]
-		var full_file_path = "res://src/character/tasks/"+task_file_path
+		var full_file_path = "res://src/Character/tasks/"+task_file_path
 		preload_action_dic[base_task_name] = full_file_path
 
 func load_json_arr(file_path):

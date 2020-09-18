@@ -1,5 +1,5 @@
 #不限时任务
-extends "res://src/character/tasks/Task.gd"
+extends "res://src/Character/tasks/Task.gd"
 class_name NoLimitTask
 
 func active() ->void:

@@ -1,4 +1,4 @@
-extends "res://src/character/tasks/NoLimitTask.gd"
+extends "res://src/Character/tasks/NoLimitTask.gd"
 class_name Sit
 
 

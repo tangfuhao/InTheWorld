@@ -61,7 +61,7 @@ func _ready():
 			startegy_sucuss_dic[key] = parse_content_type(sucuss_content)
 		if item.has("失败文本"):
 			var fail_content = item["失败文本"]
-			startegy_sucuss_dic[key] = parse_content_type(fail_content)
+			startegy_fail_dic[key] = parse_content_type(fail_content)
 			
 func parse_content_type(_content):
 	var content_arr = []
@@ -134,7 +134,7 @@ func record_people_action_state(_message_dic):
 
 func on_global_message_handle(message_dic):
 	#简单输出log
-#	print(message_dic["timestamp"],":",get_dic_str(message_dic))
+	print(message_dic["timestamp"],":",get_dic_str(message_dic))
 #	return
 
 	record_people_action_state(message_dic)
