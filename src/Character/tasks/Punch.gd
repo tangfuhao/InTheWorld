@@ -1,8 +1,6 @@
 extends "res://src/Character/tasks/NoLimitTask.gd"
 class_name Punch
 
-var action_target
-
 func active():
 	.active()
 	if not action_target:

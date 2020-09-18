@@ -2,7 +2,7 @@ extends "res://src/Character/tasks/NoLimitTask.gd"
 class_name FurtherAwayTarget
 #远离目标任务
 
-var action_target
+
 
 func active():
 	.active()
