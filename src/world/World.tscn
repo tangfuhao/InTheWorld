@@ -4,9 +4,11 @@
 [ext_resource path="res://src/world/World.gd" type="Script" id=2]
 [ext_resource path="res://src/world/world_map.tres" type="TileSet" id=3]
 [ext_resource path="res://src/character/Human.tscn" type="PackedScene" id=4]
-[ext_resource path="res://src/customization/listview/HorizontalListView.gd" type="Script" id=5]
-[ext_resource path="res://src/customization/listview/HorizontalListViewItem.gd" type="Script" id=6]
-[ext_resource path="res://src/world/CommonStuff.tscn" type="PackedScene" id=7]
+[ext_resource path="res://src/ui/customization/listview/HorizontalListView.gd" type="Script" id=5]
+[ext_resource path="res://src/ui/customization/listview/HorizontalListViewItem.gd" type="Script" id=6]
+[ext_resource path="res://src/world/stuff/CommonStuff.tscn" type="PackedScene" id=7]
+
+
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 20.0571, 19.7056 )

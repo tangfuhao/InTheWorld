@@ -1,7 +1,7 @@
 extends KinematicBody2D
 class_name Player
 
-const Bullet = preload("res://src/world/Bullet.tscn")
+const Bullet = preload("res://src/world/bullet/Bullet.tscn")
 
 export var show_log := false
 export var player_name = "player1"

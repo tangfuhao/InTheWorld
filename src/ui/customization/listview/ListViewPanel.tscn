@@ -1,8 +1,9 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://src/customization/listview/CommonListView.tscn" type="PackedScene" id=1]
-[ext_resource path="res://src/customization/chinese_label_font.tres" type="DynamicFont" id=2]
-[ext_resource path="res://src/customization/listview/ListViewPanel.gd" type="Script" id=3]
+[ext_resource path="res://src/ui/customization/listview/CommonListView.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/ui/customization/chinese_label_font.tres" type="DynamicFont" id=2]
+[ext_resource path="res://src/ui/customization/listview/ListViewPanel.gd" type="Script" id=3]
+
 
 [sub_resource type="StyleBoxFlat" id=1]
 

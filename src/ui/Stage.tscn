@@ -1,6 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://src/customization/listview/CommonListView.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/ui/customization/listview/CommonListView.tscn" type="PackedScene" id=1]
+
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.356863, 0.87451, 0.929412, 1 )

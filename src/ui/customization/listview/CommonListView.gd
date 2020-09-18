@@ -1,11 +1,11 @@
 #通用listview
 extends Panel
 
-const ListItemType1 = preload("res://src/customization/listview/ListViewItemType1.tscn")
-const ListItemType2 = preload("res://src/customization/listview/ListViewItemType2.tscn")
+const ListItemType1 = preload("res://src/ui/customization/listview/ListViewItemType1.tscn")
+const ListItemType2 = preload("res://src/ui/customization/listview/ListViewItemType2.tscn")
 
 
-const ListItemType3 = preload("res://src/customization/listview/ListViewItemType3.tscn")
+const ListItemType3 = preload("res://src/ui/customization/listview/ListViewItemType3.tscn")
 
 onready var list = $ScrollContainer/List
 

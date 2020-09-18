@@ -52,17 +52,17 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "CConditionAttributeItem",
 "language": "GDScript",
-"path": "res://src/customization/CConditionAttributeItem.gd"
+"path": "res://src/ui/customization/CConditionAttributeItem.gd"
 }, {
 "base": "Reference",
 "class": "CConditionModel",
 "language": "GDScript",
-"path": "res://src/customization/CConditionModel.gd"
+"path": "res://src/ui/customization/CConditionModel.gd"
 }, {
 "base": "Reference",
 "class": "CConditionRule",
 "language": "GDScript",
-"path": "res://src/customization/CConditionRule.gd"
+"path": "res://src/ui/customization/CConditionRule.gd"
 }, {
 "base": "Node2D",
 "class": "CPU",
@@ -92,7 +92,7 @@ _global_script_classes=[ {
 "base": "Area2D",
 "class": "CommonStuff",
 "language": "GDScript",
-"path": "res://src/world/CommonStuff.gd"
+"path": "res://src/world/stuff/CommonStuff.gd"
 }, {
 "base": "Reference",
 "class": "Confession",
@@ -112,7 +112,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "CustomerObjectModel",
 "language": "GDScript",
-"path": "res://src/customization/CustomerObjectModel.gd"
+"path": "res://src/ui/customization/CustomerObjectModel.gd"
 }, {
 "base": "Reference",
 "class": "Dance",
@@ -357,7 +357,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "InventorySystem",
 "language": "GDScript",
-"path": "res://src/character/InventorySystem.gd"
+"path": "res://src/character/package/InventorySystem.gd"
 }, {
 "base": "Reference",
 "class": "Join",
@@ -442,7 +442,7 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "PlayerMessageAnalyzer",
 "language": "GDScript",
-"path": "res://src/world/PlayerMessageAnalyzer.gd"
+"path": "res://src/global/PlayerMessageAnalyzer.gd"
 }, {
 "base": "Reference",
 "class": "Punch",
@@ -741,12 +741,12 @@ _global_script_class_icons={
 [application]
 
 config/name="InTheWorld"
-run/main_scene="res://src/customization/CreateObjectPanel.tscn"
+run/main_scene="res://src/world/MiniMap.tscn"
 config/icon="res://icon.png"
 
 [autoload]
 
-GlobalMessageGenerator="*res://src/world/GlobalMessageGenerator.gd"
+GlobalMessageGenerator="*res://src/global/GlobalMessageGenerator.gd"
 
 [display]
 

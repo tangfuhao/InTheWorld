@@ -3,8 +3,8 @@
 [ext_resource path="res://src/character/Human.tscn" type="PackedScene" id=1]
 [ext_resource path="res://src/world/world_map.tres" type="TileSet" id=2]
 [ext_resource path="res://src/world/World.gd" type="Script" id=3]
-[ext_resource path="res://src/world/CommonStuff.tscn" type="PackedScene" id=4]
-[ext_resource path="res://src/world/PlayerMessageAnalyzer.gd" type="Script" id=5]
+[ext_resource path="res://src/world/stuff/CommonStuff.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/global/PlayerMessageAnalyzer.gd" type="Script" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -14,6 +14,9 @@
 
 [node name="MiniMap" type="Node2D"]
 script = ExtResource( 3 )
+__meta__ = {
+"_edit_horizontal_guides_": [  ]
+}
 
 [node name="Map" type="Node2D" parent="."]
 
