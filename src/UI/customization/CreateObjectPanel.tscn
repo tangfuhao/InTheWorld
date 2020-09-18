@@ -1,0 +1,168 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://src/UI/customization/CreateObjectPanel.gd" type="Script" id=1]
+[ext_resource path="res://src/UI/customization/listview/ListViewPanel.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assert/image/Group 4.png" type="Texture" id=3]
+[ext_resource path="res://src/UI/customization/chinese_label_font.tres" type="DynamicFont" id=8]
+[ext_resource path="res://src/UI/customization/EditMenu.tscn" type="PackedScene" id=11]
+
+
+[node name="CreateObjectPanel" type="Panel"]
+anchor_right = 4.0
+anchor_bottom = 4.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_right = 1280.0
+margin_bottom = 720.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ObjectPanal" type="VBoxContainer" parent="HBoxContainer"]
+margin_right = 396.0
+margin_bottom = 720.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NameList" type="VBoxContainer" parent="HBoxContainer/ObjectPanal"]
+margin_right = 396.0
+margin_bottom = 40.0
+
+[node name="StuffName" parent="HBoxContainer/ObjectPanal/NameList" instance=ExtResource( 11 )]
+anchor_right = 0.0
+margin_right = 396.0
+margin_bottom = 18.0
+display_label = "物品名称"
+
+[node name="EditMenu2" parent="HBoxContainer/ObjectPanal/NameList" instance=ExtResource( 11 )]
+anchor_right = 0.0
+margin_top = 22.0
+margin_right = 396.0
+margin_bottom = 40.0
+display_label = "物品类型"
+
+[node name="PhysicsList" parent="HBoxContainer/ObjectPanal" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 44.0
+margin_right = 396.0
+margin_bottom = 366.0
+title_name = "物理属性"
+
+[node name="ObjectList" parent="HBoxContainer/ObjectPanal" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 370.0
+margin_right = 396.0
+margin_bottom = 692.0
+title_name = "物品列表"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/ObjectPanal"]
+margin_top = 696.0
+margin_right = 396.0
+margin_bottom = 720.0
+
+[node name="DeleteButton" type="Button" parent="HBoxContainer/ObjectPanal/HBoxContainer"]
+margin_right = 196.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 8 )
+disabled = true
+text = "删除物品"
+
+[node name="ModifyButton" type="Button" parent="HBoxContainer/ObjectPanal/HBoxContainer"]
+margin_left = 200.0
+margin_right = 396.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 8 )
+disabled = true
+text = "修改物品"
+
+[node name="GenerateFunctionPanel" type="Panel" parent="HBoxContainer"]
+margin_left = 400.0
+margin_right = 480.0
+margin_bottom = 720.0
+rect_min_size = Vector2( 80, 0 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GemerateFunctionButton" type="TextureButton" parent="HBoxContainer/GenerateFunctionPanel"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -24.0
+margin_top = -26.0
+margin_right = 476.0
+margin_bottom = 474.0
+rect_scale = Vector2( 0.1, 0.1 )
+texture_normal = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FunctionAttributeList" parent="HBoxContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 484.0
+margin_right = 880.0
+margin_bottom = 720.0
+size_flags_horizontal = 3
+title_name = "功能属性"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 884.0
+margin_right = 1280.0
+margin_bottom = 720.0
+size_flags_horizontal = 3
+
+[node name="AttributeEditList" parent="HBoxContainer/VBoxContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 396.0
+margin_bottom = 692.0
+size_flags_horizontal = 3
+title_name = "功能属性参数"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+margin_top = 696.0
+margin_right = 396.0
+margin_bottom = 720.0
+
+[node name="CleanButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_right = 196.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 8 )
+disabled = true
+text = "清空"
+
+[node name="SaveButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 200.0
+margin_right = 396.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
+custom_fonts/font = ExtResource( 8 )
+disabled = true
+text = "保存"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 641.116, 358 )
+current = true
+zoom = Vector2( 4, 4 )
+[connection signal="on_item_selected" from="HBoxContainer/ObjectPanal/ObjectList" to="." method="_on_ObjectList_on_item_selected"]
+[connection signal="pressed" from="HBoxContainer/ObjectPanal/HBoxContainer/DeleteButton" to="." method="_on_DeleteButton_pressed"]
+[connection signal="pressed" from="HBoxContainer/GenerateFunctionPanel/GemerateFunctionButton" to="." method="_on_GemerateFunctionButton_pressed"]
+[connection signal="on_item_active" from="HBoxContainer/FunctionAttributeList" to="." method="_on_FunctionAttributeList_on_item_active"]
+[connection signal="on_item_selected" from="HBoxContainer/FunctionAttributeList" to="." method="_on_FunctionAttributeList_on_item_selected"]
+[connection signal="on_item_value_change" from="HBoxContainer/VBoxContainer/AttributeEditList" to="." method="_on_AttributeEditList_on_item_value_change"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/CleanButton" to="." method="_on_CleanButton_pressed"]
+[connection signal="pressed" from="HBoxContainer/VBoxContainer/HBoxContainer/SaveButton" to="." method="_on_SaveButton_pressed"]

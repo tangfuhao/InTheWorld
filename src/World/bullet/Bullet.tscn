@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=2]
+
+[ext_resource path="res://src/World/bullet/BulletCollisionShape2D.gd" type="Script" id=1]
+[ext_resource path="res://src/Character/HitBox.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/World/bullet/Bullet.gd" type="Script" id=3]
+
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 5.43865
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Area2D
+export var damage:float = 0.1
+onready var player = null
+
+func _ready():
+	if not player:
+		player = owner
+"
+
+[sub_resource type="CircleShape2D" id=3]
+radius = 17.1258
+
+[sub_resource type="PackedScene" id=4]
+_bundled = {
+"conn_count": 0,
+"conns": PoolIntArray(  ),
+"editable_instances": [  ],
+"names": PoolStringArray( "HitBox", "Area2D", "monitoring", "monitorable", "collision_layer", "collision_mask", "script", "CollisionShape2D", "CollisionShape2D", "position", "shape" ),
+"node_count": 2,
+"node_paths": [ NodePath(".") ],
+"nodes": PoolIntArray( -1, -1, 1, 0, -1, 5, 2, 0, 3, 1, 4, 2, 5, 3, 6, 4, 0, 1073741824, 0, 8, 7, -1, 2, 9, 5, 10, 6, 0 ),
+"variants": [ false, false, 16, 0, SubResource( 2 ), Vector2( 0, -33 ), SubResource( 3 ) ],
+"version": 2
+}
+
+[node name="Bullet" type="KinematicBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+script = ExtResource( 1 )
+inner_color = Color( 0.333333, 0.713726, 0.141176, 1 )
+outer_color = Color( 0.862745, 0.0901961, 0.0901961, 1 )
+stroke = 1.0
+
+[node name="Lifetime" type="Timer" parent="."]
+process_mode = 0
+wait_time = 2.0
+one_shot = true
+
+[node name="HitBox" parent="." instance=ExtResource( 2 )]
+monitoring = true
+monitorable = true
+collision_mask = 16
+
+[node name="CollisionShape2D" parent="HitBox" index="0"]
+position = Vector2( 0, 0 )
+[connection signal="area_entered" from="HitBox" to="." method="_on_HitBox_area_entered"]
+
+[editable path="HitBox"]
