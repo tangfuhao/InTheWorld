@@ -65,7 +65,7 @@ func apply_phycis_config(stuff_config_json):
 	var physics_data = stuff_config_json["physics_data"]
 	var size = physics_data["尺寸"]
 	size = float(size) * 9
-	radius = size * 0.5
+	radius = size * 0.35
 	var shape = collision_shape.get("shape")
 	shape.extents.x = size
 	shape.extents.y = size
