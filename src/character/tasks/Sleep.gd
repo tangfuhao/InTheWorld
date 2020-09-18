@@ -1,6 +1,6 @@
 extends "res://src/character/tasks/Task.gd"
 class_name Sleep
-#睡觉每5秒 增加 0.05
+#睡觉每1秒 增加 0.05
 
 
 var action_timer:Timer = null
@@ -27,7 +27,7 @@ func active():
 
 	human.global_position.x = action_target.global_position.x
 	human.global_position.y = action_target.global_position.y
-	action_timer.start(5)
+	action_timer.start(1)
 
 
 
@@ -43,4 +43,4 @@ func _on_action_timer_time_out():
 	var sleep_status_value = human.get_status_value("睡眠状态")
 	sleep_status_value = sleep_status_value + 0.05
 	human.set_status_value("睡眠状态",sleep_status_value)
-	action_timer.start(5)
+	action_timer.start(1)

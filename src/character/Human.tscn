@@ -42,17 +42,14 @@ control_obj = NodePath("..")
 update_time = 10
 
 [node name="Movement" parent="." instance=ExtResource( 3 )]
-visible = false
 control_obj = NodePath("..")
 
 [node name="WallAvoidRay" parent="Movement" index="1"]
 cast_to = Vector2( 0, 40 )
 
 [node name="HurtBox" parent="." instance=ExtResource( 8 )]
-visible = false
 
 [node name="HitBox" parent="." instance=ExtResource( 9 )]
-visible = false
 
 [node name="NameDisplay" parent="." instance=ExtResource( 5 )]
 
