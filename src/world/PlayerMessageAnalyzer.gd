@@ -2,6 +2,11 @@ extends Node
 class_name PlayerMessageAnalyzer
 #角色分析角色事件
 
+class TypeMachineContent:
+	var type
+	var content
+
+
 var player_id = "player1-1"
 
 #所有用户的数据
@@ -19,39 +24,72 @@ var startegy_fail_dic = {}
 var not_like_people_arr = []
 var active_motivation_aar = []
 
-var regex
+var key_word_regex
+
+var content_type_regex
 
 func _ready():
-	regex = RegEx.new()
-	regex.compile("\\#\\{(.+?)\\}")
+	key_word_regex = RegEx.new()
+	key_word_regex.compile("\\#\\{(.+?)\\}")
+	
+	content_type_regex = RegEx.new()
+	content_type_regex.compile("\\#\\((.+?)\\)")
 	
 	monitor_people_arr.push_back(player_id)
 	
 	GlobalMessageGenerator.connect("message_dispatch",self,"on_global_message_handle")
+	
 	var action_arr = load_json_arr("res://config/text/action_to_text.json")
 	for item in action_arr:
 		var key = item["行为名称"]
 		var content = item["对应文本"]
-		action_dic[key] = content
+		action_dic[key] = parse_content_type(content)
 		
 	var world_status_arr = load_json_arr("res://config/text/world_status_to_text.json")
 	for item in world_status_arr:
 		var key = item["WorldStatus"]
 		var content = item["对应文本"]
-		world_status_dic[key] = content
+		world_status_dic[key] = parse_content_type(content)
 		
 	var strategy_plan_arr = load_json_arr("res://config/text/strategy_to_text.json")
 	for item in strategy_plan_arr:
 		var key = item["策略"]
 		var content = item["规划文本"]
-		startegy_plan_dic[key] = content
+		startegy_plan_dic[key] = parse_content_type(content)
 		if item.has("成功文本"):
 			var sucuss_content = item["成功文本"]
-			startegy_sucuss_dic[key] = sucuss_content
+			startegy_sucuss_dic[key] = parse_content_type(sucuss_content)
 		if item.has("失败文本"):
-			var sucuss_content = item["失败文本"]
-			startegy_sucuss_dic[key] = sucuss_content
+			var fail_content = item["失败文本"]
+			startegy_sucuss_dic[key] = parse_content_type(fail_content)
 			
+func parse_content_type(_content):
+	var content_arr = []
+	var result_arr = content_type_regex.search_all(_content)
+	if result_arr:
+		var final_end_position = _content.length()
+		var content_item
+		var content_start
+		for match_item in result_arr:
+			var match_name = match_item.get_string(1)
+			var end_position = match_item.get_end(0)
+			var start_position = match_item.get_start(0)
+			
+			if content_item:
+				var content = _content.substr(content_start,start_position - content_start)
+				content_item.content = content
+				content_arr.push_back(content_item)
+				
+			content_item = TypeMachineContent.new()
+			content_item.type = match_name
+			content_start = end_position
+		
+		if content_item:
+			var content = _content.substr(content_start,final_end_position - content_start)
+			content_item.content = content
+			content_arr.push_back(content_item)
+			content_item = null
+	return content_arr
 
 #获取玩家行为状态表
 func get_people_action_state_dic(_player_name):
@@ -75,8 +113,6 @@ func record_people_action_state(_message_dic):
 	
 	if type == "execute_action":
 		var action = _message_dic["value"]
-		if action == "喝酒" or action == "聊天":
-			print("asdasd")
 		var people_param_arr = get_people_action_state_dic(player_name)
 		people_param_arr.push_back(action)
 		
@@ -102,7 +138,7 @@ func on_global_message_handle(message_dic):
 #	return
 
 	record_people_action_state(message_dic)
-	var log_str = null
+	var log_str = ""
 	var player_name = message_dic["player"]
 	if player_name != player_id:
 		return 
@@ -113,16 +149,19 @@ func on_global_message_handle(message_dic):
 		if not action_dic.has(action):
 			return
 
-		var content = action_dic[action]
-		log_str = repleace_match_text(content,message_dic)
+		var action_content_arr = action_dic[action]
+		for item in action_content_arr:
+			log_str = log_str + repleace_match_text(item.content,message_dic)
+
 
 	elif type == "world_status_change":
 		var world_status = message_dic["target"]
 		var world_status_value = message_dic["value"]
 		if not world_status_value or not world_status_dic.has(world_status):
 			return
-		var content = world_status_dic[world_status]
-		log_str = repleace_match_text(content,message_dic)
+		var world_status_content_arr = world_status_dic[world_status]
+		for item in world_status_content_arr:
+			log_str = log_str + repleace_match_text(item.content,message_dic)
 	elif type == "find_player_in_vision":
 		var target = message_dic["target"]
 		if not monitor_people_arr.has(target):
@@ -135,14 +174,18 @@ func on_global_message_handle(message_dic):
 		var strategy_record = message_dic["target"]
 		var plan_result = message_dic["value"]
 		if startegy_plan_dic.has(strategy_record):
-			var content = startegy_plan_dic[strategy_record]
-			log_str = repleace_match_text(content,message_dic)
+			var content_arr = startegy_plan_dic[strategy_record]
+			for item in content_arr:
+				log_str = log_str + repleace_match_text(item.content,message_dic)
+			
 	elif type == "strategy_plan_succuss":
 		var strategy_record = message_dic["target"]
 
 		if startegy_sucuss_dic.has(strategy_record):
-			var content = startegy_sucuss_dic[strategy_record]
-			log_str = repleace_match_text(content,message_dic)
+			var content_arr = startegy_sucuss_dic[strategy_record]
+			for item in content_arr:
+				log_str = log_str + repleace_match_text(item.content,message_dic)
+
 	elif type == "motivation_change":
 		var motivation = message_dic["target"]
 		var value = message_dic["value"]
@@ -215,7 +258,7 @@ func on_global_message_handle(message_dic):
 
 
 func repleace_match_text(_content,_message_dic):
-	var result_arr = regex.search_all(_content)
+	var result_arr = key_word_regex.search_all(_content)
 	if result_arr:
 		for match_item in result_arr:
 			var match_name = match_item.get_string(1)
@@ -251,6 +294,8 @@ func convert_match_name_to_value(_match_name,_message_dic):
 		else:
 			return value
 	elif match_name_item == "角色代词":
+		#TODO 
+		return "他"
 		assert(false)
 	else:
 		print(_match_name)
