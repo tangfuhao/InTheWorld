@@ -22,6 +22,7 @@ var startegy_sucuss_dic = {}
 var startegy_fail_dic = {}
 var active_motivetion_dic = {}
 var meet_motivetion_dic = {}
+var execute_motivation_dic = {}
 
 var not_like_people_arr = []
 var active_motivation_aar = []
@@ -81,7 +82,16 @@ func _ready():
 		var key = item["动机"]
 		var content = item["对应文本"]
 		meet_motivetion_dic[key] = parse_content_type(content)
-			
+	
+	
+	var execute_motivation_arr = load_json_arr("res://config/text/execute_motivation_to_text.json")
+	for item in execute_motivation_arr:
+		var key = item["动机"]
+		var content = item["对应文本"]
+		execute_motivation_dic[key] = parse_content_type(content)
+	
+	
+	print("sfsedfsd")
 func parse_content_type(_content):
 	var content_arr = []
 	var result_arr = content_type_regex.search_all(_content)
@@ -230,20 +240,11 @@ func on_global_message_handle(message_dic):
 
 	elif type == "highest_priority_motivation":
 		var motivation = message_dic["target"]
-		if motivation == "无聊动机":
-			log_str = "糟糕，没事做了，该干点什么呢？"
-		elif motivation == "清洁动机":
-			log_str = "是时候去洗个澡了"
-		elif motivation == "饥饿动机":
-			log_str = "不行，我得去找点吃的"
-		elif motivation == "爱情动机":
-			log_str = "我需要想想办法，怎么样才能成功表白，就算她不喜欢我"
-		elif motivation == "排泄动机":
-			log_str = "没带备用内裤，要找个地方拉屎才行"
-		elif motivation == "睡眠动机":
-			log_str = "找个地方睡一觉吧"
-			
-		stage.add_message("世界文本",log_str)
+		if execute_motivation_dic.has(motivation):
+			var content_arr = execute_motivation_dic[motivation]
+			for item in content_arr:
+				stage.add_message(item.type,repleace_match_text(item.content,message_dic))
+
 	elif type == "lover_value_change":
 		var string_build:PoolStringArray
 		var target = message_dic["target"]

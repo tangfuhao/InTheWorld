@@ -20,7 +20,6 @@ func active():
 	full_target = get_params()
 	human.movement.is_on = true
 	human.movement.is_wander = true
-	GlobalMessageGenerator.send_player_action(human,action_name,get_params())
 	human.visionSensor.connect("vision_find_player",self,"_on_charactar_find_something")
 	human.visionSensor.connect("vision_find_stuff",self,"_on_charactar_find_something")
 
