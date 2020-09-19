@@ -30,11 +30,11 @@ func active():
 
 	#TODO 通用的被占用
 	# if action_target.is_be_occupied(action_target):
-	# 	pass
+	# 	pass 
 
-	if not action_target.can_interaction(human):
-		goal_status = STATE.GOAL_FAILED
-		return 
+#	if not action_target.can_interaction(human):
+#		goal_status = STATE.GOAL_FAILED
+#		return 
 	
 	status_recover = true
 	human.global_position.x = action_target.global_position.x
