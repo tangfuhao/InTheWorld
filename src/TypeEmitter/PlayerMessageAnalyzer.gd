@@ -20,6 +20,7 @@ var world_status_dic = {}
 var startegy_plan_dic = {}
 var startegy_sucuss_dic = {}
 var startegy_fail_dic = {}
+var motivetion_dic = {}
 
 var not_like_people_arr = []
 var active_motivation_aar = []
@@ -66,6 +67,12 @@ func _ready():
 		if item.has("失败文本"):
 			var fail_content = item["失败文本"]
 			startegy_fail_dic[key] = parse_content_type(fail_content)
+			
+	var motivation_arr = load_json_arr("res://config/text/motivation_to_text.json")
+	for item in motivation_arr:
+		var key = item["动机"]
+		var content = item["对应文本"]
+		motivetion_dic[key] = parse_content_type(content)
 			
 func parse_content_type(_content):
 	var content_arr = []
@@ -138,7 +145,7 @@ func record_people_action_state(_message_dic):
 
 func on_global_message_handle(message_dic):
 	#简单输出log
-#	print(message_dic["timestamp"],":",get_dic_str(message_dic))
+	print(message_dic["timestamp"],":",get_dic_str(message_dic))
 #	return
 
 	record_people_action_state(message_dic)
@@ -199,18 +206,10 @@ func on_global_message_handle(message_dic):
 		if is_active and not active_motivation_aar.has(motivation):
 			active_motivation_aar.push_back(motivation)
 			
-			
-			if motivation == "清洁动机":
-				log_str = "哎呀，身体好像变脏了"
-			elif motivation == "饥饿动机":
-				log_str = "我摸了摸自己的肚子，感觉有点饿了"
-			elif motivation == "爱情动机":
-				log_str = "咦……这，这就是爱情的味道吗？"
-			elif motivation == "排泄动机":
-				log_str = "哎呀不行了，屎，要出来了！"
-			elif motivation == "睡眠动机":
-				log_str = "有段时间没休息了，不得不说，真的有点累"
-			stage.add_message("世界文本",log_str)
+			if motivetion_dic.has(motivation):
+				var content_arr = motivetion_dic[motivation]
+				for item in content_arr:
+					stage.add_message(item.type,repleace_match_text(item.content,message_dic))
 
 		elif not is_active and active_motivation_aar.has(motivation):
 			active_motivation_aar.erase(motivation)
