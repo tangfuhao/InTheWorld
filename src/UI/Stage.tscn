@@ -1,8 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/UI/customization/listview/CommonListView.tscn" type="PackedScene" id=1]
-
-
+[ext_resource path="res://src/TypeEmitter/PlayerMessageAnalyzer.gd" type="Script" id=2]
+[ext_resource path="res://src/TypeEmitter/Stage.gd" type="Script" id=3]
 
 [sub_resource type="StyleBoxFlat" id=1]
 bg_color = Color( 0.356863, 0.87451, 0.929412, 1 )
@@ -11,6 +11,7 @@ bg_color = Color( 0.356863, 0.87451, 0.929412, 1 )
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_styles/panel = SubResource( 1 )
+script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -22,4 +23,13 @@ margin_left = -50.0
 margin_right = 50.0
 margin_bottom = 1.52588e-05
 grow_horizontal = 2
-rect_min_size = Vector2( 100, 0 )
+rect_min_size = Vector2( 350, 0 )
+
+[node name="List" parent="CommonListView/ScrollContainer" index="0"]
+margin_right = 350.0
+custom_constants/separation = 10
+
+[node name="角色消息分析器" type="Node" parent="."]
+script = ExtResource( 2 )
+
+[editable path="CommonListView"]

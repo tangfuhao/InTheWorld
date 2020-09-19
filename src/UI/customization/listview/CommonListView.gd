@@ -6,6 +6,8 @@ const ListItemType2 = preload("res://src/UI/customization/listview/ListViewItemT
 
 
 const ListItemType3 = preload("res://src/UI/customization/listview/ListViewItemType3.tscn")
+const ListItemType4 = preload("res://src/UI/customization/listview/ListViewItemType4.tscn")
+
 
 onready var list = $ScrollContainer/List
 
@@ -71,6 +73,7 @@ func add_item_type_1(_index,_label):
 func add_item_type_2(_index,_label,_is_active):
 	var list_item = add_item_type_1(_index,_label)
 	list_item.set_active(_is_active)
+	
 
 #选择器
 func add_item_type_3(_index,_label,_select_arr,_selected_value):
@@ -85,6 +88,22 @@ func add_item_type_3(_index,_label,_select_arr,_selected_value):
 		list_item.set_selector_arr(_select_arr,_selected_value)
 	else:
 		list_item.set_edit_value(_selected_value)
+
+func create_list_item_by_type(_label_type):
+	match _label_type:
+		"世界文本":
+			return ListItemType4.instance()
+		"对话文本":
+			return ListItemType3.instance()
+		"思想文本":
+			return ListItemType4.instance()
+
+func add_content_text(_index,_label,_label_type):
+	var list_item = create_list_item_by_type(_label_type)
+	list_item.item_index = _index
+	list.add_child(list_item)
+	list_item.set_label(_label)
+	return list_item
 		
 func set_item_active(_index,_is_active):
 	var item_view = list.get_child(_index)

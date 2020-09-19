@@ -4,7 +4,7 @@
 [ext_resource path="res://src/World/world_map.tres" type="TileSet" id=2]
 [ext_resource path="res://src/World/World.gd" type="Script" id=3]
 [ext_resource path="res://src/World/stuff/CommonStuff.tscn" type="PackedScene" id=4]
-[ext_resource path="res://src/TypeEmitter/PlayerMessageAnalyzer.gd" type="Script" id=5]
+[ext_resource path="res://src/UI/Stage.tscn" type="PackedScene" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 
@@ -82,8 +82,12 @@ stuff_type_name = "一桶水"
 
 [node name="Bullets" type="Node2D" parent="."]
 
-[node name="角色消息分析器" type="Node" parent="."]
-script = ExtResource( 5 )
+[node name="Stage" parent="." instance=ExtResource( 6 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 1024.0
+margin_bottom = 600.0
+rect_min_size = Vector2( 100, 100 )
 
 [editable path="CommonStuff"]
 

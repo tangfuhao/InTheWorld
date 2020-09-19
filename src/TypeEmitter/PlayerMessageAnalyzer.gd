@@ -28,7 +28,11 @@ var key_word_regex
 
 var content_type_regex
 
+var stage
+
 func _ready():
+	stage = owner
+	
 	key_word_regex = RegEx.new()
 	key_word_regex.compile("\\#\\{(.+?)\\}")
 	
@@ -134,7 +138,7 @@ func record_people_action_state(_message_dic):
 
 func on_global_message_handle(message_dic):
 	#简单输出log
-	print(message_dic["timestamp"],":",get_dic_str(message_dic))
+#	print(message_dic["timestamp"],":",get_dic_str(message_dic))
 #	return
 
 	record_people_action_state(message_dic)
@@ -151,7 +155,7 @@ func on_global_message_handle(message_dic):
 
 		var action_content_arr = action_dic[action]
 		for item in action_content_arr:
-			log_str = log_str + repleace_match_text(item.content,message_dic)
+			stage.add_message(item.type,repleace_match_text(item.content,message_dic))
 
 
 	elif type == "world_status_change":
@@ -161,7 +165,8 @@ func on_global_message_handle(message_dic):
 			return
 		var world_status_content_arr = world_status_dic[world_status]
 		for item in world_status_content_arr:
-			log_str = log_str + repleace_match_text(item.content,message_dic)
+			stage.add_message(item.type,repleace_match_text(item.content,message_dic))
+
 	elif type == "find_player_in_vision":
 		var target = message_dic["target"]
 		if not monitor_people_arr.has(target):
@@ -176,7 +181,8 @@ func on_global_message_handle(message_dic):
 		if startegy_plan_dic.has(strategy_record):
 			var content_arr = startegy_plan_dic[strategy_record]
 			for item in content_arr:
-				log_str = log_str + repleace_match_text(item.content,message_dic)
+				stage.add_message(item.type,repleace_match_text(item.content,message_dic))
+
 			
 	elif type == "strategy_plan_succuss":
 		var strategy_record = message_dic["target"]
@@ -184,7 +190,7 @@ func on_global_message_handle(message_dic):
 		if startegy_sucuss_dic.has(strategy_record):
 			var content_arr = startegy_sucuss_dic[strategy_record]
 			for item in content_arr:
-				log_str = log_str + repleace_match_text(item.content,message_dic)
+				stage.add_message(item.type,repleace_match_text(item.content,message_dic))
 
 	elif type == "motivation_change":
 		var motivation = message_dic["target"]
@@ -204,6 +210,7 @@ func on_global_message_handle(message_dic):
 				log_str = "哎呀不行了，屎，要出来了！"
 			elif motivation == "睡眠动机":
 				log_str = "有段时间没休息了，不得不说，真的有点累"
+			stage.add_message("世界文本",log_str)
 
 		elif not is_active and active_motivation_aar.has(motivation):
 			active_motivation_aar.erase(motivation)
@@ -218,6 +225,8 @@ func on_global_message_handle(message_dic):
 				log_str = "还好没有拉在裤子上，不然就没脸见人了"
 			elif motivation == "睡眠动机":
 				log_str = "睡得真开心，就该这样，不能活得太刺激"
+				
+			stage.add_message("世界文本",log_str)
 
 	elif type == "highest_priority_motivation":
 		var motivation = message_dic["target"]
@@ -233,6 +242,8 @@ func on_global_message_handle(message_dic):
 			log_str = "没带备用内裤，要找个地方拉屎才行"
 		elif motivation == "睡眠动机":
 			log_str = "找个地方睡一觉吧"
+			
+		stage.add_message("世界文本",log_str)
 	elif type == "lover_value_change":
 		var string_build:PoolStringArray
 		var target = message_dic["target"]
@@ -243,17 +254,18 @@ func on_global_message_handle(message_dic):
 		string_build.append("的喜爱值，改变为：")
 		string_build.append(lover_value)
 		log_str = string_build.join("")
+		
+		stage.add_message("世界文本",log_str)
 	elif type == "lover_increase_effect":
 		var action = message_dic["value"]
 		var target = message_dic["target"]
 		log_str = "%s还有点意思，感觉有一点喜欢他呢" % target
+		stage.add_message("世界文本",log_str)
 	elif type == "lover_decrease_effect":
 		var action = message_dic["value"]
 		var target = message_dic["target"]
 		log_str = "%s竟然在我面前%s，我感觉我不会喜欢他了" % [target,action]
-		
-	if log_str:
-		print(log_str)
+		stage.add_message("世界文本",log_str)
 
 
 
