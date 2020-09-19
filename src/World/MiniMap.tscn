@@ -95,8 +95,7 @@ visible = false
 
 [node name="Stage" parent="." instance=ExtResource( 6 )]
 anchor_right = 0.0
-anchor_bottom = 0.0
-margin_right = 1024.0
+margin_right = 350.0
 margin_bottom = 600.0
 rect_min_size = Vector2( 100, 100 )
 

@@ -7,6 +7,7 @@ const ListItemType2 = preload("res://src/UI/customization/listview/ListViewItemT
 
 const ListItemType3 = preload("res://src/UI/customization/listview/ListViewItemType3.tscn")
 const ListItemType4 = preload("res://src/UI/customization/listview/ListViewItemType4.tscn")
+const ListItemType5 = preload("res://src/UI/customization/listview/ListViewItemType5.tscn")
 
 
 onready var list = $ScrollContainer/List
@@ -96,7 +97,7 @@ func create_list_item_by_type(_label_type):
 		"对话文本":
 			return ListItemType3.instance()
 		"思想文本":
-			return ListItemType4.instance()
+			return ListItemType5.instance()
 
 func add_content_text(_index,_label,_label_type):
 	var list_item = create_list_item_by_type(_label_type)
