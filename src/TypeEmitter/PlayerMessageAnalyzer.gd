@@ -20,7 +20,8 @@ var world_status_dic = {}
 var startegy_plan_dic = {}
 var startegy_sucuss_dic = {}
 var startegy_fail_dic = {}
-var motivetion_dic = {}
+var active_motivetion_dic = {}
+var meet_motivetion_dic = {}
 
 var not_like_people_arr = []
 var active_motivation_aar = []
@@ -68,11 +69,18 @@ func _ready():
 			var fail_content = item["失败文本"]
 			startegy_fail_dic[key] = parse_content_type(fail_content)
 			
-	var motivation_arr = load_json_arr("res://config/text/motivation_to_text.json")
-	for item in motivation_arr:
+	var active_motivation_arr = load_json_arr("res://config/text/active_motivation_to_text.json")
+	for item in active_motivation_arr:
 		var key = item["动机"]
 		var content = item["对应文本"]
-		motivetion_dic[key] = parse_content_type(content)
+		active_motivetion_dic[key] = parse_content_type(content)
+		
+		
+	var meet_motivation_arr = load_json_arr("res://config/text/meet_motivation_to_text.json")
+	for item in meet_motivation_arr:
+		var key = item["动机"]
+		var content = item["对应文本"]
+		meet_motivetion_dic[key] = parse_content_type(content)
 			
 func parse_content_type(_content):
 	var content_arr = []
@@ -206,26 +214,19 @@ func on_global_message_handle(message_dic):
 		if is_active and not active_motivation_aar.has(motivation):
 			active_motivation_aar.push_back(motivation)
 			
-			if motivetion_dic.has(motivation):
-				var content_arr = motivetion_dic[motivation]
+			if active_motivetion_dic.has(motivation):
+				var content_arr = active_motivetion_dic[motivation]
 				for item in content_arr:
 					stage.add_message(item.type,repleace_match_text(item.content,message_dic))
 
 		elif not is_active and active_motivation_aar.has(motivation):
 			active_motivation_aar.erase(motivation)
 			
-			if motivation == "清洁动机":
-				log_str = "终于干净了"
-			elif motivation == "饥饿动机":
-				log_str = "我摸了摸圆鼓鼓的肚子，这一顿算是解决了"
-			elif motivation == "爱情动机":
-				log_str = "我竟然成功了……这……这太不可思议了"
-			elif motivation == "排泄动机":
-				log_str = "还好没有拉在裤子上，不然就没脸见人了"
-			elif motivation == "睡眠动机":
-				log_str = "睡得真开心，就该这样，不能活得太刺激"
-				
-			stage.add_message("世界文本",log_str)
+			if meet_motivetion_dic.has(motivation):
+				var content_arr = meet_motivetion_dic[motivation]
+				for item in content_arr:
+					stage.add_message(item.type,repleace_match_text(item.content,message_dic))
+			
 
 	elif type == "highest_priority_motivation":
 		var motivation = message_dic["target"]
