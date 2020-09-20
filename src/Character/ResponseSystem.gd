@@ -188,18 +188,18 @@ func meet_condition(_condition_argument,_lover_value):
 	return evaluateBoolean(lover_value,condition,value)
 
 func evaluateBoolean(property, condition, value) -> bool:
-	print(get(property), ' ', condition, ' ', value)
+#	print(get(property), ' ', condition, ' ', value)
 	if condition == '==':
-		return get(property) == value
+		return property == value
 	elif condition == '!=':
-		return get(property) != value
+		return property != value
 	elif condition == '>':
-		return get(property) > value
+		return property > value
 	elif condition == '>=':
-		return get(property) >= value
+		return property >= value
 	elif condition == '<':
-		return get(property) < value
+		return property < value
 	elif condition == '<=':
-		return get(property) <= value
+		return property <= value
 	else:
 		return false
