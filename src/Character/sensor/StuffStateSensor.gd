@@ -11,13 +11,18 @@ func setup(_control_node):
 	var fixed_memory = control_node.fixed_memory
 	for item in fixed_memory.values():
 		item.connect("stuff_state_change",self,"_on_stuff_state_change")
-	
+		item.connect("stuff_broke_change",self,"_on_stuff_broke_change")
 
 func on_vision_find_stuff(_body):
 	pass
 
 func on_vision_lost_stuff(_body):
 	pass
+	
+	
+func _on_stuff_broke_change(_stuff):
+	if _stuff.stuff_name == "淋浴间":
+		world_status.set_world_status("淋浴间可用",not _stuff.is_broke)
 	
 func _on_stuff_state_change(_stuff):
 	if _stuff.stuff_name == "淋浴间":

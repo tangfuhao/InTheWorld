@@ -18,6 +18,14 @@ var radius = 0
 
 signal disappear_notify
 signal stuff_state_change(stuff)
+signal stuff_broke_change(stuff)
+
+var is_broke = false
+
+func is_broke(_broke):
+	if is_broke != _broke:
+		is_broke = _broke
+		emit_signal("stuff_broke_change",self)
 
 #占用用户表
 var occupy_player_arr

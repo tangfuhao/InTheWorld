@@ -28,7 +28,7 @@ func setup(_control_node):
 
 	# world_status_dic["周围有人在喝酒"] = false
 	# world_status_dic["周围有人在聊天"] = false
-	world_status_dic["淋浴间可用"] = false
+	world_status_dic["淋浴间可用"] = true
 #	world_status_dic["淋浴间被占用"] = false
 #	world_status_dic["化身位置"] = "空地"
 #	world_status_dic["非常困"] = false
