@@ -210,6 +210,10 @@
     {
         "任务名": "散步",
         "文件": "Wander.gd"
+    },
+    {
+        "任务名": "获取通讯录目标",
+        "文件": "GetCommunicationTarget.gd"
     }
     
 
