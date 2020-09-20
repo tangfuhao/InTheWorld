@@ -19,10 +19,11 @@ func on_vision_find_player(_body):
 		if like_people_arr.size() == control_node.visionSensor.monitoring_arr_type_dic.size():
 			world_status.set_world_status("周围只有喜欢的人",true)
 		
-		if _body.location == "床":
-			like_people_in_bed_arr.push_back(_body)
-			if control_node.location == "床":
-				world_status.set_world_status("和喜欢的人在床上",true)
+		#TODO 需要监听  先不实现
+#		if _body.location == "床":
+#			like_people_in_bed_arr.push_back(_body)
+#			if control_node.location == "床":
+#				world_status.set_world_status("和喜欢的人在床上",true)
 	else:
 		world_status.set_world_status("周围只有喜欢的人",false)
 
@@ -41,7 +42,7 @@ func on_vision_lost_player(_body):
 
 	world_status.set_world_status("周围只有喜欢的人",like_people_arr.size() == control_node.visionSensor.monitoring_arr_type_dic.size())
 		
-	if is_like_no_wear:
-		var is_togeter_in_bed = !is_like_no_wear.empty() and control_node.location == "床"
-		world_status.set_world_status("和喜欢的人在床上",is_togeter_in_bed)
+#	if is_like_no_wear:
+#		var is_togeter_in_bed = !is_like_no_wear.empty() and control_node.location == "床"
+#		world_status.set_world_status("和喜欢的人在床上",is_togeter_in_bed)
 	
