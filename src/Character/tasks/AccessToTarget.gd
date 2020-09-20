@@ -15,13 +15,13 @@ func active() ->void:
 		return
 
 	self.action_target = human.get_recent_target(get_params())
-	if action_target and action_target.has_attribute(get_params()):
+	if action_target:
 		human.set_target(action_target)
 		goal_status = STATE.GOAL_COMPLETED
 		return
 		
 	self.action_target = human.inventory_system.get_item_by_function_attribute_in_package(get_params())
-	if action_target and action_target.has_attribute(get_params()):
+	if action_target:
 		human.set_target(action_target)
 		goal_status = STATE.GOAL_COMPLETED
 		return

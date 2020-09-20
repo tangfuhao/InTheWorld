@@ -315,6 +315,11 @@ _global_script_classes=[ {
 "path": "res://src/addons/com.gdquest.godot-steering-ai-framework/GSAIUtils.gd"
 }, {
 "base": "Reference",
+"class": "GetCommunicationTarget",
+"language": "GDScript",
+"path": "res://src/Character/tasks/GetCommunicationTarget.gd"
+}, {
+"base": "Reference",
 "class": "Give",
 "language": "GDScript",
 "path": "res://src/Character/tasks/Give.gd"
@@ -676,6 +681,7 @@ _global_script_class_icons={
 "GSAISteeringBehavior": "",
 "GSAITargetAcceleration": "",
 "GSAIUtils": "",
+"GetCommunicationTarget": "",
 "Give": "",
 "GoToBedTogether": "",
 "GroupTask": "",

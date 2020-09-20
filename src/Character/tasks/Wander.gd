@@ -10,11 +10,11 @@ func active():
 		return
 
 	self.action_target = human.get_recent_target(get_params())
-	if action_target and action_target.has_attribute(get_params()):
+	if action_target:
 		return
 		
 	self.action_target = human.inventory_system.get_item_by_function_attribute_in_package(get_params())
-	if action_target and action_target.has_attribute(get_params()):
+	if action_target:
 		return
 
 	full_target = get_params()
@@ -40,5 +40,9 @@ func terminate():
 		
 
 func _on_charactar_find_something(body):
-	if body.has_attribute(get_params()):
-		self.action_target = body
+	if get_params() == "喜欢的人":
+		if body.get_type() == "player" and human.is_like_people(body):
+			self.action_target = body
+	else:
+		if body.has_attribute(get_params()):
+			self.action_target = body
