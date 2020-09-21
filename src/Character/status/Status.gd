@@ -3,7 +3,7 @@ extends Node
 
 var statusDic:Dictionary = {}
 #一分钟-更新状态值 可以修改快速看到状态值得改变
-export var update_time = 60
+export var update_time = 5
 #暂停时剩余的时间
 var pause_left_time:float = 0
 

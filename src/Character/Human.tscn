@@ -9,7 +9,6 @@
 [ext_resource path="res://src/Character/HurtBox.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/Character/HitBox.tscn" type="PackedScene" id=9]
 
-
 [sub_resource type="CircleShape2D" id=1]
 radius = 8.0
 
@@ -37,23 +36,15 @@ shape = SubResource( 1 )
 position = Vector2( 0.181107, -15.9374 )
 
 [node name="CPU" parent="." instance=ExtResource( 4 )]
+visible = false
 control_obj = NodePath("..")
-
-[node name="Status" parent="CPU" index="0"]
-update_time = 10
 
 [node name="Movement" parent="." instance=ExtResource( 3 )]
+visible = false
 control_obj = NodePath("..")
-
-[node name="WallAvoidRay" parent="Movement" index="1"]
-cast_to = Vector2( 0, 40 )
 
 [node name="HurtBox" parent="." instance=ExtResource( 8 )]
 
 [node name="HitBox" parent="." instance=ExtResource( 9 )]
 
 [node name="NameDisplay" parent="." instance=ExtResource( 5 )]
-
-[editable path="CPU"]
-
-[editable path="Movement"]
