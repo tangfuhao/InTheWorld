@@ -40,7 +40,7 @@ func active():
 	human.global_position.x = action_target.global_position.x
 	human.global_position.y = action_target.global_position.y
 	human.take_off_clothes()
-	action_timer.start(5)
+	action_timer.start(10)
 
 
 		
