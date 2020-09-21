@@ -27,9 +27,15 @@ rect_min_size = Vector2( 350, 0 )
 
 [node name="List" parent="CommonListView/ScrollContainer" index="0"]
 margin_right = 350.0
+margin_bottom = 800.0
 custom_constants/separation = 10
 
 [node name="角色消息分析器" type="Node" parent="."]
 script = ExtResource( 2 )
+
+[node name="message_dispach_timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+[connection signal="timeout" from="message_dispach_timer" to="." method="_on_message_dispach_timer_timeout"]
 
 [editable path="CommonListView"]

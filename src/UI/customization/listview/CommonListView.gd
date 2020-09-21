@@ -11,6 +11,7 @@ const ListItemType5 = preload("res://src/UI/customization/listview/ListViewItemT
 
 
 onready var list = $ScrollContainer/List
+onready var scroll_container = $ScrollContainer
 
 var last_select_item
 signal on_item_selected(index)
@@ -99,11 +100,28 @@ func create_list_item_by_type(_label_type):
 		"思想文本":
 			return ListItemType5.instance()
 
+
+var is_auto_scroll = true
+var is_manual_control = false
+
 func add_content_text(_index,_label,_label_type):
 	var list_item = create_list_item_by_type(_label_type)
 	list_item.item_index = _index
 	list.add_child(list_item)
 	list_item.set_label(_label)
+	
+	
+	
+	
+	if is_auto_scroll and not is_manual_control:
+		yield(get_tree(),"idle_frame")
+		var rect = self.get_rect()
+		var list_rect = list.get_rect()
+	
+		var remain_offset_y = rect.size.y - list_rect.size.y
+		if remain_offset_y < 0:
+			remain_offset_y = abs(remain_offset_y)
+			scroll_container.set_v_scroll(remain_offset_y)
 	return list_item
 		
 func set_item_active(_index,_is_active):
