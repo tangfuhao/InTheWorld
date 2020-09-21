@@ -9,6 +9,8 @@ var pause_left_time:float = 0
 
 onready var updateTimer := $UpdaterTimer
 
+signal status_value_update(status_model)
+
 
 func setup(_control_node):
 	load_status_config_and_parse()
@@ -31,7 +33,6 @@ func start_update():
 func _on_UpdaterTimer_timeout():
 	update_status()
 	start_update()
-	# print("=====================")
 
 func update_status():
 	for status in statusDic.values():
@@ -51,6 +52,10 @@ func get_status_value(_status_name):
 func binding_status_listner_relative():
 	for status in statusDic.values():
 		status.binding_status_listner_relative(statusDic)
+		status.connect("status_value_update",self,"_on_status_model_value_update")
+
+func _on_status_model_value_update(_status_model):
+	emit_signal("status_value_update",_status_model)
 
 func load_status_config_and_parse():
 	var data_file = File.new()
@@ -111,7 +116,7 @@ func parse_conditions(effects_arr):
 		status_effect_arr.push_back(status_effect)
 	return status_effect_arr
 
-#解析子条件集合		
+#解析子条件集合
 func parse_condition_arr(condition_arr):
 	var condition_arr_result = []
 	for item in condition_arr:

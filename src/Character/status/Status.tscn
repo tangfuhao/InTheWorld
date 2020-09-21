@@ -2,7 +2,6 @@
 
 [ext_resource path="res://src/Character/status/Status.gd" type="Script" id=1]
 
-
 [node name="Status" type="Node2D"]
 visible = false
 light_mask = 0

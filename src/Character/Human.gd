@@ -90,6 +90,8 @@ func _ready() -> void:
 	
 
 	add_sensors()
+	
+	cpu.status.connect("status_value_update",self,"_on_status_model_value_update")
 
 func add_sensors():
 	

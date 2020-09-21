@@ -3,7 +3,7 @@ var status_value:float = 1 setget set_status_value
 var status_name :String 
 var status_conditions :Array
 
-signal status_value_update
+signal status_value_update(status_model)
 
 func set_status_value(value):
 	status_value = value
