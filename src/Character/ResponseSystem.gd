@@ -176,7 +176,9 @@ func check_accept_chance_by_lover_value(_lover_value,_action_name) -> float:
 	var response_action = response_action_dic[_action_name]
 	var response_action_condition_arr = response_action["接受情况"]
 	for item in response_action_condition_arr:
-		if not item.has("接受条件") or meet_condition(item["接受条件"],_lover_value):
+		if not item.has("接受条件"):
+			return float(item["接受概率"])
+		if meet_condition(item["接受条件"],_lover_value):
 			return float(item["接受概率"])
 	return 0.0
 
@@ -184,8 +186,9 @@ func meet_condition(_condition_argument,_lover_value):
 	var _condition_argument_arr = _condition_argument.split(",")
 	var lover_value = float(_lover_value)
 	var condition = _condition_argument_arr[1]
-	var value = float(_condition_argument_arr[2])
-	return evaluateBoolean(lover_value,condition,value)
+	var value = float(_condition_argument_arr[2]) + 0.0000001
+	var result = evaluateBoolean(lover_value,condition,value)
+	return result
 
 func evaluateBoolean(property, condition, value) -> bool:
 #	print(get(property), ' ', condition, ' ', value)
