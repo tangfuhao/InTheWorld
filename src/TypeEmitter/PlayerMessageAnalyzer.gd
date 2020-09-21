@@ -309,7 +309,7 @@ func convert_match_name_to_value(_match_name,_message_dic):
 			return value
 	elif match_name_item == "角色代词":
 		#TODO 
-		return "他"
+		return "她"
 		assert(false)
 	else:
 		print(_match_name)
