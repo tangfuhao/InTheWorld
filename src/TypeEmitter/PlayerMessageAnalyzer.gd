@@ -246,6 +246,7 @@ func on_global_message_handle(message_dic):
 				stage.add_message(item.type,repleace_match_text(item.content,message_dic))
 
 	elif type == "lover_value_change":
+		pass
 		# var string_build:PoolStringArray
 		# var target = message_dic["target"]
 		# var lover_value = message_dic["value"]

@@ -97,9 +97,9 @@ func create_list_item_by_type(_label_type):
 		"世界文本":
 			return ListItemType4.instance()
 		"对话文本":
-			return ListItemType3.instance()
-		"思想文本":
 			return ListItemType6.instance()
+		"思想文本":
+			return ListItemType5.instance()
 
 
 var is_auto_scroll = true

@@ -111,7 +111,7 @@ visible = false
 anchor_right = 0.0
 margin_right = 350.0
 margin_bottom = 600.0
-rect_min_size = Vector2( 100, 100 )
+rect_min_size = Vector2( 450, 800 )
 [connection signal="timeout" from="control_temp/control_env" to="control_temp" method="_on_control_env_timeout"]
 [connection signal="timeout" from="control_temp/control_shower" to="control_temp" method="_on_control_shower_timeout"]
 
