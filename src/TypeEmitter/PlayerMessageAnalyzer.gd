@@ -246,17 +246,17 @@ func on_global_message_handle(message_dic):
 				stage.add_message(item.type,repleace_match_text(item.content,message_dic))
 
 	elif type == "lover_value_change":
-		var string_build:PoolStringArray
-		var target = message_dic["target"]
-		var lover_value = message_dic["value"]
-		string_build.append(player_name)
-		string_build.append("对")
-		string_build.append(target)
-		string_build.append("的喜爱值，改变为：")
-		string_build.append(lover_value)
-		log_str = string_build.join("")
+		# var string_build:PoolStringArray
+		# var target = message_dic["target"]
+		# var lover_value = message_dic["value"]
+		# string_build.append(player_name)
+		# string_build.append("对")
+		# string_build.append(target)
+		# string_build.append("的喜爱值，改变为：")
+		# string_build.append(lover_value)
+		# log_str = string_build.join("")
 		
-		stage.add_message("世界文本",log_str)
+		# stage.add_message("世界文本",log_str)
 	elif type == "lover_increase_effect":
 		var action = message_dic["value"]
 		var target = message_dic["target"]
