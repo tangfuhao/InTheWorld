@@ -45,6 +45,7 @@ func active():
 
 		
 func process(_delta: float):
+	.process(_delta)
 	if finish_take_a_bath:
 		human.to_wear_clothes()
 		goal_status = STATE.GOAL_COMPLETED
