@@ -29,10 +29,13 @@ func active():
 	human.global_position.y = action_target.global_position.y
 	action_timer.start(1)
 
+	human.set_status_value("体力状态",0.1)
+
 
 
 func terminate() ->void:
 	.terminate()
+	human.set_status_value("体力状态",0.5)
 	if action_timer:
 		action_timer.stop()
 		human.remove_child(action_timer)

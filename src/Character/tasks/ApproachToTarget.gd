@@ -17,6 +17,7 @@ func active():
 	if human.is_approach(action_target):
 		goal_status = STATE.GOAL_COMPLETED
 	else:
+		human.set_status_value("体力状态",1)
 		human.movement.is_on = true
 
 
@@ -37,7 +38,8 @@ func process(_delta: float):
 
 func terminate():
 	.terminate()
-
+	
+	human.set_status_value("体力状态",0.5)
 	human.movement.is_on = false
 	human.movement.direction = Vector2.ZERO
 		

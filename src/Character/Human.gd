@@ -70,6 +70,13 @@ func get_status_value(_status_name):
 
 func _process(_delta):
 	handle_preprocess_action_notify()
+	
+func _on_status_model_value_update(_status_model):
+	if _status_model.status_name == "体力状态":
+		if _status_model.status_value == 0.5:
+			movement.switch_move_state("walk")
+		elif _status_model.status_value == 1:
+			movement.switch_move_state("run")
 
 
 func _ready() -> void:
