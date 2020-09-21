@@ -10,7 +10,8 @@ func active():
 	if not action_target:
 		goal_status = STATE.GOAL_FAILED
 		return
-
+	
+	action_target.interaction_action(human,action_name)
 	goal_status = STATE.GOAL_COMPLETED
 	status_recover = true
 

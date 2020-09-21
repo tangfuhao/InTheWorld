@@ -12,7 +12,8 @@ func active():
 	if not human.is_interaction_distance(action_target):
 		goal_status = STATE.GOAL_FAILED
 		return
-
+	
+	action_target.interaction_action(human,action_name)
 	status_recover = true
 	goal_status = STATE.GOAL_COMPLETED
 
