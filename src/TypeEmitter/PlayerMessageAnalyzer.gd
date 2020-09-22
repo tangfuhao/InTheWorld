@@ -184,7 +184,6 @@ func on_global_message_handle(message_dic):
 	
 	
 	record_people_action_state(message_dic)
-#	var log_str = ""
 
 	if player_name != player_id:
 		return 

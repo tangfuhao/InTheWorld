@@ -24,5 +24,6 @@ func update_message_queue():
 
 
 func _on_message_dispach_timer_timeout():
+	yield(get_tree(),"idle_frame")
 	update_message_queue()
 #	message_dispacher_timer.start(0.5)
