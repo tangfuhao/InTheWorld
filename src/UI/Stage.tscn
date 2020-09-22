@@ -32,6 +32,7 @@ custom_constants/separation = 10
 
 [node name="角色消息分析器" type="Node" parent="."]
 script = ExtResource( 2 )
+assign_player = "李雷"
 
 [node name="message_dispach_timer" type="Timer" parent="."]
 wait_time = 0.5

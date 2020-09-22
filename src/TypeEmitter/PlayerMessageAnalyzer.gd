@@ -7,13 +7,15 @@ class TypeMachineContent:
 	var content
 
 
-var player_id = "player1-1"
+export var assign_player:String
+var player_id
 
 #所有用户的数据
 var all_people_state_dic = {}
 
 #监听周围用户关系
 var monitor_people_arr = []
+var monitor_people_display_name_dic = {}
 
 var action_dic = {}
 var world_status_dic = {}
@@ -42,7 +44,8 @@ func _ready():
 	content_type_regex = RegEx.new()
 	content_type_regex.compile("\\#\\((.+?)\\)")
 	
-	monitor_people_arr.push_back(player_id)
+#	monitor_people_arr.push_back(player_id)
+	
 	
 	GlobalMessageGenerator.connect("message_dispatch",self,"on_global_message_handle")
 	
@@ -160,15 +163,29 @@ func record_people_action_state(_message_dic):
 			people_param_arr = get_exit_people_action_state_dic(target_player_name)
 			if people_param_arr:
 				people_param_arr.erase(action)
+				
+func binding_user(_message_dic):
+	if not player_id:
+		var player_display_name = _message_dic["player_display_name"]
+		if assign_player == player_display_name:
+			player_id = _message_dic["player"]
 
 func on_global_message_handle(message_dic):
+	binding_user(message_dic)
+	
+	
 	#简单输出log
 	print(message_dic["timestamp"],":",get_dic_str(message_dic))
 #	return
-
-	record_people_action_state(message_dic)
-	var log_str = ""
 	var player_name = message_dic["player"]
+	if not monitor_people_display_name_dic.has(player_name):
+		var player_display_name = message_dic["player_display_name"]
+		monitor_people_display_name_dic[player_name] = player_display_name
+	
+	
+	record_people_action_state(message_dic)
+#	var log_str = ""
+
 	if player_name != player_id:
 		return 
 
@@ -261,12 +278,12 @@ func on_global_message_handle(message_dic):
 	elif type == "lover_increase_effect":
 		var action = message_dic["value"]
 		var target = message_dic["target"]
-		log_str = "%s还有点意思，感觉有一点喜欢他呢" % target
+		var log_str = "%s还有点意思，感觉有一点喜欢他呢" % target
 		stage.add_message("世界文本",log_str)
 	elif type == "lover_decrease_effect":
 		var action = message_dic["value"]
 		var target = message_dic["target"]
-		log_str = "%s竟然在我面前%s，我感觉我不会喜欢他了" % [target,action]
+		var log_str = "%s竟然在我面前%s，我感觉我不会喜欢他了" % [target,action]
 		stage.add_message("世界文本",log_str)
 
 
@@ -292,8 +309,10 @@ func convert_match_name_to_value(_match_name,_message_dic):
 	
 	
 	if match_name_item == "角色" or match_name_item == "角色1":
-		return player_id
+		return _message_dic["player_display_name"]
 	elif match_name_item == "角色2" or match_name_item == "功能属性" or match_name_item == "目标" or match_name_item == "物品" or match_name_item == "行为":
+		if _message_dic.has("target_display_name"):
+			return _message_dic["target_display_name"]
 		if _message_dic.has("target"):
 			return _message_dic["target"]
 	elif match_name_item == "角色集合":
@@ -304,13 +323,12 @@ func convert_match_name_to_value(_match_name,_message_dic):
 		else:
 			value = filter_params_around_people([])
 		if not value:
-			return player_id
+			return monitor_people_display_name_dic[player_id]
 		else:
 			return value
 	elif match_name_item == "角色代词":
-		#TODO 
+		#TODO 未实现
 		return "她"
-		assert(false)
 	else:
 		print(_match_name)
 
@@ -321,7 +339,7 @@ func filter_params_around_people(_parmas_arr):
 	for item in monitor_people_arr:
 		var people_params = all_people_state_dic[item]
 		if meet_all_params(people_params,_parmas_arr):
-			player_arr_str.append(item)
+			player_arr_str.append(monitor_people_display_name_dic[item])
 	
 	return player_arr_str.join(",")
 

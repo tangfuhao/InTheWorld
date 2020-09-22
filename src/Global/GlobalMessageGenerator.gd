@@ -10,6 +10,7 @@ func create_common_message(_player,_type):
 	var message_dic := {}
 	message_dic["timestamp"] = OS.get_system_time_secs()
 	message_dic["player"] = _player.node_name
+	message_dic["player_display_name"] = _player.display_name
 	message_dic["type"] = _type
 	return message_dic
 	
@@ -26,6 +27,7 @@ func send_player_action(_player,_action,_target):
 		message_dic["target"] = _target
 	elif _target:
 		message_dic["target"] = _target.node_name
+		message_dic["target_display_name"] = _target.display_name
 	
 	send_message_to_subscriber(message_dic)
 	
@@ -40,6 +42,7 @@ func send_player_stop_action(_player,_action,_target):
 		message_dic["target"] = _target
 	elif _target:
 		message_dic["target"] = _target.node_name
+		message_dic["target_display_name"] = _target.display_name
 	
 	send_message_to_subscriber(message_dic)
 
@@ -49,6 +52,7 @@ func send_player_find_player_in_vision(_player,_target):
 	
 	var message_dic = create_common_message(_player,"find_player_in_vision")
 	message_dic["target"] = _target.node_name
+	message_dic["target_display_name"] = _target.display_name
 	send_message_to_subscriber(message_dic)
 	
 func send_player_lost_player_in_vision(_player,_target):
@@ -56,6 +60,7 @@ func send_player_lost_player_in_vision(_player,_target):
 	
 	var message_dic = create_common_message(_player,"lost_player_in_vision")
 	message_dic["target"] = _target.node_name
+	message_dic["target_display_name"] = _target.display_name
 	send_message_to_subscriber(message_dic)
 	
 func send_player_find_stuff_in_vision(_player,_target):
@@ -63,6 +68,7 @@ func send_player_find_stuff_in_vision(_player,_target):
 	
 	var message_dic = create_common_message(_player,"find_in_vision")
 	message_dic["target"] = _target.node_name
+	message_dic["target_display_name"] = _target.display_name
 	send_message_to_subscriber(message_dic)
 	
 func send_player_lost_stuff_in_vision(_player,_target):
@@ -70,6 +76,7 @@ func send_player_lost_stuff_in_vision(_player,_target):
 	
 	var message_dic = create_common_message(_player,"lost_in_vision")
 	message_dic["target"] = _target.node_name
+	message_dic["target_display_name"] = _target.display_name
 	send_message_to_subscriber(message_dic)
 
 #角色位置变化
@@ -113,7 +120,6 @@ func send_player_motivation_value_change(_player,_motivation):
 func send_player_target_change(_player,_target):
 	var message_dic = create_common_message(_player,"target_change")
 	message_dic["target"] = _target.node_name
-	
 	send_message_to_subscriber(message_dic)
 
 func send_player_strategy_plan_succuss(_player,_strategy_chain):
@@ -145,6 +151,7 @@ func send_player_strategy_plan(_player,_strategy_plan_path,_plan_result):
 func send_player_lover_value_change(_player,_target,_lover_value):
 	var message_dic = create_common_message(_player,"lover_value_change")
 	message_dic["target"] = _target.node_name
+	message_dic["target_display_name"] = _target.display_name
 	message_dic["value"] = _lover_value
 	
 	send_message_to_subscriber(message_dic)
@@ -157,6 +164,7 @@ func send_player_lover_effect(_player,_target,_effect_value,_action):
 		message_dic = create_common_message(_player,"lover_decrease_effect")
 		
 	message_dic["target"] = _target.node_name
+	message_dic["target_display_name"] = _target.display_name
 	message_dic["value"] = _action
 	
 	send_message_to_subscriber(message_dic)

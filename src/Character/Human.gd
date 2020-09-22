@@ -55,6 +55,7 @@ var location
 
 #每个实体都会生成一个唯一的node_id
 var node_name
+var display_name
 
 
 signal disappear_notify
@@ -82,6 +83,7 @@ func _on_status_model_value_update(_status_model):
 func _ready() -> void:
 	playerName.text = player_name
 	node_name = player_name + IDGenerator.pop_id_index()
+	display_name = player_name
 
 	bullets_node_layer = get_node(bullets_node_path)
 	fixed_memory["淋浴间"] = get_node(shower_room_path)

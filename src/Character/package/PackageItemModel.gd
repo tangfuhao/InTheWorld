@@ -1,12 +1,16 @@
 class_name PackageItemModel
+
+
 var item_name setget _set_item_name
 var node_name
+var display_name
 var function_attribute_dic = {}
 
 
 func _set_item_name(_item_name):
 	item_name = _item_name
-	node_name = item_name
+	node_name = item_name + IDGenerator.pop_id_index()
+	display_name = item_name
 
 
 func has_attribute(_attribute):

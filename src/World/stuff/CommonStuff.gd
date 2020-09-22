@@ -3,6 +3,7 @@ extends Area2D
 export var stuff_type_name:String
 onready var stuff_name = stuff_type_name
 var node_name
+var display_name
 
 export var is_location:bool
 export var is_can_be_occupy:bool
@@ -47,6 +48,8 @@ func _ready():
 	if !stuff_type_name.empty():
 		item_display_name.text = stuff_type_name
 		node_name = stuff_type_name + IDGenerator.pop_id_index()
+		display_name = stuff_type_name
+		
 		var stuff_list = load_stuff_list()
 		var stuff_config_params = get_var_by_params_in_arr(stuff_list,"名称",stuff_type_name)
 		if stuff_config_params:
