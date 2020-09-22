@@ -59,7 +59,7 @@ var node_name
 
 signal disappear_notify
 signal player_action_notify(body,action_name,is_active)
-signal location_change(_location_name)
+signal location_change(body,location_name)
 
 #设置状态值
 func set_status_value(_status_name,_status_value):
@@ -129,7 +129,7 @@ func is_like_people(_player):
 
 func location_change(_location_name):
 	location = _location_name
-	emit_signal("location_change",location)
+	emit_signal("location_change",self,location)
 
 func set_target(_target):
 	target_system.set_target(_target)
