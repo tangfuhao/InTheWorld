@@ -13,13 +13,13 @@ func setup(_control_node):
 
 
 func _on_player_action_notify(_body,_action_name,_is_active):
-	if _action_name == "脱衣服":
+	if _action_name == "脱":
 		if _is_active:
 			like_people_no_wear_arr.push_back(_body)
 			world_status.set_world_status("看到喜欢的人没穿衣服",true)
 		else:
 			assert(false)
-	elif _action_name == "穿衣服":
+	elif _action_name == "穿":
 		if _is_active:
 			like_people_no_wear_arr.erase(_body)
 			world_status.set_world_status("看到喜欢的人没穿衣服",!like_people_no_wear_arr.empty())
