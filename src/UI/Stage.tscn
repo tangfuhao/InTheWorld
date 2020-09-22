@@ -27,7 +27,7 @@ rect_min_size = Vector2( 450, 800 )
 
 [node name="List" parent="CommonListView/ScrollContainer" index="0"]
 margin_right = 450.0
-margin_bottom = 800.0
+margin_bottom = 1000.0
 custom_constants/separation = 10
 
 [node name="角色消息分析器" type="Node" parent="."]
