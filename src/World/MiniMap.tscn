@@ -43,18 +43,18 @@ format = 1
 tile_data = PoolIntArray( 0, 1, 65536, 1, 1, 2, 2, 1, 2, 3, 1, 2, 4, 1, 2, 5, 1, 2, 6, 1, 2, 7, 1, 2, 8, 1, 2, 9, 1, 2, 10, 1, 2, 11, 1, 2, 12, 1, 2, 13, 1, 2, 14, 1, 2, 15, 1, 2, 16, 1, 2, 17, 1, 2, 18, 1, 2, 19, 1, 2, 20, 1, 2, 21, 1, 2, 22, 1, 2, 23, 1, 2, 24, 1, 2, 25, 1, 2, 26, 1, 2, 27, 1, 2, 28, 1, 2, 29, 1, 2, 30, 1, 2, 31, 1, 2, 32, 1, 2, 33, 1, 2, 34, 1, 2, 35, 1, 2, 36, 1, 2, 37, 1, 2, 38, 1, 2, 39, 1, 2, 40, 1, 2, 41, 1, 2, 42, 1, 2, 43, 1, 2, 44, 1, 2, 45, 1, 2, 46, 1, 2, 47, 1, 2, 48, 1, 65537, 65536, 1, 65540, 65584, 1, 65540, 131072, 1, 65540, 131120, 1, 65540, 196608, 1, 65540, 196656, 1, 65540, 262144, 1, 65540, 262192, 1, 65540, 327680, 1, 65540, 327728, 1, 65540, 393216, 1, 65540, 393264, 1, 65540, 458752, 1, 65540, 458800, 1, 65540, 524288, 1, 65540, 524336, 1, 65540, 589824, 1, 65540, 589872, 1, 65540, 655360, 1, 65540, 655408, 1, 65540, 720896, 1, 65540, 720944, 1, 65540, 786432, 1, 65540, 786480, 1, 65540, 851968, 1, 65540, 852016, 1, 65540, 917504, 1, 65540, 917552, 1, 65540, 983040, 1, 65540, 983088, 1, 65540, 1048576, 1, 65540, 1048624, 1, 65540, 1114112, 1, 65540, 1114160, 1, 65540, 1179648, 1, 65540, 1179696, 1, 65540, 1245184, 1, 65540, 1245232, 1, 65540, 1310720, 1, 65540, 1310768, 1, 65540, 1376256, 1, 65540, 1376304, 1, 65540, 1441792, 1, 65540, 1441840, 1, 65540, 1507328, 1, 65540, 1507376, 1, 65540, 1572864, 1, 65540, 1572912, 1, 65540, 1638400, 1, 65540, 1638448, 1, 65540, 1703936, 1, 131072, 1703937, 1, 2, 1703938, 1, 2, 1703939, 1, 2, 1703940, 1, 2, 1703941, 1, 2, 1703942, 1, 2, 1703943, 1, 2, 1703944, 1, 2, 1703945, 1, 2, 1703946, 1, 2, 1703947, 1, 2, 1703948, 1, 2, 1703949, 1, 2, 1703950, 1, 2, 1703951, 1, 2, 1703952, 1, 2, 1703953, 1, 2, 1703954, 1, 2, 1703955, 1, 2, 1703956, 1, 2, 1703957, 1, 2, 1703958, 1, 2, 1703959, 1, 2, 1703960, 1, 2, 1703961, 1, 2, 1703962, 1, 2, 1703963, 1, 2, 1703964, 1, 2, 1703965, 1, 2, 1703966, 1, 2, 1703967, 1, 2, 1703968, 1, 2, 1703969, 1, 2, 1703970, 1, 2, 1703971, 1, 2, 1703972, 1, 2, 1703973, 1, 2, 1703974, 1, 2, 1703975, 1, 2, 1703976, 1, 2, 1703977, 1, 2, 1703978, 1, 2, 1703979, 1, 2, 1703980, 1, 2, 1703981, 1, 2, 1703982, 1, 2, 1703983, 1, 2, 1703984, 1, 131073 )
 
 [node name="Human" parent="." instance=ExtResource( 1 )]
-position = Vector2( 341.22, 495.612 )
+position = Vector2( 312.023, 654.781 )
 rotation = 0.432842
-player_name = "李雷"
+player_name = "军宏"
 bullets_node_path = NodePath("../Bullets")
 shower_room_path = NodePath("../ShowerRoom")
 bed_path = NodePath("../Bed")
 
 [node name="Human2" parent="." instance=ExtResource( 1 )]
 pause_mode = 1
-position = Vector2( 885.988, 508.68 )
+position = Vector2( 764.492, 406.021 )
 collision_layer = 2
-player_name = "韩梅梅"
+player_name = "小夕"
 bullets_node_path = NodePath("../Bullets")
 shower_room_path = NodePath("../ShowerRoom")
 bed_path = NodePath("../Bed")
@@ -86,16 +86,36 @@ position = Vector2( 63.9041, 683.473 )
 stuff_type_name = "马桶"
 
 [node name="马桶2" parent="." instance=ExtResource( 4 )]
-position = Vector2( 205.707, 440.397 )
+position = Vector2( 181.22, 414.026 )
 stuff_type_name = "马桶"
+
+[node name="垃圾堆" parent="." instance=ExtResource( 4 )]
+position = Vector2( 493.906, 631.588 )
+stuff_type_name = "垃圾堆"
+
+[node name="野果" parent="." instance=ExtResource( 4 )]
+position = Vector2( 505.208, 176.686 )
+stuff_type_name = "野果"
+
+[node name="野果2" parent="." instance=ExtResource( 4 )]
+position = Vector2( 644.598, 147.489 )
+stuff_type_name = "野果"
+
+[node name="野果3" parent="." instance=ExtResource( 4 )]
+position = Vector2( 597.506, 230.37 )
+stuff_type_name = "野果"
+
+[node name="茅坑" parent="." instance=ExtResource( 4 )]
+position = Vector2( 663.434, 621.228 )
+stuff_type_name = "茅坑"
 
 [node name="植物" parent="." instance=ExtResource( 4 )]
 position = Vector2( 709.4, 59.8896 )
 stuff_type_name = "植物"
 
-[node name="一桶水" parent="." instance=ExtResource( 4 )]
-position = Vector2( 713.506, 419.866 )
-stuff_type_name = "一桶水"
+[node name="一瓶醋" parent="." instance=ExtResource( 4 )]
+position = Vector2( 583.534, 532.885 )
+stuff_type_name = "一瓶醋"
 
 [node name="Bullets" type="Node2D" parent="."]
 position = Vector2( 302.287, -107.439 )
@@ -108,7 +128,17 @@ margin_right = 1419.54
 margin_bottom = 786.192
 rect_min_size = Vector2( 450, 800 )
 
+[node name="CommonListView" parent="Stage" index="0"]
+margin_left = -1568.44
+margin_top = -5.20715
+margin_right = -1118.44
+margin_bottom = -5.20709
+
+[node name="角色消息分析器" parent="Stage" index="1"]
+assign_player = "军宏"
+
 [node name="Stage2" parent="." instance=ExtResource( 6 )]
+visible = false
 anchor_right = 0.0
 margin_left = -374.361
 margin_top = -13.8083
@@ -116,8 +146,19 @@ margin_right = 75.6395
 margin_bottom = 786.192
 rect_min_size = Vector2( 450, 800 )
 
+[node name="CommonListView" parent="Stage2" index="0"]
+visible = false
+anchor_left = 0.500311
+anchor_top = 0.00304855
+anchor_right = 0.500311
+anchor_bottom = 1.00305
+margin_left = -227.14
+margin_top = -7.43884
+margin_right = 225.86
+margin_bottom = -2.43915
+
 [node name="角色消息分析器" parent="Stage2" index="1"]
-assign_player = "韩梅梅"
+assign_player = "小夕"
 [connection signal="timeout" from="control_temp/control_env" to="control_temp" method="_on_control_env_timeout"]
 [connection signal="timeout" from="control_temp/control_shower" to="control_temp" method="_on_control_shower_timeout"]
 
@@ -126,5 +167,7 @@ assign_player = "韩梅梅"
 [editable path="ShowerRoom"]
 
 [editable path="Bed"]
+
+[editable path="Stage"]
 
 [editable path="Stage2"]

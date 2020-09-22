@@ -22,27 +22,27 @@ __meta__ = {
 }
 
 [node name="ObjectPanal" type="VBoxContainer" parent="HBoxContainer"]
-margin_right = 569.0
-margin_bottom = 1000.0
+margin_right = 156.0
+margin_bottom = 830.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="NameList" type="VBoxContainer" parent="HBoxContainer/ObjectPanal"]
-margin_right = 569.0
+margin_right = 156.0
 margin_bottom = 44.0
 
 [node name="StuffName" parent="HBoxContainer/ObjectPanal/NameList" instance=ExtResource( 11 )]
 anchor_right = 0.0
-margin_right = 569.0
+margin_right = 156.0
 margin_bottom = 20.0
 display_label = "物品名称"
 
 [node name="EditMenu2" parent="HBoxContainer/ObjectPanal/NameList" instance=ExtResource( 11 )]
 anchor_right = 0.0
 margin_top = 24.0
-margin_right = 569.0
+margin_right = 156.0
 margin_bottom = 44.0
 display_label = "物品类型"
 
@@ -50,25 +50,25 @@ display_label = "物品类型"
 anchor_right = 0.0
 anchor_bottom = 0.0
 margin_top = 48.0
-margin_right = 569.0
-margin_bottom = 507.0
+margin_right = 156.0
+margin_bottom = 422.0
 title_name = "物理属性"
 
 [node name="ObjectList" parent="HBoxContainer/ObjectPanal" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 511.0
-margin_right = 569.0
-margin_bottom = 970.0
+margin_top = 426.0
+margin_right = 156.0
+margin_bottom = 800.0
 title_name = "物品列表"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/ObjectPanal"]
-margin_top = 974.0
-margin_right = 569.0
-margin_bottom = 1000.0
+margin_top = 804.0
+margin_right = 156.0
+margin_bottom = 830.0
 
 [node name="DeleteButton" type="Button" parent="HBoxContainer/ObjectPanal/HBoxContainer"]
-margin_right = 282.0
+margin_right = 76.0
 margin_bottom = 26.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 8 )
@@ -76,8 +76,8 @@ disabled = true
 text = "删除物品"
 
 [node name="ModifyButton" type="Button" parent="HBoxContainer/ObjectPanal/HBoxContainer"]
-margin_left = 286.0
-margin_right = 569.0
+margin_left = 80.0
+margin_right = 156.0
 margin_bottom = 26.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 8 )
@@ -85,9 +85,9 @@ disabled = true
 text = "修改物品"
 
 [node name="GenerateFunctionPanel" type="Panel" parent="HBoxContainer"]
-margin_left = 573.0
-margin_right = 653.0
-margin_bottom = 1000.0
+margin_left = 160.0
+margin_right = 240.0
+margin_bottom = 830.0
 rect_min_size = Vector2( 80, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -111,33 +111,33 @@ __meta__ = {
 [node name="FunctionAttributeList" parent="HBoxContainer" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = 657.0
-margin_right = 1226.0
-margin_bottom = 1000.0
+margin_left = 244.0
+margin_right = 350.0
+margin_bottom = 830.0
 size_flags_horizontal = 3
 title_name = "功能属性"
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
-margin_left = 1230.0
-margin_right = 1800.0
-margin_bottom = 1000.0
+margin_left = 354.0
+margin_right = 460.0
+margin_bottom = 830.0
 size_flags_horizontal = 3
 
 [node name="AttributeEditList" parent="HBoxContainer/VBoxContainer" instance=ExtResource( 2 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 570.0
-margin_bottom = 970.0
+margin_right = 106.0
+margin_bottom = 800.0
 size_flags_horizontal = 3
 title_name = "功能属性参数"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
-margin_top = 974.0
-margin_right = 570.0
-margin_bottom = 1000.0
+margin_top = 804.0
+margin_right = 106.0
+margin_bottom = 830.0
 
 [node name="CleanButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_right = 283.0
+margin_right = 51.0
 margin_bottom = 26.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 8 )
@@ -145,8 +145,8 @@ disabled = true
 text = "清空"
 
 [node name="SaveButton" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
-margin_left = 287.0
-margin_right = 570.0
+margin_left = 55.0
+margin_right = 106.0
 margin_bottom = 26.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 8 )

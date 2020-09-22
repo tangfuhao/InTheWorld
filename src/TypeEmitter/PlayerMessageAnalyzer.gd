@@ -276,14 +276,24 @@ func on_global_message_handle(message_dic):
 		# stage.add_message("世界文本",log_str)
 	elif type == "lover_increase_effect":
 		var action = message_dic["value"]
-		var target = message_dic["target"]
-		var log_str = "%s还有点意思，感觉有一点喜欢他呢" % target
-		stage.add_message("世界文本",log_str)
+		var target
+		if message_dic.has("target_display_name"):
+			target =  message_dic["target_display_name"]
+		else:
+			target =  message_dic["target"]
+
+		var log_str = "呀……%s还有点意思，感觉有一点喜欢她呢" % target
+		stage.add_message("思想文本",log_str)
 	elif type == "lover_decrease_effect":
 		var action = message_dic["value"]
-		var target = message_dic["target"]
-		var log_str = "%s竟然在我面前%s，我感觉我不会喜欢他了" % [target,action]
-		stage.add_message("世界文本",log_str)
+		var target
+		if message_dic.has("target_display_name"):
+			target =  message_dic["target_display_name"]
+		else:
+			target =  message_dic["target"]
+			
+		var log_str = "这……%s竟然在我面前%s，我感觉我不会喜欢她了" % [target,action]
+		stage.add_message("思想文本",log_str)
 
 
 

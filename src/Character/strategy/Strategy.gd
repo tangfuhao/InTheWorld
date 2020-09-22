@@ -439,7 +439,7 @@ func parse_strategy_selector(strategy_selector):
 					strategy_weight_variable_arr.push_back(weight_variable)
 					
 				if not strategy_weight_variable_dic.has(weight_variable):
-					strategy_weight_variable_dic[weight_variable] = 1
+					strategy_weight_variable_dic[weight_variable] = 0.3
 			else:
 				strategy_item.weight = weight
 		if item.has("策略前置条件"):
