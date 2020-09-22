@@ -207,6 +207,7 @@ func plan_strategy(_strategy,_level,_current_strategy_chain,_new_strategy_chain,
 	#检测是否有满足的子策略
 	var meet_strategy_arr:Array = plan_condition_meet_strategy_arr(_strategy.strong_strategy_arr,_strategy.weak_strategy_arr)
 	if meet_strategy_arr.empty():
+		_plan_strategy_record.pop_back()
 		_new_strategy_chain.roll_back_strategy()
 		return false
 		
