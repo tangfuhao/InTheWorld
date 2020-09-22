@@ -1,8 +1,8 @@
 extends "res://src/Character/tasks/NoLimitTask.gd"
 class_name StruggleMind
 
-#纠结5s
-var action_time = 5
+#纠结10s
+var action_time = 10
 
 func active():
 	.active()
@@ -16,6 +16,12 @@ func process(_delta: float):
 
 	action_time = action_time - _delta
 	if action_time < 0:
-		human.set_status_value("爱情状态",0.9)
+		status_recover = true
+		goal_status = STATE.GOAL_COMPLETED
 
 	return goal_status
+	
+func terminate() ->void:
+	.terminate()
+	if status_recover:
+		human.set_status_value("爱情状态",0.9)
