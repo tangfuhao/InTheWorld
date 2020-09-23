@@ -50,11 +50,11 @@ func _ready():
 		node_name = stuff_type_name + IDGenerator.pop_id_index()
 		display_name = stuff_type_name
 		
-		var stuff_list = load_stuff_list()
+		var stuff_list = DataManager.get_stuff_list()
 		var stuff_config_params = get_var_by_params_in_arr(stuff_list,"名称",stuff_type_name)
 		if stuff_config_params:
 			var stuff_config_file_path = stuff_config_params["路径"]
-			var stuff_config_json = load_json(stuff_config_file_path)
+			var stuff_config_json = DataManager.load_json_data(stuff_config_file_path)
 			apply_phycis_config(stuff_config_json)
 			apply_function_attribute(stuff_config_json)
 			
@@ -120,28 +120,7 @@ func get_var_by_params_in_arr(_arr,_params,_value):
 			return item
 	return null
 
-func load_stuff_list():
-	var json_arr = load_json("user://stuff_list_1.json")
-	return json_arr
 
-func load_json(file_path):
-	var data_file = File.new()
-	if data_file.open(file_path, File.READ) != OK:
-		return []
-	var data_text = data_file.get_as_text()
-	data_file.close()
-	
-	var data_parse = JSON.parse(data_text)
-	if data_parse.error != OK:
-		return []
-		
-	if typeof(data_parse.result) == TYPE_ARRAY:
-		return data_parse.result
-	elif typeof(data_parse.result) == TYPE_DICTIONARY:
-		return data_parse.result
-	else:
-		print("unexpected results")
-		return []
 		
 
 

@@ -1,0 +1,54 @@
+{
+    "create_object": "user://stuff_list_1.json",
+    "base_action": "res://config/base_tasks.json",
+    "players": [
+        {
+            "player_name": "军宏",
+            "ai": {
+                "status": "res://config/status.json",
+                "motivation": "res://config/motivation.json",
+                "response_system": "res://config/response.json",
+                "strategy_arr": [
+                    "res://config/strategy_bored.json",
+                    "res://config/strategy_clean.json",
+                    "res://config/strategy_hungry.json",
+                    "res://config/strategy_love.json",
+                    "res://config/strategy_shit.json",
+                    "res://config/strategy_sleep.json"
+                ]
+            },
+            "text": {
+                "action_to_text": "res://config/text/action_to_text.json",
+                "world_status_to_text": "res://config/text/world_status_to_text.json",
+                "strategy_to_text": "res://config/text/strategy_to_text.json",
+                "active_motivation_to_text": "res://config/text/active_motivation_to_text.json",
+                "meet_motivation_to_text": "res://config/text/meet_motivation_to_text.json",
+                "execute_motivation_to_text": "res://config/text/execute_motivation_to_text.json"
+            }
+        },
+        {
+            "player_name": "小夕",
+            "ai": {
+                "status": "res://config/status.json",
+                "motivation": "res://config/motivation.json",
+                "response_system": "res://config/response.json",
+                "strategy_arr": [
+                    "res://config/strategy_bored.json",
+                    "res://config/strategy_clean.json",
+                    "res://config/strategy_hungry.json",
+                    "res://config/strategy_love.json",
+                    "res://config/strategy_shit.json",
+                    "res://config/strategy_sleep.json"
+                ]
+            },
+            "text": {
+                "action_to_text": "res://config/text/action_to_text.json",
+                "world_status_to_text": "res://config/text/world_status_to_text.json",
+                "strategy_to_text": "res://config/text/strategy_to_text.json",
+                "active_motivation_to_text": "res://config/text/active_motivation_to_text.json",
+                "meet_motivation_to_text": "res://config/text/meet_motivation_to_text.json",
+                "execute_motivation_to_text": "res://config/text/execute_motivation_to_text.json"
+            }
+        }
+    ]
+}

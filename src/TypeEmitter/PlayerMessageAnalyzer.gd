@@ -2,11 +2,6 @@ extends Node
 class_name PlayerMessageAnalyzer
 #角色分析角色事件
 
-class TypeMachineContent:
-	var type
-	var content
-
-
 export var assign_player:String
 var player_id
 
@@ -31,7 +26,6 @@ var active_motivation_aar = []
 
 var key_word_regex
 
-var content_type_regex
 
 var stage
 
@@ -41,87 +35,24 @@ func _ready():
 	key_word_regex = RegEx.new()
 	key_word_regex.compile("\\#\\{(.+?)\\}")
 	
-	content_type_regex = RegEx.new()
-	content_type_regex.compile("\\#\\((.+?)\\)")
+
 	
 #	monitor_people_arr.push_back(player_id)
 	
 	
 	GlobalMessageGenerator.connect("message_dispatch",self,"on_global_message_handle")
+
+	action_dic = DataManager.get_player_data(assign_player,"action_to_text")
+	world_status_dic = DataManager.get_player_data(assign_player,"world_status_to_text")
 	
-	var action_arr = load_json_arr("res://config/text/action_to_text.json")
-	for item in action_arr:
-		var key = item["行为名称"]
-		var content = item["对应文本"]
-		action_dic[key] = parse_content_type(content)
-		
-	var world_status_arr = load_json_arr("res://config/text/world_status_to_text.json")
-	for item in world_status_arr:
-		var key = item["WorldStatus"]
-		var content = item["对应文本"]
-		world_status_dic[key] = parse_content_type(content)
-		
-	var strategy_plan_arr = load_json_arr("res://config/text/strategy_to_text.json")
-	for item in strategy_plan_arr:
-		var key = item["策略"]
-		var content = item["规划文本"]
-		startegy_plan_dic[key] = parse_content_type(content)
-		if item.has("成功文本"):
-			var sucuss_content = item["成功文本"]
-			startegy_sucuss_dic[key] = parse_content_type(sucuss_content)
-		if item.has("失败文本"):
-			var fail_content = item["失败文本"]
-			startegy_fail_dic[key] = parse_content_type(fail_content)
-			
-	var active_motivation_arr = load_json_arr("res://config/text/active_motivation_to_text.json")
-	for item in active_motivation_arr:
-		var key = item["动机"]
-		var content = item["对应文本"]
-		active_motivetion_dic[key] = parse_content_type(content)
-		
-		
-	var meet_motivation_arr = load_json_arr("res://config/text/meet_motivation_to_text.json")
-	for item in meet_motivation_arr:
-		var key = item["动机"]
-		var content = item["对应文本"]
-		meet_motivetion_dic[key] = parse_content_type(content)
-	
-	
-	var execute_motivation_arr = load_json_arr("res://config/text/execute_motivation_to_text.json")
-	for item in execute_motivation_arr:
-		var key = item["动机"]
-		var content = item["对应文本"]
-		execute_motivation_dic[key] = parse_content_type(content)
-	
-	
-	print("sfsedfsd")
-func parse_content_type(_content):
-	var content_arr = []
-	var result_arr = content_type_regex.search_all(_content)
-	if result_arr:
-		var final_end_position = _content.length()
-		var content_item
-		var content_start
-		for match_item in result_arr:
-			var match_name = match_item.get_string(1)
-			var end_position = match_item.get_end(0)
-			var start_position = match_item.get_start(0)
-			
-			if content_item:
-				var content = _content.substr(content_start,start_position - content_start)
-				content_item.content = content
-				content_arr.push_back(content_item)
-				
-			content_item = TypeMachineContent.new()
-			content_item.type = match_name
-			content_start = end_position
-		
-		if content_item:
-			var content = _content.substr(content_start,final_end_position - content_start)
-			content_item.content = content
-			content_arr.push_back(content_item)
-			content_item = null
-	return content_arr
+	startegy_plan_dic = DataManager.get_player_data(assign_player,"strategy_to_text")
+	startegy_sucuss_dic = DataManager.get_player_data(assign_player,"strategy_succeed_to_text")
+	startegy_fail_dic = DataManager.get_player_data(assign_player,"strategy_fail_to_text")
+
+	active_motivetion_dic = DataManager.get_player_data(assign_player,"active_motivation_to_text")
+	meet_motivetion_dic = DataManager.get_player_data(assign_player,"meet_motivation_to_text")
+	execute_motivation_dic = DataManager.get_player_data(assign_player,"execute_motivation_to_text")
+
 
 #获取玩家行为状态表
 func get_people_action_state_dic(_player_name):
@@ -364,24 +295,6 @@ func meet_all_params(_value,_parmas_arr):
 
 	
 	
-	
-func load_json_arr(file_path):
-	var data_file = File.new()
-	if data_file.open(file_path, File.READ) != OK:
-		return []
-	var data_text = data_file.get_as_text()
-	data_file.close()
-	
-	var data_parse = JSON.parse(data_text)
-	if data_parse.error != OK:
-		return []
-		
-	if typeof(data_parse.result) == TYPE_ARRAY:
-		return data_parse.result
-	else:
-		print("unexpected results")
-		return []
-
 	
 func get_dic_str(var message_dic):
 	var string_build:PoolStringArray

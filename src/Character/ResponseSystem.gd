@@ -140,37 +140,11 @@ func get_task_sponsor(task_queue):
 
 
 func load_response_action_dic():
-	var response_action_arr = load_json_arr("res://config/response.json")
-	for item in response_action_arr:
-		response_action_dic[item["请求许可的行为"]] = item
+	response_action_dic = DataManager.get_player_data(control_node.player_name,"response_system")
 
 func load_base_task():
-	var base_task_arr = load_json_arr("res://config/base_tasks.json")
-	parse_base_task(base_task_arr)
+	preload_action_dic = DataManager.get_base_task_data()
 
-func parse_base_task(base_task_arr):
-	for item in base_task_arr:
-		var base_task_name = item["任务名"]
-		var task_file_path = item["文件"]
-		var full_file_path = "res://src/Character/tasks/"+task_file_path
-		preload_action_dic[base_task_name] = full_file_path
-
-func load_json_arr(file_path):
-	var data_file = File.new()
-	if data_file.open(file_path, File.READ) != OK:
-		return []
-	var data_text = data_file.get_as_text()
-	data_file.close()
-	
-	var data_parse = JSON.parse(data_text)
-	if data_parse.error != OK:
-		return []
-		
-	if typeof(data_parse.result) == TYPE_ARRAY:
-		return data_parse.result
-	else:
-		print("unexpected results")
-		return []
 
 func check_accept_chance_by_lover_value(_lover_value,_action_name) -> float:
 	var response_action = response_action_dic[_action_name]

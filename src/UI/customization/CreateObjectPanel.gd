@@ -243,7 +243,7 @@ func parse_physics_rules(_physics_arr):
 		condition_rule_arr.push_back(condition_rule)
 
 func load_stuff_list():
-	stuff_list = load_json_arr("user://stuff_list_1.json")
+	stuff_list = DataManager.get_stuff_list()
 
 func save_stuff_list():
 	var save_game = File.new()
@@ -252,24 +252,6 @@ func save_stuff_list():
 	save_game.close()
 
 
-func load_json_arr(file_path):
-	var data_file = File.new()
-	if data_file.open(file_path, File.READ) != OK:
-		return []
-	var data_text = data_file.get_as_text()
-	data_file.close()
-	
-	var data_parse = JSON.parse(data_text)
-	if data_parse.error != OK:
-		return []
-		
-	if typeof(data_parse.result) == TYPE_ARRAY:
-		return data_parse.result
-	elif typeof(data_parse.result) == TYPE_DICTIONARY:
-		return data_parse.result
-	else:
-		print("unexpected results")
-		return []
 
 func delete_file(_file_path):
 	Directory.new().remove(_file_path)

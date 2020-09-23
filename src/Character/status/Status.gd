@@ -1,18 +1,26 @@
 extends Node
 
-
-var statusDic:Dictionary = {}
 #一分钟-更新状态值 可以修改快速看到状态值得改变
 export var update_time = 5
+
+
+
+
 #暂停时剩余的时间
 var pause_left_time:float = 0
+var statusDic:Dictionary = {}
+var control_node
+
 
 onready var updateTimer := $UpdaterTimer
 
 signal status_value_update(status_model)
 
 
+
+
 func setup(_control_node):
+	control_node = _control_node
 	load_status_config_and_parse()
 	binding_status_listner_relative()
 	start_update()
@@ -58,38 +66,7 @@ func _on_status_model_value_update(_status_model):
 	emit_signal("status_value_update",_status_model)
 
 func load_status_config_and_parse():
-	var data_file = File.new()
-	if data_file.open("res://config/status.json", File.READ) != OK:
-		return
-	var data_text = data_file.get_as_text()
-	data_file.close()
-	
-	var data_parse = JSON.parse(data_text)
-	if data_parse.error != OK:
-		return
-		
-	if typeof(data_parse.result) == TYPE_ARRAY:
-		parse_status(data_parse.result)
-	else:
-		print("unexpected results")
-
-func parse_status(status_arr):
-	for item in status_arr:
-		var status_model := StatusModel.new()
-		var status_name = item["状态名"]
-		status_model.status_name = status_name
-		if item.has("默认值"):
-			status_model.status_value = item["默认值"]
-		
-		if item.has("影响状态的条件组"):
-			var effects = item["影响状态的条件组"]
-			if typeof(effects) == TYPE_ARRAY:
-				var status_conditions = parse_conditions(effects)
-				status_model.status_conditions = status_conditions
-			else:
-				print("unexpected results")
-				
-		statusDic[status_name] = status_model
+	statusDic = DataManager.get_player_data(control_node.player_name,"status")
 
 #解析条件队列
 func parse_conditions(effects_arr):

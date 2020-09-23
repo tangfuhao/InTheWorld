@@ -6,6 +6,10 @@ var world_status:WorldStatus
 
 #策略表
 var strategy_dic:Dictionary = {}
+#权重变量
+var strategy_weight_variable_dic = {}
+
+
 #当前规划的策略链
 var current_strategy_chain:StrategyChain = null
 #当前执行的任务
@@ -17,8 +21,7 @@ var new_active_motivation = null
 #预加载
 var preload_action_dic = {}
 
-#权重变量
-var strategy_weight_variable_dic = {}
+
 var current_used_weight_variable_arr = []
 
 var need_to_re_plan = false
@@ -135,6 +138,9 @@ func _on_motivation_highest_priority_change(motivation):
 		
 	
 func re_plan_strategy():
+	if not active_motivation and not new_active_motivation:
+		return
+		
 	if new_active_motivation and new_active_motivation != active_motivation and new_active_motivation.is_active:
 		active_motivation = new_active_motivation
 		GlobalMessageGenerator.send_highest_priority_motivation(control_node,active_motivation)
@@ -380,108 +386,9 @@ func change_task(_task_chain):
 	# print("用到的权重属性:",used_strategy_variable_weight_arr)
 	
 func load_base_task():
-	var base_task_arr = load_json_arr("res://config/base_tasks.json")
-	parse_base_task(base_task_arr)
-	
-func parse_base_task(base_task_arr):
-	for item in base_task_arr:
-		var base_task_name = item["任务名"]
-		var task_file_path = item["文件"]
-		var full_file_path = "res://src/Character/tasks/"+task_file_path
-		preload_action_dic[base_task_name] = full_file_path
-	
+	preload_action_dic = DataManager.get_base_task_data()
+
 #加载策略表
 func laod_strategy_overview():
-	var strategy_arr = load_json_arr("res://config/strategy_bored.json")
-	parse_strategys(strategy_arr)
-
-	parse_strategys(load_json_arr("res://config/strategy_clean.json"))
-	parse_strategys(load_json_arr("res://config/strategy_hungry.json"))
-	parse_strategys(load_json_arr("res://config/strategy_love.json"))
-	parse_strategys(load_json_arr("res://config/strategy_shit.json"))
-	parse_strategys(load_json_arr("res://config/strategy_sleep.json"))
-#	print(strategy_dic)
-	
-func parse_strategys(strategy_arr):
-	for item in strategy_arr :
-		var strategy_model := StrategyModel.new()
-		
-		var task_name = item["任务名"]
-		strategy_model.task_name = task_name
-		if item.has("排序方式"):
-			var sort_type = item["排序方式"]
-			strategy_model.order_sort_type = (sort_type == "权重顺序")
-
-		var strategy_selector = item["策略选择"]
-		if typeof(strategy_selector) == TYPE_ARRAY:
-			var strategy_table = parse_strategy_selector(strategy_selector)
-			strategy_model.strong_strategy_arr = strategy_table[0]
-			strategy_model.weak_strategy_arr = strategy_table[1]
-			strategy_model.used_strategy_variable_weight_arr = strategy_table[2]
-		else:
-			print("unexpected results")
-		strategy_dic[task_name] = strategy_model
-
-func parse_strategy_selector(strategy_selector):
-	var strong_strategy_arr = []
-	var weak_strategy_arr = []
-	var strategy_weight_variable_arr = []
-	
-	for item in strategy_selector:
-		var is_strong_strategy_tag = false
-		var strategy_item = StrategyItemModel.new()
-		if item.has("策略权重"):
-			var weight = item["策略权重"]
-			if weight is String:
-				var weight_variable = strategy_item.setup_weight_calculate_arr(weight)
-				
-				if not strategy_weight_variable_arr.has(weight_variable):
-					strategy_weight_variable_arr.push_back(weight_variable)
-					
-				if not strategy_weight_variable_dic.has(weight_variable):
-					strategy_weight_variable_dic[weight_variable] = 0.3
-			else:
-				strategy_item.weight = weight
-		if item.has("策略前置条件"):
-			var pre_condition = item["策略前置条件"]
-			strategy_item.pre_condition_arr = pre_condition.split(",")
-		if item.has("策略强条件"):
-			var pre_condition = item["策略强条件"]
-			strategy_item.pre_condition_arr = pre_condition.split(",")
-			is_strong_strategy_tag = true
-			
-		if item.has("策略完结条件"):
-			var adjust_task_finish_condition = item["策略完结条件"]
-			strategy_item.adjust_task_finish_condition = adjust_task_finish_condition.split(",")
-
-		if item.has("策略名称"):
-			strategy_item.strategy_display_name = item["策略名称"]
-			
-		var task_queue = item["任务队列"]
-		strategy_item.task_queue = task_queue.split(",")
-		
-		if is_strong_strategy_tag:
-			strong_strategy_arr.push_back(strategy_item)
-		else:
-			weak_strategy_arr.push_back(strategy_item)
-	return [strong_strategy_arr,weak_strategy_arr,strategy_weight_variable_arr]
-
-
-
-func load_json_arr(file_path):
-	var data_file = File.new()
-	if data_file.open(file_path, File.READ) != OK:
-		return []
-	var data_text = data_file.get_as_text()
-	data_file.close()
-	
-	var data_parse = JSON.parse(data_text)
-	if data_parse.error != OK:
-		return []
-		
-	if typeof(data_parse.result) == TYPE_ARRAY:
-		return data_parse.result
-	else:
-		print("unexpected results")
-		return []
-	
+	strategy_dic = DataManager.get_player_data(control_node.player_name,"strategy")
+	strategy_weight_variable_dic = DataManager.get_player_data(control_node.player_name,"strategy_weight_variable")

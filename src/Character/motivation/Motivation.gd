@@ -80,48 +80,13 @@ func resort_highest_priority():
 
 
 func laod_motivation_overview():
-	var motivation_arr = load_json_arr("res://config/motivation.json")
-	parse_motivations(motivation_arr)
+	motivation_dic = DataManager.get_player_data(control_node.player_name,"motivation")
 	#手动加入任务动机
 	var response_motivation_model := MotivationModel.new()
 	response_motivation_model.motivation_name = "回应动机"
 	response_motivation_model.listner_status_name = "回应状态"
 	motivation_dic["回应动机"] = response_motivation_model
 
-func parse_motivations(motivation_arr):
-	for item in motivation_arr :
-		var motivation_model := MotivationModel.new()
-		
-		var motivation_name = item["动机名称"]
-		motivation_model.motivation_name = motivation_name
-		var status_name = item["关注状态"]
-		motivation_model.listner_status_name = status_name
-		
-		if item.has("增益"):
-			var active_gain = item["增益"]
-			motivation_model.active_gain = active_gain
-		
-		if player_status_dic.has(status_name):
-			var status_model = player_status_dic[status_name]
-#			motivation_model._on_status_value_update(status_model)
-		
-		motivation_dic[motivation_name] = motivation_model
 
 
-func load_json_arr(file_path):
-	var data_file = File.new()
-	if data_file.open(file_path, File.READ) != OK:
-		return []
-	var data_text = data_file.get_as_text()
-	data_file.close()
-	
-	var data_parse = JSON.parse(data_text)
-	if data_parse.error != OK:
-		return []
-		
-	if typeof(data_parse.result) == TYPE_ARRAY:
-		return data_parse.result
-	else:
-		print("unexpected results")
-		return []
-	
+
