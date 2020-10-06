@@ -23,7 +23,9 @@ func insert_item(item):
 	var item_size = get_grid_size(item)
 	if is_grid_space_available(g_pos.x, g_pos.y, item_size.x, item_size.y):
 		set_grid_space(g_pos.x, g_pos.y, item_size.x, item_size.y, true)
+		
 		items.append(item)
+		
 		if item.get_parent():
 			item.get_parent().remove_child(item)
 		add_child(item)

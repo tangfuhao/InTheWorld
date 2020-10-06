@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://src/UI/customization/chinese_label_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://src/Scene/Island/PlayerUI/PlayerUI.gd" type="Script" id=2]
@@ -8,6 +8,9 @@
 [ext_resource path="res://assert/ui/SalesPanelBg.png" type="Texture" id=6]
 [ext_resource path="res://src/Scene/Island/PlayerUI/inventory/GridBackPack.gd" type="Script" id=7]
 [ext_resource path="res://src/Scene/Island/PlayerUI/inventory/EquipmentSlots.gd" type="Script" id=8]
+[ext_resource path="res://src/Scene/Island/PlayerUI/PlayerStatusPanel.gd" type="Script" id=9]
+[ext_resource path="res://src/Scene/Island/PlayerUI/inventory/SalesGrid.gd" type="Script" id=10]
+[ext_resource path="res://src/Scene/Island/PlayerUI/inventory/MaterialGrid.gd" type="Script" id=11]
 
 [node name="PlayerUI" type="Control"]
 anchor_right = 1.0
@@ -77,6 +80,7 @@ margin_top = -194.0
 margin_right = 359.0
 margin_bottom = 229.0
 window_title = "playerstate"
+script = ExtResource( 9 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -292,6 +296,7 @@ margin_top = 46.157
 margin_right = 112.645
 margin_bottom = 346.157
 texture = ExtResource( 6 )
+script = ExtResource( 10 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -339,7 +344,6 @@ __meta__ = {
 }
 
 [node name="PlayeMake" type="WindowDialog" parent="."]
-visible = true
 margin_left = 883.217
 margin_top = 140.416
 margin_right = 1184.21
@@ -356,6 +360,7 @@ margin_top = 46.157
 margin_right = 112.645
 margin_bottom = 346.157
 texture = ExtResource( 6 )
+script = ExtResource( 11 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -403,6 +408,10 @@ text = "制造"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="Popup" type="Popup" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
 [connection signal="pressed" from="HBoxContainer/FunctionButton1" to="." method="_on_FunctionButton1_pressed"]
 [connection signal="pressed" from="HBoxContainer/FunctionButton2" to="." method="_on_FunctionButton2_pressed"]
 [connection signal="pressed" from="HBoxContainer/FunctionButton3" to="." method="_on_FunctionButton3_pressed"]

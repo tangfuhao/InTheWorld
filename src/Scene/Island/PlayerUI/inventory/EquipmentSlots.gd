@@ -21,6 +21,11 @@ func insert_item(item):
 		return false
 
 	items[item_slot] = item
+	
+	if item.get_parent():
+		item.get_parent().remove_child(item)
+	add_child(item)
+	move_child(item, get_child_count())
 	item.rect_global_position = slot.rect_global_position + slot.rect_size / 2 - item.rect_size / 2
 	return true
 
