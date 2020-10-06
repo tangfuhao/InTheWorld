@@ -35,9 +35,9 @@ func _process(_delta):
 	
 
 func handle_player_operation(_delta):
-	if Input.is_action_pressed("operation_option"):
+	if Input.is_action_just_pressed("operation_option"):
 		pass
-	elif Input.is_action_pressed("back"):
+	elif Input.is_action_just_pressed("back"):
 		focus_player(null)
 		emit_signal("cancle_focus_player")
 

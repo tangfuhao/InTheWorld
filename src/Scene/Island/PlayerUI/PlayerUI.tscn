@@ -228,7 +228,6 @@ margin_bottom = 423.0
 size_flags_vertical = 3
 
 [node name="PlayerInventory" type="WindowDialog" parent="."]
-visible = true
 margin_left = 353.159
 margin_top = 205.885
 margin_right = 957.159
@@ -277,7 +276,6 @@ __meta__ = {
 }
 
 [node name="PlayeSales" type="WindowDialog" parent="."]
-visible = true
 margin_left = 637.029
 margin_top = 37.2156
 margin_right = 885.029
@@ -342,7 +340,6 @@ __meta__ = {
 }
 
 [node name="PlayeMake" type="WindowDialog" parent="."]
-visible = true
 margin_left = 883.217
 margin_top = 140.416
 margin_right = 1184.21

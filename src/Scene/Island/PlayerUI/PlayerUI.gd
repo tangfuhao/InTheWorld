@@ -46,6 +46,15 @@ func _process(_delta):
 		release(cursor_pos)
 	if item_held != null:
 		item_held.rect_global_position = cursor_pos + item_offset
+		
+	if Input.is_action_just_pressed("shortcuts 1"):
+		_on_FunctionButton1_pressed()
+	elif Input.is_action_just_pressed("shortcuts 2"):
+		_on_FunctionButton2_pressed()
+	elif Input.is_action_just_pressed("shortcuts 3"):
+		_on_FunctionButton3_pressed()
+	elif Input.is_action_just_pressed("shortcuts 4"):
+		_on_FunctionButto4_pressed()
 
 
 func grab(cursor_pos):
@@ -95,34 +104,22 @@ func return_item():
 
 
 func _on_FunctionButton1_pressed():
-	if player_status_panel.is_visible():
-		player_status_panel.hide()
-	else:
-		player_status_panel.show()
-	
-
+	toggle_panel(player_status_panel)
 
 func _on_FunctionButton2_pressed():
-	if player_inventory_panel.is_visible():
-		player_inventory_panel.hide()
-	else:
-		player_inventory_panel.show()
-
+	toggle_panel(player_inventory_panel)
 
 func _on_FunctionButton3_pressed():
-	if player_sales_panel.is_visible():
-		player_sales_panel.hide()
-	else:
-		player_sales_panel.show()
-
-
+	toggle_panel(player_sales_panel)
+	
 func _on_FunctionButto4_pressed():
-	if player_make_panel.is_visible():
-		player_make_panel.hide()
+	toggle_panel(player_make_panel)
+
+func toggle_panel(_panel):
+	if _panel.is_visible():
+		_panel.hide()
 	else:
-		player_make_panel.show()
-
-
+		_panel.show()
 
 
 
