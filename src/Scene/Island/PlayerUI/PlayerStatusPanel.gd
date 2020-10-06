@@ -1,12 +1,12 @@
 extends WindowDialog
 
-onready var player_status_listview := $CommonListView
-
+onready var player_status_listview := $VBoxContainer/CommonListView
+onready var id_label = $VBoxContainer/IDLabel
 var player_status_item = {}
 
 func setup_player(_player:Player):
 	var id_content = "id:%s" % _player.display_name
-	$IDLabel.text = id_content
+	id_label.text = id_content
 	
 	_player.status.connect("status_value_update",self,"on_player_status_value_update")
 	update_player_status(_player.status.statusDic)

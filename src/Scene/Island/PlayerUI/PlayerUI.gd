@@ -22,6 +22,12 @@ var last_pos = Vector2()
 func _ready():
 	$Popup.show()
 
+func hide():
+	.hide()
+	player_status_panel.hide()
+	player_inventory_panel.hide()
+	player_sales_panel.hide()
+	player_make_panel.hide()
 
 func setup_player(_player:Player):
 	if current_ui_bind_player == _player:

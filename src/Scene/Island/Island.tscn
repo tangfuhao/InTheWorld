@@ -66,4 +66,5 @@ player_name = "军宏"
 
 [node name="PlayerUI" parent="UI" instance=ExtResource( 7 )]
 visible = false
+[connection signal="cancle_focus_player" from="CameraMovement" to="." method="_on_CameraMovement_cancle_focus_player"]
 [connection signal="player_selected" from="Player" to="." method="_on_Player_player_selected"]

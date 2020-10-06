@@ -21,37 +21,52 @@ var zooming = false
 var is_dragging = false
 var move_to_point = Vector2()
 
+var focus_player
 
 
-func _process(delta):
+signal cancle_focus_player
+
+func _process(_delta):
 	if focus_player :
-		return
+		handle_player_operation(_delta)
+	else:
+		handle_camera_operation(_delta)
 
+	
+
+func handle_player_operation(_delta):
+	if Input.is_action_pressed("operation_option"):
+		pass
+	elif Input.is_action_pressed("back"):
+		focus_player(null)
+		emit_signal("cancle_focus_player")
+
+func handle_camera_operation(_delta):
 	#smooth movement
 	var inpx = (int(Input.is_action_pressed("ui_right"))
 					   - int(Input.is_action_pressed("ui_left")))
 	var inpy = (int(Input.is_action_pressed("ui_down"))
 					   - int(Input.is_action_pressed("ui_up")))
-	position.x = lerp(position.x, position.x + inpx *speed * zoom.x,speed * delta)
-	position.y = lerp(position.y, position.y + inpy *speed * zoom.y,speed * delta)
+	position.x = lerp(position.x, position.x + inpx *speed * zoom.x,speed * _delta)
+	position.y = lerp(position.y, position.y + inpy *speed * zoom.y,speed * _delta)
 
 	if Input.is_key_pressed(KEY_CONTROL):
 		#check mousepos
 		if mousepos.x < marginX:
-			position.x = lerp(position.x, position.x - abs(mousepos.x - marginX)/marginX * panSpeed * zoom.x, panSpeed * delta)
+			position.x = lerp(position.x, position.x - abs(mousepos.x - marginX)/marginX * panSpeed * zoom.x, panSpeed * _delta)
 		elif mousepos.x > OS.window_size.x - marginX:
-			position.x = lerp(position.x, position.x + abs(mousepos.x - OS.window_size.x + marginX)/marginX *  panSpeed * zoom.x, panSpeed * delta)
+			position.x = lerp(position.x, position.x + abs(mousepos.x - OS.window_size.x + marginX)/marginX *  panSpeed * zoom.x, panSpeed * _delta)
 		if mousepos.y < marginY:
-			position.y = lerp(position.y, position.y - abs(mousepos.y - marginY)/marginY * panSpeed * zoom.y, panSpeed * delta)
+			position.y = lerp(position.y, position.y - abs(mousepos.y - marginY)/marginY * panSpeed * zoom.y, panSpeed * _delta)
 		elif mousepos.y > OS.window_size.y - marginY:
-			position.y = lerp(position.y, position.y + abs(mousepos.y - OS.window_size.y + marginY)/marginY * panSpeed * zoom.y, panSpeed * delta)
+			position.y = lerp(position.y, position.y + abs(mousepos.y - OS.window_size.y + marginY)/marginY * panSpeed * zoom.y, panSpeed * _delta)
 	
 
 	
 	
 	#zoom in
-	zoom.x = lerp(zoom.x, zoom.x * zoomfactor, zoomspeed * delta)
-	zoom.y = lerp(zoom.y, zoom.y * zoomfactor, zoomspeed * delta)
+	zoom.x = lerp(zoom.x, zoom.x * zoomfactor, zoomspeed * _delta)
+	zoom.y = lerp(zoom.y, zoom.y * zoomfactor, zoomspeed * _delta)
 
 	zoom.x = clamp(zoom.x, zoomMin, zoomMax)
 	zoom.y = clamp(zoom.y, zoomMin, zoomMax)
@@ -59,7 +74,6 @@ func _process(delta):
 	if not zooming:
 		zoomfactor = 1.0
 
-var focus_player
 
 func focus_player(_player):
 	focus_player = _player
@@ -83,7 +97,4 @@ func _input(event):
 				zoomfactor += 0.01 * zoomspeed
 		else:
 			zooming = false
-	else:
-		if event.is_action_pressed("back"):
-			focus_player(null)
 		

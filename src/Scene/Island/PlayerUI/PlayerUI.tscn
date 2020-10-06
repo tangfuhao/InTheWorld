@@ -72,7 +72,6 @@ __meta__ = {
 }
 
 [node name="PlayerStatusPanel" type="WindowDialog" parent="."]
-visible = true
 anchor_top = 0.5
 anchor_bottom = 0.5
 margin_left = 96.0
@@ -93,9 +92,8 @@ __meta__ = {
 }
 
 [node name="IDLabel" type="Label" parent="PlayerStatusPanel/VBoxContainer"]
-margin_top = -1.0
 margin_right = 263.0
-margin_bottom = 49.0
+margin_bottom = 50.0
 rect_min_size = Vector2( 0, 50 )
 custom_fonts/font = ExtResource( 1 )
 valign = 1
@@ -280,10 +278,10 @@ __meta__ = {
 
 [node name="PlayeSales" type="WindowDialog" parent="."]
 visible = true
-margin_left = 644.734
-margin_top = 620.196
-margin_right = 892.734
-margin_bottom = 1027.2
+margin_left = 637.029
+margin_top = 37.2156
+margin_right = 885.029
+margin_bottom = 444.216
 window_title = "sales"
 __meta__ = {
 "_edit_group_": true,
@@ -344,6 +342,7 @@ __meta__ = {
 }
 
 [node name="PlayeMake" type="WindowDialog" parent="."]
+visible = true
 margin_left = 883.217
 margin_top = 140.416
 margin_right = 1184.21
