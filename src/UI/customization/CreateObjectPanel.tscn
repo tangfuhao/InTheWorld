@@ -2,9 +2,10 @@
 
 [ext_resource path="res://src/UI/customization/CreateObjectPanel.gd" type="Script" id=1]
 [ext_resource path="res://src/UI/customization/listview/ListViewPanel.tscn" type="PackedScene" id=2]
-[ext_resource path="res://assert/image/Group 4.png" type="Texture" id=3]
+[ext_resource path="res://assert/ui/Group 4.png" type="Texture" id=3]
 [ext_resource path="res://src/UI/customization/chinese_label_font.tres" type="DynamicFont" id=8]
 [ext_resource path="res://src/UI/customization/EditMenu.tscn" type="PackedScene" id=11]
+
 
 [node name="CreateObjectPanel" type="Panel"]
 anchor_right = 1.0

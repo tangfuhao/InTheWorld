@@ -1,0 +1,64 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://src/Character/ManualOperationPlayer.gd" type="Script" id=1]
+[ext_resource path="res://src/Character/LabelLayout.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/Character/HitBox.tscn" type="PackedScene" id=3]
+[ext_resource path="res://src/Character/Movement.tscn" type="PackedScene" id=4]
+[ext_resource path="res://src/Character/Line2DDraw.gd" type="Script" id=5]
+[ext_resource path="res://src/Character/status/Status.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/Character/HurtBox.tscn" type="PackedScene" id=8]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 3.97226
+
+[node name="ManualOperationPlayer" type="KinematicBody2D"]
+position = Vector2( 82.3687, 66.3769 )
+rotation = -0.654498
+input_pickable = true
+collision_layer = 2147483650
+collision_mask = 3
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Line2D" type="Line2D" parent="."]
+position = Vector2( 0, -8 )
+points = PoolVector2Array( 0.0283279, 1.48071, -5.00105, 13.1527, 4.86792, 13.2476, 0.218117, 1.48071 )
+width = 2.0
+default_color = Color( 0.117647, 0.392157, 0.631373, 1 )
+antialiased = true
+script = ExtResource( 5 )
+inner_color = Color( 0.282353, 0.623529, 0.141176, 1 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+
+[node name="Movement" parent="." instance=ExtResource( 4 )]
+visible = false
+control_obj = NodePath("..")
+
+[node name="HurtBox" parent="." instance=ExtResource( 8 )]
+input_pickable = false
+
+[node name="HitBox" parent="." instance=ExtResource( 3 )]
+input_pickable = false
+
+[node name="CollisionShape2D" parent="HitBox" index="0"]
+position = Vector2( 0.26799, -6.60335 )
+
+[node name="Status" parent="." instance=ExtResource( 6 )]
+
+[node name="NameDisplay" parent="." instance=ExtResource( 2 )]
+
+[node name="NameLabel" type="Label" parent="NameDisplay"]
+margin_right = 40.0
+margin_bottom = 14.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="input_event" from="." to="." method="_on_ManualOperationPlayer_input_event"]
+
+[editable path="HurtBox"]
+
+[editable path="HitBox"]

@@ -1,9 +1,10 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://src/UI/customization/listview/ListViewItemType1.gd" type="Script" id=1]
-[ext_resource path="res://assert/image/check.png" type="Texture" id=2]
+[ext_resource path="res://assert/ui/check.png" type="Texture" id=2]
 [ext_resource path="res://src/UI/customization/chinese_label_font.tres" type="DynamicFont" id=3]
 [ext_resource path="res://src/UI/customization/listview/ItemActiveButton.gd" type="Script" id=4]
+
 
 
 [node name="ListViewItemType1" type="Panel"]

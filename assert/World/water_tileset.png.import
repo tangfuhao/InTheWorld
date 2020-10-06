@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Group 2.png-508d4f78c6580262af6637f80c6989d7.stex"
+path="res://.import/water_tileset.png-4a379da18fe0267695c306c329012506.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assert/image/Group 2.png"
-dest_files=[ "res://.import/Group 2.png-508d4f78c6580262af6637f80c6989d7.stex" ]
+source_file="res://assert/World/water_tileset.png"
+dest_files=[ "res://.import/water_tileset.png-4a379da18fe0267695c306c329012506.stex" ]
 
 [params]
 

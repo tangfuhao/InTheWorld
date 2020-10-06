@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Group 6.png-58e64472ee4ac46eb56588f1eba0104a.stex"
+path="res://.import/wrong.png-e2e4deff266ef59905969d081ea5cfc2.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assert/image/Group 6.png"
-dest_files=[ "res://.import/Group 6.png-58e64472ee4ac46eb56588f1eba0104a.stex" ]
+source_file="res://assert/ui/wrong.png"
+dest_files=[ "res://.import/wrong.png-e2e4deff266ef59905969d081ea5cfc2.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Group 6 Copy.png-7c4e84f1600635cebe4b01dd43e6ccc0.stex"
+path="res://.import/maps.png-b57157f8af2bf824cd441341c1f616e4.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assert/image/Group 6 Copy.png"
-dest_files=[ "res://.import/Group 6 Copy.png-7c4e84f1600635cebe4b01dd43e6ccc0.stex" ]
+source_file="res://assert/World/maps.png"
+dest_files=[ "res://.import/maps.png-b57157f8af2bf824cd441341c1f616e4.stex" ]
 
 [params]
 

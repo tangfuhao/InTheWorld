@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Group 4.png-85f6271ae93b7547fcd230f5f24c8949.stex"
+path="res://.import/InventoryPanelBg.png-98927e9039b105a762206bf5a456918a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assert/image/Group 4.png"
-dest_files=[ "res://.import/Group 4.png-85f6271ae93b7547fcd230f5f24c8949.stex" ]
+source_file="res://assert/ui/InventoryPanelBg.png"
+dest_files=[ "res://.import/InventoryPanelBg.png-98927e9039b105a762206bf5a456918a.stex" ]
 
 [params]
 

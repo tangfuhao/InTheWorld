@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/wrong.png-7fa0fb6d09d70dc2b54dbfef4a6a2b1d.stex"
+path="res://.import/ReceiverTextNodeBkg.png-b7f873643e0a73f16fa582f89bedd458.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assert/image/wrong.png"
-dest_files=[ "res://.import/wrong.png-7fa0fb6d09d70dc2b54dbfef4a6a2b1d.stex" ]
+source_file="res://assert/ui/ReceiverTextNodeBkg.png"
+dest_files=[ "res://.import/ReceiverTextNodeBkg.png-b7f873643e0a73f16fa582f89bedd458.stex" ]
 
 [params]
 

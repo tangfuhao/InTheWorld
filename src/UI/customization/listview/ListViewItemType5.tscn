@@ -1,9 +1,10 @@
 [gd_scene load_steps=6 format=2]
 
-[ext_resource path="res://assert/image/SenderTextNodeBkg.png" type="Texture" id=1]
-[ext_resource path="res://assert/image/xiao_ming.png" type="Texture" id=2]
+[ext_resource path="res://assert/ui/SenderTextNodeBkg.png" type="Texture" id=1]
+[ext_resource path="res://assert/ui/xiao_ming.png" type="Texture" id=2]
 [ext_resource path="res://assert/font/sarasa-gothic-sc-regular.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://src/UI/customization/listview/ListViewItemType3.gd" type="Script" id=4]
+
 
 [sub_resource type="DynamicFont" id=1]
 font_data = ExtResource( 3 )

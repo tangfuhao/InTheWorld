@@ -1,6 +1,6 @@
 extends Panel
-const active_logo = preload("res://assert/image/check.png")
-const un_active_logo = preload("res://assert/image/wrong.png")
+const active_logo = preload("res://assert/ui/check.png")
+const un_active_logo = preload("res://assert/ui/wrong.png")
 
 onready var label = $Label
 onready var background =$Backgournd

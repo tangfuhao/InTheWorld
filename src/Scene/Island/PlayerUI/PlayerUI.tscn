@@ -1,0 +1,409 @@
+[gd_scene load_steps=9 format=2]
+
+[ext_resource path="res://src/UI/customization/chinese_label_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://src/Scene/Island/PlayerUI/PlayerUI.gd" type="Script" id=2]
+[ext_resource path="res://src/UI/customization/listview/CommonListView.tscn" type="PackedScene" id=3]
+[ext_resource path="res://assert/ui/InventoryPanelBg.png" type="Texture" id=4]
+[ext_resource path="res://src/Scene/Island/PlayerUI/inventory/PlayerInventory.gd" type="Script" id=5]
+[ext_resource path="res://assert/ui/SalesPanelBg.png" type="Texture" id=6]
+[ext_resource path="res://src/Scene/Island/PlayerUI/inventory/GridBackPack.gd" type="Script" id=7]
+[ext_resource path="res://src/Scene/Island/PlayerUI/inventory/EquipmentSlots.gd" type="Script" id=8]
+
+[node name="PlayerUI" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -50.0
+grow_vertical = 0
+rect_min_size = Vector2( 0, 50 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FunctionButton1" type="Button" parent="HBoxContainer"]
+margin_right = 50.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+text = "1"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FunctionButton2" type="Button" parent="HBoxContainer"]
+margin_left = 54.0
+margin_right = 104.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+text = "2"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FunctionButton3" type="Button" parent="HBoxContainer"]
+margin_left = 108.0
+margin_right = 158.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+text = "3"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="FunctionButto4" type="Button" parent="HBoxContainer"]
+margin_left = 162.0
+margin_right = 212.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+text = "4"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerStatusPanel" type="WindowDialog" parent="."]
+visible = true
+anchor_top = 0.5
+anchor_bottom = 0.5
+margin_left = 96.0
+margin_top = -194.0
+margin_right = 359.0
+margin_bottom = 229.0
+window_title = "playerstate"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerStatusPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="IDLabel" type="Label" parent="PlayerStatusPanel/VBoxContainer"]
+margin_top = -1.0
+margin_right = 263.0
+margin_bottom = 49.0
+rect_min_size = Vector2( 0, 50 )
+custom_fonts/font = ExtResource( 1 )
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="EquipmentSlots" type="Control" parent="PlayerStatusPanel/VBoxContainer"]
+margin_top = 54.0
+margin_right = 263.0
+margin_bottom = 234.0
+rect_min_size = Vector2( 0, 180 )
+script = ExtResource( 8 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Panel" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
+margin_left = 19.2188
+margin_top = 38.9446
+margin_right = 79.2188
+margin_bottom = 98.9446
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 1 )
+text = "近战"
+align = 1
+valign = 1
+
+[node name="Panel2" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
+margin_left = 90.344
+margin_top = 37.2227
+margin_right = 150.344
+margin_bottom = 97.2227
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots/Panel2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 1 )
+text = "投掷"
+align = 1
+valign = 1
+
+[node name="Panel3" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
+margin_left = 164.385
+margin_top = 36.6488
+margin_right = 224.385
+margin_bottom = 96.6488
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots/Panel3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 1 )
+text = "服装"
+align = 1
+valign = 1
+
+[node name="Panel4" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
+margin_left = 20.8706
+margin_top = 106.395
+margin_right = 80.8706
+margin_bottom = 166.395
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots/Panel4"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 1 )
+text = "1"
+align = 1
+valign = 1
+
+[node name="Panel5" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
+margin_left = 91.9958
+margin_top = 104.673
+margin_right = 151.996
+margin_bottom = 164.673
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots/Panel5"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 1 )
+text = "2"
+align = 1
+valign = 1
+
+[node name="Panel6" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
+margin_left = 166.037
+margin_top = 104.099
+margin_right = 226.037
+margin_bottom = 164.099
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots/Panel6"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 1 )
+text = "3"
+align = 1
+valign = 1
+
+[node name="CommonListView" parent="PlayerStatusPanel/VBoxContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 238.0
+margin_right = 263.0
+margin_bottom = 423.0
+size_flags_vertical = 3
+
+[node name="PlayerInventory" type="WindowDialog" parent="."]
+visible = true
+margin_left = 353.159
+margin_top = 205.885
+margin_right = 957.159
+margin_bottom = 573.885
+window_title = "package"
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="GridBackPack" type="TextureRect" parent="PlayerInventory"]
+margin_left = 30.0
+margin_top = 45.0
+margin_right = 430.0
+margin_bottom = 345.0
+texture = ExtResource( 4 )
+script = ExtResource( 7 )
+
+[node name="Label" type="Label" parent="PlayerInventory"]
+margin_left = 30.0
+margin_right = 429.0
+margin_bottom = 42.0
+custom_fonts/font = ExtResource( 1 )
+text = "负重值：12/30"
+valign = 1
+
+[node name="Label2" type="Label" parent="PlayerInventory"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 29.1556
+margin_top = -89.8444
+margin_right = -268.844
+margin_bottom = -0.84436
+
+[node name="Label3" type="Label" parent="PlayerInventory"]
+margin_left = 456.0
+margin_top = 50.0
+margin_right = 580.0
+margin_bottom = 342.0
+custom_fonts/font = ExtResource( 1 )
+text = "简介"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayeSales" type="WindowDialog" parent="."]
+visible = true
+margin_left = 644.734
+margin_top = 620.196
+margin_right = 892.734
+margin_bottom = 1027.2
+window_title = "sales"
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="SalesGrid" type="TextureRect" parent="PlayeSales"]
+margin_left = 12.6447
+margin_top = 46.157
+margin_right = 112.645
+margin_bottom = 346.157
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayeSales"]
+margin_left = 12.6447
+margin_top = 1.15704
+margin_right = 103.645
+margin_bottom = 43.157
+custom_fonts/font = ExtResource( 1 )
+text = "自己"
+valign = 1
+
+[node name="ItemPanel2" type="TextureRect" parent="PlayeSales"]
+margin_left = 128.925
+margin_top = 45.0
+margin_right = 228.925
+margin_bottom = 345.0
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="PlayeSales"]
+margin_left = 128.925
+margin_top = -3.05176e-05
+margin_right = 219.925
+margin_bottom = 42.0
+custom_fonts/font = ExtResource( 1 )
+text = "对方"
+valign = 1
+
+[node name="FunctionButton4" type="Button" parent="PlayeSales"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -50.0
+margin_top = -50.0
+rect_min_size = Vector2( 50, 50 )
+custom_fonts/font = ExtResource( 1 )
+text = "成交"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayeMake" type="WindowDialog" parent="."]
+visible = true
+margin_left = 883.217
+margin_top = 140.416
+margin_right = 1184.21
+margin_bottom = 503.416
+window_title = "Make"
+__meta__ = {
+"_edit_group_": true,
+"_edit_use_anchors_": false
+}
+
+[node name="MaterialGrid" type="TextureRect" parent="PlayeMake"]
+margin_left = 12.6447
+margin_top = 46.157
+margin_right = 112.645
+margin_bottom = 346.157
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="PlayeMake"]
+margin_left = 12.6447
+margin_top = 1.15704
+margin_right = 103.645
+margin_bottom = 43.157
+custom_fonts/font = ExtResource( 1 )
+text = "原料"
+valign = 1
+
+[node name="ItemPanel2" type="TextureRect" parent="PlayeMake"]
+margin_left = 183.941
+margin_top = 50.4113
+margin_right = 283.941
+margin_bottom = 350.411
+texture = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="PlayeMake"]
+margin_left = 183.941
+margin_top = 5.41135
+margin_right = 274.941
+margin_bottom = 47.4113
+custom_fonts/font = ExtResource( 1 )
+text = "制造物"
+valign = 1
+
+[node name="FunctionButton4" type="Button" parent="PlayeMake"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -25.0
+margin_top = -25.0
+margin_right = 25.0
+margin_bottom = 25.0
+rect_min_size = Vector2( 50, 50 )
+custom_fonts/font = ExtResource( 1 )
+text = "制造"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="HBoxContainer/FunctionButton1" to="." method="_on_FunctionButton1_pressed"]
+[connection signal="pressed" from="HBoxContainer/FunctionButton2" to="." method="_on_FunctionButton2_pressed"]
+[connection signal="pressed" from="HBoxContainer/FunctionButton3" to="." method="_on_FunctionButton3_pressed"]
+[connection signal="pressed" from="HBoxContainer/FunctionButto4" to="." method="_on_FunctionButto4_pressed"]

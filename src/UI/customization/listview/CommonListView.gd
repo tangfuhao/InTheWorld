@@ -5,10 +5,13 @@ const ListItemType1 = preload("res://src/UI/customization/listview/ListViewItemT
 const ListItemType2 = preload("res://src/UI/customization/listview/ListViewItemType2.tscn")
 
 
+
 const ListItemType3 = preload("res://src/UI/customization/listview/ListViewItemType3.tscn")
 const ListItemType4 = preload("res://src/UI/customization/listview/ListViewItemType4.tscn")
 const ListItemType5 = preload("res://src/UI/customization/listview/ListViewItemType5.tscn")
 const ListItemType6 = preload("res://src/UI/customization/listview/ListViewItemType6.tscn")
+
+const ListItemType7 = preload("res://src/UI/customization/listview/ListViewItemType7.tscn")
 
 
 onready var list = $ScrollContainer/List
@@ -18,6 +21,9 @@ var last_select_item
 signal on_item_selected(index)
 signal on_item_active(index,is_active)
 signal on_item_value_change(index,key,value)
+
+var is_auto_scroll = true
+var is_manual_control = false
 
 
 func set_data_arr(_data_arr:Array):
@@ -94,6 +100,8 @@ func add_item_type_3(_index,_label,_select_arr,_selected_value):
 
 func create_list_item_by_type(_label_type):
 	match _label_type:
+		"状态值文本":
+			return ListItemType7.instance()
 		"世界文本":
 			return ListItemType4.instance()
 		"对话文本":
@@ -102,17 +110,19 @@ func create_list_item_by_type(_label_type):
 			return ListItemType5.instance()
 
 
-var is_auto_scroll = true
-var is_manual_control = false
+
 
 func add_content_text(_index,_label,_label_type):
-	var list_item = create_list_item_by_type(_label_type)
-	list_item.item_index = _index
-	list.add_child(list_item)
+	var list_item
+	if list.get_child_count() > _index:
+		list_item = list.get_child(_index)
+	else:
+		list_item = create_list_item_by_type(_label_type)
+		list_item.item_index = _index
+		list.add_child(list_item)
+
+	
 	list_item.set_label(_label)
-	
-	
-	
 	
 	if is_auto_scroll and not is_manual_control:
 		yield(get_tree(),"idle_frame")

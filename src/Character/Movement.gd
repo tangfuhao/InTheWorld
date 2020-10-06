@@ -1,5 +1,6 @@
 extends Node2D
 
+
 export(NodePath) var control_obj
 onready var control_node:Player = get_node(control_obj)
 

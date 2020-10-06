@@ -3,18 +3,16 @@ class_name Player
 
 const Bullet = preload("res://src/World/bullet/Bullet.tscn")
 
-export var show_log := false
 export var player_name = "player1"
+
 export (NodePath) var bullets_node_path
 var bullets_node_layer
 
 
 
 
-
 onready var playerName = $NameDisplay/PlayerName
 onready var movement = $Movement
-onready var cpu = $CPU
 onready var hurt_box = $HurtBox
 onready var hit_box = $HitBox
 onready var visionSensor = $VisionSensor
@@ -43,10 +41,7 @@ var preprocess_action_notify_dic = {}
 
 
 
-#固定记忆
-export (NodePath) var shower_room_path
-export (NodePath) var bed_path
-var fixed_memory = {}
+
 var radius = 8
 
 
@@ -62,12 +57,6 @@ signal disappear_notify
 signal player_action_notify(body,action_name,is_active)
 signal location_change(body,location_name)
 
-#设置状态值
-func set_status_value(_status_name,_status_value):
-	cpu.set_status_value(_status_name,_status_value)
-
-func get_status_value(_status_name):
-	return cpu.get_status_value(_status_name)
 
 func _process(_delta):
 	handle_preprocess_action_notify()
