@@ -23,8 +23,8 @@ export var walk_acceleration_max := 300
 export var run_speed_max := 120
 export var run_acceleration_max := 600
 
-export var rotation_speed_max := 360
-export var rotation_accel_max := 2000
+export var rotation_speed_max := 1000
+export var rotation_accel_max := 5000
 
 var speed_max = walk_speed_max
 var acceleration_max = walk_acceleration_max

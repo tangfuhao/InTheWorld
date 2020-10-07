@@ -37,6 +37,9 @@ func create_navigation_map(tilemap: TileMap):
 
 
 func add_traversable_tiles(tiles: Array):
+	var render_cell_size = tilemap.cell_size
+	render_cell_size.x = render_cell_size.x - 2
+	render_cell_size.y = render_cell_size.y - 2
 	for tile in tiles:
 		var id = get_id_for_point(tile)
 		astar.add_point(id, tile)
@@ -51,8 +54,8 @@ func add_traversable_tiles(tiles: Array):
 			rect.color = enabled_color
 
 			rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
-
-			rect.rect_size = tilemap.cell_size
+			
+			rect.rect_size = render_cell_size
 			rect.rect_position = tilemap.map_to_world(tile)
 
 

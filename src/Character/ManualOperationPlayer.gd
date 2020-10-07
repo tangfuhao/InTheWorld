@@ -14,6 +14,7 @@ onready var movement = $Movement
 onready var hurt_box = $HurtBox
 onready var hit_box = $HitBox
 onready var status = $Status
+onready var task_scheduler = $TaskScheduler
 
 var radius = 8
 
@@ -123,6 +124,9 @@ func take_off_clothes():
 func to_wear_clothes():
 	pass
 
+
+func add_task():
+	pass
 
 
 func get_type():

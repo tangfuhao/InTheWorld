@@ -9,10 +9,16 @@ onready var player_ui = $UI/PlayerUI
 
 var controll_player
 
+
 func _ready():
 	pathfinding.create_navigation_map(ground)
 	
 
+func _process(delta):
+	if controll_player and Input.is_action_just_pressed("operation_option"):
+		var pos = get_global_mouse_position()
+		controll_player.task_scheduler.add_tasks([["移动",pos]])
+		
 
 func _on_Player_player_selected(body):
 	controll_player = body

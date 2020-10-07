@@ -49,7 +49,10 @@ func set_action_target(_action_target):
 	full_target = action_target
 
 func set_params(_params):
-	params = _params.split("-")
+	if _params is String:
+		params = _params.split("-")
+	elif _params is Array:
+		params = _params
 	
 func get_params():
 	if params and not params.empty():
@@ -66,7 +69,7 @@ func action_execute_notity_to_message():
 	if not excute_action and (goal_status == STATE.GOAL_ACTIVE or goal_status == STATE.GOAL_COMPLETED):
 		excute_action = true
 
-		human.notify_action(action_name,true)
+#		human.notify_action(action_name,true)
 		GlobalMessageGenerator.send_player_action(human,full_action,full_target)
 
 func action_stop_execute_notify_to_message():

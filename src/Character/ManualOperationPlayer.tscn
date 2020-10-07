@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://src/Character/ManualOperationPlayer.gd" type="Script" id=1]
 [ext_resource path="res://src/Character/LabelLayout.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://src/Character/Movement.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/Character/Line2DDraw.gd" type="Script" id=5]
 [ext_resource path="res://src/Character/status/Status.tscn" type="PackedScene" id=6]
+[ext_resource path="res://src/Character/tasks/TaskScheduler.gd" type="Script" id=7]
 [ext_resource path="res://src/Character/HurtBox.tscn" type="PackedScene" id=8]
 
 [sub_resource type="CircleShape2D" id=1]
@@ -57,6 +58,9 @@ margin_bottom = 14.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="TaskScheduler" type="Node2D" parent="."]
+script = ExtResource( 7 )
 [connection signal="input_event" from="." to="." method="_on_ManualOperationPlayer_input_event"]
 
 [editable path="HurtBox"]

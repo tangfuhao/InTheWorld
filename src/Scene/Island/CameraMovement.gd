@@ -35,9 +35,7 @@ func _process(_delta):
 	
 
 func handle_player_operation(_delta):
-	if Input.is_action_just_pressed("operation_option"):
-		pass
-	elif Input.is_action_just_pressed("back"):
+	if Input.is_action_just_pressed("back"):
 		focus_player(null)
 		emit_signal("cancle_focus_player")
 
@@ -76,13 +74,32 @@ func handle_camera_operation(_delta):
 
 
 func focus_player(_player):
-	focus_player = _player
-	if focus_player:
-		position.x = focus_player.global_position.x
-		position.y = focus_player.global_position.y
+	if focus_player == _player:
+		return
+	
+	
+	if _player:
+		self.get_parent().remove_child(self)
+		_player.add_child(self)
+		global_position.x = _player.global_position.x
+		global_position.y = _player.global_position.y
 		
 		zoom.x = 0.5
 		zoom.y = 0.5
+	else:
+		var root_node = self.get_node("/root/Island")
+		self.get_parent().remove_child(self)
+		root_node.add_child(self)
+		
+		global_position.x = focus_player.global_position.x
+		global_position.y = focus_player.global_position.y
+		zoom.x = 1
+		zoom.y = 1
+		
+	focus_player = _player
+	
+
+		
 	
 
 
