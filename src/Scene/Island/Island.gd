@@ -18,12 +18,14 @@ func _process(delta):
 	if controll_player and Input.is_action_just_pressed("operation_option"):
 		var interaction_object = GlobalRef.get_key_global(GlobalRef.global_key.mouse_interaction)
 		if interaction_object:
-			pass
+			player_ui.show_option_menu(interaction_object)
 		else:
 			var pos = get_global_mouse_position()
 			controll_player.task_scheduler.add_tasks([["移动",pos]])
 		
-		
+
+
+
 
 func _on_Player_player_selected(body):
 	controll_player = body
@@ -36,3 +38,8 @@ func _on_Player_player_selected(body):
 func _on_CameraMovement_cancle_focus_player():
 	player_ui.hide()
 	controll_player = null
+
+
+#ui操作交互
+func _on_PlayerUI_interaction_commond(_player, _target:Node2D, _task_name):
+	_player.task_scheduler.add_tasks([["移动",_target.get_global_position()],[_task_name,_target]])

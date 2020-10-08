@@ -1,48 +1,40 @@
+#主要承担两种不同的功能 
+#1，是交互物品本身
+#2，是代表一个区域
+extends Node
 class_name CommonStuff
-extends Area2D
+#物体类别
 export var stuff_type_name:String
-onready var stuff_name = stuff_type_name
-var node_name
-var display_name
+#是否是一个区域
+export var is_location := false
+#是否锁定
+var is_lock := false
+#可叠加
+var is_superposable := false
 
-export var is_location:bool
-export var is_can_be_occupy:bool
 
-onready var collision_shape = $CollisionShape2D
+onready var area_collision_shape = $StuffArea/CollisionShape2D
+onready var body_collision_shape = $StuffBody/CollisionShape2D
+
 onready var line2d = $Line2D
 onready var item_display_name = $LabelLayout/PlayerName
+
+
+
+#唯一节点名
+var node_name
+#显示名称
+var display_name
+#存储空间
+var storage
+
+
 
 var function_attribute_active_dic := {}
 var active_functon_attribute_params_dic := {}
 
-var radius = 0
-
-signal disappear_notify
-signal stuff_state_change(stuff)
-signal stuff_broke_change(stuff)
-
-var is_broke = false
-
-func is_broke(_broke):
-	if is_broke != _broke:
-		is_broke = _broke
-		emit_signal("stuff_broke_change",self)
-
-#占用用户表
-var occupy_player_arr
-#等待用户表
-var wait_player_arr
-
-func is_occupy():
-	return not occupy_player_arr.empty()
-
-func is_occupy_player(_player):
-	return occupy_player_arr.has(_player)
-
-func can_interaction(_interaction_player):
-	var can_interaction = occupy_player_arr.empty() or occupy_player_arr.has(_interaction_player)
-	return can_interaction
-
+signal disappear_notify()
+signal update_object_state(_state_name,_state_value)
 
 func _ready():
 	if !stuff_type_name.empty():
@@ -58,9 +50,13 @@ func _ready():
 			apply_phycis_config(stuff_config_json)
 			apply_function_attribute(stuff_config_json)
 			
-	if is_can_be_occupy:
-		occupy_player_arr = []
-		wait_player_arr = []
+	if is_location:
+		body_collision_shape.set_disabled(true)
+	else:
+		area_collision_shape.set_disabled(true)
+		
+	
+
 
 func apply_function_attribute(stuff_config_json):
 	var function_attribute_value_dic = stuff_config_json["function_attribute_value_dic"]
@@ -75,11 +71,14 @@ func apply_function_attribute(stuff_config_json):
 func apply_phycis_config(stuff_config_json):
 	var physics_data = stuff_config_json["physics_data"]
 	var size = physics_data["尺寸"]
-	size = float(size) * 9
-	radius = size * 0.35
-	var shape = collision_shape.get("shape")
-	shape.extents.x = size
-	shape.extents.y = size
+	size = float(size) * 500
+	var shape1 = area_collision_shape.get("shape")
+	shape1.extents.x = size
+	shape1.extents.y = size
+	
+	var shape2 = body_collision_shape.get("shape")
+	shape2.extents.x = size
+	shape2.extents.y = size
 	
 	line2d.points = PoolVector2Array(calculate_point_array(size))
 	line2d.default_color = choice_color(physics_data["颜色"])
@@ -121,36 +120,6 @@ func get_var_by_params_in_arr(_arr,_params,_value):
 	return null
 
 
-		
-
-
-
-func _on_CommonStuff_body_entered(body):
-	if is_location:
-		body.location_change(stuff_name)
-		
-	if is_can_be_occupy:
-		if occupy_player_arr.empty():
-			occupy_player_arr.push_back(body)
-			emit_signal("stuff_state_change",self)
-		else:
-			wait_player_arr.push_back(body)
-
-
-func _on_CommonStuff_body_exited(body):
-	if is_location:
-		body.location_change("空地")
-	if is_can_be_occupy:
-		if occupy_player_arr.has(body):
-			occupy_player_arr.erase(body)
-			if occupy_player_arr.empty():
-				if not wait_player_arr.empty():
-					occupy_player_arr.push_back(wait_player_arr.pop_front())
-					
-			emit_signal("stuff_state_change",self)
-		elif wait_player_arr.has(body):
-			wait_player_arr.erase(body)
-			
 func disappear():
 	notify_disappear()
 	queue_free()
@@ -160,7 +129,7 @@ func has_attribute(_params) -> bool :
 	if not _params:
 		return false
 		
-	if stuff_name == _params:
+	if stuff_type_name == _params:
 		return true
 
 	return active_functon_attribute_params_dic.has(_params)
@@ -175,10 +144,10 @@ func notify_disappear():
 
 
 
-
-func _on_CommonStuff_mouse_entered():
+func _on_StuffBody_mouse_entered():
 	GlobalRef.set_key_value_global(GlobalRef.global_key.mouse_interaction,self)
 
 
-func _on_CommonStuff_mouse_exited():
+func _on_StuffBody_mouse_exited():
 	GlobalRef.remove_value_from_key_global(GlobalRef.global_key.mouse_interaction,self)
+

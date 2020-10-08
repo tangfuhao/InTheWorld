@@ -4,6 +4,7 @@ onready var player_status_panel := $PlayerStatusPanel
 onready var player_inventory_panel := $PlayerInventory
 onready var player_sales_panel := $PlayeSales
 onready var player_make_panel := $PlayeMake
+onready var object_option_menu := $PopupMenu
 
 
 onready var grid_bkpk := $PlayerInventory/GridBackPack
@@ -12,6 +13,7 @@ onready var sales_grid := $PlayeSales/SalesGrid
 onready var material_grid := $PlayeMake/MaterialGrid
 
 var current_ui_bind_player:Player
+var option_menu_interaction_object
 var player_status_item = {}
 
 var item_held = null
@@ -19,8 +21,16 @@ var item_offset = Vector2()
 var last_container = null
 var last_pos = Vector2()
 
+signal interaction_commond(_player,_target,_task_name)
+
 func _ready():
 	$Popup.show()
+	
+	
+func show_option_menu(_interaction_object:CommonStuff):
+	option_menu_interaction_object = _interaction_object
+	object_option_menu.set_global_position(get_global_mouse_position())
+	object_option_menu.popup()
 
 func hide():
 	.hide()
@@ -121,7 +131,6 @@ func toggle_panel(_panel):
 	else:
 		_panel.show()
 
-
-
-
-
+func _on_PopupMenu_id_pressed(id):
+	var task_name = object_option_menu.get_item_text(id)
+	emit_signal("interaction_commond",current_ui_bind_player,option_menu_interaction_object,task_name)

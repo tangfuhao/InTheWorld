@@ -228,6 +228,7 @@ margin_bottom = 423.0
 size_flags_vertical = 3
 
 [node name="PlayerInventory" type="WindowDialog" parent="."]
+visible = true
 margin_left = 353.159
 margin_top = 205.885
 margin_right = 957.159
@@ -254,15 +255,6 @@ margin_bottom = 42.0
 custom_fonts/font = ExtResource( 1 )
 text = "负重值：12/30"
 valign = 1
-
-[node name="Label2" type="Label" parent="PlayerInventory"]
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 29.1556
-margin_top = -89.8444
-margin_right = -268.844
-margin_bottom = -0.84436
 
 [node name="Label3" type="Label" parent="PlayerInventory"]
 margin_left = 456.0
@@ -409,7 +401,18 @@ __meta__ = {
 visible = true
 margin_right = 8.0
 margin_bottom = 9.0
+
+[node name="PopupMenu" type="PopupMenu" parent="."]
+visible = true
+margin_right = 96.0
+margin_bottom = 130.0
+custom_fonts/font = ExtResource( 1 )
+items = [ "打开", null, 0, false, false, 0, 0, null, "", false, "关闭", null, 0, false, false, 1, 0, null, "", false, "拾取或采集", null, 0, false, false, 2, 0, null, "", false, "攻击", null, 0, false, false, 3, 0, null, "", false, "投掷", null, 0, false, false, 4, 0, null, "", false, "存或取", null, 0, false, false, 5, 0, null, "", false ]
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="HBoxContainer/FunctionButton1" to="." method="_on_FunctionButton1_pressed"]
 [connection signal="pressed" from="HBoxContainer/FunctionButton2" to="." method="_on_FunctionButton2_pressed"]
 [connection signal="pressed" from="HBoxContainer/FunctionButton3" to="." method="_on_FunctionButton3_pressed"]
 [connection signal="pressed" from="HBoxContainer/FunctionButto4" to="." method="_on_FunctionButto4_pressed"]
+[connection signal="id_pressed" from="PopupMenu" to="." method="_on_PopupMenu_id_pressed"]

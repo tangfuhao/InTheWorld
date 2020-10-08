@@ -89,7 +89,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/Character/tasks/Close.gd"
 }, {
-"base": "Area2D",
+"base": "Node",
 "class": "CommonStuff",
 "language": "GDScript",
 "path": "res://src/World/stuff/CommonStuff.gd"
@@ -405,7 +405,7 @@ _global_script_classes=[ {
 "path": "res://src/Character/tasks/OOXX.gd"
 }, {
 "base": "Reference",
-"class": "Open",
+"class": "OpenOrUse",
 "language": "GDScript",
 "path": "res://src/Character/tasks/Open.gd"
 }, {
@@ -714,7 +714,7 @@ _global_script_class_icons={
 "MoveTo": "",
 "NoLimitTask": "",
 "OOXX": "",
-"Open": "",
+"OpenOrUse": "",
 "Operator": "",
 "OrderTakeOut": "",
 "PackageItemModel": "",
