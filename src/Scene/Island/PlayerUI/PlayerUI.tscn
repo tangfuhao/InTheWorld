@@ -406,8 +406,9 @@ __meta__ = {
 }
 
 [node name="Popup" type="Popup" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
+visible = true
+margin_right = 8.0
+margin_bottom = 9.0
 [connection signal="pressed" from="HBoxContainer/FunctionButton1" to="." method="_on_FunctionButton1_pressed"]
 [connection signal="pressed" from="HBoxContainer/FunctionButton2" to="." method="_on_FunctionButton2_pressed"]
 [connection signal="pressed" from="HBoxContainer/FunctionButton3" to="." method="_on_FunctionButton3_pressed"]

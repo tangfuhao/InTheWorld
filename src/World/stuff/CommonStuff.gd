@@ -171,3 +171,14 @@ func get_type():
 func notify_disappear():
 	emit_signal("disappear_notify",self)
 
+
+
+
+
+
+func _on_CommonStuff_mouse_entered():
+	GlobalRef.set_key_value_global(GlobalRef.global_key.mouse_interaction,self)
+
+
+func _on_CommonStuff_mouse_exited():
+	GlobalRef.remove_value_from_key_global(GlobalRef.global_key.mouse_interaction,self)

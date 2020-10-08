@@ -773,6 +773,7 @@ config/icon="res://icon.png"
 IDGenerator="*res://src/Global/IDGenerator.gd"
 GlobalMessageGenerator="*res://src/Global/GlobalMessageGenerator.gd"
 DataManager="*res://src/Global/DataManager.gd"
+GlobalRef="*res://src/Global/GlobalRef.gd"
 
 [display]
 

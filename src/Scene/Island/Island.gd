@@ -16,8 +16,13 @@ func _ready():
 
 func _process(delta):
 	if controll_player and Input.is_action_just_pressed("operation_option"):
-		var pos = get_global_mouse_position()
-		controll_player.task_scheduler.add_tasks([["移动",pos]])
+		var interaction_object = GlobalRef.get_key_global(GlobalRef.global_key.mouse_interaction)
+		if interaction_object:
+			pass
+		else:
+			var pos = get_global_mouse_position()
+			controll_player.task_scheduler.add_tasks([["移动",pos]])
+		
 		
 
 func _on_Player_player_selected(body):

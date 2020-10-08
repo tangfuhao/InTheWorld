@@ -3,9 +3,6 @@
 [ext_resource path="res://src/World/stuff/CommonStuff.gd" type="Script" id=1]
 [ext_resource path="res://src/Character/LabelLayout.tscn" type="PackedScene" id=2]
 
-
-
-
 [sub_resource type="RectangleShape2D" id=1]
 
 [node name="CommonStuff" type="Area2D"]
@@ -30,5 +27,7 @@ margin_right = 35.7197
 margin_bottom = -0.000991821
 [connection signal="body_entered" from="." to="." method="_on_CommonStuff_body_entered"]
 [connection signal="body_exited" from="." to="." method="_on_CommonStuff_body_exited"]
+[connection signal="mouse_entered" from="." to="." method="_on_CommonStuff_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_CommonStuff_mouse_exited"]
 
 [editable path="LabelLayout"]
