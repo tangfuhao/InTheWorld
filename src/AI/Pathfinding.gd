@@ -4,6 +4,7 @@ class_name Pathfinding
 
 export (Color) var enabled_color
 export (Color) var disabled_color
+export (Color) var interaction_tile_color
 export (bool) var should_display_grid := true
 
 
@@ -74,6 +75,92 @@ func connect_traversable_tiles(tiles: Array):
 
 				astar.connect_points(id, target_id, true)
 
+
+#记录距离交互物品最近的tile
+var stuff_interaction_tile_dic = {}
+
+func set_collision_stuff_global_rect(_rect:Rect2):
+	
+	var start_point = tilemap.world_to_map(_rect.position)
+	var end_point = tilemap.world_to_map(_rect.end)
+	for x in range(start_point.x,end_point.x + 1):
+		for y in range(start_point.y,end_point.y + 1):
+			var tile_coord = Vector2(x,y)
+			var id = get_id_for_point(tile_coord)
+			if astar.has_point(id):
+				astar.set_point_disabled(id, true)
+				if should_display_grid:
+					grid_rects[str(id)].color = disabled_color
+					
+	#选取附近的交互tile
+	var reachable_tile_coord_arr = pick_reachable_tile_for_interaction(_rect,start_point,end_point)
+	for tile_coord in reachable_tile_coord_arr:
+		var id = get_id_for_point(tile_coord)
+		if should_display_grid:
+			grid_rects[str(id)].color = interaction_tile_color
+
+		
+				
+					
+#选取附近的交互tile
+func pick_reachable_tile_for_interaction(_rect,start_point,end_point) ->Array:
+	var stuff_global_position = Vector2(_rect.position.x + _rect.size.x / 2,_rect.position.y + _rect.size.y / 2)
+	var extend_min_x = start_point.x - 1
+	var extend_max_x = end_point.x + 1
+	var extend_min_y = start_point.y - 1
+	var extend_max_y = end_point.y + 1
+	var reachable_tile_coord_arr = []
+	
+	#最小x y遍历
+	var reachable_tile_coord = pick_top_bottom_side_reachable_tile_coord(extend_min_y,extend_max_y + 1,extend_min_x,stuff_global_position)
+	reachable_tile_coord_arr.push_back(reachable_tile_coord)
+	
+	#最大x y遍历
+	reachable_tile_coord = pick_top_bottom_side_reachable_tile_coord(extend_min_y,extend_max_y + 1,extend_max_x,stuff_global_position)
+	reachable_tile_coord_arr.push_back(reachable_tile_coord)
+	
+	#最小y x遍历
+	reachable_tile_coord = pick_left_right_side_reachable_tile_coord(extend_min_x,extend_max_x + 1,extend_min_y,stuff_global_position)
+	reachable_tile_coord_arr.push_back(reachable_tile_coord)
+	
+	#最大y x遍历
+	reachable_tile_coord = pick_left_right_side_reachable_tile_coord(extend_min_x,extend_max_x + 1,extend_max_y,stuff_global_position)
+	reachable_tile_coord_arr.push_back(reachable_tile_coord)
+	
+	return reachable_tile_coord_arr
+
+func pick_top_bottom_side_reachable_tile_coord(_loop_start,_loop_end,_x,stuff_global_position) -> Vector2:
+	var temp_min_distance = 9223372036854775807
+	var reachable_tile_coord = null
+	for one_coord in range(_loop_start,_loop_end + 1):
+
+		var tile_coord = Vector2(_x,one_coord)
+		
+		var id = get_id_for_point(tile_coord)
+		if astar.has_point(id) and not astar.is_point_disabled(id):
+			var point_world = tilemap.map_to_world(tile_coord) + half_cell_size
+			var distance_to_stuff = point_world.distance_to(stuff_global_position)
+			if distance_to_stuff < temp_min_distance:
+				temp_min_distance = distance_to_stuff
+				reachable_tile_coord = tile_coord
+
+	return reachable_tile_coord
+	
+func pick_left_right_side_reachable_tile_coord(_loop_start,_loop_end,_y,stuff_global_position) -> Vector2:
+	var temp_min_distance = 9223372036854775807
+	var reachable_tile_coord = null
+	for one_coord in range(_loop_start,_loop_end + 1):
+		var tile_coord = Vector2(one_coord,_y)
+		
+		var id = get_id_for_point(tile_coord)
+		if astar.has_point(id) and not astar.is_point_disabled(id):
+			var point_world = tilemap.map_to_world(tile_coord) + half_cell_size
+			var distance_to_stuff = point_world.distance_to(stuff_global_position)
+			if distance_to_stuff < temp_min_distance:
+				temp_min_distance = distance_to_stuff
+				reachable_tile_coord = tile_coord
+
+	return reachable_tile_coord
 
 func update_navigation_map():
 	for point in astar.get_points():

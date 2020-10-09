@@ -1,7 +1,7 @@
 #主要承担两种不同的功能 
 #1，是交互物品本身
 #2，是代表一个区域
-extends Node
+extends Node2D
 class_name CommonStuff
 #物体类别
 export var stuff_type_name:String
@@ -27,17 +27,20 @@ var node_name
 var display_name
 #存储空间
 var storage
+#边长
+var side_length
 
 
 
 var function_attribute_active_dic := {}
 var active_functon_attribute_params_dic := {}
 
+
 signal disappear_notify()
-signal update_object_state(_state_name,_state_value)
+signal stuff_update_state(_state_name,_state_value)
 
 func _ready():
-	if !stuff_type_name.empty():
+	if not stuff_type_name.empty():
 		item_display_name.text = stuff_type_name
 		node_name = stuff_type_name + IDGenerator.pop_id_index()
 		display_name = stuff_type_name
@@ -54,8 +57,16 @@ func _ready():
 		body_collision_shape.set_disabled(true)
 	else:
 		area_collision_shape.set_disabled(true)
-		
 	
+	
+	#更新地图上点的占用
+	call_deferred("emit_signal","stuff_update_state","position",self)
+	
+
+func get_global_rect() -> Rect2:
+	var global_postion = get_global_position()
+	var half_side_length = side_length / 2
+	return Rect2(global_postion.x - half_side_length,global_postion.y - half_side_length,side_length,side_length)
 
 
 func apply_function_attribute(stuff_config_json):
@@ -70,17 +81,18 @@ func apply_function_attribute(stuff_config_json):
 
 func apply_phycis_config(stuff_config_json):
 	var physics_data = stuff_config_json["physics_data"]
-	var size = physics_data["尺寸"]
-	size = float(size) * 500
+	side_length = physics_data["尺寸"]
+	side_length = float(side_length) * 10
+	var half_side_length = side_length / 2
 	var shape1 = area_collision_shape.get("shape")
-	shape1.extents.x = size
-	shape1.extents.y = size
+	shape1.extents.x = half_side_length
+	shape1.extents.y = half_side_length
 	
 	var shape2 = body_collision_shape.get("shape")
-	shape2.extents.x = size
-	shape2.extents.y = size
+	shape2.extents.x = half_side_length
+	shape2.extents.y = half_side_length
 	
-	line2d.points = PoolVector2Array(calculate_point_array(size))
+	line2d.points = PoolVector2Array(calculate_point_array(half_side_length))
 	line2d.default_color = choice_color(physics_data["颜色"])
 
 func calculate_point_array(_radius):
