@@ -19,10 +19,6 @@ var half_cell_size: Vector2
 var used_rect: Rect2
 
 
-var update_navigation_for_tilemap = false
-
-#func _physics_process(delta: float) -> void:
-#	update_navigation_map()
 
 
 func create_navigation_map(tilemap: TileMap):
@@ -77,10 +73,15 @@ func connect_traversable_tiles(tiles: Array):
 
 
 #记录距离交互物品最近的tile
-var stuff_interaction_tile_dic = {}
-
-func set_collision_stuff_global_rect(_rect:Rect2):
+var stuff_interaction_coord_dic = {}
+func get_stuff_interaction_coords(_stuff):
+	if stuff_interaction_coord_dic.has(_stuff):
+		return stuff_interaction_coord_dic[_stuff]
+	return []
 	
+
+func set_collision_stuff_global_rect(_stuff):
+	var _rect = _stuff.get_global_rect()
 	var start_point = tilemap.world_to_map(_rect.position)
 	var end_point = tilemap.world_to_map(_rect.end)
 	for x in range(start_point.x,end_point.x + 1):
@@ -94,11 +95,14 @@ func set_collision_stuff_global_rect(_rect:Rect2):
 					
 	#选取附近的交互tile
 	var reachable_tile_coord_arr = pick_reachable_tile_for_interaction(_rect,start_point,end_point)
+	var reachable_global_coord_arr = []
 	for tile_coord in reachable_tile_coord_arr:
 		var id = get_id_for_point(tile_coord)
 		if should_display_grid:
 			grid_rects[str(id)].color = interaction_tile_color
-
+		reachable_global_coord_arr.push_back(tilemap.map_to_world(tile_coord))
+	
+	stuff_interaction_coord_dic[_stuff] = reachable_global_coord_arr
 		
 				
 					
@@ -162,31 +166,31 @@ func pick_left_right_side_reachable_tile_coord(_loop_start,_loop_end,_y,stuff_gl
 
 	return reachable_tile_coord
 
-func update_navigation_map():
-	for point in astar.get_points():
-		astar.set_point_disabled(point, false)
-		if should_display_grid:
-			grid_rects[str(point)].color = enabled_color
-
-	var obstacles = get_tree().get_nodes_in_group("obstacles")
-
-	for obstacle in obstacles:
-		if obstacle is TileMap and not update_navigation_for_tilemap:
-			update_navigation_for_tilemap = true
-			var tiles = obstacle.get_used_cells()
-			for tile in tiles:
-				var id = get_id_for_point(tile)
-				if astar.has_point(id):
-					astar.set_point_disabled(id, true)
-					if should_display_grid:
-						grid_rects[str(id)].color = disabled_color
-		if obstacle is KinematicBody2D:
-			var tile_coord = tilemap.world_to_map(obstacle.collision_shape.global_position)
-			var id = get_id_for_point(tile_coord)
-			if astar.has_point(id):
-				astar.set_point_disabled(id, true)
-				if should_display_grid:
-					grid_rects[str(id)].color = disabled_color
+#func update_navigation_map():
+#	for point in astar.get_points():
+#		astar.set_point_disabled(point, false)
+#		if should_display_grid:
+#			grid_rects[str(point)].color = enabled_color
+#
+#	var obstacles = get_tree().get_nodes_in_group("obstacles")
+#
+#	for obstacle in obstacles:
+#		if obstacle is TileMap and not update_navigation_for_tilemap:
+#			update_navigation_for_tilemap = true
+#			var tiles = obstacle.get_used_cells()
+#			for tile in tiles:
+#				var id = get_id_for_point(tile)
+#				if astar.has_point(id):
+#					astar.set_point_disabled(id, true)
+#					if should_display_grid:
+#						grid_rects[str(id)].color = disabled_color
+#		if obstacle is KinematicBody2D:
+#			var tile_coord = tilemap.world_to_map(obstacle.collision_shape.global_position)
+#			var id = get_id_for_point(tile_coord)
+#			if astar.has_point(id):
+#				astar.set_point_disabled(id, true)
+#				if should_display_grid:
+#					grid_rects[str(id)].color = disabled_color
 
 
 func get_id_for_point(point: Vector2):

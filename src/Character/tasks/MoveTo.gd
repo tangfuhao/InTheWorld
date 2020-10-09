@@ -3,7 +3,7 @@ class_name MoveTo
 #接近目标的任务
 
 var target_pos
-var interaction_distance
+
 var path_world:Array
 var next_destination = null
 
@@ -12,12 +12,11 @@ func active():
 	.active()
 	
 	#目标位置 
-	target_pos = get_index_params(0)
-	#交互距离x
-	interaction_distance = 45.3
-#	interaction_distance = get_index_params(1)
-	
-	
+	action_target = get_index_params(0)
+	if action_target is CommonStuff:
+		target_pos = action_target.get_global_position()
+	else:
+		target_pos = action_target
 
 	if human.is_approach(target_pos,10):
 		goal_status = STATE.GOAL_COMPLETED
@@ -42,8 +41,25 @@ func active():
 
 func path_finding():
 	var path_finding = human.get_node("/root/Island/Pathfinding")
-	var path_world = path_finding.get_new_path(human.get_global_position(),target_pos)
-	return path_world
+	if action_target is CommonStuff and not action_target.is_location:
+		var stuff_interaction_coord_arr = path_finding.get_stuff_interaction_coords(action_target)
+		var min_distance = 5000000000
+		var min_coord
+		for coord in stuff_interaction_coord_arr:
+			var distance = human.get_global_position().distance_to(coord)
+			if distance < min_distance:
+				min_coord = coord
+				min_distance = distance
+		if min_coord:
+			var path_world = path_finding.get_new_path(human.get_global_position(),min_coord)
+			return path_world
+		else:
+			return []
+	else:
+		var path_world = path_finding.get_new_path(human.get_global_position(),target_pos)
+		return path_world
+	
+
 	
 
 func process(_delta: float):
