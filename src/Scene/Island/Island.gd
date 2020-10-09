@@ -42,12 +42,12 @@ func _on_CameraMovement_cancle_focus_player():
 
 #ui操作交互
 func _on_PlayerUI_interaction_commond(_player, _target:Node2D, _task_name):
-	_player.task_scheduler.add_tasks([["移动",_target.get_global_position()],[_task_name,_target]])
+	_player.task_scheduler.add_tasks([["移动",_target],[_task_name,_target]])
 
 
 #物品的状态更新
 func _on_Gun_stuff_update_state(_state_name, _state_value):
 	if _state_name == "position":
 		if not _state_value.is_location:
-			var stuff_global_rect = _state_value.get_global_rect()
-			pathfinding.set_collision_stuff_global_rect(stuff_global_rect)
+			
+			pathfinding.set_collision_stuff_global_rect(_state_value)
