@@ -32,7 +32,15 @@ func show_option_menu(_interaction_object:CommonStuff):
 	option_menu_interaction_object = _interaction_object
 	object_option_menu.set_global_position(get_global_mouse_position())
 	object_option_menu.popup()
-
+	
+func show_action_bar(_player,_action_time):
+	if _player == current_ui_bind_player:
+		var position = _player.get_global_transform_with_canvas().get_origin()
+		action_progress_bar.play(position,_action_time)
+	
+	
+	
+	
 func hide():
 	.hide()
 	player_status_panel.hide()

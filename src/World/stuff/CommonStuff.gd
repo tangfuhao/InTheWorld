@@ -153,7 +153,10 @@ func notify_disappear():
 	emit_signal("disappear_notify",self)
 
 
-
+func get_function(_function_name):
+	if active_functon_attribute_params_dic.has(_function_name):
+		return active_functon_attribute_params_dic[_function_name]
+	return null
 
 
 func _on_StuffBody_mouse_entered():
