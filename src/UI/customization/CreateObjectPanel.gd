@@ -14,17 +14,12 @@ onready var clean_button = $HBoxContainer/VBoxContainer/HBoxContainer/CleanButto
 onready var save_button = $HBoxContainer/VBoxContainer/HBoxContainer/SaveButton
 
 const physic_param_dic = {"动力学性质":["刚体","柔性物体","流体","织物","膏状物"],
-						"尺寸":["0.1","0.5","1","5","10"],
+						"尺寸":["0.1","0.5","1","5","10","50","100"],
+						"颜色":["绿","黑","白","红","棕","黄","橙","灰"],
+						"重量":["0.1","0.5","1","5","10","50","100"],
+						"耐久度":["100","150"],
 						"几何形状":["球体","正方体","长方形","圆柱体","不规则体"],
 						"是否中空":["是","否"],
-						"重量":["0.1","1","10","100","1000"],
-						"颜色":["绿","黑","白","红","棕","黄","橙","灰"],
-						"透明度":["0","33","66","100"],
-						"气味":["气味1","气味2","气味3"],
-						"是否可燃":["是","否"],
-						"是否是有机物":["是","否"],
-						"是否有营养":["是","否"],
-						"损耗方式":["磨损","破碎","形变","溶解","故障","没电"]
 						}
 
 
@@ -215,12 +210,12 @@ func get_dic_value_index_from_arr(_arr:Array,_key:String,_value:String):
 
 func load_stuff_config(_stuff_file_path):
 	var customer_object = CustomerObjectModel.new()
-	var object_config_dic = load_json_arr(_stuff_file_path)
+	var object_config_dic = DataManager.load_json_data(_stuff_file_path)
 	customer_object.set_config(object_config_dic)
 	return customer_object
 
 func load_physic_rules():
-	var physics_arr = load_json_arr("res://config/item_physics_rules.json")
+	var physics_arr = DataManager.load_json_data("res://config/item_physics_rules.json")
 	parse_physics_rules(physics_arr)
 
 func parse_physics_rules(_physics_arr):
