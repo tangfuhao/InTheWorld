@@ -4,6 +4,24 @@ onready var player_status_listview := $VBoxContainer/CommonListView
 onready var id_label = $VBoxContainer/IDLabel
 var player_status_item = {}
 
+func _ready():
+	if(not visible):
+		deactivate()
+
+func deactivate():
+	hide()
+	set_process(false)
+	set_physics_process(false)
+	set_process_unhandled_input(false)
+	set_process_input(false)
+	
+func activate():
+	show()
+	set_process(true)
+	set_physics_process(true)
+	set_process_unhandled_input(true)
+	set_process_input(true)
+
 func setup_player(_player:Player):
 	var id_content = "id:%s" % _player.display_name
 	id_label.text = id_content

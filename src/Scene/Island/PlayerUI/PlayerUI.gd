@@ -25,8 +25,8 @@ signal interaction_commond(_player,_target,_task_name)
 
 func _ready():
 	$Popup.show()
-	
-	
+
+
 func show_option_menu(_interaction_object:CommonStuff):
 	option_menu_interaction_object = _interaction_object
 	object_option_menu.set_global_position(get_global_mouse_position())
@@ -38,6 +38,7 @@ func hide():
 	player_inventory_panel.hide()
 	player_sales_panel.hide()
 	player_make_panel.hide()
+	action_progress_bar.hide()
 
 func setup_player(_player:Player):
 	if current_ui_bind_player == _player:
@@ -97,7 +98,7 @@ func release(cursor_pos):
 func get_container_under_cursor(cursor_pos):
 	var containers = [grid_bkpk,eq_slots,sales_grid,material_grid]
 	for c in containers:
-		if c.get_global_rect().has_point(cursor_pos):
+		if c.is_visible_in_tree() and c.get_global_rect().has_point(cursor_pos):
 			return c
 	return null
 
@@ -127,9 +128,9 @@ func _on_FunctionButto4_pressed():
 
 func toggle_panel(_panel):
 	if _panel.is_visible():
-		_panel.hide()
+		_panel.deactivate()
 	else:
-		_panel.show()
+		_panel.activate()
 
 func _on_PopupMenu_id_pressed(id):
 	var task_name = object_option_menu.get_item_text(id)

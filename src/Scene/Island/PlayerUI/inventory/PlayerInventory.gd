@@ -5,9 +5,27 @@ const item_base = preload("res://src/Scene/Island/PlayerUI/inventory/ItemBase.ts
 onready var grid_bkpk := $GridBackPack
 
 func _ready():
+	if not visible:
+		deactivate()
+		
 	pickup_item("s")
 	pickup_item("s")
 	pickup_item("s")
+
+
+func deactivate():
+	hide()
+	set_process(false)
+	set_physics_process(false)
+	set_process_unhandled_input(false)
+	set_process_input(false)
+	
+func activate():
+	show()
+	set_process(true)
+	set_physics_process(true)
+	set_process_unhandled_input(true)
+	set_process_input(true)
 
 
 
