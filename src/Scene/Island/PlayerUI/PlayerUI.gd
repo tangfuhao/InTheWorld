@@ -5,6 +5,7 @@ onready var player_inventory_panel := $PlayerInventory
 onready var player_sales_panel := $PlayeSales
 onready var player_make_panel := $PlayeMake
 onready var object_option_menu := $PopupMenu
+onready var action_progress_bar := $ActionProgressBar
 
 
 onready var grid_bkpk := $PlayerInventory/GridBackPack

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://src/UI/customization/chinese_label_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://src/Scene/Island/PlayerUI/PlayerUI.gd" type="Script" id=2]
@@ -11,6 +11,76 @@
 [ext_resource path="res://src/Scene/Island/PlayerUI/PlayerStatusPanel.gd" type="Script" id=9]
 [ext_resource path="res://src/Scene/Island/PlayerUI/inventory/SalesGrid.gd" type="Script" id=10]
 [ext_resource path="res://src/Scene/Island/PlayerUI/inventory/MaterialGrid.gd" type="Script" id=11]
+[ext_resource path="res://src/Scene/Island/PlayerUI/ActionProgressBar.gd" type="Script" id=12]
+[ext_resource path="res://src/Scene/Island/PlayerUI/PlayeSales.gd" type="Script" id=13]
+[ext_resource path="res://src/Scene/Island/PlayerUI/PlayeMake.gd" type="Script" id=14]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+uniform float value: hint_range(0, 100); // %
+uniform float thickness: hint_range(0, 100) = 30.; // % thickness
+uniform sampler2D fg: hint_albedo;
+uniform sampler2D bg: hint_black_albedo;
+uniform float offset: hint_range(0, 100); // %
+uniform float smoothing: hint_range(0, 100) = 5.;
+
+void fragment() {
+	vec2 point = UV - vec2(0.5);
+	float PI = 3.14159265358979323846;
+	float ang = (1. - atan(point.x, point.y) / PI) * 50. - offset;
+	if (ang < 0.)
+		ang += 100.;
+	float s = smoothing / 1000.;
+	float k = PI / 2. / s;
+	float r1 = .5 - thickness / 200.;
+	float r2 = .5;
+	float r = length(point);
+	float uy = (r2 - r) / (r2 - r1);
+	if (r > r2 || r < r1)
+		COLOR.a = 0.;
+	else {
+		if (ang <= value) 
+			COLOR = texture(fg, vec2(ang / 100., uy));
+		else
+			COLOR = texture(bg, vec2(ang / 100., uy));
+		if ((r2 - r) < s)
+			COLOR.a = sin((r2 - r) * k);
+		if ((r - r1) < s)
+			COLOR.a = sin((r - r1) * k);
+	}
+}"
+custom_defines = ""
+
+[sub_resource type="Gradient" id=3]
+offsets = PoolRealArray( 0, 0.320339, 0.772881 )
+colors = PoolColorArray( 0.811765, 0.160784, 0.160784, 1, 0.0588235, 0.121569, 0.537255, 1, 0.368627, 0.890196, 0.0745098, 1 )
+
+[sub_resource type="GradientTexture" id=4]
+gradient = SubResource( 3 )
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+shader_param/value = 100.0
+shader_param/thickness = 45.0
+shader_param/offset = 0.0
+shader_param/smoothing = 5.0
+shader_param/fg = SubResource( 4 )
+
+[sub_resource type="Animation" id=5]
+resource_name = "play"
+tracks/0/type = "value"
+tracks/0/path = NodePath(".:material:shader_param/value")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 1 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ 0.0, 100.0 ]
+}
 
 [node name="PlayerUI" type="Control"]
 anchor_right = 1.0
@@ -228,7 +298,6 @@ margin_bottom = 423.0
 size_flags_vertical = 3
 
 [node name="PlayerInventory" type="WindowDialog" parent="."]
-visible = true
 margin_left = 353.159
 margin_top = 205.885
 margin_right = 957.159
@@ -273,6 +342,7 @@ margin_top = 37.2156
 margin_right = 885.029
 margin_bottom = 444.216
 window_title = "sales"
+script = ExtResource( 13 )
 __meta__ = {
 "_edit_group_": true,
 "_edit_use_anchors_": false
@@ -337,6 +407,7 @@ margin_top = 140.416
 margin_right = 1184.21
 margin_bottom = 503.416
 window_title = "Make"
+script = ExtResource( 14 )
 __meta__ = {
 "_edit_group_": true,
 "_edit_use_anchors_": false
@@ -398,12 +469,10 @@ __meta__ = {
 }
 
 [node name="Popup" type="Popup" parent="."]
-visible = true
 margin_right = 8.0
 margin_bottom = 9.0
 
 [node name="PopupMenu" type="PopupMenu" parent="."]
-visible = true
 margin_right = 96.0
 margin_bottom = 130.0
 custom_fonts/font = ExtResource( 1 )
@@ -411,8 +480,21 @@ items = [ "打开", null, 0, false, false, 0, 0, null, "", false, "关闭", null
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ActionProgressBar" type="Panel" parent="."]
+material = SubResource( 2 )
+margin_right = 100.0
+margin_bottom = 100.0
+script = ExtResource( 12 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ActionProgressBar"]
+anims/play = SubResource( 5 )
 [connection signal="pressed" from="HBoxContainer/FunctionButton1" to="." method="_on_FunctionButton1_pressed"]
 [connection signal="pressed" from="HBoxContainer/FunctionButton2" to="." method="_on_FunctionButton2_pressed"]
 [connection signal="pressed" from="HBoxContainer/FunctionButton3" to="." method="_on_FunctionButton3_pressed"]
 [connection signal="pressed" from="HBoxContainer/FunctionButto4" to="." method="_on_FunctionButto4_pressed"]
 [connection signal="id_pressed" from="PopupMenu" to="." method="_on_PopupMenu_id_pressed"]
+[connection signal="animation_finished" from="ActionProgressBar/AnimationPlayer" to="ActionProgressBar" method="_on_AnimationPlayer_animation_finished"]
