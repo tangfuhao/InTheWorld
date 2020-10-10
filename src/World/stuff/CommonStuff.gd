@@ -78,9 +78,9 @@ func apply_function_attribute(stuff_config_json):
 			var params_arr = function_attribute_value_dic[key]
 			active_functon_attribute_params_dic[key] = params_arr
 	
-
+var physics_data
 func apply_phycis_config(stuff_config_json):
-	var physics_data = stuff_config_json["physics_data"]
+	physics_data = stuff_config_json["physics_data"]
 	side_length = physics_data["尺寸"]
 	side_length = float(side_length) * 10
 	var half_side_length = side_length / 2
@@ -158,6 +158,22 @@ func get_function(_function_name):
 		return active_functon_attribute_params_dic[_function_name]
 	return null
 
+#执行影响改变
+func excute_effect(_effect_str):
+	var effect_param_arr = _effect_str.split(",")
+	var effect_value_name = effect_param_arr[0]
+	var value = physics_data[effect_value_name]
+	physics_data[effect_param_arr[0]] = evaluateResult(value,effect_param_arr[1],effect_param_arr[2])
+
+func evaluateResult(property, condition, value) -> float:
+#	print("evaluateResult=",property, ' ', condition, ' ', value)
+	if condition == '-':
+		var result = property - value
+		return result
+	elif condition == '+':
+		var result = property + value
+		return result
+	return property
 
 func _on_StuffBody_mouse_entered():
 	GlobalRef.set_key_value_global(GlobalRef.global_key.mouse_interaction,self)

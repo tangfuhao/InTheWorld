@@ -476,7 +476,7 @@ margin_bottom = 9.0
 margin_right = 96.0
 margin_bottom = 130.0
 custom_fonts/font = ExtResource( 1 )
-items = [ "打开", null, 0, false, false, 0, 0, null, "", false, "关闭", null, 0, false, false, 1, 0, null, "", false, "拾取或采集", null, 0, false, false, 2, 0, null, "", false, "攻击", null, 0, false, false, 3, 0, null, "", false, "投掷", null, 0, false, false, 4, 0, null, "", false, "存或取", null, 0, false, false, 5, 0, null, "", false ]
+items = [ "打开", null, 0, false, false, 0, 0, null, "", false, "关闭", null, 0, false, false, 1, 0, null, "", false, "拾取", null, 0, false, false, 2, 0, null, "", false, "攻击", null, 0, false, false, 3, 0, null, "", false, "投掷", null, 0, false, false, 4, 0, null, "", false, "存或取", null, 0, false, false, 5, 0, null, "", false, "采集", null, 0, false, false, 6, 0, null, "", false ]
 __meta__ = {
 "_edit_use_anchors_": false
 }

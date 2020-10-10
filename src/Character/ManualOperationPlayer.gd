@@ -24,7 +24,7 @@ var node_name
 #显示名称
 var display_name
 
-var inventory_system
+var inventory_system:InventorySystem
 
 
 signal disappear_notify
