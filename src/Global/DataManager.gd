@@ -45,6 +45,17 @@ func preload_global_data():
 	
 	var base_action_path = config_data["base_action"]
 	base_action_dic = parse_base_task(load_json_data(base_action_path))
+	
+
+func load_common_stuff_config_json(_stuff_type_name) ->Dictionary:
+	var stuff_list = get_stuff_list()
+	var stuff_config_params = get_var_by_params_in_arr(stuff_list,"名称",_stuff_type_name)
+	if stuff_config_params:
+		var stuff_config_file_path = stuff_config_params["路径"]
+		var stuff_config_json = load_json_data(stuff_config_file_path)
+		if stuff_config_json:
+			return stuff_config_json
+	return {}
 
 
 
@@ -347,7 +358,11 @@ func get_dic_item_by_key_from_dic(_dic,_key):
 func get_item_from_dic(_item,_key):
 	return _item[_key]
 
-
+func get_var_by_params_in_arr(_arr,_params,_value):
+	for item in _arr:
+		if item[_params] == _value:
+			return item
+	return null
 
 func load_json_data(file_path):
 	var data_file = File.new()

@@ -24,44 +24,48 @@ onready var item_display_name = $LabelLayout/PlayerName
 #唯一节点名
 var node_name
 #显示名称
-var display_name
+var display_name setget _set_display_name
 #存储空间
 var storage
 #边长
 var side_length
 
 
-
+#属性
 var function_attribute_active_dic := {}
 var active_functon_attribute_params_dic := {}
-
+var physics_data:Dictionary
 
 signal disappear_notify()
 signal stuff_update_state(_state_name,_state_value)
+signal stuff_params_update(_param_name,_param_value)
+
+func _set_display_name(_name):
+	item_display_name.text = _name
 
 func _ready():
-	if not stuff_type_name.empty():
-		item_display_name.text = stuff_type_name
-		node_name = stuff_type_name + IDGenerator.pop_id_index()
-		display_name = stuff_type_name
+	if not stuff_type_name:
+		self.node_name = stuff_type_name + IDGenerator.pop_id_index()
+		self.display_name = stuff_type_name
+		setup_stuff_type_config()
 		
-		var stuff_list = DataManager.get_stuff_list()
-		var stuff_config_params = get_var_by_params_in_arr(stuff_list,"名称",stuff_type_name)
-		if stuff_config_params:
-			var stuff_config_file_path = stuff_config_params["路径"]
-			var stuff_config_json = DataManager.load_json_data(stuff_config_file_path)
-			apply_phycis_config(stuff_config_json)
-			apply_function_attribute(stuff_config_json)
-			
+	
+
+#设置自定义物品的属性更新
+func setup_stuff_type_config():
+	var stuff_config = DataManager.load_common_stuff_config_json(stuff_type_name)
+	if stuff_config:
+		apply_phycis_config(stuff_config)
+		apply_function_attribute(stuff_config)
+		
 	if is_location:
 		body_collision_shape.set_disabled(true)
 	else:
 		area_collision_shape.set_disabled(true)
-	
-	
+		
 	#更新地图上点的占用
 	call_deferred("emit_signal","stuff_update_state","position",self)
-	
+
 
 func get_global_rect() -> Rect2:
 	var global_postion = get_global_position()
@@ -78,10 +82,10 @@ func apply_function_attribute(stuff_config_json):
 			var params_arr = function_attribute_value_dic[key]
 			active_functon_attribute_params_dic[key] = params_arr
 	
-var physics_data
+
 func apply_phycis_config(stuff_config_json):
 	physics_data = stuff_config_json["physics_data"]
-	side_length = physics_data["尺寸"]
+	side_length = get_param_value("尺寸")
 	side_length = float(side_length) * 10
 	var half_side_length = side_length / 2
 	var shape1 = area_collision_shape.get("shape")
@@ -93,7 +97,7 @@ func apply_phycis_config(stuff_config_json):
 	shape2.extents.y = half_side_length
 	
 	line2d.points = PoolVector2Array(calculate_point_array(half_side_length))
-	line2d.default_color = choice_color(physics_data["颜色"])
+	line2d.default_color = choice_color(get_param_value("颜色"))
 
 func calculate_point_array(_radius):
 	var points_arr = []
@@ -124,12 +128,21 @@ func choice_color(_color):
 			return Color.gray
 	return Color.blue
 
-
-func get_var_by_params_in_arr(_arr,_params,_value):
-	for item in _arr:
-		if item[_params] == _value:
-			return item
+#获取属性值
+func get_param_value(_param_name):
+	if physics_data and physics_data.has(_param_name):
+		var stuff_param_value = physics_data[_param_name]
+		return stuff_param_value
 	return null
+
+#设置属性值
+func set_param_value(_param_name,_param_value):
+	if physics_data and physics_data.has(_param_name):
+		var stuff_param_value = physics_data[_param_name]
+		if stuff_param_value != _param_value:
+			physics_data[_param_name] = _param_value
+			emit_signal("stuff_params_update",_param_name,_param_value)
+
 
 
 func disappear():
@@ -162,8 +175,9 @@ func get_function(_function_name):
 func excute_effect(_effect_str):
 	var effect_param_arr = _effect_str.split(",")
 	var effect_value_name = effect_param_arr[0]
-	var value = physics_data[effect_value_name]
-	physics_data[effect_param_arr[0]] = evaluateResult(value,effect_param_arr[1],effect_param_arr[2])
+	var value = get_param_value(effect_value_name)
+	assert(value)
+	set_param_value(effect_value_name,evaluateResult(value,effect_param_arr[1],effect_param_arr[2]))
 
 func evaluateResult(property, condition, value) -> float:
 #	print("evaluateResult=",property, ' ', condition, ' ', value)
