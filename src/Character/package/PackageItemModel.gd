@@ -5,6 +5,7 @@ var item_name setget _set_item_name
 var node_name
 var display_name
 var function_attribute_dic = {}
+var physics_data
 
 
 func _set_item_name(_item_name):

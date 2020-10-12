@@ -44,32 +44,13 @@ signal stuff_update_state(_state_name,_state_value)
 signal stuff_params_update(_param_name,_param_value)
 
 func _set_display_name(_name):
-	item_display_name.text = _name
+	if item_display_name:
+		item_display_name.text = _name
 
 func _ready():
-	if stuff_type_name:
-		self.node_name = stuff_type_name + IDGenerator.pop_id_index()
-		self.display_name = stuff_type_name
-		setup_stuff_type_config()
+	if load_config_by_stuff_type(stuff_type_name):
+		setup_node_by_config(stuff_type_name)
 		
-	
-
-#设置自定义物品的属性更新
-func setup_stuff_type_config():
-	var stuff_config = DataManager.load_common_stuff_config_json(stuff_type_name)
-	if stuff_config:
-		apply_phycis_config(stuff_config)
-		apply_function_attribute(stuff_config)
-		
-	if is_location:
-		body_collision_shape.set_disabled(true)
-	else:
-		area_collision_shape.set_disabled(true)
-		
-	#更新地图上点的占用
-	call_deferred("emit_signal","stuff_update_state","position",self)
-
-
 func get_global_rect() -> Rect2:
 	var global_postion = get_global_position()
 	var half_side_length = side_length / 2
@@ -77,8 +58,22 @@ func get_global_rect() -> Rect2:
 	
 func can_interaction(_object:Node2D):
 	return interactive_object_list.has(_object)
-
-
+	
+#通过物品类型 初始化物品属性
+func load_config_by_stuff_type(_type) -> bool:
+	#已初始化
+	if physics_data:
+		return true
+	
+	if _type:
+		stuff_type_name = _type
+		var stuff_config = DataManager.load_common_stuff_config_json(stuff_type_name)
+		if stuff_config:
+			physics_data = stuff_config["physics_data"]
+			apply_function_attribute(stuff_config)
+			return true
+	return false
+	
 func apply_function_attribute(stuff_config_json):
 	var function_attribute_value_dic = stuff_config_json["function_attribute_value_dic"]
 	function_attribute_active_dic = stuff_config_json["function_attribute_active_status_dic"]
@@ -87,10 +82,24 @@ func apply_function_attribute(stuff_config_json):
 		if value:
 			var params_arr = function_attribute_value_dic[key]
 			active_functon_attribute_params_dic[key] = params_arr
-	
 
-func apply_phycis_config(stuff_config_json):
-	physics_data = stuff_config_json["physics_data"]
+#通过属性 初始化节点
+func setup_node_by_config(_type):
+	self.node_name = _type + IDGenerator.pop_id_index()
+	self.display_name = _type
+	apply_phycis_config()
+	
+	if is_location:
+		body_collision_shape.set_disabled(true)
+		interact_collision_shape.set_disabled(true)
+	else:
+		area_collision_shape.set_disabled(true)
+		
+	#更新地图上点的占用
+	call_deferred("emit_signal","stuff_update_state","position",self)
+
+
+func apply_phycis_config():
 	side_length = get_param_value("尺寸")
 	side_length = float(side_length) * 10
 	var half_side_length = side_length / 2
@@ -176,7 +185,9 @@ func get_type():
 	return "stuff"
 
 func notify_disappear():
-	emit_signal("disappear_notify",self)
+	#只有在场景上 才会通知这个事件
+	if is_inside_tree():
+		emit_signal("disappear_notify",self)
 
 
 func get_function(_function_name,_param_value):

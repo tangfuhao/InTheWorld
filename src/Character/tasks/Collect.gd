@@ -48,10 +48,10 @@ func terminate() ->void:
 			for item in collect_stuff_str_arr:
 				var collect_stuff_params = item.split(":")
 				var chance = float(collect_stuff_params[0])
-				var stuff_name = collect_stuff_params[1]
+				var stuff_type_name = collect_stuff_params[1]
 				
 				if randf() < chance:
-					var stuff = instance_stuff(stuff_name)
+					var stuff = DataManager.instance_stuff(stuff_type_name)
 					human.inventory_system.add_stuff_to_package(stuff)
 		if effect_str:
 			#采集影响
@@ -59,6 +59,4 @@ func terminate() ->void:
 
 
 
-func instance_stuff(_stuff_name):
-	print("instance_stuff")
-	pass
+

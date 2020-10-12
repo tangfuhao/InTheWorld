@@ -1,5 +1,6 @@
 extends Node
 
+const STUFF_MODEL = preload("res://src/World/stuff/CommonStuff.gd")
 const cnofig_file_path = "res://config/overview.json"
 const task_prefix_path = "res://src/Character/tasks/"
 var config_data
@@ -47,6 +48,8 @@ func preload_global_data():
 	base_action_dic = parse_base_task(load_json_data(base_action_path))
 	
 
+#TODO 这个地方处理不好  不应该每次从磁盘获取数据  应该从内存中拷贝一份数据
+#注意物品类别的功能属性是不可更改的 可重用数据  唯一需要拷贝的是 物理数据
 func load_common_stuff_config_json(_stuff_type_name) ->Dictionary:
 	var stuff_list = get_stuff_list()
 	var stuff_config_params = get_var_by_params_in_arr(stuff_list,"名称",_stuff_type_name)
@@ -57,7 +60,13 @@ func load_common_stuff_config_json(_stuff_type_name) ->Dictionary:
 			return stuff_config_json
 	return {}
 
-
+#创建自定义物品
+func instance_stuff(_stuff_name):
+	var stuff = STUFF_MODEL.new()
+	if stuff.load_config_by_stuff_type(_stuff_name):
+		return stuff
+	else:
+		return stuff
 
 	
 func parse_base_task(base_task_arr):

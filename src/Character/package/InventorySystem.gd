@@ -2,6 +2,9 @@ class_name InventorySystem
 #库存系统 背包系统
 var package := []
 
+#最大负重值
+var max_load_value = 100
+
 signal add_item(item)
 signal remove_item(item)
 
@@ -13,8 +16,9 @@ func add_stuff_to_package(_target):
 		
 func conver_stuff_to_item(_stuff):
 	var item = PackageItemModel.new()
-	item.item_name = _stuff.stuff_name
+	item.item_name = _stuff.stuff_type_name
 	item.function_attribute_dic = _stuff.function_attribute_active_dic
+	item.physics_data = _stuff.physics_data
 	return item
 		
 func add_item_to_package(_item):
