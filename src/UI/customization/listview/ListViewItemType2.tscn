@@ -52,9 +52,10 @@ margin_right = 1200.0
 margin_bottom = 40.0
 rect_min_size = Vector2( 50, 0 )
 theme = SubResource( 1 )
-text = "第0项第0项第0项第0项第0项第0项"
+text = "-"
 clip_text = true
 align = 1
+items = [ "-", null, false, 0, null ]
 selected = 0
 __meta__ = {
 "_edit_use_anchors_": false

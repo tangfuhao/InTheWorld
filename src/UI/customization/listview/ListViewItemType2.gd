@@ -11,7 +11,7 @@ signal item_value_change(index,key,value)
 	
 func set_selector_arr(selector_arr:Array,_selected_value):
 	if selector_arr and not selector_arr.empty(): 
-		var index = 0
+		var index = 1
 		var default_index = 0
 		for item in selector_arr:
 			dropdown.add_item(str(item),index)
@@ -28,8 +28,11 @@ func set_label(_display_label):
 	label.text = _display_label
 
 func set_edit_value(value):
-	if value:
-		text_edit.text = String(value)
+	if not value:
+		text_edit.text = ""
+	else:
+		text_edit.text = str(value)
+		
 	
 func get_key_and_value():
 	var label_str = label.text
@@ -55,5 +58,7 @@ func _on_OptionButton_item_selected(index):
 	var key = label.text
 	var id = dropdown.get_selected_id()
 	var value = dropdown.get_item_text(id)
+	if value == "-":
+		value = ""
 	set_edit_value(value)
 	emit_signal("item_value_change",item_index,key,value)
