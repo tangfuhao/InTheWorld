@@ -30,7 +30,7 @@ var display_name setget _set_display_name
 var storage
 #边长
 var side_length
-#可交互的 对象列表
+#可交互的范围 对象列表
 var interactive_object_list = []
 
 
@@ -94,17 +94,19 @@ func apply_phycis_config(stuff_config_json):
 	side_length = get_param_value("尺寸")
 	side_length = float(side_length) * 10
 	var half_side_length = side_length / 2
-	var shape1 = area_collision_shape.get("shape")
-	shape1.extents.x = half_side_length
-	shape1.extents.y = half_side_length
+
+	var shape1 = RectangleShape2D.new()
+	area_collision_shape.set_shape(shape1)
+	shape1.set_extents(Vector2(half_side_length,half_side_length))
+
+	var shape2 = RectangleShape2D.new()
+	body_collision_shape.set_shape(shape2)
+	shape2.set_extents(Vector2(half_side_length,half_side_length))
 	
-	var shape2 = body_collision_shape.get("shape")
-	shape2.extents.x = half_side_length
-	shape2.extents.y = half_side_length
-	
-	var shape3 = interact_collision_shape.get("shape")
-	shape3.extents.x = half_side_length + 5
-	shape3.extents.y = half_side_length + 5
+	var shape3 = RectangleShape2D.new()
+	interact_collision_shape.set_shape(shape3)
+	shape3.set_extents(Vector2(half_side_length + 5,half_side_length + 5))
+
 	
 	line2d.points = PoolVector2Array(calculate_point_array(half_side_length))
 	line2d.default_color = choice_color(get_param_value("颜色"))
