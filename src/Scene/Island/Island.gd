@@ -32,6 +32,7 @@ func binding_customer_node_event():
 	var child_arr = customer_node_group.get_children()
 	for item in child_arr:
 		item.connect("stuff_update_state",self,"_on_stuff_update_state")
+		item.connect("disappear_notify",self,"_on_stuff_disappear")
 
 
 func _on_Player_player_selected(body):
@@ -57,3 +58,6 @@ func _on_stuff_update_state(_state_name, _state_value):
 	if _state_name == "position":
 		if not _state_value.is_location:
 			pathfinding.set_collision_stuff_global_rect(_state_value)
+
+func _on_stuff_disappear(_stuff):
+	pathfinding.clear_collision_stuff_global_rect(_stuff)

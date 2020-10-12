@@ -72,37 +72,68 @@ func connect_traversable_tiles(tiles: Array):
 				astar.connect_points(id, target_id, true)
 
 
-#记录距离交互物品最近的tile
-var stuff_interaction_coord_dic = {}
+#交互物品 最近的到达tile 记录
+var stuff_reachable_coord_dic = {}
+#物品占用的tile 记录
+var stuff_occupation_coord_dic = {}
+
 func get_stuff_interaction_coords(_stuff):
-	if stuff_interaction_coord_dic.has(_stuff):
-		return stuff_interaction_coord_dic[_stuff]
-	return []
+	var reachable_global_coord_arr = []
+	if stuff_reachable_coord_dic.has(_stuff):
+		var reachable_map_coord_arr = stuff_reachable_coord_dic[_stuff]
+		for item in reachable_map_coord_arr:
+			reachable_global_coord_arr.push_back(tilemap.map_to_world(item))
+
+	return reachable_global_coord_arr
+
+func clear_collision_stuff_global_rect(_stuff):
+	if stuff_occupation_coord_dic.has(_stuff):
+		var occupation_coor_arr = stuff_occupation_coord_dic[_stuff]
+		for tile_coord in occupation_coor_arr:
+			var id = get_id_for_point(tile_coord)
+			if astar.has_point(id):
+				astar.set_point_disabled(id, false)
+				if should_display_grid:
+					grid_rects[str(id)].color = enabled_color
+		
+		stuff_occupation_coord_dic.erase(_stuff)
 	
+	if stuff_reachable_coord_dic.has(_stuff):
+		var reachable_map_coord_arr = stuff_reachable_coord_dic[_stuff]
+		for tile_coord in reachable_map_coord_arr:
+			var id = get_id_for_point(tile_coord)
+			if should_display_grid:
+				grid_rects[str(id)].color = enabled_color
+		stuff_reachable_coord_dic.erase(_stuff)
+			
 
 func set_collision_stuff_global_rect(_stuff):
 	var _rect = _stuff.get_global_rect()
 	var start_point = tilemap.world_to_map(_rect.position)
 	var end_point = tilemap.world_to_map(_rect.end)
+	var occupation_coor_arr = []
 	for x in range(start_point.x,end_point.x + 1):
 		for y in range(start_point.y,end_point.y + 1):
 			var tile_coord = Vector2(x,y)
 			var id = get_id_for_point(tile_coord)
 			if astar.has_point(id):
+				occupation_coor_arr.push_back(tile_coord)
 				astar.set_point_disabled(id, true)
 				if should_display_grid:
 					grid_rects[str(id)].color = disabled_color
-					
+	stuff_occupation_coord_dic[_stuff] = occupation_coor_arr
+
 	#选取附近的交互tile
 	var reachable_tile_coord_arr = pick_reachable_tile_for_interaction(_rect,start_point,end_point)
-	var reachable_global_coord_arr = []
+	var reachable_map_coord_arr = []
 	for tile_coord in reachable_tile_coord_arr:
 		var id = get_id_for_point(tile_coord)
+		reachable_map_coord_arr.push_back(tile_coord)
 		if should_display_grid:
 			grid_rects[str(id)].color = interaction_tile_color
-		reachable_global_coord_arr.push_back(tilemap.map_to_world(tile_coord))
+		
 	
-	stuff_interaction_coord_dic[_stuff] = reachable_global_coord_arr
+	stuff_reachable_coord_dic[_stuff] = reachable_map_coord_arr
 		
 				
 					

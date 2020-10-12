@@ -39,7 +39,7 @@ var function_attribute_active_dic := {}
 var active_functon_attribute_params_dic := {}
 var physics_data:Dictionary
 
-signal disappear_notify()
+signal disappear_notify(_stuff)
 signal stuff_update_state(_state_name,_state_value)
 signal stuff_params_update(_param_name,_param_value)
 
@@ -149,7 +149,8 @@ func get_param_value(_param_name):
 func set_param_value(_param_name,_param_value):
 	if physics_data and physics_data.has(_param_name):
 		var stuff_param_value = physics_data[_param_name]
-		if stuff_param_value != _param_value:
+		
+		if typeof(stuff_param_value) != typeof(_param_value) or stuff_param_value != _param_value:
 			physics_data[_param_name] = _param_value
 			emit_signal("stuff_params_update",_param_name,_param_value)
 
@@ -178,7 +179,9 @@ func notify_disappear():
 
 func get_function(_function_name,_param_value):
 	if active_functon_attribute_params_dic.has(_function_name):
-		return active_functon_attribute_params_dic[_function_name]
+		var active_functon_attribute = active_functon_attribute_params_dic[_function_name]
+		if active_functon_attribute and active_functon_attribute.has(_param_value):
+			return active_functon_attribute[_param_value]
 	return null
 
 #执行影响改变
@@ -191,6 +194,10 @@ func excute_effect(_effect_str):
 
 func evaluateResult(property, condition, value) -> float:
 #	print("evaluateResult=",property, ' ', condition, ' ', value)
+	if property is String:
+		property = float(property)
+	if value is String:
+		value = float(value)
 	if condition == '-':
 		var result = property - value
 		return result
@@ -209,7 +216,7 @@ func _on_StuffBody_mouse_exited():
 
 #属性值的更新
 func _on_Stuff_stuff_params_update(_param_name, _param_value):
-	if _param_name == "耐久值":
+	if _param_name == "耐久度":
 		if _param_value <= 0:
 			#耐久值为0 物品销毁
 			disappear()

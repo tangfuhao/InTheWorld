@@ -39,21 +39,23 @@ func terminate() ->void:
 	if goal_status == STATE.GOAL_COMPLETED:
 		var effect_str = action_target.get_function("可被采集","动作影响")
 		var collect_stuffs_str = action_target.get_function("可被采集","采集物品")
-		assert(effect_str and collect_stuffs_str)
+		assert(effect_str != null)
+		assert(collect_stuffs_str != null)
 		
-		#采集结果
-		var collect_stuff_str_arr = Array(collect_stuffs_str.split(","))
-		var random_chance = randf()
-		for item in collect_stuff_str_arr:
-			var collect_stuff_params = item.split(":")
-			var chance = collect_stuff_params[0]
-			var stuff_name = collect_stuff_params[1]
-			
-			if random_chance < chance:
-				var stuff = instance_stuff(stuff_name)
-				human.inventory_system.add_stuff_to_package(stuff)
-		#采集影响
-		action_target.excute_effect(effect_str)
+		if collect_stuffs_str:
+			#采集结果
+			var collect_stuff_str_arr = Array(collect_stuffs_str.split(","))
+			for item in collect_stuff_str_arr:
+				var collect_stuff_params = item.split(":")
+				var chance = float(collect_stuff_params[0])
+				var stuff_name = collect_stuff_params[1]
+				
+				if randf() < chance:
+					var stuff = instance_stuff(stuff_name)
+					human.inventory_system.add_stuff_to_package(stuff)
+		if effect_str:
+			#采集影响
+			action_target.excute_effect(effect_str)
 
 
 
