@@ -144,7 +144,7 @@ func set_param_value(_param_name,_param_value):
 			emit_signal("stuff_params_update",_param_name,_param_value)
 
 
-
+#移除节点
 func disappear():
 	notify_disappear()
 	queue_free()
@@ -196,3 +196,10 @@ func _on_StuffBody_mouse_entered():
 func _on_StuffBody_mouse_exited():
 	GlobalRef.remove_value_from_key_global(GlobalRef.global_key.mouse_interaction,self)
 
+
+#属性值的更新
+func _on_Stuff_stuff_params_update(_param_name, _param_value):
+	if _param_name == "耐久值":
+		if _param_value <= 0:
+			#耐久值为0 物品销毁
+			disappear()
