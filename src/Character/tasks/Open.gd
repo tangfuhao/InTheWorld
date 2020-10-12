@@ -33,6 +33,6 @@ func process(_delta: float):
 	
 func terminate() ->void:
 	.terminate()
-	player_ui.dismiss_action_bar()
+	player_ui.dismiss_action_bar(human)
 
 

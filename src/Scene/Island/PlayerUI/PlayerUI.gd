@@ -38,8 +38,9 @@ func show_action_bar(_player,_action_time):
 		var position = _player.get_global_transform_with_canvas().get_origin()
 		action_progress_bar.play(position,_action_time)
 
-func dismiss_action_bar():
-	pass
+func dismiss_action_bar(_player):
+	if _player == current_ui_bind_player:
+		action_progress_bar.stop()
 	
 	
 	

@@ -34,7 +34,7 @@ func process(_delta: float):
 	
 func terminate() ->void:
 	.terminate()
-	player_ui.dismiss_action_bar()
+	player_ui.dismiss_action_bar(human)
 	
 	if goal_status == STATE.GOAL_COMPLETED:
 		var effect_str = action_target.get_function("可被采集","动作影响")
