@@ -9,8 +9,9 @@ func active():
 	.active()
 	
 	action_target = get_params()
-
-	if not human.is_approach(action_target.get_global_position(),10):
+	assert(action_target and action_target is CommonStuff)
+	
+	if not action_target.can_interaction(human):
 		goal_status = STATE.GOAL_FAILED
 	else:
 		var function_attribute = action_target.get_function("可被采集")

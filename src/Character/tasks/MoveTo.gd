@@ -12,33 +12,67 @@ func active():
 	.active()
 	
 	#目标位置 
+	setup_target()
+	if is_reach_target():
+		goal_status = STATE.GOAL_COMPLETED
+		return
+
+
+	path_world = path_finding()
+	if path_world.size() > 0:
+		human.movement.is_on = true
+		path_world.pop_front()
+		plan_next_destination()
+	else:
+		goal_status = STATE.GOAL_FAILED
+
+
+func process(_delta: float):
+	.process(_delta)
+	
+	if goal_status != STATE.GOAL_ACTIVE:
+		return goal_status
+		
+	if is_reach_target():
+		goal_status = STATE.GOAL_COMPLETED
+		return goal_status
+	
+	if next_destination and human.is_approach(next_destination,10):
+		next_destination = null
+		plan_next_destination()
+
+
+	return goal_status
+
+func terminate():
+	.terminate()
+	human.movement.is_on = false
+	human.movement.direction = Vector2.ZERO
+	
+func setup_target():
 	action_target = get_index_params(0)
 	if action_target is CommonStuff:
 		target_pos = action_target.get_global_position()
 	else:
 		target_pos = action_target
-
-	if human.is_approach(target_pos,10):
-		goal_status = STATE.GOAL_COMPLETED
+	
+func is_reach_target():
+	if action_target is CommonStuff:
+		return action_target.can_interaction(human)
 	else:
-		path_world = path_finding()
-		if path_world.size() > 0:
-			path_world.pop_front()
-			next_destination = path_world.pop_front()
-			
-			if next_destination:
-				if path_world.empty() and human.get_global_position().distance_to(target_pos) <= human.get_global_position().distance_to(next_destination):
-					human.movement.set_desired_position(target_pos)
-				else:
-					human.movement.set_desired_position(next_destination)
-			else:
-				human.movement.set_desired_position(target_pos)
-				
-			human.movement.is_on = true
-		else:
-			goal_status = STATE.GOAL_FAILED
-		
+		return human.is_approach(target_pos,10)
 
+func plan_next_destination():
+	next_destination = path_world.pop_front()
+	if next_destination:
+		if path_world.empty() and human.get_global_position().distance_to(target_pos) <= human.get_global_position().distance_to(next_destination):
+			human.movement.set_desired_position(target_pos)
+		else:
+			human.movement.set_desired_position(next_destination)
+	else:
+		human.movement.set_desired_position(target_pos)
+	
+	
 func path_finding():
 	var path_finding = human.get_node("/root/Island/Pathfinding")
 	if action_target is CommonStuff and not action_target.is_location:
@@ -58,38 +92,3 @@ func path_finding():
 	else:
 		var path_world = path_finding.get_new_path(human.get_global_position(),target_pos)
 		return path_world
-	
-
-	
-
-func process(_delta: float):
-	.process(_delta)
-	
-	if goal_status != STATE.GOAL_ACTIVE:
-		return goal_status
-	
-	if next_destination and human.is_approach(next_destination,10):
-		next_destination = null
-		next_destination = path_world.pop_front()
-
-		if next_destination:
-			if path_world.empty() and human.get_global_position().distance_to(target_pos) <= human.get_global_position().distance_to(next_destination):
-				human.movement.set_desired_position(target_pos)
-			else:
-				human.movement.set_desired_position(next_destination)
-		else:
-			human.movement.set_desired_position(target_pos)
-
-	
-	if human.is_approach(target_pos,10):
-		goal_status = STATE.GOAL_COMPLETED
-
-
-	return goal_status
-
-func terminate():
-	.terminate()
-	human.movement.is_on = false
-	human.movement.direction = Vector2.ZERO
-		
-		

@@ -15,6 +15,7 @@ var is_superposable := false
 
 onready var area_collision_shape = $StuffArea/CollisionShape2D
 onready var body_collision_shape = $StuffBody/CollisionShape2D
+onready var interact_collision_shape = $InteractArea/CollisionShape2D
 
 onready var line2d = $Line2D
 onready var item_display_name = $LabelLayout/PlayerName
@@ -29,6 +30,8 @@ var display_name setget _set_display_name
 var storage
 #边长
 var side_length
+#可交互的 对象列表
+var interactive_object_list = []
 
 
 #属性
@@ -44,7 +47,7 @@ func _set_display_name(_name):
 	item_display_name.text = _name
 
 func _ready():
-	if not stuff_type_name:
+	if stuff_type_name:
 		self.node_name = stuff_type_name + IDGenerator.pop_id_index()
 		self.display_name = stuff_type_name
 		setup_stuff_type_config()
@@ -71,6 +74,9 @@ func get_global_rect() -> Rect2:
 	var global_postion = get_global_position()
 	var half_side_length = side_length / 2
 	return Rect2(global_postion.x - half_side_length,global_postion.y - half_side_length,side_length,side_length)
+	
+func can_interaction(_object:Node2D):
+	return interactive_object_list.has(_object)
 
 
 func apply_function_attribute(stuff_config_json):
@@ -95,6 +101,10 @@ func apply_phycis_config(stuff_config_json):
 	var shape2 = body_collision_shape.get("shape")
 	shape2.extents.x = half_side_length
 	shape2.extents.y = half_side_length
+	
+	var shape3 = interact_collision_shape.get("shape")
+	shape3.extents.x = half_side_length + 5
+	shape3.extents.y = half_side_length + 5
 	
 	line2d.points = PoolVector2Array(calculate_point_array(half_side_length))
 	line2d.default_color = choice_color(get_param_value("颜色"))
@@ -203,3 +213,12 @@ func _on_Stuff_stuff_params_update(_param_name, _param_value):
 		if _param_value <= 0:
 			#耐久值为0 物品销毁
 			disappear()
+
+
+
+func _on_InteractArea_body_entered(body):
+	interactive_object_list.push_back(body)
+
+
+func _on_InteractArea_body_exited(body):
+	interactive_object_list.erase(body)

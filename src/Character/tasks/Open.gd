@@ -6,18 +6,19 @@ var action_time
 func active():
 	.active()
 	
+	
 	action_target = get_params()
-
-	if not human.is_approach(action_target.get_global_position(),10):
+	if not action_target.can_interaction(human):
 		goal_status = STATE.GOAL_FAILED
+		return
+	
+	var function_attribute = action_target.get_function("可被打开")
+	if function_attribute:
+		action_time = float(function_attribute["动作时间"])
+		var player_ui = human.get_node("/root/Island/UI/PlayerUI")
+		player_ui.show_action_bar(human,action_time)
 	else:
-		var function_attribute = action_target.get_function("可被打开")
-		if function_attribute:
-			action_time = float(function_attribute["动作时间"])
-			var player_ui = human.get_node("/root/Island/UI/PlayerUI")
-			player_ui.show_action_bar(human,action_time)
-		else:
-			goal_status = STATE.GOAL_FAILED
+		goal_status = STATE.GOAL_FAILED
 
 
 func process(_delta: float):
