@@ -58,6 +58,10 @@ disabled_color = Color( 1, 0, 0, 1 )
 position = Vector2( 1058.29, 1926.08 )
 stuff_type_name = "枪"
 
+[node name="Tree" parent="Stuff" instance=ExtResource( 8 )]
+position = Vector2( 710.92, 1922.12 )
+stuff_type_name = "树木"
+
 [node name="Player" parent="." instance=ExtResource( 1 )]
 position = Vector2( 1141.87, 1869.57 )
 rotation = 2.4138
@@ -69,6 +73,5 @@ player_name = "军宏"
 [node name="PlayerUI" parent="UI" instance=ExtResource( 7 )]
 visible = false
 [connection signal="cancle_focus_player" from="CameraMovement" to="." method="_on_CameraMovement_cancle_focus_player"]
-[connection signal="stuff_update_state" from="Stuff/Gun" to="." method="_on_Gun_stuff_update_state"]
 [connection signal="player_selected" from="Player" to="." method="_on_Player_player_selected"]
 [connection signal="interaction_commond" from="UI/PlayerUI" to="." method="_on_PlayerUI_interaction_commond"]
