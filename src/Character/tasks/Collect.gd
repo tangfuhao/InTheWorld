@@ -2,9 +2,9 @@ extends "res://src/Character/tasks/NoLimitTask.gd"
 class_name Collect
 #采集
 
+var player_ui
 var action_time
-var effect_str
-var collect_stuffs_str
+
 func active():
 	.active()
 	
@@ -13,16 +13,14 @@ func active():
 	
 	if not action_target.can_interaction(human):
 		goal_status = STATE.GOAL_FAILED
-	else:
-		var function_attribute = action_target.get_function("可被采集")
-		if function_attribute:
-			action_time = float(function_attribute["动作时间"])
-			effect_str = function_attribute["动作影响"]
-			collect_stuffs_str = function_attribute["采集物品"]
-			var player_ui = human.get_node("/root/Island/UI/PlayerUI")
-			player_ui.show_action_bar(human,action_time)
-		else:
-			goal_status = STATE.GOAL_FAILED
+		return 
+	
+	assert(action_target.get_function("可被采集","动作时间"))
+	action_time = float(action_target.get_function("可被采集","动作时间"))
+
+	player_ui = human.get_node("/root/Island/UI/PlayerUI")
+	player_ui.show_action_bar(human,action_time)
+
 
 
 func process(_delta: float):
@@ -36,7 +34,13 @@ func process(_delta: float):
 	
 func terminate() ->void:
 	.terminate()
+	player_ui.dismiss_action_bar()
+	
 	if goal_status == STATE.GOAL_COMPLETED:
+		var effect_str = action_target.get_function("可被采集","动作影响")
+		var collect_stuffs_str = action_target.get_function("可被采集","采集物品")
+		assert(effect_str and collect_stuffs_str)
+		
 		#采集结果
 		var collect_stuff_str_arr = Array(collect_stuffs_str.split(","))
 		var random_chance = randf()
@@ -50,9 +54,9 @@ func terminate() ->void:
 				human.inventory_system.add_stuff_to_package(stuff)
 		#采集影响
 		action_target.excute_effect(effect_str)
-	else:
-		pass
+
 
 
 func instance_stuff(_stuff_name):
+	print("instance_stuff")
 	pass
