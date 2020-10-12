@@ -51,6 +51,8 @@ func _ready():
 	if load_config_by_stuff_type(stuff_type_name):
 		setup_node_by_config(stuff_type_name)
 		
+		
+		
 func get_global_rect() -> Rect2:
 	var global_postion = get_global_position()
 	var half_side_length = side_length / 2
@@ -58,6 +60,12 @@ func get_global_rect() -> Rect2:
 	
 func can_interaction(_object:Node2D):
 	return interactive_object_list.has(_object)
+
+#单节点拷贝成场景
+func copy_config_data(_stuff):
+	stuff_type_name = _stuff.stuff_type_name
+	physics_data = _stuff.physics_data
+	active_functon_attribute_params_dic = _stuff.active_functon_attribute_params_dic
 	
 #通过物品类型 初始化物品属性
 func load_config_by_stuff_type(_type) -> bool:

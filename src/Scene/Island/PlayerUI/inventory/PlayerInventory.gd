@@ -7,10 +7,7 @@ onready var grid_bkpk := $GridBackPack
 func _ready():
 	if not visible:
 		deactivate()
-		
-	pickup_item("s")
-	pickup_item("s")
-	pickup_item("s")
+
 
 
 func deactivate():
@@ -28,14 +25,20 @@ func activate():
 	set_process_input(true)
 
 
+func setup_player(_player:Player):
+	_player.inventory_system.connect("add_item",self,"on_inventory_add_item")
+	_player.inventory_system.connect("remove_item",self,"on_inventory_remove_item")
 
+func on_inventory_add_item(_item:PackageItemModel):
+	pickup_item(_item.node_name,_item.display_name)
 
-func pickup_item(item_id):
+func on_inventory_remove_item(_item):
+	pass
+
+func pickup_item(item_id,item_text):
 	var item = item_base.instance()
 	item.set_meta("id", item_id)
-#	var texture_path = ItemDB.get_item(item_id)["icon"]
-#	var texture = load(texture_path)
-#	item.texture = texture
+	item.get_node("Control").text = item_text
 	add_child(item)
 	if !grid_bkpk.insert_item_at_first_available_spot(item):
 		item.queue_free()

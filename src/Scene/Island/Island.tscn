@@ -52,18 +52,38 @@ disabled_color = Color( 1, 0, 0, 1 )
 
 [node name="Grid" type="Node2D" parent="Pathfinding"]
 
-[node name="Stuff" type="Node2D" parent="."]
+[node name="StuffLayer" type="Node2D" parent="."]
 
-[node name="Gun" parent="Stuff" instance=ExtResource( 8 )]
+[node name="Gun" parent="StuffLayer" instance=ExtResource( 8 )]
 position = Vector2( 1058.29, 1926.08 )
 stuff_type_name = "枪"
 
-[node name="Tree" parent="Stuff" instance=ExtResource( 8 )]
+[node name="Tree" parent="StuffLayer" instance=ExtResource( 8 )]
 position = Vector2( 710.92, 1922.12 )
 stuff_type_name = "树木"
 
+[node name="Stuff" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1166.51, 1869.62 )
+stuff_type_name = "木头"
+
+[node name="Stuff2" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1141.25, 1869.44 )
+stuff_type_name = "木头"
+
+[node name="Stuff3" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1117.13, 1868.66 )
+stuff_type_name = "木头"
+
+[node name="Stuff4" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1140.94, 1890.14 )
+stuff_type_name = "木头"
+
+[node name="Stuff5" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1140.94, 1846.72 )
+stuff_type_name = "木头"
+
 [node name="Player" parent="." instance=ExtResource( 1 )]
-position = Vector2( 1141.87, 1869.57 )
+position = Vector2( 1142.04, 1869.57 )
 rotation = 2.4138
 collision_mask = 11
 player_name = "军宏"

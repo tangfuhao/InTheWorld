@@ -5,10 +5,12 @@ class_name Collect
 var player_ui
 var action_time
 
+
+
 func active():
 	.active()
 	
-	action_target = get_params()
+	self.action_target = get_params()
 	assert(action_target and action_target is CommonStuff)
 	
 	if not action_target.can_interaction(human):
@@ -45,14 +47,26 @@ func terminate() ->void:
 		if collect_stuffs_str:
 			#采集结果
 			var collect_stuff_str_arr = Array(collect_stuffs_str.split(","))
+
+			var main_scence
 			for item in collect_stuff_str_arr:
 				var collect_stuff_params = item.split(":")
 				var chance = float(collect_stuff_params[0])
 				var stuff_type_name = collect_stuff_params[1]
 				
 				if randf() < chance:
-					var stuff = DataManager.instance_stuff(stuff_type_name)
-					human.inventory_system.add_stuff_to_package(stuff)
+					var stuff = DataManager.instance_stuff_script(stuff_type_name)
+					if not human.inventory_system.add_stuff_to_package(stuff):
+						#扔地下
+						if not main_scence:
+							main_scence = human.get_node("/root/Island")
+						
+						var stuff_node = DataManager.instance_stuff_scene()
+						stuff_node.copy_config_data(stuff)
+						main_scence.customer_node_group.add_child(stuff_node)
+						main_scence.binding_customer_node_item(stuff_node)
+						stuff_node.set_global_position(human.get_global_position())
+						
 		if effect_str:
 			#采集影响
 			action_target.excute_effect(effect_str)

@@ -26,9 +26,14 @@ func has_attribute(_attribute):
 	return false
 
 
-func get_params(_param):
-	assert(false)
-	return 1
+#获取属性值
+func get_param_value(_param_name):
+	if physics_data and physics_data.has(_param_name):
+		var stuff_param_value = physics_data[_param_name]
+		return stuff_param_value
+	return null
+
+
 	
 
 func get_type():

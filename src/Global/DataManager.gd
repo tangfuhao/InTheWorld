@@ -1,6 +1,7 @@
 extends Node
 
 const STUFF_MODEL = preload("res://src/World/stuff/CommonStuff.gd")
+const STUFF_SCENE = preload("res://src/World/stuff/CommonStuff.tscn")
 const cnofig_file_path = "res://config/overview.json"
 const task_prefix_path = "res://src/Character/tasks/"
 var config_data
@@ -61,13 +62,15 @@ func load_common_stuff_config_json(_stuff_type_name) ->Dictionary:
 	return {}
 
 #创建自定义物品
-func instance_stuff(_stuff_name):
+func instance_stuff_script(_stuff_name):
 	var stuff = STUFF_MODEL.new()
 	if stuff.load_config_by_stuff_type(_stuff_name):
 		return stuff
 	else:
 		return stuff
 
+func instance_stuff_scene():
+	return STUFF_SCENE.instance()
 	
 func parse_base_task(base_task_arr):
 	var preload_action_dic = {}

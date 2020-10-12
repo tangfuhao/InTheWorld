@@ -8,7 +8,7 @@ func active():
 	.active()
 	
 	
-	action_target = get_params()
+	self.action_target = get_params()
 	assert(action_target and action_target is CommonStuff)
 	if not action_target.can_interaction(human):
 		goal_status = STATE.GOAL_FAILED

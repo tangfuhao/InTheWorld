@@ -57,6 +57,7 @@ func setup_player(_player:Player):
 		return
 	current_ui_bind_player = _player
 	player_status_panel.setup_player(current_ui_bind_player)
+	player_inventory_panel.setup_player(current_ui_bind_player)
 
 func _process(_delta):
 	if not is_visible():

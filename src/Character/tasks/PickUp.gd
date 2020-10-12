@@ -7,18 +7,15 @@ class_name PickUp
 func active() ->void:
 	.active()
 	
-	self.action_target = human.get_target()
-	if not action_target:
-		goal_status = STATE.GOAL_FAILED
-		return
-		
-	if action_target.get_type() == "package_item":
-		goal_status = STATE.GOAL_COMPLETED
-		return
+	self.action_target = get_params()
+	assert(action_target and action_target is CommonStuff)
 	
-	if not human.is_interaction_distance(action_target):
+	if not action_target.can_interaction(human):
 		goal_status = STATE.GOAL_FAILED
-		return
+		return 
 
-	human.pick_up(action_target)
-	goal_status = STATE.GOAL_COMPLETED
+	if human.inventory_system.add_stuff_to_package(action_target):
+		action_target.disappear()
+		goal_status = STATE.GOAL_COMPLETED
+	else:
+		goal_status = STATE.GOAL_FAILED

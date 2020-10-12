@@ -6,7 +6,7 @@ onready var ground := $Ground
 onready var camera := $CameraMovement
 onready var player_ui := $UI/PlayerUI
 
-onready var customer_node_group := $Stuff
+onready var customer_node_group := $StuffLayer
 
 
 var controll_player
@@ -31,9 +31,11 @@ func _process(delta):
 func binding_customer_node_event():
 	var child_arr = customer_node_group.get_children()
 	for item in child_arr:
-		item.connect("stuff_update_state",self,"_on_stuff_update_state")
-		item.connect("disappear_notify",self,"_on_stuff_disappear")
+		binding_customer_node_item(item)
 
+func binding_customer_node_item(_item):
+	_item.connect("stuff_update_state",self,"_on_stuff_update_state")
+	_item.connect("disappear_notify",self,"_on_stuff_disappear")
 
 func _on_Player_player_selected(body):
 	controll_player = body

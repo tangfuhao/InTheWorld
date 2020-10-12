@@ -109,9 +109,6 @@ func shoot(_target_position,_damage):
 	bullets_node_layer.add_child(next_bullet)
 	next_bullet.global_position = global_position
 
-func pick_up(_target) -> void:
-	inventory_system.add_stuff_to_package(_target)
-
 
 func be_hurt(_damage):
 	pass
