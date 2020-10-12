@@ -4,16 +4,14 @@ var package := []
 
 #最大负重值
 var max_load_value = 50
-var current_load_value = 0
+var current_load_value = 50
 
 signal add_item(item)
 signal remove_item(item)
 
 func add_stuff_to_package(_target:CommonStuff) -> bool:
-	var load_value_v = _target.get_param_value("重量")
-	if not load_value_v:
-		load_value_v = _target.get_param_value("重量")
-	var load_value = float(load_value_v)
+	assert(_target.get_param_value("重量"))
+	var load_value = float(_target.get_param_value("重量"))
 	if current_load_value + load_value > max_load_value:
 		return false
 
