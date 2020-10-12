@@ -195,7 +195,6 @@ func excute_effect(_effect_str):
 	set_param_value(effect_value_name,evaluateResult(value,effect_param_arr[1],effect_param_arr[2]))
 
 func evaluateResult(property, condition, value) -> float:
-#	print("evaluateResult=",property, ' ', condition, ' ', value)
 	if property is String:
 		property = float(property)
 	if value is String:

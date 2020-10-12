@@ -18,7 +18,10 @@ var tilemap: TileMap
 var half_cell_size: Vector2
 var used_rect: Rect2
 
-
+#交互物品 最近的到达tile 记录
+var stuff_reachable_coord_dic = {}
+#物品占用的tile 记录
+var stuff_occupation_coord_dic = {}
 
 
 func create_navigation_map(tilemap: TileMap):
@@ -72,10 +75,7 @@ func connect_traversable_tiles(tiles: Array):
 				astar.connect_points(id, target_id, true)
 
 
-#交互物品 最近的到达tile 记录
-var stuff_reachable_coord_dic = {}
-#物品占用的tile 记录
-var stuff_occupation_coord_dic = {}
+
 
 func get_stuff_interaction_coords(_stuff):
 	var reachable_global_coord_arr = []
@@ -124,6 +124,8 @@ func set_collision_stuff_global_rect(_stuff):
 	stuff_occupation_coord_dic[_stuff] = occupation_coor_arr
 
 	#选取附近的交互tile
+	#原则 1.每一个边选取一个最近的tile 
+	#2. 剩下的tile中  物品坐标到tile坐标的距离 超过 最小的物品坐标到tile距离  1/2tile长度  去除
 	var reachable_tile_coord_arr = pick_reachable_tile_for_interaction(_rect,start_point,end_point)
 	var reachable_map_coord_arr = []
 	for tile_coord in reachable_tile_coord_arr:
@@ -146,25 +148,45 @@ func pick_reachable_tile_for_interaction(_rect,start_point,end_point) ->Array:
 	var extend_max_y = end_point.y + 1
 	var reachable_tile_coord_arr = []
 	
+	var tile_coord_to_distance_dic = {}
+	var min_distance = 50000000000
+
 	#最小x y遍历
-	var reachable_tile_coord = pick_top_bottom_side_reachable_tile_coord(extend_min_y,extend_max_y + 1,extend_min_x,stuff_global_position)
-	reachable_tile_coord_arr.push_back(reachable_tile_coord)
+	var reachable_tile_coord_info = pick_top_bottom_side_reachable_tile_coord(extend_min_y,extend_max_y + 1,extend_min_x,stuff_global_position)
+	min_distance = handle_reachable_tile_info_return_min_distance(reachable_tile_coord_info,reachable_tile_coord_arr,tile_coord_to_distance_dic,min_distance)
+
 	
 	#最大x y遍历
-	reachable_tile_coord = pick_top_bottom_side_reachable_tile_coord(extend_min_y,extend_max_y + 1,extend_max_x,stuff_global_position)
-	reachable_tile_coord_arr.push_back(reachable_tile_coord)
+	reachable_tile_coord_info = pick_top_bottom_side_reachable_tile_coord(extend_min_y,extend_max_y + 1,extend_max_x,stuff_global_position)
+	min_distance = handle_reachable_tile_info_return_min_distance(reachable_tile_coord_info,reachable_tile_coord_arr,tile_coord_to_distance_dic,min_distance)
 	
 	#最小y x遍历
-	reachable_tile_coord = pick_left_right_side_reachable_tile_coord(extend_min_x,extend_max_x + 1,extend_min_y,stuff_global_position)
-	reachable_tile_coord_arr.push_back(reachable_tile_coord)
+	reachable_tile_coord_info = pick_left_right_side_reachable_tile_coord(extend_min_x,extend_max_x + 1,extend_min_y,stuff_global_position)
+	min_distance = handle_reachable_tile_info_return_min_distance(reachable_tile_coord_info,reachable_tile_coord_arr,tile_coord_to_distance_dic,min_distance)
 	
 	#最大y x遍历
-	reachable_tile_coord = pick_left_right_side_reachable_tile_coord(extend_min_x,extend_max_x + 1,extend_max_y,stuff_global_position)
-	reachable_tile_coord_arr.push_back(reachable_tile_coord)
+	reachable_tile_coord_info = pick_left_right_side_reachable_tile_coord(extend_min_x,extend_max_x + 1,extend_max_y,stuff_global_position)
+	min_distance = handle_reachable_tile_info_return_min_distance(reachable_tile_coord_info,reachable_tile_coord_arr,tile_coord_to_distance_dic,min_distance)
+	
+#	#筛除 距离>1/2的tile
+#	for item in tile_coord_to_distance_dic.keys():
+#		var tile_coord_distance = tile_coord_to_distance_dic[item]
+#		if tile_coord_distance - min_distance > half_cell_size.x:
+#			reachable_tile_coord_arr.erase(item)
 	
 	return reachable_tile_coord_arr
+	
+func handle_reachable_tile_info_return_min_distance(_reachable_tile_coord_info,_reachable_tile_coord_arr,_tile_coord_to_distance_dic,_min_distance) -> float:
+	var reachable_tile_coord = _reachable_tile_coord_info[0]
+	var tile_coord_to_stuff_distance = _reachable_tile_coord_info[1]
+	if reachable_tile_coord:
+		_reachable_tile_coord_arr.push_back(reachable_tile_coord)
+		_tile_coord_to_distance_dic[reachable_tile_coord] = tile_coord_to_stuff_distance
+		_min_distance = min(_min_distance,tile_coord_to_stuff_distance)
+	return _min_distance
 
-func pick_top_bottom_side_reachable_tile_coord(_loop_start,_loop_end,_x,stuff_global_position) -> Vector2:
+#选取一个边 里物品坐标最近的tile
+func pick_top_bottom_side_reachable_tile_coord(_loop_start,_loop_end,_x,stuff_global_position) -> Array:
 	var temp_min_distance = 9223372036854775807
 	var reachable_tile_coord = null
 	for one_coord in range(_loop_start,_loop_end + 1):
@@ -178,10 +200,9 @@ func pick_top_bottom_side_reachable_tile_coord(_loop_start,_loop_end,_x,stuff_gl
 			if distance_to_stuff < temp_min_distance:
 				temp_min_distance = distance_to_stuff
 				reachable_tile_coord = tile_coord
-
-	return reachable_tile_coord
+	return [reachable_tile_coord,temp_min_distance]
 	
-func pick_left_right_side_reachable_tile_coord(_loop_start,_loop_end,_y,stuff_global_position) -> Vector2:
+func pick_left_right_side_reachable_tile_coord(_loop_start,_loop_end,_y,stuff_global_position) -> Array:
 	var temp_min_distance = 9223372036854775807
 	var reachable_tile_coord = null
 	for one_coord in range(_loop_start,_loop_end + 1):
@@ -195,7 +216,7 @@ func pick_left_right_side_reachable_tile_coord(_loop_start,_loop_end,_y,stuff_gl
 				temp_min_distance = distance_to_stuff
 				reachable_tile_coord = tile_coord
 
-	return reachable_tile_coord
+	return [reachable_tile_coord,temp_min_distance]
 
 #func update_navigation_map():
 #	for point in astar.get_points():
