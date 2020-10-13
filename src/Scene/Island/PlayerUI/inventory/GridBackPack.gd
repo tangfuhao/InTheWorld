@@ -12,6 +12,13 @@ func _ready():
 	grid_width = s.x
 	grid_height = s.y
 	
+	clear()
+
+func clear():
+	var all_child = get_children()
+	for item in all_child:
+		remove_child(item)
+		
 	for x in range(grid_width):
 		grid[x] = {}
 		for y in range(grid_height):
@@ -33,18 +40,21 @@ func insert_item(item):
 	else:
 		return false
 
-func grab_item(pos):
-	var item = get_item_under_pos(pos)
-	if item == null:
-		return null
-	
+func remove_item(item):
 	var item_pos = item.rect_global_position + Vector2(cell_size / 2, cell_size / 2)
 	var g_pos = pos_to_grid_coord(item_pos)
 	var item_size = get_grid_size(item)
 	set_grid_space(g_pos.x, g_pos.y, item_size.x, item_size.y, false)
 	
-	items.remove(items.find(item))
+	items.erase(item)
 	return item
+
+func grab_item(pos):
+	var item = get_item_under_pos(pos)
+	if item == null:
+		return null
+	
+	return remove_item(item)
 
 func pos_to_grid_coord(pos):
 	var local_pos = pos - rect_global_position
@@ -79,6 +89,12 @@ func set_grid_space(x, y, w, h, state):
 func get_item_under_pos(pos):
 	for item in items:
 		if item.get_global_rect().has_point(pos):
+			return item
+	return null
+
+func get_item_under_meta_data(name,value):
+	for item in items:
+		if item.has_meta(name) and item.get_meta(name) == value:
 			return item
 	return null
 

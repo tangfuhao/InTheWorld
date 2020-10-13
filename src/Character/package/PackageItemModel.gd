@@ -8,6 +8,8 @@ var function_attribute_dic = {}
 var physics_data
 
 
+
+
 func _set_item_name(_item_name):
 	item_name = _item_name
 	node_name = item_name + IDGenerator.pop_id_index()
