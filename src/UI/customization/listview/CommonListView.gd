@@ -22,7 +22,7 @@ signal on_item_selected(index)
 signal on_item_active(index,is_active)
 signal on_item_value_change(index,key,value)
 
-var is_auto_scroll = true
+export var is_auto_scroll = true
 var is_manual_control = false
 
 
