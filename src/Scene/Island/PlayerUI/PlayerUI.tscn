@@ -146,15 +146,17 @@ __meta__ = {
 }
 
 [node name="PlayerStatusPanel" type="WindowDialog" parent="."]
+visible = true
 anchor_top = 0.5
 anchor_bottom = 0.5
-margin_left = 96.0
-margin_top = -194.0
-margin_right = 359.0
-margin_bottom = 229.0
+margin_left = 72.4842
+margin_top = -144.115
+margin_right = 335.484
+margin_bottom = 278.885
 window_title = "playerstate"
 script = ExtResource( 9 )
 __meta__ = {
+"_edit_group_": true,
 "_edit_use_anchors_": false
 }
 
@@ -165,31 +167,20 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="IDLabel" type="Label" parent="PlayerStatusPanel/VBoxContainer"]
-margin_right = 263.0
-margin_bottom = 50.0
-rect_min_size = Vector2( 0, 50 )
-custom_fonts/font = ExtResource( 1 )
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="EquipmentSlots" type="Control" parent="PlayerStatusPanel/VBoxContainer"]
-margin_top = 54.0
 margin_right = 263.0
-margin_bottom = 234.0
-rect_min_size = Vector2( 0, 180 )
+margin_bottom = 150.0
+rect_min_size = Vector2( 0, 150 )
 script = ExtResource( 8 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Panel" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
-margin_left = 19.2188
-margin_top = 38.9446
-margin_right = 79.2188
-margin_bottom = 98.9446
+margin_left = 30.2188
+margin_top = 16.9446
+margin_right = 90.2188
+margin_bottom = 76.9446
 __meta__ = {
 "_edit_group_": true,
 "_edit_use_anchors_": false
@@ -204,10 +195,10 @@ align = 1
 valign = 1
 
 [node name="Panel2" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
-margin_left = 90.344
-margin_top = 37.2227
-margin_right = 150.344
-margin_bottom = 97.2227
+margin_left = 101.344
+margin_top = 15.2227
+margin_right = 161.344
+margin_bottom = 75.2227
 __meta__ = {
 "_edit_group_": true,
 "_edit_use_anchors_": false
@@ -222,10 +213,10 @@ align = 1
 valign = 1
 
 [node name="Panel3" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
-margin_left = 164.385
-margin_top = 36.6488
-margin_right = 224.385
-margin_bottom = 96.6488
+margin_left = 175.385
+margin_top = 14.6488
+margin_right = 235.385
+margin_bottom = 74.6488
 __meta__ = {
 "_edit_group_": true,
 "_edit_use_anchors_": false
@@ -240,10 +231,10 @@ align = 1
 valign = 1
 
 [node name="Panel4" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
-margin_left = 20.8706
-margin_top = 106.395
-margin_right = 80.8706
-margin_bottom = 166.395
+margin_left = 31.8706
+margin_top = 84.395
+margin_right = 91.8706
+margin_bottom = 144.395
 __meta__ = {
 "_edit_group_": true,
 "_edit_use_anchors_": false
@@ -258,10 +249,10 @@ align = 1
 valign = 1
 
 [node name="Panel5" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
-margin_left = 91.9958
-margin_top = 104.673
-margin_right = 151.996
-margin_bottom = 164.673
+margin_left = 102.996
+margin_top = 82.673
+margin_right = 162.996
+margin_bottom = 142.673
 __meta__ = {
 "_edit_group_": true,
 "_edit_use_anchors_": false
@@ -276,10 +267,10 @@ align = 1
 valign = 1
 
 [node name="Panel6" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
-margin_left = 166.037
-margin_top = 104.099
-margin_right = 226.037
-margin_bottom = 164.099
+margin_left = 177.037
+margin_top = 82.099
+margin_right = 237.037
+margin_bottom = 142.099
 __meta__ = {
 "_edit_group_": true,
 "_edit_use_anchors_": false
@@ -293,15 +284,34 @@ text = "3"
 align = 1
 valign = 1
 
-[node name="CommonListView" parent="PlayerStatusPanel/VBoxContainer" instance=ExtResource( 3 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
-margin_top = 238.0
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerStatusPanel/VBoxContainer"]
+margin_top = 154.0
 margin_right = 263.0
 margin_bottom = 423.0
+size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="CommonListView" parent="PlayerStatusPanel/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 129.0
+margin_bottom = 269.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+is_auto_scroll = false
+
+[node name="ParamsListView" parent="PlayerStatusPanel/VBoxContainer/HBoxContainer" instance=ExtResource( 3 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 133.0
+margin_right = 263.0
+margin_bottom = 269.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+is_auto_scroll = false
+
 [node name="PlayerInventory" type="WindowDialog" parent="."]
+visible = true
 margin_left = 353.159
 margin_top = 205.885
 margin_right = 957.159

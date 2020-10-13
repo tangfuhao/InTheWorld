@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://src/UI/customization/chinese_label_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://src/Scene/Island/PlayerUI/inventory/ItemBase.gd" type="Script" id=2]
 
 [node name="Label" type="MarginContainer"]
 margin_right = 50.0
@@ -9,6 +10,7 @@ custom_constants/margin_right = 5
 custom_constants/margin_top = 5
 custom_constants/margin_left = 5
 custom_constants/margin_bottom = 5
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -35,3 +37,6 @@ valign = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="hide" from="." to="." method="_on_Label_hide"]
+[connection signal="mouse_entered" from="ColorRect" to="." method="_on_ColorRect_mouse_entered"]
+[connection signal="mouse_exited" from="ColorRect" to="." method="_on_ColorRect_mouse_exited"]

@@ -22,6 +22,7 @@ var item_offset = Vector2()
 var last_container = null
 var last_pos = Vector2()
 
+#物品交互命令
 signal interaction_commond(_player,_target,_task_name)
 
 func _ready():
@@ -32,6 +33,10 @@ func show_option_menu(_interaction_object:CommonStuff):
 	option_menu_interaction_object = _interaction_object
 	object_option_menu.set_global_position(get_global_mouse_position())
 	object_option_menu.popup()
+
+func show_package_item_option_menu(_interaction_object:PackgeItemBase):
+	print("ssss")
+	pass
 	
 func show_action_bar(_player,_action_time):
 	if _player == current_ui_bind_player:

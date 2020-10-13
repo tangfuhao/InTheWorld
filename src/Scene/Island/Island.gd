@@ -21,7 +21,10 @@ func _process(delta):
 	if controll_player and Input.is_action_just_pressed("operation_option"):
 		var interaction_object = GlobalRef.get_key_global(GlobalRef.global_key.mouse_interaction)
 		if interaction_object:
-			player_ui.show_option_menu(interaction_object)
+			if interaction_object is CommonStuff:
+				player_ui.show_option_menu(interaction_object)
+			elif interaction_object is PackgeItemBase:
+				player_ui.show_package_item_option_menu(interaction_object)
 		else:
 			var pos = get_global_mouse_position()
 			controll_player.task_scheduler.add_tasks([["移动",pos]])
