@@ -554,6 +554,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/Character/tasks/Smear.gd"
 }, {
+"base": "Node",
+"class": "Status",
+"language": "GDScript",
+"path": "res://src/Character/status/Status.gd"
+}, {
 "base": "Reference",
 "class": "StatusEffectModel",
 "language": "GDScript",
@@ -754,6 +759,7 @@ _global_script_class_icons={
 "Sit": "",
 "Sleep": "",
 "Smear": "",
+"Status": "",
 "StatusEffectModel": "",
 "StatusModel": "",
 "Strategy": "",

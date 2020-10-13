@@ -68,8 +68,15 @@ func terminate() ->void:
 						stuff_node.set_global_position(human.get_global_position())
 						
 		if effect_str:
-			#采集影响
-			action_target.excute_effect(effect_str)
+			#动作影响
+			var effect_item_arr = effect_str.split(":")
+			for item in effect_item_arr:
+				var effect_param_arr = Array(item.split(",") )
+				var runner = effect_param_arr.pop_front()
+				if runner == "物品":
+					action_target.excute_effect(effect_param_arr)
+				elif runner == "自己":
+					human.excute_effect(effect_param_arr)
 
 
 

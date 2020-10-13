@@ -1,37 +1,48 @@
 extends "res://src/Character/tasks/Task.gd"
 class_name Eat
 
+var action_time
+var player_ui
 
 func active():
 	.active()
-	var edible_name = get_params()
-	if edible_name:
-		var item = human.inventory_system.pop_item_by_name_in_package(edible_name)
-		if not item:
-			item = human.inventory_system.pop_item_by_function_name_in_package(edible_name)
-		if item:
-			self.action_target = item
-
-			status_recover = true
-			goal_status = STATE.GOAL_COMPLETED
-			return
-
-	self.action_target = human.get_target()
+	self.action_target = get_params()
+	action_time = float(action_target.get_function("可被食用","动作时间"))
 	
-	if not action_target:
+	if action_target is CommonStuff and not action_target.can_interaction(human):
 		goal_status = STATE.GOAL_FAILED
-		return
+		
+	player_ui = human.get_node("/root/Island/UI/PlayerUI")
+	player_ui.show_action_bar(human,action_time)
 
-	if not human.is_interaction_distance(action_target):
-		goal_status = STATE.GOAL_FAILED
-		return
 
-	status_recover = true
-	goal_status = STATE.GOAL_COMPLETED
-
+func process(_delta: float):
+	.process(_delta)
+	
+	action_time = action_time - _delta
+	if action_time < 0:
+		goal_status = STATE.GOAL_COMPLETED
+	
+	return goal_status
 
 
 func terminate() ->void:
 	.terminate()
-	if status_recover:
-		human.set_status_value("饥饿状态",1)
+	player_ui.dismiss_action_bar(human)
+	
+	if goal_status == STATE.GOAL_COMPLETED:
+		var effect_str = action_target.get_function("可被食用","动作影响")
+		assert(effect_str != null)
+						
+		if effect_str:
+			#动作影响
+			var effect_item_arr = effect_str.split(":")
+			for item in effect_item_arr:
+				var effect_param_arr = Array(item.split(",") )
+				var runner = effect_param_arr.pop_front()
+				if runner == "物品":
+					action_target.excute_effect(effect_param_arr)
+				elif runner == "自己":
+					human.excute_effect(effect_param_arr)
+		
+		human.inventory_system.remove_item_in_package(action_target)

@@ -54,8 +54,11 @@ func _on_CameraMovement_cancle_focus_player():
 
 
 #ui操作交互
-func _on_PlayerUI_interaction_commond(_player, _target:Node2D, _task_name):
-	_player.task_scheduler.add_tasks([["移动",_target],[_task_name,_target]])
+func _on_PlayerUI_interaction_commond(_player, _target, _task_name):
+	if _target is CommonStuff:
+		_player.task_scheduler.add_tasks([["移动",_target],[_task_name,_target]])
+	elif _target is PackageItemModel:
+		_player.task_scheduler.add_tasks([[_task_name,_target]])
 
 
 #物品的状态更新

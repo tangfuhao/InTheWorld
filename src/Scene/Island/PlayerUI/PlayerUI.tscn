@@ -495,6 +495,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="PopupMenu2" type="PopupMenu" parent="."]
+margin_right = 96.0
+margin_bottom = 73.0
+rect_min_size = Vector2( 96, 0 )
+custom_fonts/font = ExtResource( 1 )
+items = [ "食用", null, 0, false, false, 0, 0, null, "", false, "分解", null, 0, false, false, 1, 0, null, "", false, "研究", null, 0, false, false, 2, 0, null, "", false ]
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ActionProgressBar" type="Panel" parent="."]
 visible = false
 material = SubResource( 2 )
@@ -512,4 +522,5 @@ anims/play = SubResource( 5 )
 [connection signal="pressed" from="HBoxContainer/FunctionButton3" to="." method="_on_FunctionButton3_pressed"]
 [connection signal="pressed" from="HBoxContainer/FunctionButto4" to="." method="_on_FunctionButto4_pressed"]
 [connection signal="id_pressed" from="PopupMenu" to="." method="_on_PopupMenu_id_pressed"]
+[connection signal="id_pressed" from="PopupMenu2" to="." method="_on_PopupMenu2_id_pressed"]
 [connection signal="animation_finished" from="ActionProgressBar/AnimationPlayer" to="ActionProgressBar" method="_on_AnimationPlayer_animation_finished"]

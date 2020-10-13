@@ -13,7 +13,7 @@ onready var name_label = $NameDisplay/NameLabel
 onready var movement = $Movement
 onready var hurt_box = $HurtBox
 onready var hit_box = $HitBox
-onready var status = $Status
+onready var status := $Status
 onready var task_scheduler = $TaskScheduler
 
 var radius = 8
@@ -66,6 +66,25 @@ func _on_status_model_value_update(_status_model):
 			movement.switch_move_state("run")
 
 
+#执行影响改变
+func excute_effect(effect_param_arr):
+	var effect_value_name = effect_param_arr[0]
+	var status_value = status.get_status_value(effect_value_name) * 100
+	var result = float(evaluateResult(status_value,effect_param_arr[1],effect_param_arr[2])) * 0.01
+	status.set_status_value(effect_value_name,result)
+
+func evaluateResult(property, condition, value) -> float:
+	if property is String:
+		property = float(property)
+	if value is String:
+		value = float(value)
+	if condition == '-':
+		var result = property - value
+		return result
+	elif condition == '+':
+		var result = property + value
+		return result
+	return property
 
 func interaction_action(_player,_action_name):
 	pass

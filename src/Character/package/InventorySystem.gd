@@ -40,12 +40,19 @@ func add_item_to_package(_item:PackageItemModel,_auto_stack = true) -> bool:
 func conver_stuff_to_item(_stuff) -> PackageItemModel:
 	var item = PackageItemModel.new()
 	item.item_name = _stuff.stuff_type_name
-	item.function_attribute_dic = _stuff.function_attribute_active_dic
+	item.function_attribute_dic = _stuff.active_functon_attribute_params_dic
 	item.physics_data = _stuff.physics_data
 	return item
 
 func get_classify_by_package(_type):
 	package.has(_type)
+	
+func get_item_by_id(_id) -> PackageItemModel:
+	for item in package:
+		if item.node_name == _id:
+			return item
+			
+	return null
 
 
 #func pop_item_by_name_in_package(_name):
@@ -68,6 +75,6 @@ func get_classify_by_package(_type):
 #			return item
 #	return null
 #
-#func remove_item_in_package(_item):
-#	package.erase(_item)
-#	emit_signal("remove_item",_item)
+func remove_item_in_package(_item):
+	package.erase(_item)
+	emit_signal("remove_item",_item)

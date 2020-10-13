@@ -209,8 +209,7 @@ func get_function(_function_name,_param_value):
 	return null
 
 #执行影响改变
-func excute_effect(_effect_str):
-	var effect_param_arr = _effect_str.split(",")
+func excute_effect(effect_param_arr):
 	var effect_value_name = effect_param_arr[0]
 	var value = get_param_value(effect_value_name)
 	assert(value)

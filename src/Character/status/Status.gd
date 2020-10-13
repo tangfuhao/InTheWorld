@@ -1,4 +1,5 @@
 extends Node
+class_name Status
 
 #一分钟-更新状态值 可以修改快速看到状态值得改变
 export var update_time = 5
@@ -51,6 +52,7 @@ func update_status():
 
 func set_status_value(_status_name,_status_value):
 	var status_model = statusDic[_status_name]
+	assert(status_model)
 	status_model.set_status_value(_status_value)
 
 func get_status_value(_status_name):

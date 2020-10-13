@@ -66,6 +66,9 @@ func add_item(item_id,item_text):
 	return true
 	
 func remove_item(item_id):
-	var item = grid_bkpk.get_item_under_meta_data(item_id)
+	var item = grid_bkpk.get_item_under_meta_data("id",item_id)
 	if item:
 		grid_bkpk.remove_item(item)
+		if item.get_parent():
+			item.get_parent().remove_child(item)
+		item.queue_free()

@@ -4,7 +4,10 @@ onready var player_status_panel := $PlayerStatusPanel
 onready var player_inventory_panel := $PlayerInventory
 onready var player_sales_panel := $PlayeSales
 onready var player_make_panel := $PlayeMake
+
 onready var object_option_menu := $PopupMenu
+onready var package_obj_menu := $PopupMenu2
+
 onready var action_progress_bar := $ActionProgressBar
 
 
@@ -35,8 +38,14 @@ func show_option_menu(_interaction_object:CommonStuff):
 	object_option_menu.popup()
 
 func show_package_item_option_menu(_interaction_object:PackgeItemBase):
-	print("ssss")
-	pass
+	var item_id = _interaction_object.get_meta("id")
+	assert(item_id)
+	option_menu_interaction_object = current_ui_bind_player.inventory_system.get_item_by_id(item_id)
+	assert(option_menu_interaction_object)
+
+	package_obj_menu.set_global_position(get_global_mouse_position())
+	package_obj_menu.popup()
+
 	
 func show_action_bar(_player,_action_time):
 	if _player == current_ui_bind_player:
@@ -152,4 +161,9 @@ func toggle_panel(_panel):
 
 func _on_PopupMenu_id_pressed(id):
 	var task_name = object_option_menu.get_item_text(id)
+	emit_signal("interaction_commond",current_ui_bind_player,option_menu_interaction_object,task_name)
+
+
+func _on_PopupMenu2_id_pressed(id):
+	var task_name = package_obj_menu.get_item_text(id)
 	emit_signal("interaction_commond",current_ui_bind_player,option_menu_interaction_object,task_name)

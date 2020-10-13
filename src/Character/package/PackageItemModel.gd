@@ -35,8 +35,12 @@ func get_param_value(_param_name):
 		return stuff_param_value
 	return null
 
-
-	
+func get_function(_function_name,_param_value):
+	if function_attribute_dic.has(_function_name):
+		var active_functon_attribute = function_attribute_dic[_function_name]
+		if active_functon_attribute and active_functon_attribute.has(_param_value):
+			return active_functon_attribute[_param_value]
+	return null
 
 func get_type():
 	return "package_item"
