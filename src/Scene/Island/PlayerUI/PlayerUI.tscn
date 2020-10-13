@@ -106,7 +106,8 @@ __meta__ = {
 margin_right = 50.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
-text = "1"
+custom_fonts/font = ExtResource( 1 )
+text = "1:属性"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -116,7 +117,8 @@ margin_left = 54.0
 margin_right = 104.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
-text = "2"
+custom_fonts/font = ExtResource( 1 )
+text = "3:背包"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -126,7 +128,8 @@ margin_left = 108.0
 margin_right = 158.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
-text = "3"
+custom_fonts/font = ExtResource( 1 )
+text = "2:交易"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -136,7 +139,8 @@ margin_left = 162.0
 margin_right = 212.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
-text = "4"
+custom_fonts/font = ExtResource( 1 )
+text = "4:制造"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -482,6 +486,7 @@ __meta__ = {
 }
 
 [node name="ActionProgressBar" type="Panel" parent="."]
+visible = false
 material = SubResource( 2 )
 margin_right = 50.0
 margin_bottom = 50.0
