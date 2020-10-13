@@ -18,6 +18,7 @@ onready var body_collision_shape = $StuffBody/CollisionShape2D
 onready var interact_collision_shape = $InteractArea/CollisionShape2D
 
 onready var line2d = $Line2D
+onready var polygon2d = $Polygon2D
 onready var item_display_name = $LabelLayout/PlayerName
 
 
@@ -126,7 +127,9 @@ func apply_phycis_config():
 
 	
 	line2d.points = PoolVector2Array(calculate_point_array(half_side_length))
-	line2d.default_color = choice_color(get_param_value("颜色"))
+	polygon2d.polygon = line2d.points
+	polygon2d.color = choice_color(get_param_value("颜色"))
+#	line2d.default_color = choice_color(get_param_value("颜色"))
 
 func calculate_point_array(_radius):
 	var points_arr = []
