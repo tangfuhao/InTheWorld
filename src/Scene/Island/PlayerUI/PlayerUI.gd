@@ -27,6 +27,8 @@ var last_pos = Vector2()
 
 #物品交互命令
 signal interaction_commond(_player,_target,_task_name)
+#扔出背包对象
+signal drop_package_item(_package_item)
 
 func _ready():
 	$Popup.show()
@@ -112,7 +114,10 @@ func release(cursor_pos):
 		return
 	var c = get_container_under_cursor(cursor_pos)
 	if c == null:
-		drop_item()
+		if last_container != grid_bkpk:
+			return_to_grid()
+		else:
+			drop_item()
 	elif c.has_method("insert_item"):
 		if c.insert_item(item_held):
 			item_held = null
@@ -130,8 +135,18 @@ func get_container_under_cursor(cursor_pos):
 	return null
 
 func drop_item():
-	item_held.queue_free()
-	item_held = null
+	if current_ui_bind_player and item_held:
+		var id = item_held.get_meta("id")
+		var package_item = current_ui_bind_player.inventory_system.get_item_by_id(id)
+		emit_signal("drop_package_item",package_item)
+		current_ui_bind_player.inventory_system.remove_item_in_package(package_item)
+		item_held.queue_free()
+		item_held = null
+
+func return_to_grid():
+	if item_held:
+		grid_bkpk.insert_item_at_first_available_spot(item_held)
+		item_held = null
 
 func return_item():
 	item_held.rect_global_position = last_pos

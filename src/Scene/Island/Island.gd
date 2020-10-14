@@ -39,6 +39,8 @@ func binding_customer_node_event():
 func binding_customer_node_item(_item):
 	_item.connect("stuff_update_state",self,"_on_stuff_update_state")
 	_item.connect("disappear_notify",self,"_on_stuff_disappear")
+	
+
 
 func _on_Player_player_selected(body):
 	controll_player = body
@@ -60,6 +62,18 @@ func _on_PlayerUI_interaction_commond(_player, _target, _task_name):
 	elif _target is PackageItemModel:
 		_player.task_scheduler.add_tasks([[_task_name,_target]])
 
+#有背包物品被扔出
+func _on_PlayerUI_drop_package_item(_package_item):
+	assert(_package_item is PackageItemModel)
+	assert(controll_player)
+	
+	var stuff_node = DataManager.instance_stuff_scene()
+	stuff_node.copy_config_data(_package_item)
+	customer_node_group.add_child(stuff_node)
+	binding_customer_node_item(stuff_node)
+	stuff_node.set_global_position(controll_player.get_global_position())
+	
+	
 
 #物品的状态更新
 func _on_stuff_update_state(_state_name, _state_value):
