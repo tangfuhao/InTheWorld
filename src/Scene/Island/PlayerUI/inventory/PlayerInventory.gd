@@ -34,7 +34,7 @@ func setup_player(_player:Player):
 		_player.inventory_system.connect("add_item",self,"on_inventory_add_item")
 		_player.inventory_system.connect("remove_item",self,"on_inventory_remove_item")
 		_current_player = _player
-		synchron_data_to_ui(_player.inventory_system.package)
+		synchron_data_to_ui(_player.inventory_system.get_package_data())
 		update_laod_value()
 	
 

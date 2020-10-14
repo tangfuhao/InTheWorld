@@ -2,6 +2,8 @@ extends WindowDialog
 
 onready var player_status_listview := $VBoxContainer/HBoxContainer/CommonListView
 onready var player_params_listview := $VBoxContainer/HBoxContainer/ParamsListView
+onready var equipment_slots := $VBoxContainer/EquipmentSlots
+
 
 var player_status_item = {}
 var player_params_item = {}
@@ -32,22 +34,26 @@ func setup_player(_player:Player):
 	_player.param.connect("params_value_update",self,"on_player_params_value_update")
 	update_player_status(_player.status.statusDic)
 	update_player_params(_player.param.get_params())
+	equipment_slots.update_equipment(_player)
 
+
+	
 
 func update_player_status(_status_dic):
-	if player_status_listview.get_key_value_data().empty():
-		var index = 0
-		var status_dic = _status_dic
-		for status_key in status_dic.keys():
-			var status_model = status_dic[status_key]
-			var status_value = int(status_model.status_value * 100.0)
-			var content_text = "%s:%d/100" % [status_key,status_value]
-			player_status_listview.add_content_text(index,content_text,"状态值文本")
-			player_status_item[status_key] = index
-			index = index + 1
+	player_status_listview.clear_item()
+	var index = 0
+	var status_dic = _status_dic
+	for status_key in status_dic.keys():
+		var status_model = status_dic[status_key]
+		var status_value = int(status_model.status_value * 100.0)
+		var content_text = "%s:%d/100" % [status_key,status_value]
+		player_status_listview.add_content_text(index,content_text,"状态值文本")
+		player_status_item[status_key] = index
+		index = index + 1
 
 #更新参数
 func update_player_params(_param_dic):
+	player_params_listview.clear_item()
 	var index = 0
 	for param_key in _param_dic.keys():
 		var param_value = _param_dic[param_key]

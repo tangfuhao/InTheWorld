@@ -310,7 +310,6 @@ size_flags_vertical = 3
 is_auto_scroll = false
 
 [node name="PlayerInventory" type="WindowDialog" parent="."]
-visible = true
 margin_left = 353.159
 margin_top = 205.885
 margin_right = 957.159

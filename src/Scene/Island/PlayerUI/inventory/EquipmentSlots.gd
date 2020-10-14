@@ -1,5 +1,7 @@
 extends Control
 
+const item_base = preload("res://src/Scene/Island/PlayerUI/inventory/ItemBase.tscn")
+
 onready var slots = get_children()
 var items = {}
 
@@ -8,6 +10,32 @@ signal slot_change(_slot_name,_item)
 func _ready():
 	for slot in slots:
 		items[slot.name] = null
+		
+
+func clear():
+	var all_child = get_children()
+	for item in all_child:
+		if item is MarginContainer:
+			remove_child(item)
+		else:
+			items[item.name] = null
+
+		
+
+#更新装备
+func update_equipment(_player):
+	clear()
+
+	for slot in slots:
+		var equipment_item = _player.inventory_system.get_item_by_equipment_slot(slot.name)
+		if equipment_item:
+			var item = item_base.instance()
+			item.set_meta("id", equipment_item.node_name)
+			item.get_node("Control").text = equipment_item.display_name
+			items[slot.name] = item
+			add_child(item)
+			item.rect_global_position = slot.rect_global_position + slot.rect_size / 2 - item.rect_size / 2
+
 
 func insert_item(item):
 	var item_pos = item.rect_global_position + item.rect_size / 2
@@ -41,7 +69,7 @@ func grab_item(pos):
 	
 #	var item_slot = ItemDB.get_item(item.get_meta("id"))["slot"]
 	items[item_slot] = null
-
+	emit_signal("slot_change",item_slot,null)
 	return item
 
 func get_slot_under_pos(pos):

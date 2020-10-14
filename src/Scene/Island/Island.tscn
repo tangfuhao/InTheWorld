@@ -89,11 +89,18 @@ rotation = 2.4138
 collision_mask = 11
 player_name = "军宏"
 
+[node name="Player2" parent="." instance=ExtResource( 1 )]
+position = Vector2( 912.446, 1833.9 )
+rotation = 2.4138
+collision_mask = 11
+player_name = "小夕"
+
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="PlayerUI" parent="UI" instance=ExtResource( 7 )]
 visible = false
 [connection signal="cancle_focus_player" from="CameraMovement" to="." method="_on_CameraMovement_cancle_focus_player"]
 [connection signal="player_selected" from="Player" to="." method="_on_Player_player_selected"]
+[connection signal="player_selected" from="Player2" to="." method="_on_Player_player_selected"]
 [connection signal="drop_package_item" from="UI/PlayerUI" to="." method="_on_PlayerUI_drop_package_item"]
 [connection signal="interaction_commond" from="UI/PlayerUI" to="." method="_on_PlayerUI_interaction_commond"]
