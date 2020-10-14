@@ -176,7 +176,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Panel" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
+[node name="MeleeWeapons" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
 margin_left = 30.2188
 margin_top = 16.9446
 margin_right = 90.2188
@@ -186,7 +186,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots/Panel"]
+[node name="Label" type="Label" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots/MeleeWeapons"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_fonts/font = ExtResource( 1 )
@@ -194,7 +194,7 @@ text = "近战"
 align = 1
 valign = 1
 
-[node name="Panel2" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
+[node name="ThrowingWeapons" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
 margin_left = 101.344
 margin_top = 15.2227
 margin_right = 161.344
@@ -204,7 +204,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots/Panel2"]
+[node name="Label" type="Label" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots/ThrowingWeapons"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_fonts/font = ExtResource( 1 )
@@ -212,7 +212,7 @@ text = "投掷"
 align = 1
 valign = 1
 
-[node name="Panel3" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
+[node name="Armor" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
 margin_left = 175.385
 margin_top = 14.6488
 margin_right = 235.385
@@ -222,7 +222,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots/Panel3"]
+[node name="Label" type="Label" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots/Armor"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_fonts/font = ExtResource( 1 )
@@ -230,7 +230,7 @@ text = "服装"
 align = 1
 valign = 1
 
-[node name="Panel4" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
+[node name="Packsack" type="Panel" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots"]
 margin_left = 31.8706
 margin_top = 84.395
 margin_right = 91.8706
@@ -240,11 +240,11 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots/Panel4"]
+[node name="Label" type="Label" parent="PlayerStatusPanel/VBoxContainer/EquipmentSlots/Packsack"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 custom_fonts/font = ExtResource( 1 )
-text = "1"
+text = "背包"
 align = 1
 valign = 1
 
@@ -521,6 +521,7 @@ anims/play = SubResource( 5 )
 [connection signal="pressed" from="HBoxContainer/FunctionButton2" to="." method="_on_FunctionButton2_pressed"]
 [connection signal="pressed" from="HBoxContainer/FunctionButton3" to="." method="_on_FunctionButton3_pressed"]
 [connection signal="pressed" from="HBoxContainer/FunctionButto4" to="." method="_on_FunctionButto4_pressed"]
+[connection signal="slot_change" from="PlayerStatusPanel/VBoxContainer/EquipmentSlots" to="PlayerStatusPanel" method="_on_EquipmentSlots_slot_change"]
 [connection signal="id_pressed" from="PopupMenu" to="." method="_on_PopupMenu_id_pressed"]
 [connection signal="id_pressed" from="PopupMenu2" to="." method="_on_PopupMenu2_id_pressed"]
 [connection signal="animation_finished" from="ActionProgressBar/AnimationPlayer" to="ActionProgressBar" method="_on_AnimationPlayer_animation_finished"]

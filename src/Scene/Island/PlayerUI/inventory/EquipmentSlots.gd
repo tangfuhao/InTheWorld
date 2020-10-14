@@ -3,6 +3,8 @@ extends Control
 onready var slots = get_children()
 var items = {}
 
+signal slot_change(_slot_name,_item)
+
 func _ready():
 	for slot in slots:
 		items[slot.name] = null
@@ -13,20 +15,20 @@ func insert_item(item):
 	if slot == null:
 		return false
 	
-#	var item_slot = ItemDB.get_item(item.get_meta("id"))["slot"]
-#	if item_slot != slot.name:
-#		return false
 	var item_slot = slot.name
 	if items[item_slot] != null:
 		return false
 
 	items[item_slot] = item
 	
+	
 	if item.get_parent():
 		item.get_parent().remove_child(item)
 	add_child(item)
 	move_child(item, get_child_count())
 	item.rect_global_position = slot.rect_global_position + slot.rect_size / 2 - item.rect_size / 2
+	
+	emit_signal("slot_change",item_slot,item)
 	return true
 
 func grab_item(pos):
