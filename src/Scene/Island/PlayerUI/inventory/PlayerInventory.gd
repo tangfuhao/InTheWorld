@@ -3,6 +3,7 @@ extends WindowDialog
 const item_base = preload("res://src/Scene/Island/PlayerUI/inventory/ItemBase.tscn")
 
 onready var grid_bkpk := $GridBackPack
+onready var laod_value_label := $Label
 
 var _current_player
 
@@ -34,25 +35,34 @@ func setup_player(_player:Player):
 		_player.inventory_system.connect("remove_item",self,"on_inventory_remove_item")
 		_current_player = _player
 		synchron_data_to_ui(_player.inventory_system.package)
-		
+		update_laod_value()
 	
 
-func on_inventory_add_item(_item:PackageItemModel):
-	if _current_player:
-		add_item(_item.node_name,_item.display_name)
-		
-	
-
-func on_inventory_remove_item(_item):
-	if _current_player:
-		remove_item(_item.node_name)
-		
+#更新负重值
+func update_laod_value():
+	var content = "负重值:%d/%d" % [_current_player.inventory_system.current_load_value,_current_player.inventory_system.max_load_value]
+	laod_value_label.text = content
 
 #把背包里的数据同步到ui
 func synchron_data_to_ui(_packge_data):
 	grid_bkpk.clear()
 	for item in _packge_data:
 		add_item(item.node_name,item.display_name)
+
+
+func on_inventory_add_item(_item:PackageItemModel):
+	if _current_player:
+		add_item(_item.node_name,_item.display_name)
+		update_laod_value()
+		
+	
+
+func on_inventory_remove_item(_item):
+	if _current_player:
+		remove_item(_item.node_name)
+		update_laod_value()
+		
+
 
 
 	
