@@ -150,6 +150,11 @@ _global_script_classes=[ {
 "path": "res://src/Character/tasks/Embrace.gd"
 }, {
 "base": "Reference",
+"class": "Equipment",
+"language": "GDScript",
+"path": "res://src/Character/tasks/Equipment.gd"
+}, {
+"base": "Reference",
 "class": "Evaluate",
 "language": "GDScript",
 "path": "res://src/Character/status/Evaluate.gd"
@@ -688,6 +693,7 @@ _global_script_class_icons={
 "DryUp": "",
 "Eat": "",
 "Embrace": "",
+"Equipment": "",
 "Evaluate": "",
 "ExamineElectricalPowerSystems": "",
 "Excretion": "",

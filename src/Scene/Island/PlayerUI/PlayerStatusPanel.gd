@@ -77,13 +77,4 @@ func _on_EquipmentSlots_slot_change(_slot_name, _item):
 	if _item:
 		var item_id = _item.get_meta("id")
 		package_item = current_player.inventory_system.get_item_by_id(item_id)
-	if _slot_name == "MeleeWeapons":
-		if package_item:
-			var attack_force = package_item.get_param_value("攻击力")
-			current_player.param.set_value("攻击",attack_force)
-	elif _slot_name == "ThrowingWeapons":
-		pass
-	elif _slot_name == "Armor":
-		pass
-	elif _slot_name == "Packsack":
-		pass
+	current_player.task_scheduler.add_tasks([["装备",package_item,_slot_name]])

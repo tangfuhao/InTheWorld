@@ -2,9 +2,6 @@
 extends "res://src/Character/tasks/NoLimitTask.gd"
 class_name Trow
 
-var player_ui
-var action_time
-
 
 
 func active():
