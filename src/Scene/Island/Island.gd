@@ -66,14 +66,7 @@ func _on_PlayerUI_interaction_commond(_player, _target, _task_name):
 func _on_PlayerUI_drop_package_item(_package_item):
 	assert(_package_item is PackageItemModel)
 	assert(controll_player)
-	
-	var stuff_node = DataManager.instance_stuff_scene()
-	stuff_node.copy_config_data(_package_item)
-	customer_node_group.add_child(stuff_node)
-	binding_customer_node_item(stuff_node)
-	stuff_node.set_global_position(controll_player.get_global_position())
-	
-	
+	controll_player.task_scheduler.add_tasks([["扔出",_package_item]])
 
 #物品的状态更新
 func _on_stuff_update_state(_state_name, _state_value):

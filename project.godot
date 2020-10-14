@@ -629,6 +629,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/Character/tasks/Task.gd"
 }, {
+"base": "Reference",
+"class": "Trow",
+"language": "GDScript",
+"path": "res://src/Character/tasks/Trow.gd"
+}, {
 "base": "Node2D",
 "class": "VisionSensor",
 "language": "GDScript",
@@ -779,6 +784,7 @@ _global_script_class_icons={
 "TakeOut": "",
 "TargetSystem": "",
 "Task": "",
+"Trow": "",
 "VisionSensor": "",
 "Wait": "",
 "Wander": "",
