@@ -51,9 +51,9 @@ func _set_display_name(_name):
 func _ready():
 	if load_config_by_stuff_type(stuff_type_name):
 		setup_node_by_config(stuff_type_name)
-		
-		
-		
+
+
+
 func get_global_rect() -> Rect2:
 	var global_postion = get_global_position()
 	var half_side_length = side_length / 2

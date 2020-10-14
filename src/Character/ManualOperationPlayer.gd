@@ -16,15 +16,17 @@ onready var hit_box = $HitBox
 onready var status := $Status
 onready var task_scheduler = $TaskScheduler
 
-var radius = 8
+
 
 
 #每个实体都会生成一个唯一的node_id
 var node_name
 #显示名称
 var display_name
-
+#库存
 var inventory_system:InventorySystem
+#属性
+var param:PlayerParam
 
 
 signal disappear_notify
@@ -48,6 +50,8 @@ func _ready() -> void:
 
 	status.setup(self)
 	status.connect("status_value_update",self,"_on_status_model_value_update")
+	param = PlayerParam.new()
+	param.setup(self)
 
 func _process(_delta):
 	pass
