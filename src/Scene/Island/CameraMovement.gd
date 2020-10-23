@@ -26,6 +26,9 @@ var focus_player
 
 signal cancle_focus_player
 
+func _ready():
+	set_as_toplevel(true)
+
 func _process(_delta):
 	if focus_player :
 		handle_player_operation(_delta)
@@ -77,22 +80,27 @@ func focus_player(_player):
 	if focus_player == _player:
 		return
 	
+	if focus_player:
+		focus_player.camera_position.set_remote_node("")
 	
 	if _player:
-		self.get_parent().remove_child(self)
-		_player.add_child(self)
-		global_position.x = _player.global_position.x
-		global_position.y = _player.global_position.y
-		
+#		self.get_parent().remove_child(self)
+#		_player.add_child(self)
 		zoom.x = 0.5
 		zoom.y = 0.5
-	else:
-		var root_node = self.get_node("/root/Island")
-		self.get_parent().remove_child(self)
-		root_node.add_child(self)
+#		global_position.x = _player.global_position.x
+#		global_position.y = _player.global_position.y 
+		_player.camera_position.set_remote_node(get_path())
+		position.x = 0
+		position.y = 0
 		
-		global_position.x = focus_player.global_position.x
-		global_position.y = focus_player.global_position.y
+	else:
+#		var root_node = self.get_node("/root/Island")
+#		self.get_parent().remove_child(self)
+#		root_node.add_child(self)
+		
+#		global_position.x = focus_player.global_position.x
+#		global_position.y = focus_player.global_position.y
 		zoom.x = 1
 		zoom.y = 1
 		

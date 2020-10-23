@@ -1,0 +1,196 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/UI/customization/chinese_label_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://src/UI/customization/listview/CommonListView.tscn" type="PackedScene" id=2]
+[ext_resource path="res://src/Scene/Island/PlayerUI/PlayerPanel.gd" type="Script" id=3]
+
+[node name="PlayerPanel" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_constants/separation = -2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+margin_right = 1200.0
+margin_bottom = 602.0
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
+margin_right = 598.0
+margin_bottom = 602.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 591.0
+margin_bottom = 595.0
+size_flags_horizontal = 3
+custom_constants/separation = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+margin_right = 191.0
+margin_bottom = 588.0
+size_flags_horizontal = 3
+custom_constants/separation = 5
+
+[node name="CommonListView" parent="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 191.0
+margin_bottom = 291.0
+size_flags_vertical = 3
+is_auto_scroll = false
+
+[node name="CommonListView2" parent="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 296.0
+margin_right = 191.0
+margin_bottom = 588.0
+size_flags_vertical = 3
+is_auto_scroll = false
+
+[node name="CommonListView" parent="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 196.0
+margin_right = 387.0
+margin_bottom = 588.0
+size_flags_horizontal = 3
+is_auto_scroll = false
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer"]
+margin_left = 392.0
+margin_right = 584.0
+margin_bottom = 588.0
+size_flags_horizontal = 3
+custom_constants/separation = 5
+
+[node name="CommonListView" parent="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 192.0
+margin_bottom = 459.0
+size_flags_vertical = 3
+is_auto_scroll = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 464.0
+margin_right = 192.0
+margin_bottom = 514.0
+rect_min_size = Vector2( 0, 50 )
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+margin_right = 50.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+custom_fonts/font = ExtResource( 1 )
+text = "走"
+
+[node name="Button2" type="Button" parent="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+margin_left = 54.0
+margin_right = 104.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+custom_fonts/font = ExtResource( 1 )
+text = "跑"
+
+[node name="Button3" type="Button" parent="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
+margin_left = 108.0
+margin_right = 158.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+custom_fonts/font = ExtResource( 1 )
+text = "散步"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 519.0
+margin_right = 192.0
+margin_bottom = 569.0
+rect_min_size = Vector2( 0, 50 )
+
+[node name="Button4" type="Button" parent="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2"]
+margin_right = 50.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+focus_mode = 0
+custom_fonts/font = ExtResource( 1 )
+enabled_focus_mode = 0
+text = "执行"
+
+[node name="Button5" type="Button" parent="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2"]
+margin_left = 54.0
+margin_right = 104.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+focus_mode = 0
+custom_fonts/font = ExtResource( 1 )
+enabled_focus_mode = 0
+text = "停止"
+
+[node name="Button6" type="Button" parent="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2"]
+margin_left = 108.0
+margin_right = 158.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 50, 50 )
+focus_mode = 0
+custom_fonts/font = ExtResource( 1 )
+enabled_focus_mode = 0
+text = "再执行"
+
+[node name="ProgressBar" type="ProgressBar" parent="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2"]
+margin_top = 574.0
+margin_right = 192.0
+margin_bottom = 588.0
+
+[node name="Control" type="Control" parent="VBoxContainer/HBoxContainer"]
+margin_left = 602.0
+margin_right = 1200.0
+margin_bottom = 602.0
+size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/Control"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -52.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/Control/HBoxContainer"]
+margin_left = 548.0
+margin_right = 598.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 50, 50 )
+focus_mode = 0
+custom_fonts/font = ExtResource( 1 )
+enabled_focus_mode = 0
+text = "背包"
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+margin_top = 600.0
+margin_right = 1200.0
+margin_bottom = 800.0
+rect_min_size = Vector2( 0, 200 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 1193.0
+margin_bottom = 193.0

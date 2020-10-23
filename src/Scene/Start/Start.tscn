@@ -1,0 +1,50 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://src/UI/customization/chinese_label_font.tres" type="DynamicFont" id=1]
+[ext_resource path="res://src/Scene/Start/Start.gd" type="Script" id=2]
+
+[node name="Start" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -133.0
+margin_top = 209.0
+margin_right = 139.0
+margin_bottom = -234.0
+custom_constants/separation = 20
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+margin_top = 127.0
+margin_right = 272.0
+margin_bottom = 148.0
+custom_fonts/font = ExtResource( 1 )
+text = "载入场景"
+
+[node name="Button2" type="Button" parent="VBoxContainer"]
+margin_top = 168.0
+margin_right = 272.0
+margin_bottom = 189.0
+custom_fonts/font = ExtResource( 1 )
+text = "自定义物品"
+
+[node name="Button3" type="Button" parent="VBoxContainer"]
+margin_top = 209.0
+margin_right = 272.0
+margin_bottom = 230.0
+custom_fonts/font = ExtResource( 1 )
+text = "自定义作用"
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Button2" to="." method="_on_Button2_pressed"]
+[connection signal="pressed" from="VBoxContainer/Button3" to="." method="_on_Button3_pressed"]

@@ -9,13 +9,14 @@ export (NodePath) var bullets_node_path
 var bullets_node_layer
 
 
-onready var name_label = $NameDisplay/NameLabel
+onready var name_label := $NameDisplay
 onready var movement = $Movement
 onready var hurt_box = $HurtBox
 onready var hit_box = $HitBox
-onready var status := $Status
 onready var task_scheduler = $TaskScheduler
-
+#属性管理
+onready var param := $PlayerParam
+onready var camera_position := $NameDisplay/RemoteTransform2D
 
 
 
@@ -25,8 +26,7 @@ var node_name
 var display_name
 #库存
 var inventory_system:InventorySystem
-#属性
-var param:PlayerParam
+
 
 
 signal disappear_notify
@@ -41,20 +41,23 @@ signal player_selected(body)
 
 func _ready() -> void:
 	display_name = player_name
-	name_label.text = display_name
+	name_label.set_text(display_name)
 	node_name = display_name + IDGenerator.pop_id_index()
 
 	bullets_node_layer = get_node(bullets_node_path)
 
 	inventory_system = InventorySystem.new()
 
-	status.setup(self)
-	status.connect("status_value_update",self,"_on_status_model_value_update")
-	param = PlayerParam.new()
-	param.setup(self)
+#	status.setup(self)
+#	status.connect("status_value_update",self,"_on_status_model_value_update")
+#	param = PlayerParam.new()
+#	param.setup(self)
 
 func _process(_delta):
 	pass
+	
+func _physics_process(delta):
+	camera_position.global_rotation_degrees = 0
 	
 
 func _on_ManualOperationPlayer_input_event(viewport, event, shape_idx):
@@ -62,20 +65,21 @@ func _on_ManualOperationPlayer_input_event(viewport, event, shape_idx):
 		if event.is_pressed() and event.button_index == BUTTON_LEFT:
 			emit_signal("player_selected",self)
 
-func _on_status_model_value_update(_status_model):
-	if _status_model.status_name == "体力状态":
-		if _status_model.status_value == 0.5:
-			movement.switch_move_state("walk")
-		elif _status_model.status_value == 1:
-			movement.switch_move_state("run")
+#func _on_status_model_value_update(_status_model):
+#	if _status_model.status_name == "体力状态":
+#		if _status_model.status_value == 0.5:
+#			movement.switch_move_state("walk")
+#		elif _status_model.status_value == 1:
+#			movement.switch_move_state("run")
 
 
 #执行影响改变
 func excute_effect(effect_param_arr):
-	var effect_value_name = effect_param_arr[0]
-	var status_value = status.get_status_value(effect_value_name) * 100
-	var result = float(evaluateResult(status_value,effect_param_arr[1],effect_param_arr[2])) * 0.01
-	status.set_status_value(effect_value_name,result)
+	print("影响:",effect_param_arr)
+#	var effect_value_name = effect_param_arr[0]
+#	var status_value = status.get_status_value(effect_value_name) * 100
+#	var result = float(evaluateResult(status_value,effect_param_arr[1],effect_param_arr[2])) * 0.01
+#	status.set_status_value(effect_value_name,result)
 
 func evaluateResult(property, condition, value) -> float:
 	if property is String:
