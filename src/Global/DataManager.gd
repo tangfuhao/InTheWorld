@@ -10,7 +10,9 @@ var config_data
 
 var player_config_dic = {}
 var base_action_dic
-var create_object_list
+
+#物品定义map集合
+var create_object_dic
 
 
 var content_type_regex
@@ -36,7 +38,7 @@ func get_base_task_data():
 	return base_action_dic
 
 func get_stuff_list():
-	return create_object_list
+	return create_object_dic.values()
 
 
 func preload_config_overview():
@@ -44,7 +46,7 @@ func preload_config_overview():
 
 func preload_global_data():
 	var create_object_path = config_data["create_object"]
-	create_object_list = load_json_data(create_object_path)
+	create_object_dic = load_json_data(create_object_path)
 	
 	
 	var base_action_path = config_data["base_action"]
@@ -54,14 +56,18 @@ func preload_global_data():
 #TODO 这个地方处理不好  不应该每次从磁盘获取数据  应该从内存中拷贝一份数据
 #注意物品类别的功能属性是不可更改的 可重用数据  唯一需要拷贝的是 物理数据
 func load_common_stuff_config_json(_stuff_type_name) ->Dictionary:
-	var stuff_list = get_stuff_list()
-	var stuff_config_params = get_var_by_params_in_arr(stuff_list,"名称",_stuff_type_name)
-	if stuff_config_params:
-		var stuff_config_file_path = stuff_config_params["路径"]
-		var stuff_config_json = load_json_data(stuff_config_file_path)
-		if stuff_config_json:
-			return stuff_config_json
+	if create_object_dic.has(_stuff_type_name):
+		var stuff_config_json = create_object_dic[_stuff_type_name]
+		return stuff_config_json
 	return {}
+#	var stuff_list = get_stuff_list()
+#	var stuff_config_params = get_var_by_params_in_arr(stuff_list,"名称",_stuff_type_name)
+#	if stuff_config_params:
+#		var stuff_config_file_path = stuff_config_params["路径"]
+#		var stuff_config_json = load_json_data(stuff_config_file_path)
+#		if stuff_config_json:
+#			return stuff_config_json
+#	return {}
 
 #创建自定义物品
 func instance_stuff_script(_stuff_name):

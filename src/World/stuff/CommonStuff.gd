@@ -36,10 +36,10 @@ var side_length
 var interactive_object_list = []
 
 
-#属性
-var function_attribute_active_dic := {}
-var active_functon_attribute_params_dic := {}
+#物理属性
 var physics_data:Dictionary
+#自定义属性
+var custome_param_dic:Dictionary
 
 signal disappear_notify(_stuff)
 signal stuff_update_state(_state_name,_state_value)
@@ -52,6 +52,10 @@ func _set_display_name(_name):
 func _ready():
 	if load_config_by_stuff_type(stuff_type_name):
 		setup_node_by_config(stuff_type_name)
+
+func _process(delta):
+	for item in custome_param_dic.values():
+		item._process(delta)
 
 
 
@@ -69,15 +73,42 @@ func load_config_by_stuff_type(_type) -> bool:
 	#已初始化
 	if physics_data:
 		return true
+		
+	if not _type:
+		return false
+	stuff_type_name = _type
+
 	
-	if _type:
-		stuff_type_name = _type
-		var stuff_config = DataManager.load_common_stuff_config_json(stuff_type_name)
-		if stuff_config:
-			physics_data = stuff_config["physics_data"]
-#			apply_function_attribute(stuff_config)
-			return true
-	return false
+	var stuff_config = DataManager.load_common_stuff_config_json(stuff_type_name)
+	if not stuff_config:
+		return false
+
+	physics_data = stuff_config["physics"]
+	var param_config_arr = stuff_config["param_config"]
+	for item in param_config_arr:
+		var param_name = item["name"]
+		var param_model = ComomStuffParam.new()
+		param_model.name = param_name
+		
+		if item.has("max_value"):
+			param_model.max_value = item["max_value"]
+		
+		if item.has("min_value"):
+			param_model.min_value = item["min_value"]
+			
+		if item.has("transform"):
+			param_model.transform = item["transform"]
+		
+		if item.has("init_value"):
+			param_model.init_value = item["init_value"]
+			param_model.value = param_model.init_value
+			
+		
+
+		custome_param_dic[param_name] = param_model
+
+	return true
+
 	
 #func apply_function_attribute(stuff_config_json):
 #	var function_attribute_value_dic = stuff_config_json["function_attribute_value_dic"]
@@ -197,12 +228,12 @@ func notify_disappear():
 		emit_signal("disappear_notify",self)
 
 
-func get_function(_function_name,_param_value):
-	if active_functon_attribute_params_dic.has(_function_name):
-		var active_functon_attribute = active_functon_attribute_params_dic[_function_name]
-		if active_functon_attribute and active_functon_attribute.has(_param_value):
-			return active_functon_attribute[_param_value]
-	return null
+#func get_function(_function_name,_param_value):
+#	if active_functon_attribute_params_dic.has(_function_name):
+#		var active_functon_attribute = active_functon_attribute_params_dic[_function_name]
+#		if active_functon_attribute and active_functon_attribute.has(_param_value):
+#			return active_functon_attribute[_param_value]
+#	return null
 
 #执行影响改变
 func excute_effect(effect_param_arr):

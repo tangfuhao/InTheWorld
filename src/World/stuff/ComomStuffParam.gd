@@ -12,12 +12,14 @@ class ParamTransform:
 	func t(_detal) -> float:
 		return transformBySec * _detal
 
+var name
 var value setget set_value
 var init_value
-var max_value
-var min_value
+var max_value:float
+var min_value:float
 var transform:ParamTransform setget set_transform
 
+var temp_detal = 0
 
 func set_transform(_transform_value):
 	transform = ParamTransform.new(_transform_value)
@@ -28,13 +30,21 @@ func set_value(_value):
 		value = max_value
 	elif min_value and value < min_value:
 		value = min_value
-
+	
 
 func _process(_detal):
+	temp_detal = temp_detal + _detal
+	if temp_detal < 1:
+		return 
+	
+	
 	if transform:
 		if not value:
 			self.value = 0.0
-
-		assert(value is String)
-		assert(value is bool)
-		self.value = value + transform.t(_detal)
+		
+		
+		assert(not value is String)
+		assert(not value is bool)
+		self.value = value + transform.t(temp_detal)
+	
+	temp_detal = 0
