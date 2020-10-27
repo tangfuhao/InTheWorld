@@ -40,6 +40,8 @@ var interactive_object_list = []
 var physics_data:Dictionary
 #自定义属性
 var custome_param_dic:Dictionary
+#状态
+var status_arr := []
 
 signal disappear_notify(_stuff)
 signal stuff_update_state(_state_name,_state_value)
@@ -56,7 +58,12 @@ func _ready():
 		setup_node_by_config(stuff_type_name)
 
 func _process(delta):
+	#更新自定义属性
 	for item in custome_param_dic.values():
+		item._process(delta)
+	
+	#更新挂载的状态
+	for item in status_arr:
 		item._process(delta)
 
 
