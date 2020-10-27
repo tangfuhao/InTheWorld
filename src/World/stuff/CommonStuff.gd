@@ -62,16 +62,16 @@ func get_global_rect() -> Rect2:
 func can_interaction(_object:Node2D):
 	return interactive_object_list.has(_object)
 
-#单节点拷贝成场景
-func copy_config_data(_stuff):
-	if _stuff is PackageItemModel:
-		stuff_type_name = _stuff.item_name
-		physics_data = _stuff.physics_data
-		active_functon_attribute_params_dic = _stuff.function_attribute_dic
-	else:
-		stuff_type_name = _stuff.stuff_type_name
-		physics_data = _stuff.physics_data
-		active_functon_attribute_params_dic = _stuff.active_functon_attribute_params_dic
+# #单节点拷贝成场景
+# func copy_config_data(_stuff):
+# 	if _stuff is PackageItemModel:
+# 		stuff_type_name = _stuff.item_name
+# 		physics_data = _stuff.physics_data
+# 		active_functon_attribute_params_dic = _stuff.function_attribute_dic
+# 	else:
+# 		stuff_type_name = _stuff.stuff_type_name
+# 		physics_data = _stuff.physics_data
+# 		active_functon_attribute_params_dic = _stuff.active_functon_attribute_params_dic
 		
 	
 #通过物品类型 初始化物品属性
