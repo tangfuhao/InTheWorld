@@ -100,6 +100,11 @@ _global_script_classes=[ {
 "path": "res://src/World/stuff/CommonStuff.gd"
 }, {
 "base": "Reference",
+"class": "ComomStuffParam",
+"language": "GDScript",
+"path": "res://src/World/stuff/ComomStuffParam.gd"
+}, {
+"base": "Reference",
 "class": "Confession",
 "language": "GDScript",
 "path": "res://src/Character/tasks/Confession.gd"
@@ -688,6 +693,7 @@ _global_script_class_icons={
 "Close": "",
 "Collect": "",
 "CommonStuff": "",
+"ComomStuffParam": "",
 "Confession": "",
 "ConfessionByPhone": "",
 "ContinueTask": "",
