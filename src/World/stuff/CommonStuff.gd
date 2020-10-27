@@ -43,7 +43,9 @@ var custome_param_dic:Dictionary
 
 signal disappear_notify(_stuff)
 signal stuff_update_state(_state_name,_state_value)
-signal stuff_params_update(_param_name,_param_value)
+
+
+signal params_update(_param_name,_param_value)
 
 func _set_display_name(_name):
 	if item_display_name:
@@ -102,22 +104,11 @@ func load_config_by_stuff_type(_type) -> bool:
 		if item.has("init_value"):
 			param_model.init_value = item["init_value"]
 			param_model.value = param_model.init_value
-			
-		
 
 		custome_param_dic[param_name] = param_model
 
 	return true
 
-	
-#func apply_function_attribute(stuff_config_json):
-#	var function_attribute_value_dic = stuff_config_json["function_attribute_value_dic"]
-#	function_attribute_active_dic = stuff_config_json["function_attribute_active_status_dic"]
-#	for key in function_attribute_active_dic.keys():
-#		var value = function_attribute_active_dic[key]
-#		if value:
-#			var params_arr = function_attribute_value_dic[key]
-#			active_functon_attribute_params_dic[key] = params_arr
 
 #通过属性 初始化节点
 func setup_node_by_config(_type):
@@ -192,6 +183,9 @@ func get_param_value(_param_name):
 	if physics_data and physics_data.has(_param_name):
 		var stuff_param_value = physics_data[_param_name]
 		return stuff_param_value
+	elif custome_param_dic and custome_param_dic.has(_param_name):
+		var param_model = custome_param_dic[_param_name]
+		return param_model.value
 	return null
 
 #设置属性值
@@ -199,9 +193,13 @@ func set_param_value(_param_name,_param_value):
 	if physics_data and physics_data.has(_param_name):
 		var stuff_param_value = physics_data[_param_name]
 		
-		if typeof(stuff_param_value) != typeof(_param_value) or stuff_param_value != _param_value:
+		if stuff_param_value != _param_value:
 			physics_data[_param_name] = _param_value
-			emit_signal("stuff_params_update",_param_name,_param_value)
+			emit_signal("params_update",_param_name,_param_value)
+	elif custome_param_dic and custome_param_dic.has(_param_name):
+		var param_model = custome_param_dic[_param_name]
+		param_model.value = _param_value
+		emit_signal("params_update",_param_name,_param_value)
 
 
 #移除节点
@@ -262,13 +260,6 @@ func _on_StuffBody_mouse_entered():
 func _on_StuffBody_mouse_exited():
 	GlobalRef.remove_value_from_key_global(GlobalRef.global_key.mouse_interaction,self)
 
-
-#属性值的更新
-func _on_Stuff_stuff_params_update(_param_name, _param_value):
-	if _param_name == "耐久度":
-		if _param_value <= 0:
-			#耐久值为0 物品销毁
-			disappear()
 
 
 
