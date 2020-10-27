@@ -288,13 +288,13 @@ func add_response_task(_asker,_action_name):
 func notify_disappear():
 	emit_signal("disappear_notify",self)
 
-func has_attribute(_params):
-	if not _params:
-		return false
+# func has_attribute(_params):
+# 	if not _params:
+# 		return false
 		
-	if player_name == _params:
-		return true
-	return _params == "其他人" or _params == "发起人"
+# 	if player_name == _params:
+# 		return true
+# 	return _params == "其他人" or _params == "发起人"
 	
 func get_type():
 	return "player"

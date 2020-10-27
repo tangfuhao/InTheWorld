@@ -9,8 +9,7 @@ export var stuff_type_name:String
 export var is_location := false
 #是否锁定
 var is_lock := false
-#可叠加
-var is_superposable := false
+
 
 
 onready var area_collision_shape = $StuffArea/CollisionShape2D
@@ -27,6 +26,8 @@ onready var item_display_name = $LabelLayout/PlayerName
 var node_name
 #显示名称
 var display_name setget _set_display_name
+
+
 #存储空间
 var storage
 #边长
@@ -62,17 +63,6 @@ func get_global_rect() -> Rect2:
 func can_interaction(_object:Node2D):
 	return interactive_object_list.has(_object)
 
-# #单节点拷贝成场景
-# func copy_config_data(_stuff):
-# 	if _stuff is PackageItemModel:
-# 		stuff_type_name = _stuff.item_name
-# 		physics_data = _stuff.physics_data
-# 		active_functon_attribute_params_dic = _stuff.function_attribute_dic
-# 	else:
-# 		stuff_type_name = _stuff.stuff_type_name
-# 		physics_data = _stuff.physics_data
-# 		active_functon_attribute_params_dic = _stuff.active_functon_attribute_params_dic
-		
 	
 #通过物品类型 初始化物品属性
 func load_config_by_stuff_type(_type) -> bool:
@@ -85,18 +75,18 @@ func load_config_by_stuff_type(_type) -> bool:
 		var stuff_config = DataManager.load_common_stuff_config_json(stuff_type_name)
 		if stuff_config:
 			physics_data = stuff_config["physics_data"]
-			apply_function_attribute(stuff_config)
+#			apply_function_attribute(stuff_config)
 			return true
 	return false
 	
-func apply_function_attribute(stuff_config_json):
-	var function_attribute_value_dic = stuff_config_json["function_attribute_value_dic"]
-	function_attribute_active_dic = stuff_config_json["function_attribute_active_status_dic"]
-	for key in function_attribute_active_dic.keys():
-		var value = function_attribute_active_dic[key]
-		if value:
-			var params_arr = function_attribute_value_dic[key]
-			active_functon_attribute_params_dic[key] = params_arr
+#func apply_function_attribute(stuff_config_json):
+#	var function_attribute_value_dic = stuff_config_json["function_attribute_value_dic"]
+#	function_attribute_active_dic = stuff_config_json["function_attribute_active_status_dic"]
+#	for key in function_attribute_active_dic.keys():
+#		var value = function_attribute_active_dic[key]
+#		if value:
+#			var params_arr = function_attribute_value_dic[key]
+#			active_functon_attribute_params_dic[key] = params_arr
 
 #通过属性 初始化节点
 func setup_node_by_config(_type):
@@ -189,14 +179,14 @@ func disappear():
 	queue_free()
 	
 
-func has_attribute(_params) -> bool :
-	if not _params:
-		return false
-		
-	if stuff_type_name == _params:
-		return true
-
-	return active_functon_attribute_params_dic.has(_params)
+#func has_attribute(_params) -> bool :
+#	if not _params:
+#		return false
+#
+#	if stuff_type_name == _params:
+#		return true
+#
+#	return active_functon_attribute_params_dic.has(_params)
 	
 func get_type():
 	return "stuff"
