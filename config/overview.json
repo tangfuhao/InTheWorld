@@ -1,5 +1,5 @@
 {
-    "create_object": "user://stuff_list_1.json",
+    "create_object": "res://config/stuff_list.json",
     "base_action": "res://config/base_tasks.json",
     "players": [
         {

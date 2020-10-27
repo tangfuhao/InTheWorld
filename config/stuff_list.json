@@ -1,0 +1,42 @@
+{
+	"水果": {
+		"object_name": "水果",
+		"params": {
+			"新鲜度": 1
+		},
+		"param_config": [{
+			"name": "新鲜度",
+			"init_value": 1,
+			"max_value": 1,
+			"min_value": 0,
+			"transform": -0.001
+		}]
+	},
+
+	"梨": {
+		"object_name": "梨",
+		"inherit_object": "可食用,水果",
+		"physics": {
+			"几何形状": "长方形",
+			"动力学性质": "刚体",
+			"尺寸": 1,
+			"是否中空": "否",
+			"重量": 1,
+			"颜色": "绿",
+			"高度": 1,
+		},
+		"params": {
+			"新鲜度": 1
+		},
+		"param_config": [{
+			"name": "新鲜度",
+			"init_value": 1,
+			"max_value": 1,
+			"min_value": 0,
+			"transform": -0.001
+		}]
+	},
+	"可食用": {
+		"object_name": "可食用"
+	}
+}
