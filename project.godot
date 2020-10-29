@@ -375,6 +375,11 @@ _global_script_classes=[ {
 "path": "res://src/Character/tasks/Idle.gd"
 }, {
 "base": "Reference",
+"class": "InteractionTemplate",
+"language": "GDScript",
+"path": "res://src/World/Interaction/Interaction.gd"
+}, {
+"base": "Reference",
 "class": "InventorySystem",
 "language": "GDScript",
 "path": "res://src/Character/package/InventorySystem.gd"
@@ -413,6 +418,11 @@ _global_script_classes=[ {
 "class": "NoLimitTask",
 "language": "GDScript",
 "path": "res://src/Character/tasks/NoLimitTask.gd"
+}, {
+"base": "Reference",
+"class": "NodeParamEffect",
+"language": "GDScript",
+"path": "res://src/World/Interaction/NodeEffect/NodeParamEffect.gd"
 }, {
 "base": "Reference",
 "class": "OOXX",
@@ -753,6 +763,7 @@ _global_script_class_icons={
 "HoldHands": "",
 "Humming": "",
 "Idle": "",
+"InteractionTemplate": "",
 "InventorySystem": "",
 "Join": "",
 "Kiss": "",
@@ -761,6 +772,7 @@ _global_script_class_icons={
 "MotivationModel": "",
 "MoveTo": "",
 "NoLimitTask": "",
+"NodeParamEffect": "",
 "OOXX": "",
 "OpenOrUse": "",
 "Operator": "",

@@ -1,6 +1,7 @@
 {
     "create_object": "res://config/stuff_list.json",
     "base_action": "res://config/base_tasks.json",
+    "interaction": "res://config/interaction.json",
     "players": [
         {
             "player_name": "军宏",

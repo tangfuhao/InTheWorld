@@ -8,11 +8,13 @@ const task_prefix_path = "res://src/Character/tasks/"
 
 var config_data
 
-var player_config_dic = {}
-var base_action_dic
+var player_config_dic := {}
+var base_action_dic:Dictionary
 
 #物品定义map集合
-var create_object_dic
+var create_object_dic:Dictionary
+#作用模板集合
+var interaction_template_dic:Dictionary
 
 
 var content_type_regex
@@ -39,7 +41,24 @@ func get_base_task_data():
 
 func get_stuff_list():
 	return create_object_dic.values()
+	
+func get_interaction_arr_by_type(_type):
+	var interaction_arr := []
+	for item in interaction_template_dic.values():
+		if not item.parant_interaction and item.type == _type :
+			interaction_arr.push_back(item)
+	return interaction_arr
 
+func get_interaction_child(_interaction_template):
+	var interaction_arr := []
+	for item in _interaction_template.child_interaction_arr:
+		interaction_arr.push_back(get_interaction_by_name(item))
+	return interaction_arr
+	
+func get_interaction_by_name(_name):
+	if interaction_template_dic.has(_name):
+		return interaction_template_dic[_name]
+	return null
 
 func preload_config_overview():
 	config_data = load_json_data(cnofig_file_path)
@@ -52,6 +71,9 @@ func preload_global_data():
 	var base_action_path = config_data["base_action"]
 	base_action_dic = parse_base_task(load_json_data(base_action_path))
 	
+	var interaction_path = config_data["interaction"]
+	interaction_template_dic = parse_interaction(load_json_data(interaction_path))
+
 
 #TODO 这个地方处理不好  不应该每次从磁盘获取数据  应该从内存中拷贝一份数据
 #注意物品类别的功能属性是不可更改的 可重用数据  唯一需要拷贝的是 物理数据
@@ -60,14 +82,6 @@ func load_common_stuff_config_json(_stuff_type_name) ->Dictionary:
 		var stuff_config_json = create_object_dic[_stuff_type_name]
 		return stuff_config_json
 	return {}
-#	var stuff_list = get_stuff_list()
-#	var stuff_config_params = get_var_by_params_in_arr(stuff_list,"名称",_stuff_type_name)
-#	if stuff_config_params:
-#		var stuff_config_file_path = stuff_config_params["路径"]
-#		var stuff_config_json = load_json_data(stuff_config_file_path)
-#		if stuff_config_json:
-#			return stuff_config_json
-#	return {}
 
 #创建自定义物品
 func instance_stuff_script(_stuff_name):
@@ -77,6 +91,69 @@ func instance_stuff_script(_stuff_name):
 	else:
 		return stuff
 
+#解析作用 并生成 作用创建的模板
+func parse_interaction(_interaction_arr) ->Dictionary:
+	var template_dic = {}
+	for item in _interaction_arr:
+		var interaction_type = "body"
+		if item.has("interaction_scheduling"):
+			interaction_type = item["interaction_scheduling"]
+		
+		var interaction_name = item["interaction_name"]
+		var interaction_duration = 0
+		if item.has("interaction_duration"):
+			interaction_duration = item["interaction_duration"]
+			
+		var interaction_template = InteractionTemplate.new(interaction_type,interaction_name,interaction_duration)
+		
+		if item.has("_parant"):
+			interaction_template.parant_interaction = item["_parant"]
+		
+		if item.has("_child"):
+			interaction_template.child_interaction_arr = item["_child"]
+		
+		assert(item.has("_nodes"))
+		var node_arr = item["_nodes"]
+		for node_item in node_arr:
+			var node_name = node_item["node_name"]
+			var node_type = node_item["node_type"]
+			interaction_template.node_matching[node_name] = node_type
+		
+		parse_interaction_lifecycle_process(item,interaction_template.active_execute,"_active")
+		parse_interaction_lifecycle_process(item,interaction_template.process_execute,"_process")
+		parse_interaction_lifecycle_process(item,interaction_template.terminate_execute,"_terminate")
+		
+		template_dic[interaction_name] = interaction_template
+	
+	return template_dic
+
+
+func parse_interaction_lifecycle_process(item,_process_arr,_process_name):
+	if not item.has(_process_name):
+		return 
+		
+	var interaction_active = item[_process_name]
+	for node_excute_item in interaction_active:
+		var match_node_name =  node_excute_item["node_name"]
+		var effect_arr = node_excute_item["effects"]
+		for effect_item in effect_arr:
+			var node_effct = null
+			if effect_item.has("param_name"):
+				node_effct = NodeParamEffect.new()
+				node_effct.node_name = match_node_name
+				node_effct.param_name = effect_item["param_name"]
+				if effect_item.has("transform"):
+					node_effct.transform = effect_item["transform"]
+				elif effect_item.has("assign"):
+					node_effct.assign = effect_item["assign"]
+			elif effect_item.has("status"):
+				print(effect_item)
+			else:
+				print(effect_item)
+				
+			if node_effct:
+				_process_arr.push_back(node_effct)
+		
 
 	
 func parse_base_task(base_task_arr):

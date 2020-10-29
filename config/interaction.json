@@ -1,0 +1,1502 @@
+[
+    {
+        "interaction_name": "基础饥饿消耗",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "饥饿状态",
+                        "transform": "- (0.0005 + ${node1[当前运动量]}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "基础睡眠消耗",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "睡眠状态",
+                        "transform": "- (0.0002 + 0.2 * ${node1[当前运动量]}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "基础口渴消耗",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "口渴状态",
+                        "transform": "- (0.0002 + 0.2 * ${node1[当前运动量]}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "基础清洁消耗",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "清洁状态",
+                        "transform": -0.001
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "同步流体体积重量",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "${node1[重量]} != ( 0.1 * ${node1[流体体积]} )"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "是流体的"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "重量",
+                        "assign": "0.1 * ${node1[流体体积]}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "同步流体体积消失",
+        "interaction_duration": 0,
+        "interaction_scheduling": "god",
+        "interaction_conditions": [
+            "${node1[流体体积]} == 0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "是流体的"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "disappear": "${node1}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "同步容器的绑定流体量",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[affiliation_change, ${node1}, ${node2}]",
+            "$[is_binding, ${node1}, ${node2}] || $[is_storing, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "是流体容器的"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "是流体的"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "容器内流体量",
+                        "transform": "${node2[流体体积]}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "同步容器的修改流体量",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[affiliation_change, ${node1}, ${node2}] == FALSE",
+            "$[is_binding, ${node1}, ${node2}] || $[is_storing, ${node1}, ${node2}]",
+            "$[is_value_change, ${node2[流体体积]}]"
+        ],
+        "clean_cache": [
+            "$[is_binding, ${node1}, ${node2}] == False",
+            "$[is_storing, ${node1}, ${node2}] == False"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "是流体容器的"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "是流体的"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "容器内流体量",
+                        "transform": "$(transform, $node2[流体体积])"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "同步容器的解除流体量",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[affiliation_change, ${node1}, ${node2}]",
+            "$[is_binding, ${node1}, ${node2}] == FALSE",
+            "$[is_storing, ${node1}, ${node2}] == FALSE)"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "是流体容器的"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "是流体的"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "容器内流体量",
+                        "transform": "-${node2[流体体积]}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "同步绑定流体容器总重",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[affiliation_change, ${node1}, ${node2}]",
+            "$[is_binding, ${node1}, ${node2}] || $[is_storing, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "是流体容器的"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "是流体的"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "总重量",
+                        "transform": "${node2[重量]}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "同步修改流体容器总重",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[affiliation_change, ${node1}, ${node2}] == FALSE",
+            "$[is_binding, ${node1}, ${node2}] || $[is_storing, ${node1}, ${node2}]",
+            "$[is_value_change, ${node2[总重量]}]"
+        ],
+        "clean_cache": [
+            "$[is_binding, ${node1}, ${node2}] == False",
+            "$[is_storing, ${node1}, ${node2}] == False"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "是流体容器的"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "是流体的"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "总重量",
+                        "transform": "$(transform, $node2[重量])"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "同步解除流体容器总重",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[affiliation_change, ${node1}, ${node2}]",
+            "$[is_binding, ${node1}, ${node2}] == FALSE",
+            "$[is_storing, ${node1}, ${node2}] == FALSE"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "是流体容器的"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "是流体的"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "总重量",
+                        "transform": "-${node2[重量]}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "同步绑定负重",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[affiliation_change, ${node1}, ${node2}]",
+            "$[is_binding, ${node1}, ${node2}] || $[is_storing, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "可被化身放置的"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前负重",
+                        "transform": "${node2[总重量]}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "同步修改负重",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[affiliation_change, ${node1}, ${node2}] == FALSE",
+            "$[is_binding, ${node1}, ${node2}] || $[is_storing, ${node1}, ${node2}]",
+            "$[is_value_change, ${node2[总重量]}]"
+        ],
+        "clean_cache": [
+            "$[is_binding, ${node1}, ${node2}] == False",
+            "$[is_storing, ${node1}, ${node2}] == False"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "可被化身放置的"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前负重",
+                        "transform": "$(transform, $node2[总重量])"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "同步解除负重",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[affiliation_change, ${node1}, ${node2}]",
+            "$[is_binding, ${node1}, ${node2}] == FALSE",
+            "$[is_storing, ${node1}, ${node2}] == FALSE)"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "可被化身放置的"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前负重",
+                        "transform": "-${node2[总重量]}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "酒精消耗",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "酒醉程度",
+                        "transform": -0.0003
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "坐",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "${node2[正坐人数]} < ${node2[正坐人数.max]}"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "可坐的"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.0005
+                    },
+                    {
+                        "change_position": "${node2[位置]}"
+                    },
+                    {
+                        "param_name": "睡眠舒适度",
+                        "assign": 0.01
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "正坐人数",
+                        "transform": 1
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    },
+                    {
+                        "param_name": "睡眠舒适度",
+                        "assign": 0
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "正坐人数",
+                        "transform": -1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "睡",
+        "interaction_duration": -1,
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.0001
+                    }
+                ]
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "睡眠状态",
+                        "transform": "${node1[睡眠舒适度]}"
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "躺",
+        "_child": [
+            "躺-硬",
+            "躺-软"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "可躺的-硬"
+            }
+        ]
+    },
+    {
+        "interaction_name": "躺-硬",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "${node2[正躺人数]} < ${node2[正躺人数.max]}"
+        ],
+        "_parant": "躺",
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "可躺的-硬"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.0003
+                    },
+                    {
+                        "change_position": "${node2[位置]}"
+                    },
+                    {
+                        "param_name": "睡眠舒适度",
+                        "assign": 0.02
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "正躺人数",
+                        "transform": 1
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    },
+                    {
+                        "param_name": "睡眠舒适度",
+                        "assign": 0
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "正躺人数",
+                        "transform": -1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "躺-软",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "${node2[正躺人数]} < ${node2[正躺人数.max]}"
+        ],
+        "_parant": "躺",
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "可躺的-软"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.0003
+                    },
+                    {
+                        "change_position": "${node2[位置]}"
+                    },
+                    {
+                        "param_name": "睡眠舒适度",
+                        "assign": 0.04
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "正躺人数",
+                        "transform": 1
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    },
+                    {
+                        "param_name": "睡眠舒适度",
+                        "assign": 0
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "正躺人数",
+                        "transform": -1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "拿起物品",
+        "interaction_duration": 2,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "${node1[当前负重]} + ${node2[重量]} <= ${node1[负重上限]}"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "可被化身绑定的"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "change_position": "${node1[位置]}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "收纳物品",
+        "interaction_duration": 2,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "${node1[当前负重]} + ${node2[重量]} <= ${node1[负重上限]}"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "可被化身储存的"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "change_position": "${node1[位置]}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "放置物品",
+        "interaction_duration": 2,
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "可被化身放置的"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前负重",
+                        "transform": "-${node2[重量]}"
+                    },
+                    {
+                        "release": "node2"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "装流体",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node3}]",
+            "$[is_binding, ${node1}, ${node2}] || $[is_storing, ${node1}, ${node2}]",
+            "$[is_binding, ${node3}, ${node4}]",
+            "${node1[当前负重]} < ${node1[负重上限]}",
+            "${node2[容器内流体量]} < ${node2[容器内流体量.max]}",
+            "${node4[流体体积]} > 0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "是流体容器的"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "是流体容器的"
+            },
+            {
+                "node_name": "node4",
+                "node_type": "是流体的"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "create": "流体水:node5",
+                        "params": [
+                            {
+                                "param_name": "流体体积",
+                                "assign": 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "bind": "${node5}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node4",
+                "effects": [
+                    {
+                        "param_name": "流体体积",
+                        "transform": -1
+                    }
+                ]
+            },
+            {
+                "node_name": "node5",
+                "effects": [
+                    {
+                        "change_position": "${node2[位置]}"
+                    }
+                ]
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node4",
+                "effects": [
+                    {
+                        "param_name": "流体体积",
+                        "transform": -1
+                    }
+                ]
+            },
+            {
+                "node_name": "node5",
+                "effects": [
+                    {
+                        "param_name": "流体体积",
+                        "transform": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "装海水",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[is_binding, ${node1}, ${node2}] || $[is_storing, ${node1}, ${node2}]",
+            "${node1[当前负重]} < ${node1[负重上限]}",
+            "${node2[容器内流体量]} + 1 <= ${node2[容器内流体量.max]}",
+            "${node1[所在地]} == 浅海"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "是流体容器的"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "create": "海水:node3",
+                        "params": [
+                            {
+                                "param_name": "流体体积",
+                                "assign": 1
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "bind": "${node3}"
+                    }
+                ]
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "param_name": "流体体积",
+                        "transform": 1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "倒流体",
+        "interaction_duration": 2,
+        "interaction_conditions": [
+            "$[is_binding, ${node1}, ${node2}] || $[is_storing, ${node1}, ${node2}]",
+            "$[is_binding, ${node2}, ${node3}]",
+            "${node2[容器内流体量]} > 0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "是流体容器的"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "是流体的"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "release": "${node3}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "change_position": "${node1[动作位置]}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "流体解除消失",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[num_of_parent_affiliation, ${node1}] == 0",
+            "$[num_of_colliding_objects, ${node1}] == 0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "是流体的"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "流体体积",
+                        "transform": -5
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "衣服遇水",
+        "interaction_scheduling": "god",
+        "interaction_duration": 2,
+        "interaction_conditions": [
+            "$[is_colliding, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "衣服"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "流体水"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "干湿度",
+                        "assign": 1
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "流体体积",
+                        "transform": -1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "衣服变干",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "${node1[干湿度]} > 0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "衣服"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "干湿度",
+                        "transform": -0.005
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "妙瓜种子浇水",
+        "interaction_scheduling": "god",
+        "interaction_duration": 2,
+        "interaction_conditions": [
+            "$[is_colliding, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "妙瓜种子"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "流体水"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "create": "妙瓜囊:node4"
+                    },
+                    {
+                        "disappear": "${node1}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "disappear": "${node2}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "store": "${node4}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "喝流体",
+        "_child": [
+            "喝流体-流体水",
+            "喝流体-流体酒"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "是流体容器的"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "流体水"
+            }
+        ]
+    },
+    {
+        "interaction_name": "喝流体-流体水",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "$[is_binding, ${node2}, ${node3}]",
+            "${node3[流体体积]} > 0"
+        ],
+        "_parant": [
+            "喝流体"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "是流体容器的"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "流体水"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "口渴状态",
+                        "transform": 0.3
+                    }
+                ]
+            },
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "param_name": "流体体积",
+                        "transform": -1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "喝流体-流体酒",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "$[is_binding, ${node2}, ${node3}]",
+            "${node3[流体体积]} > 0"
+        ],
+        "_parant": [
+            "喝流体"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "是流体容器的"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "流体酒"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "口渴状态",
+                        "transform": 0.3
+                    },
+                    {
+                        "param_name": "酒醉程度",
+                        "transform": "0.005 * ${node3[酒精含量]}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "param_name": "流体体积",
+                        "transform": -1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "穿衣服",
+        "interaction_duration": 2,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "${node1[当前负重]} + ${node2[总重量]} <= ${node1[负重上限]}"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "衣服"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "change_position": "${node1[位置]}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "脱衣服",
+        "interaction_duration": 2,
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "衣服"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前负重",
+                        "transform": "-${node2[总重量]}"
+                    },
+                    {
+                        "release": "node2"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "冲澡",
+        "_child": [
+            "冲澡-流体水",
+            "冲澡-流体酒"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "是流体容器的"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "流体水"
+            }
+        ]
+    },
+    {
+        "interaction_name": "冲澡-流体水",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}",
+            "$[is_binding, ${node2}, ${node3}]",
+            "${node3[流体体积]} >= 6"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "是流体容器的"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "流体水"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "change_position": "${node1[位置]}"
+                    }
+                ]
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "清洁状态",
+                        "transform": 0.03
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "流体体积",
+                        "transform": -6
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "冲澡-流体酒",
+        "interaction_duration": 30,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}",
+            "$[is_binding, ${node2}, ${node3}]",
+            "${node3[流体体积]} >= 6"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "是流体容器的"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "流体水"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "change_position": "${node1[位置]}"
+                    }
+                ]
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "清洁状态",
+                        "transform": 0.1
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "流体体积",
+                        "transform": -6
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "冲澡-海水",
+        "interaction_duration": 30,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}",
+            "$[is_binding, ${node2}, ${node3}]",
+            "${node3[流体体积]} >= 6"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "是流体容器的"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "海水"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "change_position": "${node1[位置]}"
+                    }
+                ]
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "清洁状态",
+                        "assign": 0.3
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "流体体积",
+                        "transform": -6
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "同步流体体积消失",
+        "interaction_duration": 0,
+        "interaction_scheduling": "god",
+        "interaction_conditions": [
+            "${node1[流体体积]} == 0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "是流体的"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "disappear": "${node1}"
+                    }
+                ]
+            }
+        ]
+    }
+]
