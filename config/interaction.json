@@ -15,7 +15,7 @@
                 "effects": [
                     {
                         "param_name": "饥饿状态",
-                        "transform": "-1  *    (0.0005 + ${node1[当前运动量]})"
+                        "transform": "-1*(0.0005 + ${node1[当前运动量]})"
                     }
                 ]
             }
@@ -37,7 +37,7 @@
                 "effects": [
                     {
                         "param_name": "睡眠状态",
-                        "transform": "- (0.0002 + 0.2 * ${node1[当前运动量]}"
+                        "transform": "-1*(0.0002 + 0.2 * ${node1[当前运动量]}"
                     }
                 ]
             }
@@ -59,7 +59,7 @@
                 "effects": [
                     {
                         "param_name": "口渴状态",
-                        "transform": "- (0.0002 + 0.2 * ${node1[当前运动量]}"
+                        "transform": "-1*(0.0002 + 0.2 * ${node1[当前运动量]}"
                     }
                 ]
             }
@@ -226,7 +226,7 @@
                 "effects": [
                     {
                         "param_name": "容器内流体量",
-                        "transform": "-${node2[流体体积]}"
+                        "transform": "-1*${node2[流体体积]}"
                     }
                 ]
             }
@@ -322,7 +322,7 @@
                 "effects": [
                     {
                         "param_name": "总重量",
-                        "transform": "-${node2[重量]}"
+                        "transform": "-1*${node2[重量]}"
                     }
                 ]
             }
@@ -418,7 +418,7 @@
                 "effects": [
                     {
                         "param_name": "当前负重",
-                        "transform": "-${node2[总重量]}"
+                        "transform": "-1*${node2[总重量]}"
                     }
                 ]
             }
@@ -790,7 +790,7 @@
                 "effects": [
                     {
                         "param_name": "当前负重",
-                        "transform": "-${node2[重量]}"
+                        "transform": "-1*${node2[重量]}"
                     },
                     {
                         "release": "node2"
@@ -1286,7 +1286,7 @@
                 "effects": [
                     {
                         "param_name": "当前负重",
-                        "transform": "-${node2[总重量]}"
+                        "transform": "-1*${node2[总重量]}"
                     },
                     {
                         "release": "node2"
