@@ -9,21 +9,28 @@ var node_dic:Dictionary
 var active_execute := []
 var process_execute := []
 var terminate_execute := []
+var break_execute := []
 
 var is_active = false
 var is_finish = false
+var is_vaild = true
 
 
 func _process(delta):
-	if not is_active:
-		interaction_active()
-	if not is_finish:
-		interaction_process(delta)
+	if is_vaild:
+		if not is_active:
+			is_active = true
+			interaction_active()
+			
+		if not is_finish:
+			interaction_process(delta)
+		else:
+			interaction_terminate()
 	else:
-		interaction_terminate()
+		interaction_break()
 
 
-func clone_data(_node_pair,_active_execute,_process_execute,_terminate_execute):
+func clone_data(_node_pair,_active_execute,_process_execute,_terminate_execute,_break_execute):
 	node_dic = _node_pair
 	for item in _active_execute:
 		active_execute.push_back(clone_node_effect(item))
@@ -31,6 +38,8 @@ func clone_data(_node_pair,_active_execute,_process_execute,_terminate_execute):
 		process_execute.push_back(clone_node_effect(item))
 	for item in _terminate_execute:
 		terminate_execute.push_back(clone_node_effect(item))
+	for item in _break_execute:
+		break_execute.push_back(clone_node_effect(item))
 		
 func clone_node_effect(_node_effect):
 	var clone_obejct = NodeParamEffect.new()
@@ -52,6 +61,9 @@ func interaction_process(_delta):
 		item._process(_delta,self)
 	
 func interaction_terminate():
+	for item in terminate_execute:
+		item._process(1)
+func interaction_break():
 	for item in terminate_execute:
 		item._process(1)
 

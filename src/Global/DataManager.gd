@@ -140,6 +140,7 @@ func parse_interaction(_interaction_arr) ->Dictionary:
 		parse_interaction_lifecycle_process(item,interaction_template.active_execute,"_active")
 		parse_interaction_lifecycle_process(item,interaction_template.process_execute,"_process")
 		parse_interaction_lifecycle_process(item,interaction_template.terminate_execute,"_terminate")
+		parse_interaction_lifecycle_process(item,interaction_template.break_execute,"_break")
 		
 		template_dic[interaction_name] = interaction_template
 	
@@ -164,10 +165,35 @@ func parse_interaction_lifecycle_process(item,_process_arr,_process_name):
 					node_effct.transform = effect_item["transform"]
 				elif effect_item.has("assign"):
 					node_effct.assign = effect_item["assign"]
-			elif effect_item.has("status"):
-				print(effect_item)
+			elif effect_item.has("disappear"):
+				node_effct = NodeDisappearEffect.new()
+				node_effct.node_name = match_node_name
+				node_effct.disppear_node = effect_item["disappear"]
+			elif effect_item.has("change_position"):
+				node_effct = NodeChangePositionEffect.new()
+				node_effct.node_name = match_node_name
+				node_effct.position = effect_item["change_position"]
+			elif effect_item.has("release"):
+				node_effct = NodeReleaseEffect.new()
+				node_effct.node_name = match_node_name
+				node_effct.release_node = effect_item["release"]
+			elif effect_item.has("create"):
+				node_effct = NodeCreateEffect.new()
+				node_effct.node_name = match_node_name
+				node_effct.create_name = effect_item["create"]
+				if effect_item.has("params"):
+					node_effct.params_arr = effect_item["params"]
+			elif effect_item.has("bind"):
+				node_effct = NodeBindEffect.new()
+				node_effct.node_name = match_node_name
+				node_effct.bind_node = effect_item["bind"]
+			elif effect_item.has("store"):
+				node_effct = NodeStoreEffect.new()
+				node_effct.node_name = match_node_name
+				node_effct.store_node = effect_item["store"]
 			else:
 				print(effect_item)
+				assert(false)
 				
 			if node_effct:
 				_process_arr.push_back(node_effct)

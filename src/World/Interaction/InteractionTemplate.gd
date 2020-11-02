@@ -20,6 +20,7 @@ var node_matching := {}
 var active_execute := []
 var process_execute := []
 var terminate_execute := []
+var break_execute := []
 
 
 func _init(_interaction_type,_interaction_name,_interaction_duration):
@@ -31,6 +32,6 @@ func _init(_interaction_type,_interaction_name,_interaction_duration):
 func create_interaction(_node_pair_item:Dictionary) -> InteractionImplement:
 	var interaction_implement = interaction_implement_scene.instance()
 	interaction_implement.interaction_name = name
-	interaction_implement.clone_data(_node_pair_item,active_execute,process_execute,terminate_execute)
+	interaction_implement.clone_data(_node_pair_item,active_execute,process_execute,terminate_execute,break_execute)
 	return interaction_implement
 	

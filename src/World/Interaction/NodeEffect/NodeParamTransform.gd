@@ -1,6 +1,0 @@
-class_name NodeParamTransform
-var transform_value
-var transform_expression setget set_transform_expression
-
-func set_transform_expression()
-
