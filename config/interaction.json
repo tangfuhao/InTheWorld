@@ -15,7 +15,7 @@
                 "effects": [
                     {
                         "param_name": "饥饿状态",
-                        "transform": "- (0.0005 + ${node1[当前运动量]}"
+                        "transform": "-1  *    (0.0005 + ${node1[当前运动量]})"
                     }
                 ]
             }

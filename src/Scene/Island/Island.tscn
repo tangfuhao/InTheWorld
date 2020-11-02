@@ -60,12 +60,14 @@ should_display_grid = false
 position = Vector2( 1140.94, 1846.72 )
 stuff_type_name = "梨"
 
-[node name="Player" parent="." instance=ExtResource( 1 )]
+[node name="PlayerLayer" type="Node2D" parent="."]
+
+[node name="Player" parent="PlayerLayer" instance=ExtResource( 1 )]
 position = Vector2( 926.406, 1970.63 )
 collision_mask = 11
 player_name = "军宏"
 
-[node name="Player2" parent="." instance=ExtResource( 1 )]
+[node name="Player2" parent="PlayerLayer" instance=ExtResource( 1 )]
 position = Vector2( 912.446, 1833.9 )
 rotation = 2.4138
 collision_mask = 11
@@ -79,5 +81,5 @@ visible = false
 [node name="InteractionDispatcher" type="Node2D" parent="."]
 script = ExtResource( 7 )
 [connection signal="cancle_focus_player" from="CameraMovement" to="." method="_on_CameraMovement_cancle_focus_player"]
-[connection signal="player_selected" from="Player" to="." method="_on_Player_player_selected"]
-[connection signal="player_selected" from="Player2" to="." method="_on_Player_player_selected"]
+[connection signal="player_selected" from="PlayerLayer/Player" to="." method="_on_Player_player_selected"]
+[connection signal="player_selected" from="PlayerLayer/Player2" to="." method="_on_Player_player_selected"]

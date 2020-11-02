@@ -11,6 +11,7 @@ var SEPARATOR = ' '
 var operator = Operator.new()
 
 func eval(expression):
+#	expression = expression.dedent()
 	var result = infix2Suffix(expression)
 	return evalInfix(result)
 

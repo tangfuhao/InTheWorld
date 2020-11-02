@@ -1,6 +1,7 @@
 {
 	"水果": {
-		"object_name": "水果",
+		"object_name": "水果",		
+		"child_object":"梨",
 		"params": {
 			"新鲜度": 1
 		},
@@ -37,6 +38,7 @@
 		}]
 	},
 	"可食用": {
-		"object_name": "可食用"
+		"object_name": "可食用",
+		"child_object":"梨"
 	}
 }

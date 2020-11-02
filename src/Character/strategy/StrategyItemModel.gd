@@ -22,7 +22,7 @@ func calculate_weight(_strategy_weight_variable_dic:Dictionary):
 			# print("复合函数 权重计算:",weight)
 
 func evaluateFormula(_strategy_weight_variable_dic, expression) -> float:
-	var parser = FormulaParser.new()
+	var parser = FormulaParser.new(null)
 	var result = parser.parse(expression, {}, _strategy_weight_variable_dic)
 	if result <= 0:
 		result = 0.01

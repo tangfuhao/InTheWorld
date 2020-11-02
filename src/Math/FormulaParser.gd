@@ -3,19 +3,22 @@ class_name FormulaParser
 var regex
 
 
-
-
-func parse(formula:String,formulas:Dictionary,values:Dictionary):
-	if not formulas:
-		formulas = {}
-	if not values:
-		values = {}
-	var expression = finalExpression(formula,formulas,values)
-	return Calculator.new().eval(expression)
-
-func finalExpression(expression:String,formulas:Dictionary,values:Dictionary):
+func _init(_regex):
+	if not _regex:
+		_regex = "\\#\\{(.+?)\\}"
 	regex = RegEx.new()
-	regex.compile("\\#\\{(.+?)\\}")
+	regex.compile(_regex)
+
+func parse(formula:String,formulas:Dictionary,values:Dictionary,param_accessor):
+#	if not formulas:
+#		formulas = {}
+#	if not values:
+#		values = {}
+	var expression = finalExpression(formula,formulas,values,param_accessor)
+	var result =  Calculator.new().eval(expression)
+	return result
+
+func finalExpression(expression:String,formulas:Dictionary,values:Dictionary,param_accessor):
 	var result_arr = regex.search_all(expression)
 	if not result_arr:
 		return expression
@@ -30,9 +33,12 @@ func finalExpression(expression:String,formulas:Dictionary,values:Dictionary):
 		elif values and values.has(group):
 			var value = values[group]
 			expression = expression.replace(full,value)
+		elif param_accessor and param_accessor.has_node_param(group):
+			var value = param_accessor.get_node_param_value(group)
+			expression = expression.replace(full,value)
 		else:
 			print("异常！！！")
 	
-	return finalExpression(expression, formulas, values)
+	return finalExpression(expression, formulas, values,param_accessor)
 
 	

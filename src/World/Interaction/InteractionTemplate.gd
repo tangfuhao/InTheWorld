@@ -4,7 +4,7 @@ class_name InteractionTemplate
 class InteractionCondition:
 	var expression
 
-
+const interaction_implement_scene = preload("res://src/World/Interaction/InteractionImplement.tscn")
 
 var name
 var type
@@ -26,3 +26,11 @@ func _init(_interaction_type,_interaction_name,_interaction_duration):
 	type = _interaction_type
 	name = _interaction_name
 	duration = _interaction_duration
+
+#创建交互实例  通过传入的交互节点
+func create_interaction(_node_pair_item:Dictionary) -> InteractionImplement:
+	var interaction_implement = interaction_implement_scene.instance()
+	interaction_implement.interaction_name = name
+	interaction_implement.clone_data(_node_pair_item,active_execute,process_execute,terminate_execute)
+	return interaction_implement
+	

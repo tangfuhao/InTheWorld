@@ -75,6 +75,24 @@ func preload_global_data():
 	interaction_template_dic = parse_interaction(load_json_data(interaction_path))
 
 
+#返回类型集
+func get_node_type_group(type_name) -> Array:
+	var node_type_group = []
+	assert(create_object_dic.has(type_name))
+	node_type_group.push_back(type_name)
+	iteration_node_type(type_name,node_type_group)
+	return node_type_group
+
+#迭代节点类型
+func iteration_node_type(_type_name,_node_type_group):
+	var node_config = create_object_dic[_type_name]
+	if node_config.has("inherit_object"):
+		var inherit_object = node_config.inherit_object
+		var inherit_object_arr = inherit_object.split(",")
+		for item in inherit_object_arr:
+			_node_type_group.push_back(item)
+			iteration_node_type(item,_node_type_group)
+
 #TODO 这个地方处理不好  不应该每次从磁盘获取数据  应该从内存中拷贝一份数据
 #注意物品类别的功能属性是不可更改的 可重用数据  唯一需要拷贝的是 物理数据
 func load_common_stuff_config_json(_stuff_type_name) ->Dictionary:
