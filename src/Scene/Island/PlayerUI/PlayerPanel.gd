@@ -6,6 +6,9 @@ onready var emotion_listview = $VBoxContainer/HBoxContainer/PanelContainer/HBoxC
 
 var interaction_arr
 
+var cache_parms_dic := {}
+
+
 func active()->void:
 	self.show()
 	pass
@@ -21,9 +24,11 @@ func _ready():
 
 
 func setup_player(_player:Player):
-	var param_arr = _player.param.param_arr
+	var param_arr = _player.param.param_dic.values()
+	_player.param.connect("params_value_update",self,"on_player_params_value_update")
 	var index = 0
 	for item in param_arr:
+		cache_parms_dic[item.name] = index
 		var content = "%s:%f" % [item.name,item.value]
 		param_listview.add_content_text(index,content,"状态值文本")
 		index = index + 1
@@ -34,3 +39,15 @@ func setup_player(_player:Player):
 		interaction_listview.add_content_text(index,content,"状态值文本")
 		index = index + 1
 	
+	
+func on_player_params_value_update(_param_key,_param_value):
+	var index = 0
+	if cache_parms_dic.has(_param_key):
+		index = cache_parms_dic[_param_key]
+	else:
+		index = cache_parms_dic.size()
+		cache_parms_dic[_param_key] = index
+	
+	var content = "%s:%f" % [_param_key,_param_value]
+	param_listview.add_content_text(index,content,"状态值文本")
+		
