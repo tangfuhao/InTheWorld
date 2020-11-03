@@ -20,7 +20,8 @@ onready var line2d = $Line2D
 onready var polygon2d = $Polygon2D
 onready var item_display_name = $LabelLayout/PlayerName
 
-
+#自定义属性
+onready var param := $PlayerParam
 
 #唯一节点名
 var node_name
@@ -38,8 +39,7 @@ var interactive_object_list = []
 
 #物理属性
 var physics_data:Dictionary
-#自定义属性
-var custome_param_dic:Dictionary
+
 #状态
 var status_arr := []
 
@@ -57,14 +57,6 @@ func _ready():
 	if load_config_by_stuff_type(stuff_type_name):
 		setup_node_by_config(stuff_type_name)
 
-func _process(delta):
-	#更新自定义属性
-	for item in custome_param_dic.values():
-		item._process(delta)
-	
-	#更新挂载的状态
-	for item in status_arr:
-		item._process(delta)
 
 
 
@@ -111,8 +103,9 @@ func load_config_by_stuff_type(_type) -> bool:
 		if item.has("init_value"):
 			param_model.init_value = item["init_value"]
 			param_model.value = param_model.init_value
-
-		custome_param_dic[param_name] = param_model
+		
+		param.set_value(param_name,param_model)
+#		custome_param_dic[param_name] = param_model
 
 	return true
 
@@ -190,10 +183,12 @@ func get_param_value(_param_name):
 	if physics_data and physics_data.has(_param_name):
 		var stuff_param_value = physics_data[_param_name]
 		return stuff_param_value
-	elif custome_param_dic and custome_param_dic.has(_param_name):
-		var param_model = custome_param_dic[_param_name]
-		return param_model.value
-	return null
+	else:
+		return param.get_value(_param_name)
+#	elif custome_param_dic and custome_param_dic.has(_param_name):
+#		var param_model = custome_param_dic[_param_name]
+#		return param_model.value
+#	return null
 
 #设置属性值
 func set_param_value(_param_name,_param_value):
@@ -203,10 +198,12 @@ func set_param_value(_param_name,_param_value):
 		if stuff_param_value != _param_value:
 			physics_data[_param_name] = _param_value
 			emit_signal("params_update",_param_name,_param_value)
-	elif custome_param_dic and custome_param_dic.has(_param_name):
-		var param_model = custome_param_dic[_param_name]
-		param_model.value = _param_value
-		emit_signal("params_update",_param_name,_param_value)
+	else:
+		return param.get_value(_param_name)
+#	elif custome_param_dic and custome_param_dic.has(_param_name):
+#		var param_model = custome_param_dic[_param_name]
+#		param_model.value = _param_value
+#		emit_signal("params_update",_param_name,_param_value)
 
 
 #移除节点
@@ -215,15 +212,6 @@ func disappear():
 	queue_free()
 	
 
-#func has_attribute(_params) -> bool :
-#	if not _params:
-#		return false
-#
-#	if stuff_type_name == _params:
-#		return true
-#
-#	return active_functon_attribute_params_dic.has(_params)
-	
 func get_type():
 	return "stuff"
 
@@ -233,12 +221,6 @@ func notify_disappear():
 		emit_signal("disappear_notify",self)
 
 
-#func get_function(_function_name,_param_value):
-#	if active_functon_attribute_params_dic.has(_function_name):
-#		var active_functon_attribute = active_functon_attribute_params_dic[_function_name]
-#		if active_functon_attribute and active_functon_attribute.has(_param_value):
-#			return active_functon_attribute[_param_value]
-#	return null
 
 #执行影响改变
 func excute_effect(effect_param_arr):

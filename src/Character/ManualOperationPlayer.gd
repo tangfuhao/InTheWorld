@@ -28,8 +28,6 @@ var display_name
 var inventory_system:InventorySystem
 
 
-#自定义属性
-var custome_param_dic := {}
 
 
 signal params_update(_param_name,_param_value)
@@ -66,38 +64,31 @@ func is_approach(_target,_distance):
 	return global_position.distance_to(_target) < (_distance + tolerance)
 
 
-#func shoot(_target_position,_damage):
-#	var next_bullet := Bullet.instance()
-#	next_bullet.player = self
-#	var direction:Vector2 = global_position - _target_position
-#	direction = direction.normalized()
-#	next_bullet.start(-direction,_damage)
-#	bullets_node_layer.add_child(next_bullet)
-#	next_bullet.global_position = global_position
-
-
 func get_type():
 	return "player"
 
 
+
+func get_all_param()->Array:
+	return param.get_all_param()
+	
+
 #获取属性值
 func get_param_value(_param_name):
-	if not custome_param_dic.has(_param_name):
+	var value = param.get_value(_param_name)
+	if not value:
 		var param_model = ComomStuffParam.new()
 		param_model.name = _param_name
 		param_model.value = 1
-		custome_param_dic[_param_name] = param_model
-
-	var param_model = custome_param_dic[_param_name]
-	return param_model.value
+		param.set_value(_param_name,param_model)
+		return param_model.value
+	else:
+		return value.value
 	
 
 #设置属性值
 func set_param_value(_param_name,_param_value):
-	if custome_param_dic.has(_param_name):
-		var param_model = custome_param_dic[_param_name]
-		param_model.value = _param_value
-		emit_signal("params_update",_param_name,_param_value)
+	param.set_value(_param_name,_param_value)
 	
 
 

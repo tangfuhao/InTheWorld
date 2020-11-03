@@ -24,7 +24,7 @@ func setup_player(_player:Player):
 	var param_arr = _player.param.param_arr
 	var index = 0
 	for item in param_arr:
-		var content = item.name
+		var content = "%s:%f" % [item.name,item.value]
 		param_listview.add_content_text(index,content,"状态值文本")
 		index = index + 1
 	

@@ -495,11 +495,6 @@ _global_script_classes=[ {
 "path": "res://src/Scene/Island/PlayerUI/inventory/ItemBase.gd"
 }, {
 "base": "Reference",
-"class": "ParamItem",
-"language": "GDScript",
-"path": "res://src/Character/ParamItem.gd"
-}, {
-"base": "Reference",
 "class": "ParamStatus",
 "language": "GDScript",
 "path": "res://src/World/stuff/ParamStatus.gd"
@@ -827,7 +822,6 @@ _global_script_class_icons={
 "OrderTakeOut": "",
 "PackageItemModel": "",
 "PackgeItemBase": "",
-"ParamItem": "",
 "ParamStatus": "",
 "Pathfinding": "",
 "PickUp": "",
