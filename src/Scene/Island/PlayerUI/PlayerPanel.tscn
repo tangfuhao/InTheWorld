@@ -7,6 +7,7 @@
 [node name="PlayerPanel" type="Control"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -15,6 +16,7 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 custom_constants/separation = -2
 __meta__ = {
 "_edit_use_anchors_": false
@@ -23,6 +25,7 @@ __meta__ = {
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_right = 1200.0
 margin_bottom = 602.0
+mouse_filter = 2
 size_flags_vertical = 3
 __meta__ = {
 "_edit_use_anchors_": false
@@ -159,9 +162,12 @@ margin_bottom = 588.0
 
 [node name="Control" type="Control" parent="VBoxContainer/HBoxContainer"]
 margin_left = 602.0
+margin_top = 602.0
 margin_right = 1200.0
 margin_bottom = 602.0
+mouse_filter = 1
 size_flags_horizontal = 3
+size_flags_vertical = 8
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/Control"]
 anchor_top = 1.0

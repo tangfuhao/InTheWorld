@@ -243,12 +243,7 @@ func evaluateResult(property, condition, value) -> float:
 		return result
 	return property
 
-func _on_StuffBody_mouse_entered():
-	GlobalRef.set_key_value_global(GlobalRef.global_key.mouse_interaction,self)
 
-
-func _on_StuffBody_mouse_exited():
-	GlobalRef.remove_value_from_key_global(GlobalRef.global_key.mouse_interaction,self)
 
 
 
@@ -259,3 +254,13 @@ func _on_InteractArea_body_entered(body):
 
 func _on_InteractArea_body_exited(body):
 	interactive_object_list.erase(body)
+
+
+func _on_Stuff_mouse_entered():
+	GlobalRef.set_key_value_global(GlobalRef.global_key.mouse_interaction,self)
+
+func _on_Stuff_mouse_exited():
+	GlobalRef.remove_value_from_key_global(GlobalRef.global_key.mouse_interaction,self)
+
+
+

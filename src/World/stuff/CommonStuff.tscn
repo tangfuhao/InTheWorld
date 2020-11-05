@@ -43,7 +43,9 @@ collision_mask = 2
 
 [node name="PlayerParam" type="Node2D" parent="."]
 script = ExtResource( 3 )
-[connection signal="mouse_entered" from="StuffBody" to="." method="_on_StuffBody_mouse_entered"]
-[connection signal="mouse_exited" from="StuffBody" to="." method="_on_StuffBody_mouse_exited"]
+[connection signal="mouse_entered" from="StuffArea" to="." method="_on_Stuff_mouse_entered"]
+[connection signal="mouse_exited" from="StuffArea" to="." method="_on_Stuff_mouse_exited"]
+[connection signal="mouse_entered" from="StuffBody" to="." method="_on_Stuff_mouse_entered"]
+[connection signal="mouse_exited" from="StuffBody" to="." method="_on_Stuff_mouse_exited"]
 [connection signal="body_entered" from="InteractArea" to="." method="_on_InteractArea_body_entered"]
 [connection signal="body_exited" from="InteractArea" to="." method="_on_InteractArea_body_exited"]
