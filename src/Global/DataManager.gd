@@ -86,8 +86,8 @@ func get_node_type_group(type_name) -> Array:
 #迭代节点类型
 func iteration_node_type(_type_name,_node_type_group):
 	var node_config = create_object_dic[_type_name]
-	if node_config.has("inherit_object"):
-		var inherit_object = node_config.inherit_object
+	if node_config.has("inherit_concept"):
+		var inherit_object = node_config.inherit_concept
 		var inherit_object_arr = inherit_object.split(",")
 		for item in inherit_object_arr:
 			_node_type_group.push_back(item)
@@ -95,6 +95,7 @@ func iteration_node_type(_type_name,_node_type_group):
 
 #TODO 这个地方处理不好  不应该每次从磁盘获取数据  应该从内存中拷贝一份数据
 #注意物品类别的功能属性是不可更改的 可重用数据  唯一需要拷贝的是 物理数据
+#已改为内存加载
 func load_common_stuff_config_json(_stuff_type_name) ->Dictionary:
 	if create_object_dic.has(_stuff_type_name):
 		var stuff_config_json = create_object_dic[_stuff_type_name]

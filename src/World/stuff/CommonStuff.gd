@@ -87,7 +87,7 @@ func load_config_by_stuff_type(_type) -> bool:
 	physics_data = stuff_config["physics"]
 	var param_config_arr = stuff_config["param_config"]
 	for item in param_config_arr:
-		var param_name = item["name"]
+		var param_name = item["param_name"]
 		var param_model = ComomStuffParam.new()
 		param_model.name = param_name
 		
@@ -184,7 +184,8 @@ func get_param_value(_param_name):
 		var stuff_param_value = physics_data[_param_name]
 		return stuff_param_value
 	else:
-		return param.get_value(_param_name)
+		var param_model =  param.get_value(_param_name)
+		return param_model.value
 #	elif custome_param_dic and custome_param_dic.has(_param_name):
 #		var param_model = custome_param_dic[_param_name]
 #		return param_model.value

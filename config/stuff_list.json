@@ -1,44 +1,434 @@
 {
-	"水果": {
-		"object_name": "水果",		
-		"child_object":"梨",
-		"params": {
-			"新鲜度": 1
-		},
-		"param_config": [{
-			"name": "新鲜度",
-			"init_value": 1,
-			"max_value": 1,
-			"min_value": 0,
-			"transform": -0.001
-		}]
-	},
+    "可躺的-硬": {
+        "object_name": "可躺的-硬",
+        "child_object": "桌子"
+    },
+    "可躺的-软": {
+        "object_name": "可躺的-软",
+        "child_object": "沙发,床"
+    },
+    "是流体的": {
+        "object_name": "是流体的",
+        "child_object": "流体水,流体酒,海水"
+    },
+    "是流体容器的": {
+        "object_name": "是流体容器的",
+        "child_object": "马桶,水杯,酒瓶"
+    },
+    "可被化身绑定的": {
+        "object_name": "可被化身绑定的",
+        "child_object": "椅子,沙发,桌子,水杯,妙瓜种子,妙瓜壳,妙瓜瓤,酒瓶,衣服"
+    },
+    "可被化身储存的": {
+        "object_name": "可被化身储存的",
+        "child_object": "水杯,妙瓜种子,妙瓜壳,妙瓜瓤,酒瓶,衣服"
+    },
+    "可被化身放置的": {
+        "object_name": "可被化身放置的",
+        "child_object": "可被化身绑定的,可被化身储存的"
+    },
+    "可坐的": {
+        "object_name": "可坐的",
+        "child_object": "椅子,沙发,床,桌子,马桶"
+    },
+    "可食用": {
+        "object_name": "可食用",
+        "child_object": "梨"
+    },
+    "水果": {
+        "object_name": "水果",
+        "child_object": "梨",
+        "params": {
+            "新鲜度": 1
+        },
+        "param_config": [
+            {
+                "param_name": "新鲜度",
+                "init_value": 1,
+                "max_value": 1,
+                "min_value": 0,
+                "transform": -0.001
+            }
+        ]
+    },
+    "梨": {
+        "object_name": "梨",
+        "inherit_concept": "可食用,水果",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 1,
+            "是否中空": "否",
+            "重量": 1,
+            "颜色": "绿",
+            "高度": 1
+        },
+        "params": {
+            "新鲜度": 1
+        },
+        "param_config": [
+            {
+                "param_name": "新鲜度",
+                "init_value": 1,
+                "max_value": 1,
+                "min_value": 0,
+                "transform": -0.001
+            }
+        ]
+    },
+    "椅子": {
+        "object_name": "椅子",
+        "inherit_concept": "可坐的,可被化身绑定的",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 1,
+            "是否中空": "否",
+            "重量": 1,
+            "颜色": "绿",
+            "高度": 1
+        },
+        "params": {
+            "正坐人数": 0
+        },
+        "param_config": [
+            {
+                "param_name": "正坐人数",
+                "init_value": 0,
+                "max_value": 2,
+                "min_value": 0
+            }
+        ]
+    },
+    "沙发": {
+        "object_name": "沙发",
+        "inherit_concept": "可坐的,可躺的-软,可被化身绑定的",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 2,
+            "是否中空": "否",
+            "重量": 1,
+            "颜色": "绿",
+            "高度": 1
+        },
+        "params": {
+            "正坐人数": 0,
+            "正躺人数": 0
+        },
+        "param_config": [
+            {
+                "param_name": "正坐人数",
+                "init_value": 0,
+                "max_value": 5,
+                "min_value": 0
+            },
+            {
+                "param_name": "正躺人数",
+                "init_value": 0,
+                "max_value": 2,
+                "min_value": 0
+            }
+        ]
+    },
+    "床": {
+        "object_name": "床",
+        "inherit_concept": "可坐的,可躺的-软",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 3,
+            "是否中空": "否",
+            "重量": 1,
+            "颜色": "绿",
+            "高度": 1
+        },
+        "params": {
+            "正坐人数": 0,
+            "正躺人数": 0
+        },
+        "param_config": [
+            {
+                "param_name": "正坐人数",
+                "init_value": 0,
+                "max_value": 12,
+                "min_value": 0
+            },
+            {
+                "param_name": "正躺人数",
+                "init_value": 0,
+                "max_value": 5,
+                "min_value": 0
+            }
+        ]
+    },
+    "桌子": {
+        "object_name": "桌子",
+        "inherit_concept": "可坐的,可躺的-硬,可被化身绑定的",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 3,
+            "是否中空": "否",
+            "重量": 1,
+            "颜色": "绿",
+            "高度": 1
+        },
+        "params": {
+            "正坐人数": 0,
+            "正躺人数": 0
+        },
+        "param_config": [
+            {
+                "param_name": "正坐人数",
+                "init_value": 0,
+                "max_value": 2,
+                "min_value": 0
+            },
+            {
+                "param_name": "正躺人数",
+                "init_value": 0,
+                "max_value": 1,
+                "min_value": 0
+            }
+        ]
+    },
+    "马桶": {
+        "object_name": "马桶",
+        "inherit_concept": "可坐的,是流体容器的",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 1,
+            "是否中空": "否",
+            "重量": 1,
+            "颜色": "绿",
+            "高度": 1
+        },
+        "params": {
+            "正坐人数": 0,
+            "容器内流体量": 30
+        },
+        "param_config": [
+            {
+                "param_name": "正坐人数",
+                "init_value": 0,
+                "max_value": 1,
+                "min_value": 0
+            },
+            {
+                "param_name": "容器内流体量",
+                "init_value": 30,
+                "max_value": 30,
+                "min_value": 0
+            }
+        ],
+        "create_n_bind": [
+            {
+                "name": "流体水",
+                "params": [
+                    {
+                        "param_name": "流体体积",
+                        "assign": 30
+                    }
+                ]
+            }
+        ]
+    },
+    "流体水": {
+        "object_name": "流体水",
+        "inherit_concept": "是流体的",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 0.1,
+            "是否中空": "否",
+            "重量": 1,
+            "颜色": "绿",
+            "高度": 1
+        },
+        "params": {
+            "流体体积": 1
+        },
+        "param_config": [
+            {
+                "param_name": "流体体积",
+                "init_value": 1,
+                "min_value": 0
+            }
+        ]
+    },
+    "流体酒": {
+        "object_name": "流体酒",
+        "inherit_concept": "是流体的",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 0.1,
+            "是否中空": "否",
+            "重量": 1,
+            "颜色": "绿",
+            "高度": 1
+        },
+        "params": {
+            "流体体积": 1,
+            "酒精含量": 5
+        },
+        "param_config": [
+            {
+                "param_name": "流体体积",
+                "init_value": 1,
+                "min_value": 0
+            },
+            {
+                "param_name": "酒精含量",
+                "init_value": 5,
+                "max_value": 100,
+                "min_value": 0
+            }
+        ]
+    },
+    "海水": {
+        "object_name": "海水",
+        "inherit_concept": "是流体的",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 0.1,
+            "是否中空": "否",
+            "重量": 1,
+            "颜色": "绿",
+            "高度": 1
+        },
+        "params": {
+            "流体体积": 1
+        },
+        "param_config": [
+            {
+                "param_name": "流体体积",
+                "init_value": 1,
+                "min_value": 0
+            }
+        ]
+    },
+    "水杯": {
+        "object_name": "水杯",
+        "inherit_concept": "是流体容器的,可被化身绑定的,可被化身储存的",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 0.2,
+            "是否中空": "否",
+            "重量": 1,
+            "颜色": "绿",
+            "高度": 1
+        },
+        "params": {
+            "容器内流体量": 0
+        },
+        "param_config": [
+            {
+                "param_name": "容器流体量",
+                "init_value": 0,
+                "max_value": 3,
+                "min_value": 0
+            }
+        ]
+    },
+    "妙瓜种子": {
+        "object_name": "妙瓜种子",
+        "inherit_concept": "可被化身绑定的,可被化身储存的",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 0.1,
+            "是否中空": "否",
+            "重量": 1,
+            "颜色": "绿",
+            "高度": 1
+        }
 
-	"梨": {
-		"object_name": "梨",
-		"inherit_object": "可食用,水果",
-		"physics": {
-			"几何形状": "长方形",
-			"动力学性质": "刚体",
-			"尺寸": 1,
-			"是否中空": "否",
-			"重量": 1,
-			"颜色": "绿",
-			"高度": 1,
-		},
-		"params": {
-			"新鲜度": 1
-		},
-		"param_config": [{
-			"name": "新鲜度",
-			"init_value": 1,
-			"max_value": 1,
-			"min_value": 0,
-			"transform": -0.001
-		}]
-	},
-	"可食用": {
-		"object_name": "可食用",
-		"child_object":"梨"
-	}
+    },
+    "妙瓜壳": {
+        "object_name": "妙瓜壳",
+        "inherit_concept": "可被化身绑定的,可被化身储存的",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 0.5,
+            "是否中空": "否",
+            "重量": 1,
+            "颜色": "绿",
+            "高度": 1
+        },
+        "create_n_store": [
+            "妙瓜瓤"
+        ]
+    },
+    "妙瓜瓤": {
+        "object_name": "妙瓜瓤",
+        "inherit_concept": "可被化身绑定的，可被化身储存的",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 0.2,
+            "是否中空": "否",
+            "重量": 1,
+            "颜色": "绿",
+            "高度": 1
+        }
+    },
+    "酒瓶": {
+        "object_name": "酒瓶",
+        "inherit_concept": "是流体容器的,可被化身绑定的,可被化身储存的",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 0.2,
+            "是否中空": "否",
+            "重量": 1,
+            "颜色": "绿",
+            "高度": 1
+        },
+        "params": {
+            "容器内流体量": 0
+        },
+        "param_config": [
+            {
+                "param_name": "容器流体量",
+                "init_value": 6,
+                "max_value": 6,
+                "min_value": 0
+            }
+        ],
+        "create_n_bind": [
+            "单位酒",
+            "单位酒",
+            "单位酒"
+        ]
+    },
+    "衣服": {
+        "object_name": "衣服",
+        "inherit_concept": "可被化身绑定的,可被化身储存的",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 1,
+            "是否中空": "否",
+            "重量": 1,
+            "颜色": "绿",
+            "高度": 1
+        },
+        "params": {
+            "干湿度": 0
+        },
+        "param_config": [
+            {
+                "param_name": "干湿度",
+                "init_value": 0,
+                "max_value": 1,
+                "min_value": 0
+            }
+        ]
+    }
 }

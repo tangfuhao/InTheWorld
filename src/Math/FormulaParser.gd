@@ -18,7 +18,7 @@ func parse(formula:String,formulas:Dictionary,values:Dictionary,param_accessor):
 func parse_condition(_formula:String,_function_regex:RegEx,_objecet_regex:RegEx,_function_caller,_param_accessor):
 	var expression = finalExpressionForCondition(_formula,_function_regex,_objecet_regex,_function_caller,_param_accessor)
 	var result =  Calculator.new().eval(expression)
-	return result
+	return result != 0
 	
 
 	
@@ -44,7 +44,7 @@ func finalExpressionForCondition(_formula:String,_function_regex:RegEx,_objecet_
 			var value = _function_caller.call(group,0)
 			expression = expression.replace(full,value)
 		
-	return finalExpressionForCondition(expression, _function_regex, _objecet_regex,_function_caller,_param_accessor)
+	return expression
 	
 
 func finalExpression(expression:String,formulas:Dictionary,values:Dictionary,param_accessor):

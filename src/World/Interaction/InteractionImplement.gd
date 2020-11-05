@@ -20,13 +20,15 @@ var is_active = false
 var is_finish = false
 var is_vaild = true
 
+func _ready():
+	judge_conditions()
 
 func _process(delta):
 	if is_finish:
 		return 
 		
 		
-	judge_conditions()
+	
 	if not is_meet_condition:
 		if is_active:
 			is_active = false
@@ -60,8 +62,7 @@ func judge_condition(_condition_item):
 	objecet_regex.compile("\\$\\{(.+?)\\}")
 
 	var parser = FormulaParser.new(null)
-	var value = parser.parse_condition(_condition_item,function_regex,objecet_regex,self,self) 
-	return false
+	return parser.parse_condition(_condition_item,function_regex,objecet_regex,self,self) 
 
 func clone_data(_node_pair,_active_execute,_process_execute,_terminate_execute,_break_execute):
 	node_dic = _node_pair

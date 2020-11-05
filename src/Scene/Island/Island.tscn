@@ -57,8 +57,36 @@ should_display_grid = false
 [node name="StuffLayer" type="Node2D" parent="."]
 
 [node name="Stuff5" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 1140.94, 1846.72 )
-stuff_type_name = "梨"
+position = Vector2( 1057.58, 1794.19 )
+stuff_type_name = "椅子"
+
+[node name="Stuff6" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1092.98, 1950.06 )
+stuff_type_name = "沙发"
+
+[node name="Stuff7" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1219.73, 1869.56 )
+stuff_type_name = "床"
+
+[node name="Stuff8" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 697.9, 1878.69 )
+stuff_type_name = "桌子"
+
+[node name="Stuff9" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 834.922, 1745.67 )
+stuff_type_name = "马桶"
+
+[node name="Stuff10" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 774.404, 1949.49 )
+stuff_type_name = "水杯"
+
+[node name="Stuff11" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 672.208, 1966.61 )
+stuff_type_name = "酒瓶"
+
+[node name="Stuff12" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 576.863, 1751.95 )
+stuff_type_name = "衣服"
 
 [node name="PlayerLayer" type="Node2D" parent="."]
 
