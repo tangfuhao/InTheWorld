@@ -14,6 +14,8 @@ func _process(delta):
 	for item in param_dic.values():
 		item._process(delta)
 
+func has_param_item(_name):
+	return param_dic.has(_name)
 
 func set_value(_key,_value):
 	if param_dic.has(_key):

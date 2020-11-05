@@ -11,6 +11,9 @@ onready var customer_node_group := $StuffLayer
 
 var controll_player
 
+signal customer_stuff_param_update(_node,_param_name)
+signal customer_stuff_create(_node,_create_or_release)
+
 
 func _ready():
 	pathfinding.create_navigation_map(ground)
@@ -21,10 +24,6 @@ func _process(delta):
 	if controll_player and Input.is_action_just_pressed("operation_option"):
 		var interaction_object = GlobalRef.get_key_global(GlobalRef.global_key.mouse_interaction)
 		if interaction_object:
-#			if interaction_object is CommonStuff:
-#				player_ui.show_option_menu(interaction_object)
-#			elif interaction_object is PackgeItemBase:
-#				player_ui.show_package_item_option_menu(interaction_object)
 			controll_player.task_scheduler.add_tasks([["移动",interaction_object]])
 		else:
 			var pos = get_global_mouse_position()
@@ -40,6 +39,17 @@ func binding_customer_node_event():
 func binding_customer_node_item(_item):
 	_item.connect("stuff_update_state",self,"_on_stuff_update_state")
 	_item.connect("disappear_notify",self,"_on_stuff_disappear")
+
+#把自定义物品 加入到场景
+func add_customer_node(_node):
+	customer_node_group.add_child(_node)
+	binding_customer_node_item(_node)
+	emit_signal("customer_stuff_create",_node,true)
+
+#移除节点
+func remove_customer_node(_node):
+	customer_node_group.remove_child(_node)
+	emit_signal("customer_stuff_create",_node,false)
 	
 
 

@@ -15,7 +15,7 @@ onready var hurt_box = $HurtBox
 onready var hit_box = $HitBox
 onready var task_scheduler = $TaskScheduler
 #属性管理
-onready var param := $PlayerParam
+onready var params := $PlayerParam
 onready var camera_position := $NameDisplay/RemoteTransform2D
 
 
@@ -70,17 +70,17 @@ func get_type():
 
 
 func get_all_param()->Array:
-	return param.get_all_param()
+	return params.get_all_param()
 	
 
 #获取属性值
 func get_param_value(_param_name):
-	var value = param.get_value(_param_name)
+	var value = params.get_value(_param_name)
 	if not value:
 		var param_model = ComomStuffParam.new()
 		param_model.name = _param_name
 		param_model.value = 1
-		param.set_value(_param_name,param_model)
+		params.set_value(_param_name,param_model)
 		return param_model.value
 	else:
 		return value.value
@@ -88,7 +88,7 @@ func get_param_value(_param_name):
 
 #设置属性值
 func set_param_value(_param_name,_param_value):
-	param.set_value(_param_name,_param_value)
+	params.set_value(_param_name,_param_value)
 	
 
 

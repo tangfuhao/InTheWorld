@@ -58,6 +58,7 @@ func get_arr_value_from_dic(_type_stuff_dic,_item) -> Array:
 		_type_stuff_dic[_item] = []
 	return _type_stuff_dic[_item]
 
+#节点类型和作用的匹配
 func node_match(_node_match):
 	var node_name_arr = _node_match.keys()
 	var node_type_arr = _node_match.values()
@@ -104,3 +105,77 @@ func node_match_iteration_collect(_arr:Array,_index,_select_node_arr,_result_arr
 					node_match_iteration_collect(_arr,_index+1,select_node_arr,_result_arr)
 				else:
 					_result_arr.push_back(select_node_arr)
+
+#场景通知 自定义物品 创建或消失的通知
+func _on_Island_customer_stuff_create(_node,_create_or_release):
+	if _create_or_release:
+		#类型集合的集合
+		var god_interaction_arr = DataManager.get_interaction_arr_by_type("god")
+		for item in god_interaction_arr:
+			var node_match = item.node_matching
+			var node_type_arr:Array = node_match.values()
+			var node_name_arr = node_match.keys()
+			
+			var find_index = node_type_arr.find(_node.stuff_type_name)
+			while(find_index != -1):
+				var node_type_arr_arr := []
+				for node_type_item_index in range(node_type_arr.size()):
+					if find_index == node_type_item_index:
+						node_type_arr_arr.push_back([_node])
+					else:
+						var node_type_item = node_type_arr[node_type_item_index]
+						if not type_stuff_dic.has(node_type_item):
+							break
+				
+						var node_type_group = type_stuff_dic[node_type_item]
+						if node_type_group.empty():
+							break
+						
+						node_type_arr_arr.push_back(node_type_group)
+				
+				#可以搭配的节点 组合
+				#TODO 应该加入条件
+				var result_arr := []
+				node_match_iteration_collect(node_type_arr_arr,0,[],result_arr)
+				
+				
+				var node_name_item_arr := []
+				for node_arr_item in result_arr:
+					var node_pair = {}
+					var node_size = node_arr_item.size()
+					for node_item_index in range(node_size):
+						var node_name = node_name_arr[node_item_index]
+						var node_item = node_arr_item[node_item_index]
+						node_pair[node_name] = node_item
+					node_name_item_arr.push_back(node_pair)
+					
+				
+				
+				for match_node_pair_item in node_name_item_arr:
+					#创建交互
+					var interaction_implement = item.create_interaction(match_node_pair_item)
+					#绑定关系
+					for node_item in match_node_pair_item.values():
+						var interaction_arr = get_arr_value_from_dic(active_node_to_interaction_dic,node_item)
+						interaction_arr.push_back(interaction_implement)
+					#加入场景
+					add_child(interaction_implement)
+				
+				#绑定交互模板的关系
+				for node_type_item in node_match.values():
+					var interaction_template_arr = get_arr_value_from_dic(use_node_type_to_interaction_template_dic,node_type_item)
+					interaction_template_arr.push_back(item)
+
+
+
+				find_index = node_type_arr.find(_node.stuff_type_name)
+	else:
+		var interaction_template_arr = get_arr_value_from_dic(use_node_type_to_interaction_template_dic,_node)
+		for item in interaction_template_arr:
+			remove_child(item)
+		interaction_template_arr.clear()
+
+
+#场景通知 自定义物品 属性通知
+func _on_Island_customer_stuff_param_update(_node,_param_name):
+	pass # Replace with function body.

@@ -142,6 +142,12 @@ func parse_interaction(_interaction_arr) ->Dictionary:
 		parse_interaction_lifecycle_process(item,interaction_template.terminate_execute,"_terminate")
 		parse_interaction_lifecycle_process(item,interaction_template.break_execute,"_break")
 		
+		
+		if item.has("interaction_conditions"):
+			var interaction_condition_arr = item["interaction_conditions"]
+			for interaction_condition_item in interaction_condition_arr:
+				interaction_template.conditions_arr.push_back(interaction_condition_item)
+		
 		template_dic[interaction_name] = interaction_template
 	
 	return template_dic

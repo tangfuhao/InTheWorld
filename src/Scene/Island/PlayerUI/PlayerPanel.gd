@@ -5,8 +5,8 @@ onready var interaction_listview = $VBoxContainer/HBoxContainer/PanelContainer/H
 onready var emotion_listview = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/CommonListView
 
 var interaction_arr
-
 var cache_parms_dic := {}
+var current_player
 
 
 func active()->void:
@@ -24,8 +24,12 @@ func _ready():
 
 
 func setup_player(_player:Player):
-	var param_arr = _player.param.param_dic.values()
-	_player.param.connect("params_value_update",self,"on_player_params_value_update")
+	if current_player:
+		current_player.params.disconnect("params_value_update",self,"on_player_params_value_update")
+	
+	current_player = _player
+	var param_arr = _player.params.param_dic.values()
+	_player.params.connect("params_value_update",self,"on_player_params_value_update")
 	var index = 0
 	for item in param_arr:
 		cache_parms_dic[item.name] = index

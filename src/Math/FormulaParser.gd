@@ -9,14 +9,43 @@ func _init(_regex):
 	regex = RegEx.new()
 	regex.compile(_regex)
 
+
 func parse(formula:String,formulas:Dictionary,values:Dictionary,param_accessor):
-#	if not formulas:
-#		formulas = {}
-#	if not values:
-#		values = {}
 	var expression = finalExpression(formula,formulas,values,param_accessor)
 	var result =  Calculator.new().eval(expression)
 	return result
+	
+func parse_condition(_formula:String,_function_regex:RegEx,_objecet_regex:RegEx,_function_caller,_param_accessor):
+	var expression = finalExpressionForCondition(_formula,_function_regex,_objecet_regex,_function_caller,_param_accessor)
+	var result =  Calculator.new().eval(expression)
+	return result
+	
+
+	
+func finalExpressionForCondition(_formula:String,_function_regex:RegEx,_objecet_regex:RegEx,_function_caller,_param_accessor):
+	var expression = _formula
+	
+	var result_arr = _objecet_regex.search_all(expression)
+	if result_arr:
+		for match_item in result_arr:
+			var full = match_item.get_string(0)
+			var group = match_item.get_string(1)
+			if _param_accessor and _param_accessor.has_node_param(group):
+				var value = _param_accessor.get_node_param_value(group)
+				expression = expression.replace(full,value)
+
+	result_arr = _function_regex.search_all(expression)
+	if result_arr:
+		for match_item in result_arr:
+			var full = match_item.get_string(0)
+			var group = match_item.get_string(1)
+			
+			
+			var value = _function_caller.call(group,0)
+			expression = expression.replace(full,value)
+		
+	return finalExpressionForCondition(expression, _function_regex, _objecet_regex,_function_caller,_param_accessor)
+	
 
 func finalExpression(expression:String,formulas:Dictionary,values:Dictionary,param_accessor):
 	var result_arr = regex.search_all(expression)
