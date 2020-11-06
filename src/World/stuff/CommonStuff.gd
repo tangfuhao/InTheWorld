@@ -50,6 +50,7 @@ signal stuff_update_state(_state_name,_state_value)
 signal params_update(_param_name,_param_value)
 
 func _set_display_name(_name):
+	display_name = _name
 	if item_display_name:
 		item_display_name.text = _name
 

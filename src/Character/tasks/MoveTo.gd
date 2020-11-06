@@ -36,6 +36,8 @@ func process(_delta: float):
 	if is_reach_target():
 		goal_status = STATE.GOAL_COMPLETED
 		return goal_status
+		
+	
 	
 	if next_destination and human.is_approach(next_destination,10):
 		next_destination = null
@@ -43,6 +45,7 @@ func process(_delta: float):
 
 
 	return goal_status
+	
 
 func terminate():
 	.terminate()

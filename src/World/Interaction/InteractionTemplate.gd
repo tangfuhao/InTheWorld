@@ -1,8 +1,6 @@
 #作用的生成模板
 class_name InteractionTemplate
 
-class InteractionCondition:
-	var expression
 
 const interaction_implement_scene = preload("res://src/World/Interaction/InteractionImplement.tscn")
 

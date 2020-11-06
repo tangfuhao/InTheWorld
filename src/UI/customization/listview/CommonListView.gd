@@ -13,6 +13,8 @@ const ListItemType6 = preload("res://src/UI/customization/listview/ListViewItemT
 
 const ListItemType7 = preload("res://src/UI/customization/listview/ListViewItemType7.tscn")
 
+#交互
+const ListItemType8 = preload("res://src/UI/customization/listview/ListViewItemType8.tscn")
 
 onready var list = $ScrollContainer/List
 onready var scroll_container = $ScrollContainer
@@ -108,6 +110,9 @@ func create_list_item_by_type(_label_type):
 			return ListItemType6.instance()
 		"思想文本":
 			return ListItemType5.instance()
+		"交互文本":
+			return ListItemType8.instance()
+			
 
 
 
@@ -118,6 +123,8 @@ func add_content_text(_index,_label,_label_type):
 		list_item = list.get_child(_index)
 	else:
 		list_item = create_list_item_by_type(_label_type)
+		if _label_type == "交互文本":
+			list_item.connect("on_click",self,"_on_interaction_item_click")
 		list_item.item_index = _index
 		list.add_child(list_item)
 
@@ -138,6 +145,12 @@ func add_content_text(_index,_label,_label_type):
 func set_item_active(_index,_is_active):
 	var item_view = list.get_child(_index)
 	item_view.set_active(_is_active)
+	
+
+#交互文本点击
+func _on_interaction_item_click(_item):
+	var index = _item.item_index
+	emit_signal("on_item_selected",index)
 	
 	
 func _on_item_selected(_index):
