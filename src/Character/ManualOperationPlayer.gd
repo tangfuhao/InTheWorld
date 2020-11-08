@@ -45,6 +45,13 @@ func _ready() -> void:
 	bullets_node_layer = get_node(bullets_node_path)
 
 	inventory_system = InventorySystem.new()
+	
+	
+	#TEST
+	var param_model = ComomStuffParam.new()
+	param_model.name = "负重上限"
+	param_model.value = 10
+	params.set_value(param_model.name,param_model)
 
 	
 func _physics_process(delta):

@@ -39,9 +39,22 @@ func finalExpressionForCondition(_formula:String,_function_regex:RegEx,_objecet_
 		for match_item in result_arr:
 			var full = match_item.get_string(0)
 			var group = match_item.get_string(1)
+			var argument_arr = Array(group.split(","))
+			var function_name = argument_arr.pop_front()
+			var transform_argumeen_arr := []
+			#把对应的节点名转换为节点对象
+			for argument_name_item in argument_arr:
+				var node_find_result_arr = _objecet_regex.search_all(argument_name_item)
+				if node_find_result_arr:
+					for node_match_item in node_find_result_arr:
+						var node_name = node_match_item.get_string(1)
+						var node_ref = _param_accessor.get_node_ref(node_name)
+						transform_argumeen_arr.push_back(node_ref)
+				else:
+					transform_argumeen_arr.push_back(argument_name_item)
 			
 			
-			var value = _function_caller.call(group,0)
+			var value = _function_caller.callv(function_name,transform_argumeen_arr)
 			expression = expression.replace(full,value)
 		
 	return expression

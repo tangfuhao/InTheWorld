@@ -4,7 +4,6 @@ var node_name
 var param_name
 var transform setget set_transform
 var assign
-var node_visiter
 
 var temp_delta = 0
 

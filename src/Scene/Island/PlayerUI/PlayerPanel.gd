@@ -91,6 +91,7 @@ func object_click(interaction_object):
 				item.set_meta("node",interaction_object)
 				item.text = interaction_object.display_name
 				item.set_disabled(true)
+				unselect_num = unselect_num - 1
 				break
 		else:
 			unselect_num = unselect_num - 1

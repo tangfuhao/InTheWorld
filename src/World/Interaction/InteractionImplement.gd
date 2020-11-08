@@ -25,6 +25,7 @@ func _ready():
 
 func _process(delta):
 	if is_finish:
+		queue_free()
 		return 
 		
 		
@@ -76,14 +77,24 @@ func clone_data(_node_pair,_active_execute,_process_execute,_terminate_execute,_
 		break_execute.push_back(clone_node_effect(item))
 		
 func clone_node_effect(_node_effect):
-	var clone_obejct = NodeParamEffect.new()
-	clone_obejct.node_name = _node_effect.node_name
-	clone_obejct.param_name = _node_effect.param_name
-	clone_obejct.transform = _node_effect.transform
-	clone_obejct.assign = _node_effect.assign
-	clone_obejct.node = node_dic[clone_obejct.node_name]
-	clone_obejct.node_visiter = self
-	return clone_obejct
+	if _node_effect is NodeParamEffect:
+		var clone_obejct = NodeParamEffect.new()
+		clone_obejct.node_name = _node_effect.node_name
+		clone_obejct.param_name = _node_effect.param_name
+		clone_obejct.transform = _node_effect.transform
+		clone_obejct.assign = _node_effect.assign
+		clone_obejct.node = node_dic[clone_obejct.node_name]
+		return clone_obejct
+	elif _node_effect is NodeChangePositionEffect:
+		var clone_obejct = NodeChangePositionEffect.new()
+		clone_obejct.node_name = _node_effect.node_name
+		clone_obejct.position = _node_effect.position
+		clone_obejct.node = node_dic[clone_obejct.node_name]
+		return clone_obejct
+	else:
+		assert(false)
+		
+		
 
 func interaction_active():
 	for item in active_execute:
@@ -104,7 +115,7 @@ func interaction_break():
 
 func has_node_param(_node_param:String):
 	var find_index = _node_param.find("[")
-	if find_index:
+	if find_index != -1:
 		var string_len = _node_param.length()
 		var node_name = _node_param.substr(0,find_index)
 		var node_param = _node_param.substr(find_index+1,string_len - find_index - 2)
@@ -126,3 +137,18 @@ func get_node_param_value(_node_param:String):
 			var node_item = node_dic[node_name]
 			return node_item.get_param_value(node_param)
 	return null
+	
+func get_node_ref(_node_param:String):
+	if node_dic.has(_node_param):
+		return node_dic[_node_param]
+	return null
+	
+func can_interact(_node1,_node2):
+	if _node2.has_method("can_interaction"):
+		if _node2.can_interaction(_node1):
+			return 1
+	if _node1.has_method("can_interaction"):
+		if _node1.can_interaction(_node2):
+			return 1
+	return 0
+
