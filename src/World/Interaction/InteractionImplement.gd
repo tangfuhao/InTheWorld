@@ -87,7 +87,7 @@ func clone_node_effect(_node_effect):
 
 func interaction_active():
 	for item in active_execute:
-		item._process(1)
+		item._process(1,self)
 	
 	
 func interaction_process(_delta):
@@ -96,10 +96,10 @@ func interaction_process(_delta):
 	
 func interaction_terminate():
 	for item in terminate_execute:
-		item._process(1)
+		item._process(1,self)
 func interaction_break():
 	for item in terminate_execute:
-		item._process(1)
+		item._process(1,self)
 
 
 func has_node_param(_node_param:String):

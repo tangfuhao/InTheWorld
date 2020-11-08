@@ -91,5 +91,17 @@ func set_param_value(_param_name,_param_value):
 	params.set_value(_param_name,_param_value)
 	
 
+#执行作用
+func excute_interaction(_interaction_template,_node_arr):
+	var node_match_name_arr = _interaction_template.node_match_name_arr
+	var node_pair := {}
+	node_pair[node_match_name_arr[0]] = self
+	for index in range(_node_arr.size()):
+		node_pair[node_match_name_arr[index + 1]] = _node_arr[index]
+	#创建交互
+	var interaction_implement = _interaction_template.create_interaction(node_pair)
+	#加入场景
+	add_child(interaction_implement)
+
 
 	

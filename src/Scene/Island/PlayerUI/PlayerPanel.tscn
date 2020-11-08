@@ -1,9 +1,8 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://src/UI/customization/chinese_label_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://src/UI/customization/listview/CommonListView.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/Scene/Island/PlayerUI/PlayerPanel.gd" type="Script" id=3]
-[ext_resource path="res://src/Scene/Island/PlayerUI/Interaction_Info_Item.tscn" type="PackedScene" id=4]
 
 [node name="PlayerPanel" type="Control"]
 anchor_right = 1.0
@@ -133,6 +132,7 @@ margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 focus_mode = 0
 custom_fonts/font = ExtResource( 1 )
+disabled = true
 enabled_focus_mode = 0
 text = "执行"
 
@@ -143,6 +143,7 @@ margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 focus_mode = 0
 custom_fonts/font = ExtResource( 1 )
+disabled = true
 enabled_focus_mode = 0
 text = "停止"
 
@@ -153,6 +154,7 @@ margin_bottom = 50.0
 rect_min_size = Vector2( 50, 50 )
 focus_mode = 0
 custom_fonts/font = ExtResource( 1 )
+disabled = true
 enabled_focus_mode = 0
 text = "再执行"
 
@@ -184,44 +186,6 @@ margin_right = 544.0
 margin_bottom = 52.0
 size_flags_horizontal = 3
 
-[node name="Button7" parent="VBoxContainer/HBoxContainer/Control/HBoxContainer/HBoxContainer" instance=ExtResource( 4 )]
-
-[node name="Button8" type="Button" parent="VBoxContainer/HBoxContainer/Control/HBoxContainer/HBoxContainer"]
-margin_left = 54.0
-margin_right = 104.0
-margin_bottom = 52.0
-rect_min_size = Vector2( 50, 50 )
-focus_mode = 0
-mouse_filter = 2
-custom_fonts/font = ExtResource( 1 )
-shortcut_in_tooltip = false
-enabled_focus_mode = 0
-text = "再执行"
-
-[node name="Button9" type="Button" parent="VBoxContainer/HBoxContainer/Control/HBoxContainer/HBoxContainer"]
-margin_left = 108.0
-margin_right = 158.0
-margin_bottom = 52.0
-rect_min_size = Vector2( 50, 50 )
-focus_mode = 0
-mouse_filter = 2
-custom_fonts/font = ExtResource( 1 )
-shortcut_in_tooltip = false
-enabled_focus_mode = 0
-text = "再执行"
-
-[node name="Button10" type="Button" parent="VBoxContainer/HBoxContainer/Control/HBoxContainer/HBoxContainer"]
-margin_left = 162.0
-margin_right = 212.0
-margin_bottom = 52.0
-rect_min_size = Vector2( 50, 50 )
-focus_mode = 0
-mouse_filter = 2
-custom_fonts/font = ExtResource( 1 )
-shortcut_in_tooltip = false
-enabled_focus_mode = 0
-text = "再执行"
-
 [node name="Button" type="Button" parent="VBoxContainer/HBoxContainer/Control/HBoxContainer"]
 margin_left = 548.0
 margin_right = 598.0
@@ -243,3 +207,4 @@ margin_left = 7.0
 margin_top = 7.0
 margin_right = 1193.0
 margin_bottom = 193.0
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Button4" to="." method="_on_Button4_pressed"]

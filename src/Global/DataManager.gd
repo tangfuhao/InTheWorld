@@ -93,7 +93,7 @@ func iteration_node_type(_type_name,_node_type_group):
 			_node_type_group.push_back(item)
 			iteration_node_type(item,_node_type_group)
 
-#TODO 这个地方处理不好  不应该每次从磁盘获取数据  应该从内存中拷贝一份数据
+#这个地方处理不好  不应该每次从磁盘获取数据  应该从内存中拷贝一份数据
 #注意物品类别的功能属性是不可更改的 可重用数据  唯一需要拷贝的是 物理数据
 #已改为内存加载
 func load_common_stuff_config_json(_stuff_type_name) ->Dictionary:
@@ -109,6 +109,21 @@ func instance_stuff_script(_stuff_name):
 		return stuff
 	else:
 		return stuff
+		
+#遍历迭代 判断是否有满足的父类
+func is_belong_type(_parent_type,_child_type):
+	if _child_type == _parent_type:
+		return true
+		
+	var node_config = create_object_dic[_child_type]
+	if node_config.has("inherit_concept"):
+		var inherit_concept_arr = node_config["inherit_concept"].split(",")
+		for item in inherit_concept_arr:
+			if is_belong_type(_parent_type,item):
+				return true
+				
+	return false
+
 
 #解析作用 并生成 作用创建的模板
 func parse_interaction(_interaction_arr) ->Dictionary:
@@ -137,6 +152,7 @@ func parse_interaction(_interaction_arr) ->Dictionary:
 			var node_name = node_item["node_name"]
 			var node_type = node_item["node_type"]
 			interaction_template.node_matching[node_name] = node_type
+			interaction_template.node_match_name_arr.push_back(node_name)
 		
 		parse_interaction_lifecycle_process(item,interaction_template.active_execute,"_active")
 		parse_interaction_lifecycle_process(item,interaction_template.process_execute,"_process")

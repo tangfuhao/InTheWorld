@@ -6,14 +6,20 @@ onready var emotion_listview = $VBoxContainer/HBoxContainer/PanelContainer/HBoxC
 
 onready var show_interaction_info_listview = $VBoxContainer/HBoxContainer/Control/HBoxContainer/HBoxContainer
 
+onready var excute_interaction_button = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Button4
+onready var stop_interaction_button = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Button5
+
+
 const interaction_info_item = preload("res://src/Scene/Island/PlayerUI/Interaction_Info_Item.tscn")
 
 var interaction_arr
 var cache_parms_dic := {}
 var current_player
 
-#选择交互物品 模式
-var is_select_interaction_object_mode = false
+
+
+
+
 
 func active()->void:
 	self.show()
@@ -66,22 +72,31 @@ func show_interaction_ui():
 			show_interaction_info_listview.remove_child(item)
 		
 		for item in node_type_name_arr:
-			is_select_interaction_object_mode = true
 			var interaction_item_button = interaction_info_item.instance()
 			interaction_item_button.text = item
 			show_interaction_info_listview.add_child(interaction_item_button)
+			
+		if node_type_name_arr.empty():
+			#指定可以运行
+			excute_interaction_button.set_disabled(false)
 
+#在场景中选择一个物品
 func object_click(interaction_object):
-	if is_select_interaction_object_mode:
-		var select_interaction_info
-		for item in show_interaction_info_listview.get_children():
-			var node = item.get_meta("node")
-			if not node:
-				#匹配节点
-				
+	var unselect_num = show_interaction_info_listview.get_child_count()
+	for item in show_interaction_info_listview.get_children():
+		var node = item.get_meta("node")
+		if not node:
+			#通过条件 匹配节点
+			if DataManager.is_belong_type(item.text,interaction_object.stuff_type_name):
 				item.set_meta("node",interaction_object)
 				item.text = interaction_object.display_name
-				
+				item.set_disabled(true)
+				break
+		else:
+			unselect_num = unselect_num - 1
+	if unselect_num == 0:
+		#指定可以运行
+		excute_interaction_button.set_disabled(false)
 
 	
 func on_player_params_value_update(_param_key,_param_value):
@@ -96,9 +111,19 @@ func on_player_params_value_update(_param_key,_param_value):
 	param_listview.add_content_text(index,content,"状态值文本")
 		
 
-var current_interaction_template:InteractionTemplate
+var current_interaction_template
 
 func on_interaction_item_selected(index):
 	current_interaction_template = interaction_arr[index]
 	show_interaction_ui()
 	
+
+#signal excute_interaction(_player,_interaction_temp,_node_arr)
+#执行 作用
+func _on_Button4_pressed():
+	var node_arr = []
+	for item in show_interaction_info_listview.get_children():
+		node_arr.push_back(item.get_meta("node"))
+#	emit_signal("excute_interaction",current_player,current_interaction_template,node_arr)
+	
+	current_player.excute_interaction(current_interaction_template,node_arr)

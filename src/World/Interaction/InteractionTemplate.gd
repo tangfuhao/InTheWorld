@@ -14,6 +14,7 @@ var conditions_arr := []
 
 #名称-类型
 var node_matching := {}
+var node_match_name_arr := []
 
 var active_execute := []
 var process_execute := []
