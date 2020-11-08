@@ -63,6 +63,8 @@ script = ExtResource( 6 )
 [node name="Storage" type="Node2D" parent="."]
 visible = false
 script = ExtResource( 9 )
+
+[node name="InteractionLayer" type="Node2D" parent="."]
 [connection signal="input_event" from="." to="." method="_on_ManualOperationPlayer_input_event"]
 
 [editable path="HurtBox"]

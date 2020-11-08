@@ -745,7 +745,7 @@
     },
     {
         "interaction_name": "收纳物品",
-        "interaction_duration": 2,
+        "interaction_duration": 5,
         "interaction_conditions": [
             "$[can_interact, ${node1}, ${node2}]",
             "${node1[当前负重]} + ${node2[重量]} < ${node1[负重上限]}"

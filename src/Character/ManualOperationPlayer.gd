@@ -19,6 +19,7 @@ onready var params := $PlayerParam
 onready var storage := $Storage
 onready var camera_position := $NameDisplay/RemoteTransform2D
 
+onready var interaction_layer = $InteractionLayer
 
 
 #每个实体都会生成一个唯一的node_id
@@ -115,7 +116,9 @@ func excute_interaction(_interaction_template,_node_arr):
 	#创建交互
 	var interaction_implement = _interaction_template.create_interaction(node_pair)
 	#加入场景
-	add_child(interaction_implement)
+	interaction_layer.add_child(interaction_implement)
 
-
-
+#清除所有的交互
+func clean_interaction():
+	for item in interaction_layer.get_children():
+		item.queue_free()
