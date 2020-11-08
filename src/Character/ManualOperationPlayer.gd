@@ -83,6 +83,10 @@ func get_all_param()->Array:
 
 #获取属性值
 func get_param_value(_param_name):
+	if _param_name == "位置":
+		return self.global_position
+	
+	
 	var value = params.get_value(_param_name)
 	if not value:
 		var param_model = ComomStuffParam.new()
@@ -96,6 +100,8 @@ func get_param_value(_param_name):
 
 #设置属性值
 func set_param_value(_param_name,_param_value):
+	if _param_name == "位置":
+		self.global_position = _param_value
 	params.set_value(_param_name,_param_value)
 	
 

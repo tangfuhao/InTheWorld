@@ -765,7 +765,7 @@
                 "node_name": "node1",
                 "effects": [
                     {
-                        "store": "${node2}"
+                        "change_position": "${node1[位置]}"
                     }
                 ]
             }
