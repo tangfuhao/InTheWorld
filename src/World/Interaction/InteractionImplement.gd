@@ -4,6 +4,7 @@ class_name InteractionImplement
 
 
 var interaction_name
+var duration
 #代指-节点
 var node_dic:Dictionary
 var active_execute := []
@@ -22,9 +23,18 @@ var is_vaild = true
 
 func _ready():
 	judge_conditions()
+	if duration and duration > 0:
+		var timer = Timer.new()
+		timer.connect("timeout",self,"on_interaction_time_out")
+		add_child(timer)
+		timer.start(duration)
+
+func on_interaction_time_out():
+	is_finish = true
 
 func _process(delta):
 	if is_finish:
+		interaction_terminate()
 		queue_free()
 		return 
 		
@@ -44,8 +54,7 @@ func _process(delta):
 		
 	if not is_finish:
 		interaction_process(delta)
-	else:
-		interaction_terminate()
+		
 
 		
 
@@ -89,6 +98,12 @@ func clone_node_effect(_node_effect):
 		var clone_obejct = NodeChangePositionEffect.new()
 		clone_obejct.node_name = _node_effect.node_name
 		clone_obejct.position = _node_effect.position
+		clone_obejct.node = node_dic[clone_obejct.node_name]
+		return clone_obejct
+	elif _node_effect is NodeStoreEffect:
+		var clone_obejct = NodeStoreEffect.new()
+		clone_obejct.node_name = _node_effect.node_name
+		clone_obejct.store_node = _node_effect.store_node
 		clone_obejct.node = node_dic[clone_obejct.node_name]
 		return clone_obejct
 	else:
@@ -151,4 +166,5 @@ func can_interact(_node1,_node2):
 		if _node1.can_interaction(_node2):
 			return 1
 	return 0
+
 

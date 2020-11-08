@@ -640,6 +640,11 @@ _global_script_classes=[ {
 "path": "res://src/Character/status/StatusModel.gd"
 }, {
 "base": "Node2D",
+"class": "Storage",
+"language": "GDScript",
+"path": "res://src/Character/Storage.gd"
+}, {
+"base": "Node2D",
 "class": "Strategy",
 "language": "GDScript",
 "path": "res://src/Character/strategy/Strategy.gd"
@@ -851,6 +856,7 @@ _global_script_class_icons={
 "Status": "",
 "StatusEffectModel": "",
 "StatusModel": "",
+"Storage": "",
 "Strategy": "",
 "StrategyChain": "",
 "StrategyItemModel": "",

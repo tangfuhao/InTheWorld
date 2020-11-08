@@ -45,8 +45,6 @@ var status_arr := []
 
 signal disappear_notify(_stuff)
 signal stuff_update_state(_state_name,_state_value)
-
-
 signal params_update(_param_name,_param_value)
 
 func _set_display_name(_name):
@@ -58,7 +56,18 @@ func _ready():
 	if load_config_by_stuff_type(stuff_type_name):
 		setup_node_by_config(stuff_type_name)
 
-
+#TODO 设置物品的可交互状态
+func set_disable_interactino(_is_interaction):
+	if _is_interaction:
+		if is_location:
+			body_collision_shape.set_disabled(true)
+			interact_collision_shape.set_disabled(true)
+		else:
+			area_collision_shape.set_disabled(true)
+	else:
+		body_collision_shape.set_disabled(true)
+		interact_collision_shape.set_disabled(true)
+		area_collision_shape.set_disabled(true)
 
 
 func get_global_rect() -> Rect2:

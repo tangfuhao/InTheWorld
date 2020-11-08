@@ -16,6 +16,7 @@ onready var hit_box = $HitBox
 onready var task_scheduler = $TaskScheduler
 #属性管理
 onready var params := $PlayerParam
+onready var storage := $Storage
 onready var camera_position := $NameDisplay/RemoteTransform2D
 
 
@@ -111,4 +112,4 @@ func excute_interaction(_interaction_template,_node_arr):
 	add_child(interaction_implement)
 
 
-	
+

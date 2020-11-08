@@ -762,10 +762,10 @@
         ],
         "_terminate": [
             {
-                "node_name": "node2",
+                "node_name": "node1",
                 "effects": [
                     {
-                        "change_position": "${node1[位置]}"
+                        "store": "${node2}"
                     }
                 ]
             }
