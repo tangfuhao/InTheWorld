@@ -117,6 +117,7 @@ func excute_interaction(_interaction_template,_node_arr):
 	var interaction_implement = _interaction_template.create_interaction(node_pair)
 	#加入场景
 	interaction_layer.add_child(interaction_implement)
+	return interaction_implement
 
 #清除所有的交互
 func clean_interaction():

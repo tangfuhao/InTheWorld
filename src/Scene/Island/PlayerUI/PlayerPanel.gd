@@ -8,7 +8,7 @@ onready var show_interaction_info_listview = $VBoxContainer/HBoxContainer/Contro
 
 onready var excute_interaction_button = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Button4
 onready var stop_interaction_button = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Button5
-
+onready var interaction_progress_bar := $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/ProgressBar
 
 const interaction_info_item = preload("res://src/Scene/Island/PlayerUI/Interaction_Info_Item.tscn")
 
@@ -32,7 +32,10 @@ func inactive()->void:
 func _ready():
 	interaction_arr = DataManager.get_interaction_arr_by_type("body")
 	interaction_listview.connect("on_item_selected",self,"on_interaction_item_selected")
-	
+
+func _process(delta):
+	if current_excute_interaction:
+		interaction_progress_bar.set_value(current_excute_interaction.current_progress)
 
 
 func setup_player(_player:Player):
@@ -118,7 +121,7 @@ func on_interaction_item_selected(index):
 	current_interaction_template = interaction_arr[index]
 	show_interaction_ui()
 	
-
+var current_excute_interaction
 #signal excute_interaction(_player,_interaction_temp,_node_arr)
 #执行 作用
 func _on_Button4_pressed():
@@ -127,4 +130,6 @@ func _on_Button4_pressed():
 		node_arr.push_back(item.get_meta("node"))
 #	emit_signal("excute_interaction",current_player,current_interaction_template,node_arr)
 	
-	current_player.excute_interaction(current_interaction_template,node_arr)
+	current_excute_interaction = current_player.excute_interaction(current_interaction_template,node_arr)
+	if current_excute_interaction.duration:
+		interaction_progress_bar.set_max(current_excute_interaction.duration)

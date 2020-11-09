@@ -5,6 +5,7 @@ class_name InteractionImplement
 
 var interaction_name
 var duration
+var current_progress = 0
 #代指-节点
 var node_dic:Dictionary
 var active_execute := []
@@ -33,6 +34,7 @@ func on_interaction_time_out():
 	is_finish = true
 
 func _process(delta):
+	current_progress = current_progress + delta
 	if is_finish:
 		interaction_terminate()
 		queue_free()
