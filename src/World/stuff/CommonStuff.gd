@@ -199,12 +199,25 @@ func choice_color(_color):
 
 #获取属性值
 func get_param_value(_param_name):
+	if _param_name == "位置":
+		return self.global_position
+		
 	if physics_data and physics_data.has(_param_name):
 		var stuff_param_value = physics_data[_param_name]
 		return stuff_param_value
 	else:
-		var param_model =  param.get_value(_param_name)
-		return param_model.value
+		var param_arr = Array(_param_name.split("."))
+		var param_name = param_arr.pop_front()
+		
+		
+		var param_model =  param.get_value(param_name)
+		if param_arr.empty():
+			return param_model.value
+		else:
+			var param_name_option = param_arr.pop_front()
+			return param_model.get(param_name_option)
+		
+		
 
 
 #设置属性值
