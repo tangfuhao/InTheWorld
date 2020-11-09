@@ -7,8 +7,12 @@ class_name CommonStuff
 export var stuff_type_name:String
 #是否是一个区域
 export var is_location := false
-#是否锁定
-var is_lock := false
+
+#是否是刚体
+var is_rigid_body = false
+
+
+
 
 
 
@@ -58,23 +62,19 @@ func _ready():
 
 #TODO 设置物品的可交互状态
 func set_interactino_state(_is_interaction):
+	body_collision_shape.set_disabled(!_is_interaction)
+	interact_collision_shape.set_disabled(!_is_interaction)
+	area_collision_shape.set_disabled(!_is_interaction)
 	if _is_interaction:
-		if is_location:
+		if not is_rigid_body:
 			body_collision_shape.set_disabled(true)
+		
+		if is_location:
 			interact_collision_shape.set_disabled(true)
-			area_collision_shape.set_disabled(false)
-		else:
-			body_collision_shape.set_disabled(false)
-			interact_collision_shape.set_disabled(false)
-			area_collision_shape.set_disabled(false)
-	else:
-		body_collision_shape.set_disabled(true)
-		interact_collision_shape.set_disabled(true)
-		area_collision_shape.set_disabled(true)
 
 #设置物品的可碰撞
 func set_disbled_collision(_is_collision):
-	if not is_location:
+	if is_rigid_body :
 		body_collision_shape.set_disabled(!_is_collision)
 
 
@@ -205,10 +205,7 @@ func get_param_value(_param_name):
 	else:
 		var param_model =  param.get_value(_param_name)
 		return param_model.value
-#	elif custome_param_dic and custome_param_dic.has(_param_name):
-#		var param_model = custome_param_dic[_param_name]
-#		return param_model.value
-#	return null
+
 
 #设置属性值
 func set_param_value(_param_name,_param_value):
@@ -220,10 +217,7 @@ func set_param_value(_param_name,_param_value):
 			emit_signal("params_update",_param_name,_param_value)
 	else:
 		return param.get_value(_param_name)
-#	elif custome_param_dic and custome_param_dic.has(_param_name):
-#		var param_model = custome_param_dic[_param_name]
-#		param_model.value = _param_value
-#		emit_signal("params_update",_param_name,_param_value)
+
 
 
 #移除节点
@@ -262,10 +256,14 @@ func evaluateResult(property, condition, value) -> float:
 		return result
 	return property
 
+#TODO 返回当前碰撞数
+func get_colliding_objects_num():
+	return collision_object_arr.size()
 
-
-
-
+#TODO 是否和节点 有碰触
+func is_colliding(_node):
+	return collision_object_arr.has(_node)
+	
 
 func _on_InteractArea_body_entered(body):
 	interactive_object_list.push_back(body)
@@ -282,4 +280,22 @@ func _on_Stuff_mouse_exited():
 	GlobalRef.remove_value_from_key_global(GlobalRef.global_key.mouse_interaction,self)
 
 
+#记录 正在碰撞的物体
+var collision_object_arr := []
+func add_to_collision_object_arr(_node):
+	collision_object_arr.push_back(_node)
+func remove_from_collision_object_arr(_node):
+	collision_object_arr.erase(_node)
 
+#用area 碰撞检测 因为有非刚体
+func _on_StuffArea_area_entered(area):
+	add_to_collision_object_arr(area)
+
+func _on_StuffArea_area_exited(area):
+	remove_from_collision_object_arr(area)
+
+func _on_StuffArea_body_entered(body):
+	add_to_collision_object_arr(body)
+
+func _on_StuffArea_body_exited(body):
+	remove_from_collision_object_arr(body)

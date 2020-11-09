@@ -15,7 +15,10 @@ var break_execute := []
 
 #条件
 var conditions_arr := []
-
+#清除缓存的条件
+var clean_cache_conditions_arr := []
+#对属性值的缓存
+var value_cache_dic := {}
 
 var is_meet_condition = false
 var is_active = false
@@ -181,4 +184,45 @@ func can_interact(_node1,_node2):
 			return 1
 	return 0
 
+var affiliation_cache_dic := {}
+func affiliation_change(_node1,_node2):
+	var result = true
+	var value = is_binding(_node1,_node2) or is_storing(_node1,_node2)
+	if affiliation_cache_dic.has([_node1,_node2]):
+		result = affiliation_cache_dic[[_node1,_node2]] != value
+		
+	affiliation_cache_dic[[_node1,_node2]] = value
+	return transform_bool_to_int(result)
+
+
+func transform_bool_to_int(_value):
+	if _value:
+		return 1
+	else:
+		return 0
+	
+func is_binding(_node1,_node2):
+	return transform_bool_to_int(_node1.bind_layer.is_bind(_node2))
+
+func is_storing(_node1,_node2):
+	return transform_bool_to_int(_node1.storage.is_store(_node2))
+
+
+
+func is_value_change(_node_parms:ComomStuffParam):
+	var result = true
+	if value_cache_dic.has(_node_parms):
+		result = value_cache_dic[_node_parms] != _node_parms.value
+	value_cache_dic[_node_parms] = _node_parms.value
+	return transform_bool_to_int(result)
+	
+func num_of_parent_affiliation(_node:Node2D):
+	var stuff_layer = _node.get_node("/root/Island/StuffLayer")
+	return transform_bool_to_int(_node.get_parent() == stuff_layer)
+
+func num_of_colliding_objects(_node):
+	return transform_bool_to_int(_node.get_colliding_objects_num())
+	
+func is_colliding(_node1,_node2):
+	return transform_bool_to_int(_node1.is_colliding(_node2))
 
