@@ -57,17 +57,25 @@ func _ready():
 		setup_node_by_config(stuff_type_name)
 
 #TODO 设置物品的可交互状态
-func set_disable_interactino(_is_interaction):
+func set_interactino_state(_is_interaction):
 	if _is_interaction:
 		if is_location:
 			body_collision_shape.set_disabled(true)
 			interact_collision_shape.set_disabled(true)
+			area_collision_shape.set_disabled(false)
 		else:
-			area_collision_shape.set_disabled(true)
+			body_collision_shape.set_disabled(false)
+			interact_collision_shape.set_disabled(false)
+			area_collision_shape.set_disabled(false)
 	else:
 		body_collision_shape.set_disabled(true)
 		interact_collision_shape.set_disabled(true)
 		area_collision_shape.set_disabled(true)
+
+#设置物品的可碰撞
+func set_disbled_collision(_is_collision):
+	if not is_location:
+		body_collision_shape.set_disabled(!_is_collision)
 
 
 func get_global_rect() -> Rect2:
@@ -126,11 +134,12 @@ func setup_node_by_config(_type):
 	self.display_name = _type
 	apply_phycis_config()
 	
+	body_collision_shape.set_disabled(false)
+	area_collision_shape.set_disabled(false)
+	interact_collision_shape.set_disabled(false)
 	if is_location:
 		body_collision_shape.set_disabled(true)
 		interact_collision_shape.set_disabled(true)
-	else:
-		area_collision_shape.set_disabled(true)
 		
 	#更新地图上点的占用
 	call_deferred("emit_signal","stuff_update_state","position",self)

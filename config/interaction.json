@@ -734,10 +734,10 @@
         ],
         "_terminate": [
             {
-                "node_name": "node2",
+                "node_name": "node1",
                 "effects": [
                     {
-                        "change_position": "${node1[位置]}"
+                        "bind": "${node2}"
                     }
                 ]
             }
@@ -793,7 +793,7 @@
                         "transform": "-1*${node2[重量]}"
                     },
                     {
-                        "release": "node2"
+                        "release": "${node2}"
                     }
                 ]
             }

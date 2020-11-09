@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://src/Character/ManualOperationPlayer.gd" type="Script" id=1]
 [ext_resource path="res://src/Character/LabelLayout.tscn" type="PackedScene" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://src/Character/tasks/TaskScheduler.gd" type="Script" id=7]
 [ext_resource path="res://src/Character/HurtBox.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/Character/Storage.gd" type="Script" id=9]
+[ext_resource path="res://src/Character/BindLayer.gd" type="Script" id=10]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 3.97226
@@ -63,6 +64,10 @@ script = ExtResource( 6 )
 [node name="Storage" type="Node2D" parent="."]
 visible = false
 script = ExtResource( 9 )
+
+[node name="BindLayer" type="Node2D" parent="."]
+position = Vector2( -0.0123625, -8.71383 )
+script = ExtResource( 10 )
 
 [node name="InteractionLayer" type="Node2D" parent="."]
 [connection signal="input_event" from="." to="." method="_on_ManualOperationPlayer_input_event"]

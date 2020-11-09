@@ -106,6 +106,18 @@ func clone_node_effect(_node_effect):
 		clone_obejct.store_node = _node_effect.store_node
 		clone_obejct.node = node_dic[clone_obejct.node_name]
 		return clone_obejct
+	elif _node_effect is NodeBindEffect:
+		var clone_obejct = NodeBindEffect.new()
+		clone_obejct.node_name = _node_effect.node_name
+		clone_obejct.bind_node = _node_effect.bind_node
+		clone_obejct.node = node_dic[clone_obejct.node_name]
+		return clone_obejct
+	elif _node_effect is NodeReleaseEffect:
+		var clone_obejct = NodeReleaseEffect.new()
+		clone_obejct.node_name = _node_effect.node_name
+		clone_obejct.release_node = _node_effect.release_node
+		clone_obejct.node = node_dic[clone_obejct.node_name]
+		return clone_obejct
 	else:
 		assert(false)
 		

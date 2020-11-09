@@ -20,7 +20,7 @@ onready var storage := $Storage
 onready var camera_position := $NameDisplay/RemoteTransform2D
 
 onready var interaction_layer = $InteractionLayer
-
+onready var bind_layer = $BindLayer
 
 #每个实体都会生成一个唯一的node_id
 var node_name
