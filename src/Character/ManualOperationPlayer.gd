@@ -85,7 +85,7 @@ func get_all_param()->Array:
 #获取属性值
 func get_param_value(_param_name):
 	if _param_name == "位置":
-		return self.global_position
+		return "%f,%f" % [self.global_position.x,self.global_position.y]
 	
 	
 	var value = params.get_value(_param_name)
