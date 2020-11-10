@@ -50,10 +50,11 @@ var physics_data:Dictionary
 var status_arr := []
 
 signal disappear_notify(_stuff)
-signal stuff_update_state(_state_name,_state_value)
 signal params_update(_param_name,_param_value)
 #可交互发生改变的通知
 signal interaction_object_change(_node,_can_interaction)
+#物品位置的更新
+signal node_position_update(_node)
 
 func _set_display_name(_name):
 	display_name = _name
@@ -63,6 +64,8 @@ func _set_display_name(_name):
 func _ready():
 	if load_config_by_stuff_type(stuff_type_name):
 		setup_node_by_config(stuff_type_name)
+		#更新地图上点的占用
+		call_deferred("emit_signal","node_position_update",self)
 
 #TODO 设置物品的可交互状态
 func set_interactino_state(_is_interaction):
@@ -140,9 +143,7 @@ func setup_node_by_config(_type):
 	
 	set_interactino_state(true)
 
-		
-	#更新地图上点的占用
-	call_deferred("emit_signal","stuff_update_state","position",self)
+	
 
 
 func apply_phycis_config():
