@@ -127,7 +127,3 @@ func excute_interaction(_interaction_template,_node_arr):
 	interaction_layer.add_child(interaction_implement)
 	return interaction_implement
 
-#清除所有的交互
-func clean_interaction():
-	for item in interaction_layer.get_children():
-		item.queue_free()
