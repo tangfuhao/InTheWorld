@@ -9,7 +9,7 @@ export var stuff_type_name:String
 export var is_location := false
 
 #是否是刚体
-var is_rigid_body = false
+var is_rigid_body = true
 
 
 
@@ -75,7 +75,7 @@ func set_interactino_state(_is_interaction):
 #设置物品的可碰撞
 func set_disbled_collision(_is_collision):
 	if is_rigid_body :
-		body_collision_shape.set_disabled(!_is_collision)
+		body_collision_shape.set_disabled(_is_collision)
 
 
 func get_global_rect() -> Rect2:
@@ -200,7 +200,7 @@ func choice_color(_color):
 #获取属性值
 func get_param_value(_param_name):
 	if _param_name == "位置":
-		return self.global_position
+		return "%f,%f" % [self.global_position.x,self.global_position.y]
 		
 	if physics_data and physics_data.has(_param_name):
 		var stuff_param_value = physics_data[_param_name]

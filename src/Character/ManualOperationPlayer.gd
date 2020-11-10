@@ -92,7 +92,7 @@ func get_param_value(_param_name):
 	if not value:
 		var param_model = ComomStuffParam.new()
 		param_model.name = _param_name
-		param_model.value = 1
+		param_model.value = 0
 		params.set_value(_param_name,param_model)
 		return param_model.value
 	else:
@@ -103,7 +103,14 @@ func get_param_value(_param_name):
 func set_param_value(_param_name,_param_value):
 	if _param_name == "位置":
 		self.global_position = _param_value
-	params.set_value(_param_name,_param_value)
+	else:
+		var value = params.get_value(_param_name)
+		if not value:
+			var param_model = ComomStuffParam.new()
+			param_model.name = _param_name
+			param_model.value = 1
+			params.set_value(_param_name,param_model)
+		params.set_value(_param_name,_param_value)
 	
 
 #执行作用
@@ -115,6 +122,7 @@ func excute_interaction(_interaction_template,_node_arr):
 		node_pair[node_match_name_arr[index + 1]] = _node_arr[index]
 	#创建交互
 	var interaction_implement = _interaction_template.create_interaction(node_pair)
+	interaction_implement.is_manual_interaction = true
 	#加入场景
 	interaction_layer.add_child(interaction_implement)
 	return interaction_implement
