@@ -39,6 +39,8 @@ var storage
 var side_length
 #可交互的范围 对象列表
 var interactive_object_list = []
+#记录 正在碰撞的物体
+var collision_object_arr := []
 
 
 #物理属性
@@ -50,6 +52,8 @@ var status_arr := []
 signal disappear_notify(_stuff)
 signal stuff_update_state(_state_name,_state_value)
 signal params_update(_param_name,_param_value)
+#可交互发生改变的通知
+signal interaction_object_change(_node,_can_interaction)
 
 func _set_display_name(_name):
 	display_name = _name
@@ -278,12 +282,15 @@ func is_colliding(_node):
 	return collision_object_arr.has(_node)
 	
 
+#交互对象改变
 func _on_InteractArea_body_entered(body):
 	interactive_object_list.push_back(body)
+	emit_signal("interaction_object_change",body,true)
 
 
 func _on_InteractArea_body_exited(body):
 	interactive_object_list.erase(body)
+	emit_signal("interaction_object_change",body,false)
 
 
 func _on_Stuff_mouse_entered():
@@ -293,8 +300,7 @@ func _on_Stuff_mouse_exited():
 	GlobalRef.remove_value_from_key_global(GlobalRef.global_key.mouse_interaction,self)
 
 
-#记录 正在碰撞的物体
-var collision_object_arr := []
+
 func add_to_collision_object_arr(_node):
 	collision_object_arr.push_back(_node)
 func remove_from_collision_object_arr(_node):

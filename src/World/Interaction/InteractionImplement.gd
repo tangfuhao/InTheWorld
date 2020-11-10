@@ -40,11 +40,21 @@ var is_manual_interaction = false
 
 func _ready():
 	interaction_status_check()
+	binding_node_state_update()
 
 func init_origin_value():
 	current_progress = 0
 	is_active = false
 	is_finish = false
+	
+#根据条件 来监听物品状态的改变
+func binding_node_state_update():
+	for node_item in node_dic.values():
+		node_item.connect("interaction_object_change",self,"_on_node_interaction_object_change")
+		
+func _on_node_interaction_object_change(_node,_can_interaction):
+	interaction_status_check()
+
 
 #作用状态检查
 func interaction_status_check():

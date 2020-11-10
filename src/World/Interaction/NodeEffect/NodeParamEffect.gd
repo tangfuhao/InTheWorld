@@ -22,7 +22,7 @@ func _process(_delta,_param_accessor):
 	if temp_delta < 1:
 		return 
 		
-	if transform:
+	if transform != null:
 		var value = node.get_param_value(param_name)
 		var t = 0
 		if transform is String:
@@ -33,7 +33,7 @@ func _process(_delta,_param_accessor):
 	
 		value = value + t
 		node.set_param_value(param_name,value)
-	elif assign:
+	elif assign != null:
 		node.set_param_value(param_name,assign)
 	
 	temp_delta = 0
