@@ -138,12 +138,8 @@ func setup_node_by_config(_type):
 	self.display_name = _type
 	apply_phycis_config()
 	
-	body_collision_shape.set_disabled(false)
-	area_collision_shape.set_disabled(false)
-	interact_collision_shape.set_disabled(false)
-	if is_location:
-		body_collision_shape.set_disabled(true)
-		interact_collision_shape.set_disabled(true)
+	set_interactino_state(true)
+
 		
 	#更新地图上点的占用
 	call_deferred("emit_signal","stuff_update_state","position",self)
@@ -171,6 +167,10 @@ func apply_phycis_config():
 	polygon2d.polygon = line2d.points
 	polygon2d.color = choice_color(get_param_value("颜色"))
 #	line2d.default_color = choice_color(get_param_value("颜色"))
+
+
+	var dynamics_property = get_param_value("动力学性质")
+	is_rigid_body = dynamics_property == "刚体"
 
 func calculate_point_array(_radius):
 	var points_arr = []
