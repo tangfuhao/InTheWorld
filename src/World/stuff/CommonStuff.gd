@@ -53,8 +53,11 @@ signal disappear_notify(_stuff)
 signal params_update(_param_name,_param_value)
 #可交互发生改变的通知
 signal interaction_object_change(_node,_can_interaction)
+#物品绑定关系改变
+signal node_binding_dependency_change(_node)
 #物品位置的更新
 signal node_position_update(_node)
+
 
 func _set_display_name(_name):
 	display_name = _name
@@ -130,7 +133,7 @@ func load_config_by_stuff_type(_type) -> bool:
 			param_model.value = param_model.init_value
 		
 		param.set_value(param_name,param_model)
-#		custome_param_dic[param_name] = param_model
+
 
 	return true
 
@@ -140,12 +143,10 @@ func setup_node_by_config(_type):
 	self.node_name = _type + IDGenerator.pop_id_index()
 	self.display_name = _type
 	apply_phycis_config()
-	
 	set_interactino_state(true)
 
-	
 
-
+#应用物理属性
 func apply_phycis_config():
 	side_length = get_param_value("尺寸")
 	side_length = float(side_length) * 10
@@ -201,6 +202,8 @@ func choice_color(_color):
 		"灰":
 			return Color.gray
 	return Color.blue
+	
+	
 
 #获取属性值
 func get_param_value(_param_name):
@@ -247,11 +250,15 @@ func disappear():
 func get_type():
 	return "stuff"
 
+#TODO 现在的方式 是不是也是在场景上 才发送信号
 func notify_disappear():
 	#只有在场景上 才会通知这个事件
 	if is_inside_tree():
 		emit_signal("disappear_notify",self)
 
+#物品的绑定关系改变 延迟到下个周期发送
+func notify_binding_dependency_change():
+	call_deferred("emit_signal","node_binding_dependency_change",self)
 
 
 #执行影响改变

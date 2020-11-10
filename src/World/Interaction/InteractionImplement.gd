@@ -42,60 +42,6 @@ func _ready():
 	interaction_status_check()
 	binding_node_state_update()
 
-func init_origin_value():
-	current_progress = 0
-	is_active = false
-	is_finish = false
-	
-#根据条件 来监听物品状态的改变
-func binding_node_state_update():
-	for node_item in node_dic.values():
-		node_item.connect("interaction_object_change",self,"_on_node_interaction_object_change")
-		
-func _on_node_interaction_object_change(_node,_can_interaction):
-	interaction_status_check()
-
-
-#作用状态检查
-func interaction_status_check():
-	#当前条件是否满足
-	var is_meet_condition = judge_conditions()
-	judge_interaction_vaild(is_meet_condition)
-	runing_timer()
-
-#判断作用是否还有效
-func judge_interaction_vaild(_is_meet_condition):
-	var vaild = _is_meet_condition
-	if vaild and not is_vaild:
-		init_origin_value()
-	is_vaild = vaild
-
-#运行计时器
-func runing_timer():
-	if is_active:
-		return 
-	
-	if not is_vaild:
-		return 
-
-	if duration and duration > 0:
-		var timer = Timer.new()
-		timer.connect("timeout",self,"on_interaction_time_out")
-		add_child(timer)
-		timer.start(duration)
-	
-
-func judge_conditions() -> bool:
-	var is_meet_all_condition = true
-	for condition_item in conditions_arr:
-		if not judge_condition(condition_item):
-			is_meet_all_condition = false
-			break
-	return is_meet_all_condition
-	
-
-
-
 func _process(delta):
 	#无效 退出作用
 	if not is_vaild:
@@ -118,16 +64,6 @@ func _process(delta):
 		
 	interaction_process(delta)
 		
-
-func judge_condition(_condition_item):
-	var function_regex = RegEx.new()
-	function_regex.compile("\\$\\[(.+?)\\]")
-	var objecet_regex = RegEx.new()
-	objecet_regex.compile("\\$\\{(.+?)\\}")
-
-	var parser = FormulaParser.new(null)
-	return parser.parse_condition(_condition_item,function_regex,objecet_regex,self,self) 
-
 func clone_data(_node_pair,_active_execute,_process_execute,_terminate_execute,_break_execute):
 	node_dic = _node_pair
 	for item in _active_execute:
@@ -174,6 +110,78 @@ func clone_node_effect(_node_effect):
 		return clone_obejct
 	else:
 		assert(false)
+		
+
+func init_origin_value():
+	current_progress = 0
+	is_active = false
+	is_finish = false
+	
+#根据条件 来监听物品状态的改变
+func binding_node_state_update():
+	for node_item in node_dic.values():
+		node_item.connect("interaction_object_change",self,"_on_node_interaction_object_change")
+		node_item.connect("node_binding_dependency_change",self,"_on_node_binding_dependency_change")
+		
+		
+func _on_node_interaction_object_change(_node,_can_interaction):
+	interaction_status_check()
+
+func _on_node_binding_dependency_change(_node):
+	interaction_status_check()
+
+
+#作用状态检查
+func interaction_status_check():
+	#当前条件是否满足
+	var is_meet_condition = judge_conditions()
+	judge_interaction_vaild(is_meet_condition)
+	runing_timer()
+
+#判断作用是否还有效
+func judge_interaction_vaild(_is_meet_condition):
+	var vaild = _is_meet_condition
+	if vaild and not is_vaild:
+		init_origin_value()
+	is_vaild = vaild
+
+#运行计时器
+func runing_timer():
+	if is_active:
+		return 
+	
+	if not is_vaild:
+		return 
+
+	if duration and duration > 0:
+		var timer = Timer.new()
+		timer.connect("timeout",self,"on_interaction_time_out")
+		add_child(timer)
+		timer.start(duration)
+	
+
+func judge_conditions() -> bool:
+	var is_meet_all_condition = true
+	for condition_item in conditions_arr:
+		if not judge_condition_item(condition_item):
+			is_meet_all_condition = false
+			break
+	return is_meet_all_condition
+	
+
+func judge_condition_item(_condition_item):
+	var function_regex = RegEx.new()
+	function_regex.compile("\\$\\[(.+?)\\]")
+	var objecet_regex = RegEx.new()
+	objecet_regex.compile("\\$\\{(.+?)\\}")
+
+	var parser = FormulaParser.new(null)
+	return parser.parse_condition(_condition_item,function_regex,objecet_regex,self,self) 
+
+
+
+
+
 		
 		
 
