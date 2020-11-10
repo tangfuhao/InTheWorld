@@ -16,6 +16,8 @@ func parse(formula:String,formulas:Dictionary,values:Dictionary,param_accessor):
 	return result
 	
 func parse_condition(_formula:String,_function_regex:RegEx,_objecet_regex:RegEx,_function_caller,_param_accessor):
+	if _formula == "$[is_value_change, ${node2[总重量]}]":
+		print("sss")
 	var expression = finalExpressionForCondition(_formula,_function_regex,_objecet_regex,_function_caller,_param_accessor)
 	var result =  Calculator.new().eval(expression)
 	return result != 0

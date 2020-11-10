@@ -90,8 +90,9 @@ func iteration_node_type(_type_name,_node_type_group):
 		var inherit_object = node_config.inherit_concept
 		var inherit_object_arr = inherit_object.split(",")
 		for item in inherit_object_arr:
-			_node_type_group.push_back(item)
-			iteration_node_type(item,_node_type_group)
+			if not _node_type_group.has(item):
+				_node_type_group.push_back(item)
+				iteration_node_type(item,_node_type_group)
 
 #这个地方处理不好  不应该每次从磁盘获取数据  应该从内存中拷贝一份数据
 #注意物品类别的功能属性是不可更改的 可重用数据  唯一需要拷贝的是 物理数据

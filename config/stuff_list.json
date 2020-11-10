@@ -13,7 +13,17 @@
     },
     "是流体容器的": {
         "object_name": "是流体容器的",
-        "child_object": "马桶,水杯,酒瓶"
+        "child_object": "马桶,水杯,酒瓶",
+        "params": {
+            "总重量": 0
+        },
+        "param_config": [
+            {
+                "param_name": "总重量",
+                "init_value": 0,
+                "min_value": 0
+            }
+        ]
     },
     "可被化身绑定的": {
         "object_name": "可被化身绑定的",
@@ -209,7 +219,8 @@
         },
         "params": {
             "正坐人数": 0,
-            "容器内流体量": 30
+            "容器内流体量": 30,
+            "总重量": 0
         },
         "param_config": [
             {
@@ -222,6 +233,11 @@
                 "param_name": "容器内流体量",
                 "init_value": 30,
                 "max_value": 30,
+                "min_value": 0
+            },
+            {
+                "param_name": "总重量",
+                "init_value": 0,
                 "min_value": 0
             }
         ],
@@ -326,13 +342,19 @@
             "高度": 1
         },
         "params": {
-            "容器内流体量": 0
+            "容器内流体量": 0,
+            "总重量": 0
         },
         "param_config": [
             {
                 "param_name": "容器流体量",
                 "init_value": 0,
                 "max_value": 3,
+                "min_value": 0
+            },
+            {
+                "param_name": "总重量",
+                "init_value": 0,
                 "min_value": 0
             }
         ]
@@ -393,13 +415,19 @@
             "高度": 1
         },
         "params": {
-            "容器内流体量": 0
+            "容器内流体量": 0,
+            "总重量": 0
         },
         "param_config": [
             {
                 "param_name": "容器流体量",
                 "init_value": 6,
                 "max_value": 6,
+                "min_value": 0
+            },
+            {
+                "param_name": "总重量",
+                "init_value": 0,
                 "min_value": 0
             }
         ],
