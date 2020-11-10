@@ -162,6 +162,11 @@ func _init():
 	op = EXPONENT.new('^', 300)
 	register(op)
 	
+	op = OR.new('∨', 95)
+	register(op)
+	op = AND.new('∧', 95)
+	register(op)
+	
 	op = GREATER_THEN.new('>', 90)
 	register(op)
 	op = GREATER_THEN_OR_EQUAL_TO.new('≥', 90)
@@ -176,6 +181,8 @@ func _init():
 	register(op)
 	op = NOT_EQUAL_TO.new('≠', 90)
 	register(op)
+	
+
 
 func register(_operator):
 	operators[_operator.operator] = _operator
