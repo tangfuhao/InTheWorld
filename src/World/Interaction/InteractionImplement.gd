@@ -51,7 +51,7 @@ func interaction_status_check():
 	#当前条件是否满足
 	var is_meet_condition = judge_conditions()
 	judge_interaction_vaild(is_meet_condition)
-	runing_timer(is_meet_condition)
+	runing_timer()
 
 #判断作用是否还有效
 func judge_interaction_vaild(_is_meet_condition):
@@ -61,10 +61,7 @@ func judge_interaction_vaild(_is_meet_condition):
 	is_vaild = vaild
 
 #运行计时器
-func runing_timer(_is_meet_condition):
-	if not _is_meet_condition:
-		return
-	
+func runing_timer():
 	if is_active:
 		return 
 	
