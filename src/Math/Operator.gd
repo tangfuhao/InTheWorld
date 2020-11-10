@@ -77,6 +77,78 @@ class LESS_THEN:
 			return 1
 		else:
 			return 0
+			
+class GREATER_THEN_OR_EQUAL_TO:
+	var operator:String
+	var priority:int
+	func _init(_operator,_priority):
+		operator = _operator
+		priority = _priority
+	func eval(left,right):
+		if left >= right:
+			return 1
+		else:
+			return 0
+
+class LESS_THEN_OR_EQUAL_TO:
+	var operator:String
+	var priority:int
+	func _init(_operator,_priority):
+		operator = _operator
+		priority = _priority
+	func eval(left,right):
+		if left <= right:
+			return 1
+		else:
+			return 0
+			
+class EQUAL_TO:
+	var operator:String
+	var priority:int
+	func _init(_operator,_priority):
+		operator = _operator
+		priority = _priority
+	func eval(left,right):
+		if left == right:
+			return 1
+		else:
+			return 0
+
+class NOT_EQUAL_TO:
+	var operator:String
+	var priority:int
+	func _init(_operator,_priority):
+		operator = _operator
+		priority = _priority
+	func eval(left,right):
+		if left != right:
+			return 1
+		else:
+			return 0
+			
+class OR:
+	var operator:String
+	var priority:int
+	func _init(_operator,_priority):
+		operator = _operator
+		priority = _priority
+	func eval(left,right):
+		if left or right:
+			return 1
+		else:
+			return 0
+			
+class AND:
+	var operator:String
+	var priority:int
+	func _init(_operator,_priority):
+		operator = _operator
+		priority = _priority
+	func eval(left,right):
+		if left and right:
+			return 1
+		else:
+			return 0
 	
 func _init():
 	var op = ADITION.new('+', 100)
@@ -92,8 +164,17 @@ func _init():
 	
 	op = GREATER_THEN.new('>', 90)
 	register(op)
+	op = GREATER_THEN_OR_EQUAL_TO.new('≥', 90)
+	register(op)
 	
 	op = LESS_THEN.new('<', 90)
+	register(op)
+	op = LESS_THEN_OR_EQUAL_TO.new('≤', 90)
+	register(op)
+	
+	op = EQUAL_TO.new('≡', 90)
+	register(op)
+	op = NOT_EQUAL_TO.new('≠', 90)
 	register(op)
 
 func register(_operator):
