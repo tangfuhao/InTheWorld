@@ -92,7 +92,7 @@
         "interaction_scheduling": "god",
         "interaction_duration": -1,
         "interaction_conditions": [
-            "${node1[重量]} != ( 0.1 * ${node1[流体体积]} )"
+            "${node1[重量]} ≠ ( 0.1 * ${node1[流体体积]} )"
         ],
         "_nodes": [
             {
@@ -117,7 +117,7 @@
         "interaction_duration": 0,
         "interaction_scheduling": "god",
         "interaction_conditions": [
-            "${node1[流体体积]} == 0"
+            "${node1[流体体积]} ≡ 0"
         ],
         "_nodes": [
             {
@@ -142,7 +142,7 @@
         "interaction_duration": -1,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}]",
-            "$[is_binding, ${node1}, ${node2}] || $[is_storing, ${node1}, ${node2}]"
+            "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]"
         ],
         "_nodes": [
             {
@@ -171,13 +171,13 @@
         "interaction_scheduling": "god",
         "interaction_duration": -1,
         "interaction_conditions": [
-            "$[affiliation_change, ${node1}, ${node2}] == FALSE",
-            "$[is_binding, ${node1}, ${node2}] || $[is_storing, ${node1}, ${node2}]",
+            "$[affiliation_change, ${node1}, ${node2}] ≡ 0",
+            "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
             "$[is_value_change, ${node2[流体体积]}]"
         ],
         "clean_cache": [
-            "$[is_binding, ${node1}, ${node2}] == False",
-            "$[is_storing, ${node1}, ${node2}] == False"
+            "$[is_binding, ${node1}, ${node2}] ≡ 0",
+            "$[is_storing, ${node1}, ${node2}] ≡ 0"
         ],
         "_nodes": [
             {
@@ -207,8 +207,8 @@
         "interaction_duration": -1,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}]",
-            "$[is_binding, ${node1}, ${node2}] == FALSE",
-            "$[is_storing, ${node1}, ${node2}] == FALSE)"
+            "$[is_binding, ${node1}, ${node2}] ≡ 0",
+            "$[is_storing, ${node1}, ${node2}] ≡ 0)"
         ],
         "_nodes": [
             {
@@ -238,7 +238,7 @@
         "interaction_duration": -1,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}]",
-            "$[is_binding, ${node1}, ${node2}] || $[is_storing, ${node1}, ${node2}]"
+            "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]"
         ],
         "_nodes": [
             {
@@ -267,13 +267,13 @@
         "interaction_scheduling": "god",
         "interaction_duration": -1,
         "interaction_conditions": [
-            "$[affiliation_change, ${node1}, ${node2}] == FALSE",
-            "$[is_binding, ${node1}, ${node2}] || $[is_storing, ${node1}, ${node2}]",
+            "$[affiliation_change, ${node1}, ${node2}] ≡ 0",
+            "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
             "$[is_value_change, ${node2[总重量]}]"
         ],
         "clean_cache": [
-            "$[is_binding, ${node1}, ${node2}] == False",
-            "$[is_storing, ${node1}, ${node2}] == False"
+            "$[is_binding, ${node1}, ${node2}] ≡ 0",
+            "$[is_storing, ${node1}, ${node2}] ≡ 0"
         ],
         "_nodes": [
             {
@@ -303,8 +303,8 @@
         "interaction_duration": -1,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}]",
-            "$[is_binding, ${node1}, ${node2}] == FALSE",
-            "$[is_storing, ${node1}, ${node2}] == FALSE"
+            "$[is_binding, ${node1}, ${node2}] ≡ 0",
+            "$[is_storing, ${node1}, ${node2}] ≡ 0"
         ],
         "_nodes": [
             {
@@ -334,7 +334,7 @@
         "interaction_duration": -1,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}]",
-            "$[is_binding, ${node1}, ${node2}] || $[is_storing, ${node1}, ${node2}]"
+            "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]"
         ],
         "_nodes": [
             {
@@ -363,13 +363,13 @@
         "interaction_scheduling": "god",
         "interaction_duration": -1,
         "interaction_conditions": [
-            "$[affiliation_change, ${node1}, ${node2}] == FALSE",
-            "$[is_binding, ${node1}, ${node2}] || $[is_storing, ${node1}, ${node2}]",
+            "$[affiliation_change, ${node1}, ${node2}] ≡ 0",
+            "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
             "$[is_value_change, ${node2[总重量]}]"
         ],
         "clean_cache": [
-            "$[is_binding, ${node1}, ${node2}] == False",
-            "$[is_storing, ${node1}, ${node2}] == False"
+            "$[is_binding, ${node1}, ${node2}] ≡ 0",
+            "$[is_storing, ${node1}, ${node2}] ≡ 0"
         ],
         "_nodes": [
             {
@@ -399,8 +399,8 @@
         "interaction_duration": -1,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}]",
-            "$[is_binding, ${node1}, ${node2}] == FALSE",
-            "$[is_storing, ${node1}, ${node2}] == FALSE)"
+            "$[is_binding, ${node1}, ${node2}] ≡ 0",
+            "$[is_storing, ${node1}, ${node2}] ≡ 0)"
         ],
         "_nodes": [
             {
@@ -828,7 +828,7 @@
         "interaction_duration": -1,
         "interaction_conditions": [
             "$[can_interact, ${node1}, ${node3}]",
-            "$[is_binding, ${node1}, ${node2}] || $[is_storing, ${node1}, ${node2}]",
+            "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
             "$[is_binding, ${node3}, ${node4}]",
             "${node1[当前负重]} < ${node1[负重上限]}",
             "${node2[容器内流体量]} < ${node2[容器内流体量.max_value]}",
@@ -918,10 +918,10 @@
         "interaction_name": "装海水",
         "interaction_duration": -1,
         "interaction_conditions": [
-            "$[is_binding, ${node1}, ${node2}] || $[is_storing, ${node1}, ${node2}]",
+            "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
             "${node1[当前负重]} < ${node1[负重上限]}",
             "${node2[容器内流体量]} + 0.99 < ${node2[容器内流体量.max_value]}",
-            "${node1[所在地]} == 浅海"
+            "${node1[所在地]} ≡ 浅海"
         ],
         "_nodes": [
             {
@@ -973,7 +973,7 @@
         "interaction_name": "倒流体",
         "interaction_duration": 2,
         "interaction_conditions": [
-            "$[is_binding, ${node1}, ${node2}] || $[is_storing, ${node1}, ${node2}]",
+            "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
             "$[is_binding, ${node2}, ${node3}]",
             "${node2[容器内流体量]} > 0"
         ],
@@ -1015,8 +1015,8 @@
         "interaction_scheduling": "god",
         "interaction_duration": -1,
         "interaction_conditions": [
-            "$[num_of_parent_affiliation, ${node1}] == 0",
-            "$[num_of_colliding_objects, ${node1}] == 0"
+            "$[num_of_parent_affiliation, ${node1}] ≡ 0",
+            "$[num_of_colliding_objects, ${node1}] ≡ 0"
         ],
         "_nodes": [
             {
@@ -1346,7 +1346,7 @@
         "interaction_conditions": [
             "$[can_interact, ${node1}, ${node2}",
             "$[is_binding, ${node2}, ${node3}]",
-            "${node3[流体体积]} > 5.99"
+            "${node3[流体体积]} ≥ 6"
         ],
         "_nodes": [
             {
@@ -1399,7 +1399,7 @@
         "interaction_conditions": [
             "$[can_interact, ${node1}, ${node2}",
             "$[is_binding, ${node2}, ${node3}]",
-            "${node3[流体体积]} > 5.99"
+            "${node3[流体体积]} ≥ 6"
         ],
         "_nodes": [
             {
@@ -1452,7 +1452,7 @@
         "interaction_conditions": [
             "$[can_interact, ${node1}, ${node2}",
             "$[is_binding, ${node2}, ${node3}]",
-            "${node3[流体体积]} > 5.99"
+            "${node3[流体体积]} ≥ 6"
         ],
         "_nodes": [
             {
@@ -1504,7 +1504,7 @@
         "interaction_duration": 0,
         "interaction_scheduling": "god",
         "interaction_conditions": [
-            "${node1[流体体积]} == 0"
+            "${node1[流体体积]} ≡ 0"
         ],
         "_nodes": [
             {
