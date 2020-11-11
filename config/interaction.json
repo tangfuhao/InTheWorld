@@ -346,7 +346,7 @@
                 "node_type": "可被化身放置的"
             }
         ],
-        "_process": [
+        "_active": [
             {
                 "node_name": "node1",
                 "effects": [
@@ -412,7 +412,7 @@
                 "node_type": "可被化身放置的"
             }
         ],
-        "_process": [
+        "_active": [
             {
                 "node_name": "node1",
                 "effects": [
@@ -812,10 +812,6 @@
             {
                 "node_name": "node1",
                 "effects": [
-                    {
-                        "param_name": "当前负重",
-                        "transform": "-1*${node2[重量]}"
-                    },
                     {
                         "release": "${node2}"
                     }
