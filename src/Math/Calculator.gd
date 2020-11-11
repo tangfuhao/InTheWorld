@@ -6,11 +6,15 @@ var BLANK = ' '
 var DECIMAL_POINT = '.'
 var NEGATIVE_SIGN = '-'
 var POSITIVE_SIGN = '+'
+var MULTIP_SIGN = '*'
+var DIVIDE_SIGN = '/'
 var SEPARATOR = ' '
 
 var operator = Operator.new()
 
 func eval(expression):
+	if expression == "-1*(0.0005 + 0 + 0.0001 * 0)":
+		print("sdsdasdsad")
 	var result = infix2Suffix(expression)
 	return evalInfix(result)
 
@@ -66,7 +70,7 @@ func infix2Suffix(expression):
 	return ssss
 	
 func isSign(c):
-	return c == NEGATIVE_SIGN or c == POSITIVE_SIGN
+	return c == NEGATIVE_SIGN or c == POSITIVE_SIGN or c == MULTIP_SIGN or c == DIVIDE_SIGN
 
 func isNumber(c):
 	return (c >= '0' and c <= '9') or c == DECIMAL_POINT

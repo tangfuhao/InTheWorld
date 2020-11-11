@@ -192,7 +192,9 @@ func isOperator(c):
 	return operators.has(c)
 
 func getInstance(c):
-	return operators[c]
+	if operators.has(c):
+		return operators[c]
+	return null
 
 func getPrority(c):
 	var op = getInstance(c)
