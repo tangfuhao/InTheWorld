@@ -1,5 +1,4 @@
 class_name NodeBindEffect
-var node
 var node_name
 var bind_node setget set_bind_node
 var bind_node_name
@@ -16,6 +15,7 @@ func set_bind_node(_name):
 
 
 func _process(_delta,_param_accessor):
+	var node = _param_accessor.get_node_ref(node_name)
 	var be_store_node = _param_accessor.get_node_ref(bind_node_name)
 	if node.bind_layer.bind(be_store_node):
 		be_store_node.notify_binding_dependency_change()

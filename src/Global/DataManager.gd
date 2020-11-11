@@ -104,12 +104,18 @@ func load_common_stuff_config_json(_stuff_type_name) ->Dictionary:
 	return {}
 
 #创建自定义物品
-func instance_stuff_script(_stuff_name):
-	var stuff = STUFF_SCENE.new()
-	if stuff.load_config_by_stuff_type(_stuff_name):
-		return stuff
-	else:
-		return stuff
+#func instance_stuff_script(_stuff_name):
+#	var stuff = STUFF_SCENE.new()
+#	if stuff.load_config_by_stuff_type(_stuff_name):
+#		return stuff
+#	else:
+#		return stuff
+#创建自定义物品
+func instance_stuff_node(_stuff_name):
+	var stuff = STUFF_SCENE.instance()
+	stuff.stuff_type_name = _stuff_name
+	return stuff
+
 		
 #遍历迭代 判断是否有满足的父类
 func is_belong_type(_parent_type,_child_type):

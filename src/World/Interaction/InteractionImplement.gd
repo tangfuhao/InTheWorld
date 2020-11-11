@@ -12,6 +12,8 @@ var duration
 var current_progress = 0
 #代指名-节点对象
 var node_dic:Dictionary
+#运行时  代指名-节点对象
+#var running_node_dic := {}
 
 #各种情况 作用的影响
 var active_execute := []
@@ -46,7 +48,6 @@ func set_vaild(_value):
 func _ready():
 	interaction_status_check()
 	binding_node_state_update()
-	init_cache_value()
 
 func _process(delta):
 	var is_data_change = apply_change_cache()
@@ -75,8 +76,7 @@ func _process(delta):
 	if is_data_change:
 		interaction_status_check()
 	
-func init_cache_value():
-	pass
+
 		
 func clone_data(_node_pair,_active_execute,_process_execute,_terminate_execute,_break_execute):
 	node_dic = _node_pair
@@ -96,31 +96,37 @@ func clone_node_effect(_node_effect):
 		clone_obejct.param_name = _node_effect.param_name
 		clone_obejct.transform = _node_effect.transform
 		clone_obejct.assign = _node_effect.assign
-		clone_obejct.node = node_dic[clone_obejct.node_name]
+#		clone_obejct.node = node_dic[clone_obejct.node_name]
 		return clone_obejct
 	elif _node_effect is NodeChangePositionEffect:
 		var clone_obejct = NodeChangePositionEffect.new()
 		clone_obejct.node_name = _node_effect.node_name
 		clone_obejct.position = _node_effect.position
-		clone_obejct.node = node_dic[clone_obejct.node_name]
+#		clone_obejct.node = node_dic[clone_obejct.node_name]
 		return clone_obejct
 	elif _node_effect is NodeStoreEffect:
 		var clone_obejct = NodeStoreEffect.new()
 		clone_obejct.node_name = _node_effect.node_name
 		clone_obejct.store_node = _node_effect.store_node
-		clone_obejct.node = node_dic[clone_obejct.node_name]
+#		clone_obejct.node = node_dic[clone_obejct.node_name]
 		return clone_obejct
 	elif _node_effect is NodeBindEffect:
 		var clone_obejct = NodeBindEffect.new()
 		clone_obejct.node_name = _node_effect.node_name
 		clone_obejct.bind_node = _node_effect.bind_node
-		clone_obejct.node = node_dic[clone_obejct.node_name]
+#		clone_obejct.node = node_dic[clone_obejct.node_name]
 		return clone_obejct
 	elif _node_effect is NodeReleaseEffect:
 		var clone_obejct = NodeReleaseEffect.new()
 		clone_obejct.node_name = _node_effect.node_name
 		clone_obejct.release_node = _node_effect.release_node
-		clone_obejct.node = node_dic[clone_obejct.node_name]
+#		clone_obejct.node = node_dic[clone_obejct.node_name]
+		return clone_obejct
+	elif _node_effect is NodeCreateEffect:
+		var clone_obejct = NodeCreateEffect.new()
+		clone_obejct.node_name = _node_effect.node_name
+		clone_obejct.create_name = _node_effect.create_name
+#		clone_obejct.node = node_dic[clone_obejct.node_name]
 		return clone_obejct
 	else:
 		assert(false)
@@ -270,6 +276,9 @@ func get_node_ref(_node_param:String):
 	if node_dic.has(_node_param):
 		return node_dic[_node_param]
 	return null
+	
+func set_runnig_node_ref(_node,_node_ref_name):
+	node_dic[_node_ref_name] = _node
 	
 func can_interact(_node1,_node2):
 	if _node2.has_method("can_interaction"):

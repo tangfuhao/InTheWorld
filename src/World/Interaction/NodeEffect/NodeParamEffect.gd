@@ -1,5 +1,5 @@
 class_name NodeParamEffect
-var node
+
 var node_name
 var param_name
 var transform setget set_transform
@@ -18,6 +18,7 @@ func set_transform(_transform):
 
 
 func _process(_delta,_param_accessor):
+	var node = _param_accessor.get_node_ref(node_name)
 	temp_delta = temp_delta + _delta
 	if temp_delta < 1:
 		return 

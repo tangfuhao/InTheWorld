@@ -2519,17 +2519,17 @@
                         "assign": 0
                     },
                     {
-                        "create": "屎:node3"
+                        "create": "屎:node2"
+                    },
+                    {
+                        "param_name": "排泄状态",
+                        "transform": 0.8
                     }
                 ]
             },
             {
                 "node_name": "node2",
                 "effects": [
-                    {
-                        "param_name": "排泄状态",
-                        "transform": 0.8
-                    },
                     {
                         "change_position": "${node1[动作位置]}"
                     }

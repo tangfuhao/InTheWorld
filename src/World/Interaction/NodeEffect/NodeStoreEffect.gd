@@ -1,5 +1,4 @@
 class_name NodeStoreEffect
-var node
 var node_name
 var store_node setget set_store_name
 var sotre_node_name
@@ -15,6 +14,7 @@ func set_store_name(_name):
 			return 
 
 func _process(_delta,_param_accessor):
+	var node = _param_accessor.get_node_ref(node_name)
 	var be_store_node = _param_accessor.get_node_ref(sotre_node_name)
 	node.storage_layer.store(be_store_node)
 

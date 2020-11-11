@@ -88,6 +88,8 @@ func get_param_value(_param_name):
 	if _param_name == "位置":
 		return "%f,%f" % [self.global_position.x,self.global_position.y]
 	
+	if _param_name == "动作位置":
+		return "%f,%f" % [self.bind_layer.global_position.x,self.bind_layer.global_position.y]
 	
 	var value = params.get_value(_param_name)
 	if not value:
@@ -104,6 +106,8 @@ func get_param_value(_param_name):
 func set_param_value(_param_name,_param_value):
 	if _param_name == "位置":
 		self.global_position = _param_value
+	elif _param_name == "动作位置":
+		assert(false)
 	else:
 		var value = params.get_value(_param_name)
 		if not value:
