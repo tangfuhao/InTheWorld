@@ -28,7 +28,7 @@ func _init(_interaction_type,_interaction_name,_interaction_duration):
 	duration = _interaction_duration
 
 #创建交互实例  通过传入的交互节点
-func create_interaction(_node_pair_item:Dictionary) -> InteractionImplement:
+func create_interaction(_node_pair_item:Dictionary):
 	var interaction_implement = interaction_implement_scene.instance()
 	interaction_implement.interaction_name = name
 	interaction_implement.duration = duration

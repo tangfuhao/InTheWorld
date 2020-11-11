@@ -24,7 +24,7 @@ onready var param := $PlayerParam
 #绑定
 onready var bind_layer := $BindLayer
 #存储
-onready var storage_layer := $Storage
+onready var storage_layer := $StorageLayer
 
 
 #唯一节点名
@@ -39,6 +39,8 @@ var interactive_object_list := []
 var collision_object_arr := []
 #物理属性
 var physics_data:Dictionary
+#交互拥有者
+var interaction_onwer = null
 
 
 signal disappear_notify(_stuff)
@@ -287,7 +289,7 @@ func is_colliding(_node):
 	return collision_object_arr.has(_node)
 	
 
-var bind_onwer = null
+
 
 #交互对象改变
 func _on_InteractArea_body_entered(body):
@@ -297,7 +299,8 @@ func _on_InteractArea_body_entered(body):
 
 
 func _on_InteractArea_body_exited(body):
-	if bind_onwer == body:
+	#为了避免多次发送不必要的信号
+	if interaction_onwer == body:
 		return 
 	interactive_object_list.erase(body)
 	emit_signal("interaction_object_change",body,false)

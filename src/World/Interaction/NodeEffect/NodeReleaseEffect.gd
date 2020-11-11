@@ -19,9 +19,9 @@ func set_release_node(_name):
 func _process(_delta,_param_accessor):
 	var node_ref = _param_accessor.get_node_ref(release_node_name)
 	var target_global_position = node_ref.get_global_position()
-	if node.storage.is_store(node_ref):
+	if node.storage_layer.is_store(node_ref):
 		
-		node.storage.un_store(node_ref)
+		node.storage_layer.un_store(node_ref)
 		#加入到场景
 		add_to_main_scene(node_ref,target_global_position)
 	elif node.bind_layer.is_bind(node_ref):

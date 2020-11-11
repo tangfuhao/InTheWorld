@@ -16,11 +16,11 @@ onready var hit_box = $HitBox
 onready var task_scheduler = $TaskScheduler
 #属性管理
 onready var params := $PlayerParam
-onready var storage := $Storage
 onready var camera_position := $NameDisplay/RemoteTransform2D
 
 onready var interaction_layer = $InteractionLayer
 onready var bind_layer = $BindLayer
+onready var storage_layer := $Storage
 
 #每个实体都会生成一个唯一的node_id
 var node_name
@@ -57,7 +57,8 @@ func _ready() -> void:
 
 	
 func _physics_process(delta):
-	camera_position.global_rotation_degrees = 0
+#	camera_position.global_rotation_degrees = 0
+	pass
 	
 
 func _on_ManualOperationPlayer_input_event(viewport, event, shape_idx):

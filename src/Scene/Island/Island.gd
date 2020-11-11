@@ -47,6 +47,7 @@ func binding_customer_node_item(_item):
 	_item.connect("disappear_notify",self,"_on_stuff_disappear")
 
 #把自定义物品 加入到场景
+#TODO 信号传给上帝作用 重新分配  可能不合理
 func add_customer_node(_node):
 	customer_node_group.add_child(_node)
 	binding_customer_node_item(_node)
