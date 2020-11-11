@@ -6,4 +6,5 @@ var params_arr
 
 
 func _process(_delta,_param_accessor):
+	print("sss1")
 	pass

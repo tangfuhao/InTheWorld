@@ -13,8 +13,6 @@ var SEPARATOR = ' '
 var operator = Operator.new()
 
 func eval(expression):
-	if expression == "-1*(0.0005 + 0 + 0.0001 * 0)":
-		print("sdsdasdsad")
 	var result = infix2Suffix(expression)
 	return evalInfix(result)
 

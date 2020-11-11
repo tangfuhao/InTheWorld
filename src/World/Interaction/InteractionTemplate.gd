@@ -32,8 +32,6 @@ func create_interaction(_node_pair_item:Dictionary):
 	var interaction_implement = interaction_implement_scene.instance()
 	interaction_implement.interaction_name = name
 	interaction_implement.duration = duration
-	if name == "同步解除负重":
-		print("sdasda")
 	interaction_implement.conditions_arr = conditions_arr
 	
 	interaction_implement.clone_data(_node_pair_item,active_execute,process_execute,terminate_execute,break_execute)

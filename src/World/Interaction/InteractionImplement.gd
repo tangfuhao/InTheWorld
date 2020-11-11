@@ -41,10 +41,8 @@ var is_active = false
 var is_manual_interaction = false
 
 func set_vaild(_value):
-	if node_dic.has("node1") and node_dic["node1"] is Player and node_dic["node1"].player_name == "小夕":
-		if node_dic.has("node2") and node_dic["node2"] is CommonStuff and node_dic["node2"].display_name == "水杯":
-			print("sdasdas")
 	is_vaild = _value
+	
 func _ready():
 	interaction_status_check()
 	binding_node_state_update()
@@ -149,14 +147,10 @@ func _on_node_binding_dependency_change(_node):
 
 #作用状态检查
 func interaction_status_check():
-	if interaction_name == "同步绑定负重":
-		print("sss")
 	#当前条件是否满足
 	var is_meet_condition = judge_conditions()
 	judge_interaction_vaild(is_meet_condition)
 	runing_timer()
-	if is_vaild and interaction_name == "同步绑定负重":
-		print("fffffff")
 		
 
 #判断作用是否还有效

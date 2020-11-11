@@ -2101,6 +2101,17 @@
                     }
                 ]
             }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    }
+                ]
+            }
         ]
     },
     {

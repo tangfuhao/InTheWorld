@@ -16,8 +16,9 @@ var interaction_arr
 var cache_parms_dic := {}
 var current_player
 
-
-
+#当前选中的模板
+var current_interaction_template
+var current_select_interaction
 
 
 
@@ -34,8 +35,22 @@ func _ready():
 	interaction_listview.connect("on_item_selected",self,"on_interaction_item_selected")
 
 func _process(delta):
-	if current_excute_interaction:
-		interaction_progress_bar.set_value(current_excute_interaction.current_progress)
+
+	if current_interaction_template:
+		var has_excute_interaction = current_select_interaction != null
+		excute_interaction_button.set_disabled(has_excute_interaction)
+		stop_interaction_button.set_disabled(!has_excute_interaction)
+	else:
+		excute_interaction_button.set_disabled(true)
+		stop_interaction_button.set_disabled(true)
+	
+	if current_select_interaction and current_select_interaction.duration:
+		interaction_progress_bar.set_max(current_select_interaction.duration)
+	
+	if current_select_interaction:
+		interaction_progress_bar.set_value(current_select_interaction.current_progress)
+	else:
+		interaction_progress_bar.set_value(0)
 
 
 func setup_player(_player:Player):
@@ -59,7 +74,8 @@ func setup_player(_player:Player):
 		index = index + 1
 		
 func show_interaction_ui():
-	if current_interaction_template:
+	var has_excute_interaction = current_select_interaction != null
+	if not has_excute_interaction:
 		var node_match_dic = current_interaction_template.node_matching
 		var node_name_arr = node_match_dic.keys().duplicate()
 		var node_type_name_arr = node_match_dic.values().duplicate()
@@ -115,21 +131,28 @@ func on_player_params_value_update(_param_key,_param_value):
 	param_listview.add_content_text(index,content,"状态值文本")
 		
 
-var current_interaction_template
+
 
 func on_interaction_item_selected(index):
 	current_interaction_template = interaction_arr[index]
-	show_interaction_ui()
+	current_select_interaction = current_player.get_running_interaction(current_interaction_template)
 	
-var current_excute_interaction
-#signal excute_interaction(_player,_interaction_temp,_node_arr)
+	show_interaction_ui()
+
+
 #执行 作用
 func _on_Button4_pressed():
 	var node_arr = []
 	for item in show_interaction_info_listview.get_children():
 		node_arr.push_back(item.get_meta("node"))
-#	emit_signal("excute_interaction",current_player,current_interaction_template,node_arr)
 	
-	current_excute_interaction = current_player.excute_interaction(current_interaction_template,node_arr)
-	if current_excute_interaction.duration:
-		interaction_progress_bar.set_max(current_excute_interaction.duration)
+	#当前选中的作用
+	current_player.excute_interaction(current_interaction_template,node_arr)
+	current_select_interaction = current_player.get_running_interaction(current_interaction_template)
+	
+
+#作用停止
+func _on_Button5_pressed():
+	if current_select_interaction:
+		current_player.stop_interaction(current_select_interaction)
+		

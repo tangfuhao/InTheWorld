@@ -19,8 +19,6 @@ func _ready():
 	var god_interaction_arr = DataManager.get_interaction_arr_by_type("god")
 	for item in god_interaction_arr:
 		var node_match = item.node_matching
-		if item.name == "同步绑定负重":
-			print("sssss")
 		#满足匹配关系的节点
 		var match_node_arr = node_match(node_match)
 		for match_node_pair_item in match_node_arr:
@@ -38,7 +36,6 @@ func _ready():
 		for node_type_item in node_match.values():
 			var interaction_template_arr = get_arr_value_from_dic(use_node_type_to_interaction_template_dic,node_type_item)
 			interaction_template_arr.push_back(item)
-	print("ss")
 
 #组织节点类型
 func make_stuff_type_tree():
@@ -51,8 +48,6 @@ func make_stuff_type_tree():
 	
 	for node_item in stuff_node_arr:
 		var type_name = node_item.stuff_type_name
-		if type_name == "水杯":
-			print("ssss")
 		var node_type_group = DataManager.get_node_type_group(type_name)
 		for item in node_type_group:
 			var node_arr = get_arr_value_from_dic(type_stuff_dic,item)

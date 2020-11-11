@@ -126,5 +126,15 @@ func excute_interaction(_interaction_template,_node_arr):
 	interaction_implement.is_manual_interaction = true
 	#加入场景
 	interaction_layer.add_child(interaction_implement)
-	return interaction_implement
+	interaction_dic[_interaction_template] = interaction_implement
 
+func stop_interaction(_interaction):
+	if interaction_layer.get_children().has(_interaction):
+		_interaction.is_finish = true
+
+#作用模板-作用对象
+var interaction_dic := {}
+func get_running_interaction(_interaction_template):
+	if interaction_dic.has(_interaction_template):
+		return interaction_dic[_interaction_template]
+	return null
