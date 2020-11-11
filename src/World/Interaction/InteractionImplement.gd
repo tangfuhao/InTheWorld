@@ -221,7 +221,7 @@ func interaction_terminate():
 		
 
 func interaction_break():
-	for item in terminate_execute:
+	for item in break_execute:
 		item._process(1,self)
 
 #被动 不退出  
