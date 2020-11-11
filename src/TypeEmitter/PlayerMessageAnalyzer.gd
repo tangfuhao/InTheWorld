@@ -398,10 +398,6 @@ func get_dic_str(var message_dic):
 		string_build.append(strategy_path)
 		
 	
-		
-	if string_build.empty():
-		print("ssss")
-	
 	return string_build.join("")
 	
 	
