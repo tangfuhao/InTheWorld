@@ -26,8 +26,10 @@ var clean_cache_conditions_arr := []
 
 #对属性值的缓存
 var value_cache_dic := {}
+var value_change_cache_dic := {}
 #对连接情况的缓存
 var affiliation_cache_dic := {}
+var affiliation_change_cache_dic := {}
 
 #是否作用时效 是否到期
 var is_finish = false
@@ -49,10 +51,7 @@ func _ready():
 	init_cache_value()
 
 func _process(delta):
-	if interaction_name == "同步绑定负重":
-		print("")
-	if is_vaild and interaction_name == "同步绑定负重":
-		print("")
+	var is_data_change = apply_change_cache()
 	#无效 退出作用
 	if not is_vaild:
 		interaction_quit()
@@ -65,7 +64,7 @@ func _process(delta):
 		interaction_terminate()
 		self.is_active = false
 		self.is_finish = false
-		self.is_vaild = true
+		self.is_vaild = false
 		return 
 		
 	if not is_active:
@@ -73,6 +72,10 @@ func _process(delta):
 		interaction_active()
 		
 	interaction_process(delta)
+	
+	#如果数据被更改 那么在同步一次条件
+	if is_data_change:
+		interaction_status_check()
 	
 func init_cache_value():
 	pass
@@ -146,6 +149,8 @@ func _on_node_binding_dependency_change(_node):
 
 #作用状态检查
 func interaction_status_check():
+	if interaction_name == "同步绑定负重":
+		print("sss")
 	#当前条件是否满足
 	var is_meet_condition = judge_conditions()
 	judge_interaction_vaild(is_meet_condition)
@@ -171,6 +176,7 @@ func runing_timer():
 
 	if duration and duration > 0:
 		var timer = Timer.new()
+		timer.set_one_shot(true)
 		timer.connect("timeout",self,"on_interaction_time_out")
 		add_child(timer)
 		timer.start(duration)
@@ -221,6 +227,7 @@ func interaction_break():
 #被动 不退出  
 #主动 删除作用
 func interaction_quit():
+	#移除计时器
 	remove_all_child()
 	
 	if is_active:
@@ -278,16 +285,45 @@ func can_interact(_node1,_node2):
 		if _node1.can_interaction(_node2):
 			return 1
 	return 0
+	
+	
+#将改变的缓存 同步到 最新数据
+func apply_change_cache():
+	var is_data_change = false
+	for item in affiliation_change_cache_dic.keys():
+		var cache_change_value = affiliation_change_cache_dic[item]
+		if affiliation_cache_dic.has(item) and cache_change_value == affiliation_cache_dic[item]:
+			pass
+		else:
+			affiliation_cache_dic[item] = affiliation_change_cache_dic[item]
+			is_data_change = true
+	affiliation_change_cache_dic.clear()
 
+	for item in value_change_cache_dic.keys():
+		var cache_change_value = value_change_cache_dic[item]
+		if value_cache_dic.has(item) and cache_change_value == value_cache_dic[item]:
+			pass
+		else:
+			value_cache_dic[item] = value_change_cache_dic[item]
+			is_data_change = true
+	value_change_cache_dic.clear()
+	return is_data_change
+
+#某个条件满足 清理所有缓存
+func clear_interaction_chache():
+	affiliation_change_cache_dic.clear()
+	affiliation_cache_dic.clear()
+	value_change_cache_dic.clear()
+	value_cache_dic.clear()
+	
 
 func affiliation_change(_node1,_node2):
 	var result = false
 	var value = is_binding(_node1,_node2) or is_storing(_node1,_node2)
 	if affiliation_cache_dic.has([_node1,_node2]):
 		result = affiliation_cache_dic[[_node1,_node2]] != value
-
-		
-	affiliation_cache_dic[[_node1,_node2]] = value
+	
+	affiliation_change_cache_dic[[_node1,_node2]] = value
 	return transform_bool_to_int(result)
 
 

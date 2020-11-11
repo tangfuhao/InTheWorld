@@ -17,4 +17,5 @@ func set_bind_node(_name):
 
 func _process(_delta,_param_accessor):
 	var be_store_node = _param_accessor.get_node_ref(bind_node_name)
-	node.bind_layer.bind(be_store_node)
+	if node.bind_layer.bind(be_store_node):
+		be_store_node.notify_binding_dependency_change()

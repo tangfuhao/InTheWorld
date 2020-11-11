@@ -94,8 +94,11 @@ func get_global_rect() -> Rect2:
 	return Rect2(global_postion.x - half_side_length,global_postion.y - half_side_length,side_length,side_length)
 	
 func can_interaction(_object:Node2D):
-	return interactive_object_list.has(_object)
-
+	var can_interaction =  interactive_object_list.has(_object)
+	#TODO  应该是功能节点 而不是本身
+#	if not can_interaction:
+#		can_interaction = get_parent() == _object or _object.get_parent() == self
+	return can_interaction
 	
 #通过物品类型 初始化物品属性
 func load_config_by_stuff_type(_type) -> bool:
@@ -258,7 +261,7 @@ func notify_disappear():
 
 #物品的绑定关系改变 延迟到下个周期发送
 func notify_binding_dependency_change():
-	call_deferred("emit_signal","node_binding_dependency_change",self)
+	emit_signal("node_binding_dependency_change",self)
 
 
 #执行影响改变
@@ -290,13 +293,18 @@ func is_colliding(_node):
 	return collision_object_arr.has(_node)
 	
 
+var bind_onwer = null
+
 #交互对象改变
 func _on_InteractArea_body_entered(body):
-	interactive_object_list.push_back(body)
-	emit_signal("interaction_object_change",body,true)
+	if not interactive_object_list.has(body):
+		interactive_object_list.push_back(body)
+		emit_signal("interaction_object_change",body,true)
 
 
 func _on_InteractArea_body_exited(body):
+	if bind_onwer == body:
+		return 
 	interactive_object_list.erase(body)
 	emit_signal("interaction_object_change",body,false)
 
@@ -310,9 +318,11 @@ func _on_Stuff_mouse_exited():
 
 
 func add_to_collision_object_arr(_node):
-	collision_object_arr.push_back(_node)
+	if not is_rigid_body:
+		collision_object_arr.push_back(_node)
 func remove_from_collision_object_arr(_node):
-	collision_object_arr.erase(_node)
+	if not is_rigid_body:
+		collision_object_arr.erase(_node)
 
 #用area 碰撞检测 因为有非刚体
 func _on_StuffArea_area_entered(area):
