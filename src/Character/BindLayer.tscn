@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://src/Character/BindLayer.gd" type="Script" id=1]
+
+[node name="BindLayer" type="Node2D"]
+position = Vector2( -0.0123625, -8.71383 )
+script = ExtResource( 1 )

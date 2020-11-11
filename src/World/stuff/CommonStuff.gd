@@ -7,13 +7,8 @@ class_name CommonStuff
 export var stuff_type_name:String
 #是否是一个区域
 export var is_location := false
-
 #是否是刚体
 var is_rigid_body = true
-
-
-
-
 
 
 onready var area_collision_shape = $StuffArea/CollisionShape2D
@@ -26,28 +21,25 @@ onready var item_display_name = $LabelLayout/PlayerName
 
 #自定义属性
 onready var param := $PlayerParam
+#绑定
+onready var bind_layer := $BindLayer
+#存储
+onready var storage_layer := $Storage
+
 
 #唯一节点名
 var node_name
 #显示名称
 var display_name setget _set_display_name
-
-
-#存储空间
-var storage
 #边长
 var side_length
 #可交互的范围 对象列表
-var interactive_object_list = []
+var interactive_object_list := []
 #记录 正在碰撞的物体
 var collision_object_arr := []
-
-
 #物理属性
 var physics_data:Dictionary
 
-#状态
-var status_arr := []
 
 signal disappear_notify(_stuff)
 signal params_update(_param_name,_param_value)
@@ -55,6 +47,8 @@ signal params_update(_param_name,_param_value)
 signal interaction_object_change(_node,_can_interaction)
 #物品绑定关系改变
 signal node_binding_dependency_change(_node)
+#物品存储关系改变
+signal node_storege_dependency_change(_node)
 #物品位置的更新
 signal node_position_update(_node)
 
