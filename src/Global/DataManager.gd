@@ -215,6 +215,10 @@ func parse_interaction_lifecycle_process(item,_process_arr,_process_name):
 				node_effct = NodeStoreEffect.new()
 				node_effct.node_name = match_node_name
 				node_effct.store_node = effect_item["store"]
+			elif effect_item.has("add_to_concept"):
+				node_effct = NodeAddToConceptEffect.new()
+				node_effct.node_name = match_node_name
+				
 			else:
 				print(effect_item)
 				assert(false)
