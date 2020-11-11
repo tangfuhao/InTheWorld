@@ -1,5 +1,5 @@
 [
-	{
+    {
         "interaction_name": "基础饥饿消耗",
         "interaction_scheduling": "god",
         "interaction_duration": -1,
@@ -87,29 +87,29 @@
             }
         ]
     },
-	{
-	    "interaction_name": "基础排泄变化",
-	    "interaction_scheduling": "god",
-	    "interaction_duration": -1,
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        }
-	    ],
-	    "_process": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "排泄状态",
-	                    "transform": -0.001
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
+    {
+        "interaction_name": "基础排泄变化",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "排泄状态",
+                        "transform": -0.001
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "interaction_name": "同步流体体积重量",
         "interaction_scheduling": "god",
         "interaction_duration": -1,
@@ -158,31 +158,31 @@
             }
         ]
     },
-	{
-	    "interaction_name": "同步耐久度消失",
-	    "interaction_duration": 0,
-	    "interaction_scheduling": "god",
-	    "interaction_conditions":[
-	        "${node1[耐久度]} ≡ 0"
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "是耐久物品的"
-	        }
-	    ],
-	    "_terminate": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "disappear": "${node1}"
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
+    {
+        "interaction_name": "同步耐久度消失",
+        "interaction_duration": 0,
+        "interaction_scheduling": "god",
+        "interaction_conditions": [
+            "${node1[耐久度]} ≡ 0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "是耐久物品的"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "disappear": "${node1}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "interaction_name": "同步容器的绑定流体量",
         "interaction_scheduling": "god",
         "interaction_duration": -1,
@@ -611,8 +611,8 @@
             "躺-软"
         ],
         "interaction_conditions": [
-        	"0"
-	    ],
+            "0"
+        ],
         "_nodes": [
             {
                 "node_name": "node1",
@@ -810,15 +810,15 @@
             }
         ],
         "_terminate": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "store": "${node2}"
-	                }
-	            ]
-	        }
-	    ]
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "store": "${node2}"
+                    }
+                ]
+            }
+        ]
     },
     {
         "interaction_name": "放置物品",
@@ -1279,57 +1279,57 @@
             }
         ]
     },
-	{
-	    "interaction_name": "喝流体-椰汁",
-	    "interaction_duration": -1,
-	    "interaction_conditions": [
-	        "$[can_interact, ${node1}, ${node2}]"
-	        "$[is_binding, ${node2}, ${node3}]"
-	        "${node3[流体体积]} > 0"
-	    ],
-	    "_parant" :[
-	        "喝流体"
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "是流体容器的"
-	        },
-	        {
-	            "node_name": "node3",
-	            "node_type": "椰汁"
-	        }
-	    ],
-	    "_process": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "口渴状态",
-	                    "transform": 0.3
-	                },
-	                {
-	                    "param_name": "饥饿状态",
-	                    "transform": 0.0005
-	                },
-	            ]
-	        },
-	        {
-	            "node_name": "node3",
-	            "effects": [
-	                {
-	                    "param_name": "流体体积",
-	                    "transform": -1
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
+    {
+        "interaction_name": "喝流体-椰汁",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "$[is_binding, ${node2}, ${node3}]",
+            "${node3[流体体积]} > 0"
+        ],
+        "_parant": [
+            "喝流体"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "是流体容器的"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "椰汁"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "口渴状态",
+                        "transform": 0.3
+                    },
+                    {
+                        "param_name": "饥饿状态",
+                        "transform": 0.0005
+                    }
+                ]
+            },
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "param_name": "流体体积",
+                        "transform": -1
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "interaction_name": "穿衣服",
         "interaction_duration": 2,
         "interaction_conditions": [
@@ -1349,11 +1349,11 @@
         "_terminate": [
             {
                 "node_name": "node1",
-	            "effects": [
-	                {
-	                    "bind": "node2"
-	                }
-	            ],
+                "effects": [
+                    {
+                        "bind": "node2"
+                    }
+                ]
             }
         ]
     },
@@ -1565,1033 +1565,1031 @@
             }
         ]
     },
-	{
-	    "interaction_name": "着凉",
-	    "interaction_scheduling": "god",
-	    "interaction_duration": 30,
-	    "interaction_conditions": [
-	        "$[is_binding, ${node1}, ${node2}]",
-	        "${node2[干湿度]} > 0.5"
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "衣服"
-	        }
-	    ],
-	    "_terminate": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "是否感冒",
-	                    "assign": "1"
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "食用",
-	    "_child": [
-	        "食用-野果",
-	        "食用-妙瓜种子",
-	        "食用-妙瓜瓤",
-	        "食用-椰子肉"
-	    ],
-	    "interaction_conditions": [
-	        "0"
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "物品"
-	        },
-	    ],
-	},
-	{
-	    "interaction_name": "食用-野果",
-	    "interaction_duration": 2,
-	    "interaction_conditions": [
-	        "$[can_interact, ${node1}, ${node2}]"
-	    ],
-	    "_parant" :[
-	        "食用"
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "野果"
-	        },
-	    ],
-	    "_terminate": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "饥饿状态",
-	                    "transform": 0.1
-	                },
-	                {
-	                    "disappear": "${node2}" 
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "食用-妙瓜种子",
-	    "interaction_duration": 1,
-	    "interaction_conditions": [
-	        "$[can_interact, ${node1}, ${node2}]"
-	    ],
-	    "_parant" :[
-	        "食用"
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "妙瓜种子"
-	        },
-	    ],
-	    "_terminate": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "饥饿状态",
-	                    "transform": 0.005
-	                },
-	                {
-	                    "disappear": "${node2}" 
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "食用-妙瓜瓤",
-	    "interaction_duration": 10,
-	    "interaction_conditions": [
-	        "$[can_interact, ${node1}, ${node2}]"
-	    ],
-	    "_parant" :[
-	        "食用"
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "妙瓜瓤"
-	        },
-	    ],
-	    "_process": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "饥饿状态",
-	                    "transform": 0.05
-	                },
-	            ]
-	        },
-	        {
-	            "node_name": "node2",
-	            "effects": [
-	                {
-	                    "param_name": "耐久度",
-	                    "transform": -0.1
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "食用-椰子肉",
-	    "interaction_duration": 10,
-	    "interaction_conditions": [
-	        "$[can_interact, ${node1}, ${node2}]"
-	    ],
-	    "_parant" :[
-	        "食用"
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "椰子肉"
-	        },
-	    ],
-	    "_process": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "饥饿状态",
-	                    "transform": 0.02
-	                },
-	            ]
-	        },
-	        {
-	            "node_name": "node2",
-	            "effects": [
-	                {
-	                    "param_name": "耐久度",
-	                    "transform": -0.1
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "轻轻敲",
-	    "_child": [
-	        "轻轻敲-妙瓜壳",
-	        "轻轻敲-椰子壳"
-	    ],
-	    "interaction_conditions": [
-	        "0"
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "物品"
-	        }
-	    ],
-	},
-	{
-	    "interaction_name": "轻轻敲-妙瓜壳",
-	    "interaction_duration": 2,
-	    "interaction_conditions": [
-	        "$[can_interact, ${node1}, ${node2}]",
-	        "${node2[关闭打开破碎]} ≠ 破碎"
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "妙瓜壳"
-	        }
-	    ],
-	    "_terminate": [
-	        {
-	            "node_name": "node2",
-	            "effects": [
-	                {
-	                    "param_name": "关闭打开破碎",
-	                    "assign": "打开"
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "轻轻敲-椰子壳",
-	    "interaction_duration": 2,
-	    "interaction_conditions": [
-	        "$[can_interact, ${node1}, ${node2}]",
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "椰子壳"
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "用石块砸",
-	    "_child": [
-	        "用石块砸-妙瓜壳",
-	        "用石块砸-椰子壳",
-	    ],
-	    "interaction_conditions": [
-	        "0",
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "物品"
-	        },
-	        {
-	            "node_name": "node3",
-	            "node_type": "石块"
-	        }
-	    ],
-	},
-	{
-	    "interaction_name": "用石块砸-妙瓜壳",
-	    "interaction_duration": 2,
-	    "interaction_conditions": [
-	        "$[can_interact, ${node1}, ${node2}]",
-	        "$[is_binding, ${node1}, ${node3}] ∨ $[is_storing, ${node1}, ${node3}]",
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "妙瓜壳"
-	        },
-	        {
-	            "node_name": "node3",
-	            "node_type": "石块"
-	        }
-	    ],
-	    "_active": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0.003
-	                }
-	            ]
-	        }
-	    ],
-	    "_terminate": [
-	        {
-	            "node_name": "node2",
-	            "effects": [
-	                {
-	                    "param_name": "关闭打开破碎",
-	                    "assign": "破碎"
-	                }
-	            ]
-	        },
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "用石块砸-椰子壳",
-	    "interaction_duration": 5,
-	    "interaction_conditions": [
-	        "$[can_interact, ${node1}, ${node2}]",
-	        "$[is_binding, ${node1}, ${node3}] ∨ $[is_storing, ${node1}, ${node3}]",
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "椰子壳"
-	        },
-	        {
-	            "node_name": "node3",
-	            "node_type": "石块"
-	        }
-	    ],
-	    "_active": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0.01
-	                }
-	            ]
-	        }
-	    ],
-	    "_terminate": [
-	        {
-	            "node_name": "node2",
-	            "effects": [
-	                {
-	                    "param_name": "关闭打开破碎",
-	                    "assign": "打开"
-	                }
-	            ]
-	        },
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "妙瓜壳被打开",
-	    "interaction_scheduling": "god",
-	    "interaction_duration": 0,
-	    "interaction_conditions": [
-	        "${node1[关闭打开破碎]} ≡ 打开",
-	        "$[is_storing, ${node1}, ${node2}]"
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "妙瓜壳"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "妙瓜瓤"
-	        }
-	    ],
-	    "_terminate": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "bind": "${node2}"
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "妙瓜壳被破碎",
-	    "interaction_scheduling": "god",
-	    "interaction_duration": 0,
-	    "interaction_conditions": [
-	        "${node1[关闭打开破碎]} ≡ 破碎",
-	        "$[is_storing, ${node1}, ${node2}]"
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "妙瓜壳"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "妙瓜瓤"
-	        }
-	    ],
-	    "_terminate": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "release": "${node2}"
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "椰子壳被打开",
-	    "interaction_scheduling": "god",
-	    "interaction_duration": 0,
-	    "interaction_conditions": [
-	        "${node1[关闭打开破碎]} ≡ 打开",
-	        "$[is_storing, ${node1}, ${node2}]",
-	        "$[is_storing, ${node1}, ${node3}]"
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "椰子壳"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "椰子肉"
-	        },
-	        {
-	            "node_name": "node3",
-	            "node_type": "椰子汁"
-	        }
-	    ],
-	    "_terminate": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "bind": "${node2}",
-	                    "bind": "${node3}"
-	                },
-	                {
-	                    "add_to_concept": [
-	                        {
-	                            "concept_name": "是流体容器的",
-	                            "params": {
-	                                "容器内流体量": 3
-	                            },
-	                            "param_config": [
-	                                {
-	                                    "param_name": "容器流体量",
-	                                    "init_value": 0,
-	                                    "max_value": 6,
-	                                    "min_value": 0
-	                                }
-	                            ]
-	                        }
-	                    ]
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "唱歌",
-	    "interaction_duration": -1,
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        }
-	    ],
-	    "_active": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0.001
-	                }
-	            ]
-	        }
-	    ],
-	    "_break": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "跳舞",
-	    "interaction_duration": -1,
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        }
-	    ],
-	    "_active": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0.003
-	                }
-	            ]
-	        }
-	    ],
-	    "_break": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "画画",
-	    "interaction_duration": -1,
-	    "interaction_conditions": [
-	        "$[can_interact, ${node1}, ${node2}]",
-	        "$[can_interact, ${node1}, ${node3}]",
-	        "${node2[书写量]} < 1",
-	        "${node2[画画量]} < 1"
-	        "${node3[墨水量]} > 0",
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "纸"
-	        },
-	        {
-	            "node_name": "node3",
-	            "node_type": "水笔"
-	        }
-	    ],
-	    "_active": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0.0005
-	                }
-	            ]
-	        },
-	    ],
-	    "_process": [
-	        {
-	            "node_name": "node2",
-	            "effects": [
-	                {
-	                    "param_name": "画画量",
-	                    "transform": 0.05
-	                },
-	                {
-	                    "param_name": "书写量",
-	                    "transform": 0.05
-	                }
-	            ]
-	        },
-	        {
-	            "node_name": "node3",
-	            "effects": [
-	                {
-	                    "param_name": "墨水量",
-	                    "transform": -0.01
-	                }
-	            ]
-	        },
-	    ],
-	    "_break": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "写作业",
-	    "interaction_duration": -1,
-	    "interaction_conditions": [
-	        "$[can_interact, ${node1}, ${node2}]",
-	        "$[can_interact, ${node1}, ${node3}]",
-	        "${node2[书写量]} < 1",
-	        "${node2[作业量]} < 1"
-	        "${node3[墨水量]} > 0",
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "纸"
-	        },
-	        {
-	            "node_name": "node3",
-	            "node_type": "水笔"
-	        }
-	    ],
-	    "_active": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0.0005
-	                }
-	            ]
-	        },
-	    ],
-	    "_process": [
-	        {
-	            "node_name": "node2",
-	            "effects": [
-	                {
-	                    "param_name": "作业量",
-	                    "transform": 0.05
-	                },
-	                {
-	                    "param_name": "书写量",
-	                    "transform": 0.05
-	                }
-	            ]
-	        },
-	        {
-	            "node_name": "node3",
-	            "effects": [
-	                {
-	                    "param_name": "墨水量",
-	                    "transform": -0.01
-	                }
-	            ]
-	        },
-	    ],
-	    "_break": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "手机电量消耗",
-	    "interaction_scheduling": "god",
-	    "interaction_duration": -1,
-	    "interaction_conditions": [
-	        "${node2[电量]} > 0",
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "手机"
-	        }
-	    ],
-	    "_process": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "电量",
-	                    "transform": "- (0.0005 + ${node1[当前耗电速度]})"
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "打游戏",
-	    "interaction_duration": -1,
-	    "interaction_conditions": [
-	        "$[can_interact, ${node1}, ${node2}]",
-	        "${node2[电量]} > 0",
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "手机"
-	        }
-	    ],
-	    "_active": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0.001
-	                }
-	            ]
-	        },
-	        {
-	            "node_name": "node2",
-	            "effects": [
-	                {
-	                    "param_name": "当前耗电速度",
-	                    "assign": 0.005
-	                }
-	            ]
-	        }
-	    ],
-	    "_break": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0
-	                }
-	            ]
-	        },
-	        {
-	            "node_name": "node2",
-	            "effects": [
-	                {
-	                    "param_name": "当前耗电速度",
-	                    "assign": 0
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "刷视频",
-	    "interaction_duration": -1,
-	    "interaction_conditions": [
-	        "$[can_interact, ${node1}, ${node2}]",
-	        "${node2[电量]} > 0",
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "手机"
-	        }
-	    ],
-	    "_active": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0.0005
-	                }
-	            ]
-	        },
-	        {
-	            "node_name": "node2",
-	            "effects": [
-	                {
-	                    "param_name": "当前耗电速度",
-	                    "assign": 0.005
-	                }
-	            ]
-	        }
-	    ],
-	    "_break": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0
-	                }
-	            ]
-	        },
-	        {
-	            "node_name": "node2",
-	            "effects": [
-	                {
-	                    "param_name": "当前耗电速度",
-	                    "assign": 0
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "排泄-马桶",
-	    "interaction_duration": 10,
-	    "interaction_conditions": [
-	        "$[can_interact, ${node1}, ${node2}]",
-	        "${node2[正坐人数]} = 0",
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "马桶"
-	        }
-	    ],
-	    "_active": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0.0005
-	                }
-	            ]
-	        }
-	    ],
-	    "_terminate": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0
-	                }
-	            ]
-	        },
-	        {
-	            "node_name": "node2",
-	            "effects": [
-	                {
-	                    "param_name": "排泄状态",
-	                    "transform": 0.8
-	                }
-	            ]
-	        }
-	    ],
-	    "_break": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "排泄-随地",
-	    "interaction_duration": 10,
-	    "interaction_conditions": [
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        }
-	    ],
-	    "_active": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0.0005
-	                }
-	            ]
-	        }
-	    ],
-	    "_terminate": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0
-	                },
-	                {
-	                    "create": "屎:node3"
-	                }
-	            ]
-	        },
-	        {
-	            "node_name": "node2",
-	            "effects": [
-	                {
-	                    "param_name": "排泄状态",
-	                    "transform": 0.8
-	                },
-	                {
-	                    "change_position": "${node1[动作位置]}"
-	                }
-	            ]
-	        }
-	    ],
-	    "_break": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "当前运动量",
-	                    "assign": 0
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "屎的损耗",
-	    "interaction_scheduling": "god",
-	    "interaction_duration": -1,
-	    "interaction_conditions": [
-	        "$[num_of_parent_affiliation, ${node1}] ≡ 0"
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "屎"
-	        }
-	    ],
-	    "_process": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "耐久度",
-	                    "transform": -0.01
-	                }
-	            ]
-	        }
-	    ]
-	},
-	{
-	    "interaction_name": "碰到屎变脏",
-	    "interaction_scheduling": "god",
-	    "interaction_duration": 0,
-	    "interaction_conditions": [
-	        "$[is_colliding, ${node1}, ${node2}]"
-	        "${node1[清洁状态]} > 0.1"
-	    ],
-	    "_nodes": [
-	        {
-	            "node_name": "node1",
-	            "node_type": "Player"
-	        },
-	        {
-	            "node_name": "node2",
-	            "node_type": "屎"
-	        }
-	    ],
-	    "_active": [
-	        {
-	            "node_name": "node1",
-	            "effects": [
-	                {
-	                    "param_name": "清洁状态",
-	                    "assign": 0.1
-	                }
-	            ]
-	        }
-	    ]
-	}
+    {
+        "interaction_name": "着凉",
+        "interaction_scheduling": "god",
+        "interaction_duration": 30,
+        "interaction_conditions": [
+            "$[is_binding, ${node1}, ${node2}]",
+            "${node2[干湿度]} > 0.5"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "衣服"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "是否感冒",
+                        "assign": "1"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "食用",
+        "_child": [
+            "食用-野果",
+            "食用-妙瓜种子",
+            "食用-妙瓜瓤",
+            "食用-椰子肉"
+        ],
+        "interaction_conditions": [
+            "0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "物品"
+            }
+        ]
+    },
+    {
+        "interaction_name": "食用-野果",
+        "interaction_duration": 2,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_parant": [
+            "食用"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "野果"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "饥饿状态",
+                        "transform": 0.1
+                    },
+                    {
+                        "disappear": "${node2}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "食用-妙瓜种子",
+        "interaction_duration": 1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_parant": [
+            "食用"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "妙瓜种子"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "饥饿状态",
+                        "transform": 0.005
+                    },
+                    {
+                        "disappear": "${node2}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "食用-妙瓜瓤",
+        "interaction_duration": 10,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_parant": [
+            "食用"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "妙瓜瓤"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "饥饿状态",
+                        "transform": 0.05
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "耐久度",
+                        "transform": -0.1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "食用-椰子肉",
+        "interaction_duration": 10,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_parant": [
+            "食用"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "椰子肉"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "饥饿状态",
+                        "transform": 0.02
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "耐久度",
+                        "transform": -0.1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "轻轻敲",
+        "_child": [
+            "轻轻敲-妙瓜壳",
+            "轻轻敲-椰子壳"
+        ],
+        "interaction_conditions": [
+            "0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "物品"
+            }
+        ]
+    },
+    {
+        "interaction_name": "轻轻敲-妙瓜壳",
+        "interaction_duration": 2,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "${node2[关闭打开破碎]} ≠ 破碎"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "妙瓜壳"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "关闭打开破碎",
+                        "assign": "打开"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "轻轻敲-椰子壳",
+        "interaction_duration": 2,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "椰子壳"
+            }
+        ]
+    },
+    {
+        "interaction_name": "用石块砸",
+        "_child": [
+            "用石块砸-妙瓜壳",
+            "用石块砸-椰子壳"
+        ],
+        "interaction_conditions": [
+            "0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "物品"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "石块"
+            }
+        ]
+    },
+    {
+        "interaction_name": "用石块砸-妙瓜壳",
+        "interaction_duration": 2,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "$[is_binding, ${node1}, ${node3}] ∨ $[is_storing, ${node1}, ${node3}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "妙瓜壳"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "石块"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.003
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "关闭打开破碎",
+                        "assign": "破碎"
+                    }
+                ]
+            },
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "用石块砸-椰子壳",
+        "interaction_duration": 5,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "$[is_binding, ${node1}, ${node3}] ∨ $[is_storing, ${node1}, ${node3}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "椰子壳"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "石块"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.01
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "关闭打开破碎",
+                        "assign": "打开"
+                    }
+                ]
+            },
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "妙瓜壳被打开",
+        "interaction_scheduling": "god",
+        "interaction_duration": 0,
+        "interaction_conditions": [
+            "${node1[关闭打开破碎]} ≡ 打开",
+            "$[is_storing, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "妙瓜壳"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "妙瓜瓤"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "bind": "${node2}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "妙瓜壳被破碎",
+        "interaction_scheduling": "god",
+        "interaction_duration": 0,
+        "interaction_conditions": [
+            "${node1[关闭打开破碎]} ≡ 破碎",
+            "$[is_storing, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "妙瓜壳"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "妙瓜瓤"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "release": "${node2}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "椰子壳被打开",
+        "interaction_scheduling": "god",
+        "interaction_duration": 0,
+        "interaction_conditions": [
+            "${node1[关闭打开破碎]} ≡ 打开",
+            "$[is_storing, ${node1}, ${node2}]",
+            "$[is_storing, ${node1}, ${node3}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "椰子壳"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "椰子肉"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "椰子汁"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "bind": "${node3}"
+                    },
+                    {
+                        "add_to_concept": [
+                            {
+                                "concept_name": "是流体容器的",
+                                "params": {
+                                    "容器内流体量": 3
+                                },
+                                "param_config": [
+                                    {
+                                        "param_name": "容器流体量",
+                                        "init_value": 0,
+                                        "max_value": 6,
+                                        "min_value": 0
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "唱歌",
+        "interaction_duration": -1,
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.001
+                    }
+                ]
+            }
+        ],
+        "_break": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "跳舞",
+        "interaction_duration": -1,
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.003
+                    }
+                ]
+            }
+        ],
+        "_break": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "画画",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "$[can_interact, ${node1}, ${node3}]",
+            "${node2[书写量]} < 1",
+            "${node2[画画量]} < 1",
+            "${node3[墨水量]} > 0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "纸"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "水笔"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.0005
+                    }
+                ]
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "画画量",
+                        "transform": 0.05
+                    },
+                    {
+                        "param_name": "书写量",
+                        "transform": 0.05
+                    }
+                ]
+            },
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "param_name": "墨水量",
+                        "transform": -0.01
+                    }
+                ]
+            }
+        ],
+        "_break": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "写作业",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "$[can_interact, ${node1}, ${node3}]",
+            "${node2[书写量]} < 1",
+            "${node2[作业量]} < 1",
+            "${node3[墨水量]} > 0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "纸"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "水笔"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.0005
+                    }
+                ]
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "作业量",
+                        "transform": 0.05
+                    },
+                    {
+                        "param_name": "书写量",
+                        "transform": 0.05
+                    }
+                ]
+            },
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "param_name": "墨水量",
+                        "transform": -0.01
+                    }
+                ]
+            }
+        ],
+        "_break": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "手机电量消耗",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "${node2[电量]} > 0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "手机"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "电量",
+                        "transform": "- (0.0005 + ${node1[当前耗电速度]})"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "打游戏",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "${node2[电量]} > 0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "手机"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.001
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "当前耗电速度",
+                        "assign": 0.005
+                    }
+                ]
+            }
+        ],
+        "_break": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "当前耗电速度",
+                        "assign": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "刷视频",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "${node2[电量]} > 0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "手机"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.0005
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "当前耗电速度",
+                        "assign": 0.005
+                    }
+                ]
+            }
+        ],
+        "_break": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "当前耗电速度",
+                        "assign": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "排泄-马桶",
+        "interaction_duration": 10,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "${node2[正坐人数]} = 0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "马桶"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.0005
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "排泄状态",
+                        "transform": 0.8
+                    }
+                ]
+            }
+        ],
+        "_break": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "排泄-随地",
+        "interaction_duration": 10,
+        "interaction_conditions": [],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.0005
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    },
+                    {
+                        "create": "屎:node3"
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "排泄状态",
+                        "transform": 0.8
+                    },
+                    {
+                        "change_position": "${node1[动作位置]}"
+                    }
+                ]
+            }
+        ],
+        "_break": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "屎的损耗",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[num_of_parent_affiliation, ${node1}] ≡ 0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "屎"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "耐久度",
+                        "transform": -0.01
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "碰到屎变脏",
+        "interaction_scheduling": "god",
+        "interaction_duration": 0,
+        "interaction_conditions": [
+            "$[is_colliding, ${node1}, ${node2}]",
+            "${node1[清洁状态]} > 0.1"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "屎"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "清洁状态",
+                        "assign": 0.1
+                    }
+                ]
+            }
+        ]
+    }
 ]
