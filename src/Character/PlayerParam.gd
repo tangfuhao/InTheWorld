@@ -4,32 +4,32 @@ class_name PlayerParam
 
 #var param_arr := []
 var param_dic := {}
-
-signal params_value_update(_param_key,_param_value)
-
-
-
+signal param_item_value_change(_param_item)
 func _process(delta):
 	#更新自定义属性
 	for item in param_dic.values():
 		item._process(delta)
 
-func has_param_item(_name):
-	return param_dic.has(_name)
 
-func set_value(_key,_value):
+
+func set_value(_key:String,_value:ComomStuffParam):
 	if param_dic.has(_key):
 		var param_model = param_dic[_key]
 		param_model.value = _value
-		emit_signal("params_value_update",_key,param_model.value)
 	else:
-		assert(_value is ComomStuffParam)
+		_value.connect("param_item_value_change",self,"on_param_item_self_value_change")
 		param_dic[_key] = _value
-#		param_arr.push_back(_value)
-		emit_signal("params_value_update",_key,_value.value)
+		emit_signal("param_item_value_change",_value)
 
-func get_value(_key):
+func get_value(_key) -> ComomStuffParam:
 	if param_dic.has(_key):
 		return param_dic[_key]
 	return null
+
+func has_param_item(_name):
+	return param_dic.has(_name)
+
+#属性的值更改通知
+func on_param_item_self_value_change(_param_item):
+	emit_signal("param_item_value_change",_param_item)
 

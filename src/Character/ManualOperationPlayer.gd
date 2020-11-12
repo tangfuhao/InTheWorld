@@ -15,7 +15,7 @@ onready var hurt_box = $HurtBox
 onready var hit_box = $HitBox
 onready var task_scheduler = $TaskScheduler
 #属性管理
-onready var params := $PlayerParam
+onready var param := $PlayerParam
 onready var camera_position := $NameDisplay/RemoteTransform2D
 
 onready var interaction_layer = $InteractionLayer
@@ -32,11 +32,12 @@ var inventory_system:InventorySystem
 
 
 
-signal params_update(_param_name,_param_value)
+
 signal disappear_notify()
 signal player_action_notify(body,action_name,is_active)
 signal location_change(body,location_name)
 signal player_selected(body)
+
 
 
 func _ready() -> void:
@@ -53,13 +54,10 @@ func _ready() -> void:
 	var param_model = ComomStuffParam.new()
 	param_model.name = "负重上限"
 	param_model.value = 10
-	params.set_value(param_model.name,param_model)
+	param.set_value(param_model.name,param_model)
 
 	
-func _physics_process(delta):
-#	camera_position.global_rotation_degrees = 0
-	pass
-	
+
 
 func _on_ManualOperationPlayer_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
@@ -80,7 +78,7 @@ func get_type():
 
 
 func get_all_param()->Array:
-	return params.get_all_param()
+	return param.get_all_param()
 	
 
 #获取属性值
@@ -91,15 +89,23 @@ func get_param_value(_param_name):
 	if _param_name == "动作位置":
 		return "%f,%f" % [self.bind_layer.global_position.x,self.bind_layer.global_position.y]
 	
-	var value = params.get_value(_param_name)
-	if not value:
-		var param_model = ComomStuffParam.new()
+
+	var param_arr = Array(_param_name.split("."))
+	var param_name = param_arr.pop_front()
+	
+	
+	var param_model =  param.get_value(param_name)
+	if not param_model:
+		param_model = ComomStuffParam.new()
 		param_model.name = _param_name
 		param_model.value = 0
-		params.set_value(_param_name,param_model)
+		param.set_value(_param_name,param_model)
+
+	if param_arr.empty():
 		return param_model.value
 	else:
-		return value.value
+		var param_name_option = param_arr.pop_front()
+		return param_model.get(param_name_option)
 	
 
 #设置属性值
@@ -109,13 +115,13 @@ func set_param_value(_param_name,_param_value):
 	elif _param_name == "动作位置":
 		assert(false)
 	else:
-		var value = params.get_value(_param_name)
-		if not value:
-			var param_model = ComomStuffParam.new()
+		var param_model = param.get_value(_param_name)
+		if not param_model:
+			param_model = ComomStuffParam.new()
 			param_model.name = _param_name
 			param_model.value = 1
-			params.set_value(_param_name,param_model)
-		params.set_value(_param_name,_param_value)
+			param.set_value(_param_name,param_model)
+		param_model.set_value(_param_value)
 	
 
 #执行作用
@@ -142,3 +148,5 @@ func get_running_interaction(_interaction_template):
 	if interaction_dic.has(_interaction_template):
 		return interaction_dic[_interaction_template]
 	return null
+
+
