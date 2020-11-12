@@ -29,11 +29,13 @@ func set_assign(_assign):
 
 func _process(_delta,_param_accessor):
 	var node = _param_accessor.get_node_ref(node_name)
-	temp_delta = temp_delta + _delta
-	if temp_delta < 1:
-		return 
+
 		
 	if transform != null:
+		temp_delta = temp_delta + _delta
+		if temp_delta < 1:
+			return 
+			
 		var value = node.get_param_value(param_name)
 		var value_change
 		if is_expression:
@@ -47,6 +49,8 @@ func _process(_delta,_param_accessor):
 			else:
 				value_change = transform * temp_delta
 		node.set_param_value(param_name,value)
+		
+		temp_delta = 0
 	elif assign != null:
 		if is_expression:
 			var parser = FormulaParser.new("\\$\\{(.+?)\\}")
@@ -56,4 +60,4 @@ func _process(_delta,_param_accessor):
 			node.set_param_value(param_name,assign)
 		
 	
-	temp_delta = 0
+	
