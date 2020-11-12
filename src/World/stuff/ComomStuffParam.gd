@@ -18,18 +18,25 @@ var init_value
 var max_value = null
 var min_value = null
 var transform:ParamTransform setget set_transform
-
 var temp_detal = 0
+
+signal param_item_value_change(_param_item)
 
 func set_transform(_transform_value):
 	transform = ParamTransform.new(_transform_value)
 
 func set_value(_value):
+	var temp_value = value
 	value = _value
 	if max_value != null and value > max_value:
 		value = max_value
 	elif min_value != null and value < min_value:
 		value = min_value
+	
+	if value != temp_value:
+		#值改变  发送信号
+		emit_signal("param_item_value_change",self)
+		
 	
 
 func _process(_detal):

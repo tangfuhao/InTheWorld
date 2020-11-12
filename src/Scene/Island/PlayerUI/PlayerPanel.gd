@@ -54,11 +54,11 @@ func _process(delta):
 
 func setup_player(_player:Player):
 	if current_player:
-		current_player.params.disconnect("params_value_update",self,"on_player_params_value_update")
+		current_player.param.disconnect("param_item_value_change",self,"on_player_param_item_value_change")
 	
 	current_player = _player
-	var param_arr = _player.params.param_dic.values()
-	_player.params.connect("params_value_update",self,"on_player_params_value_update")
+	var param_arr = _player.param.param_dic.values()
+	_player.param.connect("param_item_value_change",self,"on_player_param_item_value_change")
 	var index = 0
 	for item in param_arr:
 		cache_parms_dic[item.name] = index
@@ -118,16 +118,21 @@ func object_click(interaction_object):
 		excute_interaction_button.set_disabled(false)
 
 	
-func on_player_params_value_update(_param_key,_param_value):
+func on_player_param_item_value_change(_param_item_model:ComomStuffParam):
 	var index = 0
-	if cache_parms_dic.has(_param_key):
-		index = cache_parms_dic[_param_key]
+	if cache_parms_dic.has(_param_item_model.name):
+		index = cache_parms_dic[_param_item_model.name]
 	else:
 		index = cache_parms_dic.size()
-		cache_parms_dic[_param_key] = index
+		cache_parms_dic[_param_item_model.name] = index
 	
-	var content = "%s:%f" % [_param_key,_param_value]
-	param_listview.add_content_text(index,content,"状态值文本")
+	if _param_item_model.value is String:
+		var content = "%s:%s" % [_param_item_model.name,_param_item_model.value]
+		param_listview.add_content_text(index,content,"状态值文本")
+	else:
+		var content = "%s:%f" % [_param_item_model.name,_param_item_model.value]
+		param_listview.add_content_text(index,content,"状态值文本")
+	
 		
 
 

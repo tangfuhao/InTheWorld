@@ -44,7 +44,6 @@ var interaction_onwer = null
 
 
 signal disappear_notify(_stuff)
-signal params_update(_param_name,_param_value)
 #可交互发生改变的通知
 signal interaction_object_change(_node,_can_interaction)
 #物品绑定关系改变
@@ -53,6 +52,8 @@ signal node_binding_dependency_change(_node)
 signal node_storege_dependency_change(_node)
 #物品位置的更新
 signal node_position_update(_node)
+#物品属性的更新
+signal node_param_item_value_change(_param_item)
 
 
 func _set_display_name(_name):
@@ -204,7 +205,7 @@ func choice_color(_color):
 	
 	
 
-#获取属性值
+#获取属性值 支持 xx:yy 格式 xx属性名  yy属性定义
 func get_param_value(_param_name):
 	if _param_name == "位置":
 		return "%f,%f" % [self.global_position.x,self.global_position.y]
@@ -217,7 +218,7 @@ func get_param_value(_param_name):
 		var param_name = param_arr.pop_front()
 		
 		
-		var param_model =  param.get_value(param_name)
+		var param_model = param.get_value(param_name)
 		if param_arr.empty():
 			return param_model.value
 		else:
@@ -234,9 +235,10 @@ func set_param_value(_param_name,_param_value):
 		
 		if stuff_param_value != _param_value:
 			physics_data[_param_name] = _param_value
-			emit_signal("params_update",_param_name,_param_value)
 	else:
-		return param.get_value(_param_name)
+		var param_model =  param.get_value(_param_name) 
+		assert(param_model)
+		param_model.set_value(_param_value)
 
 
 
@@ -333,3 +335,7 @@ func _on_StuffArea_body_entered(body):
 
 func _on_StuffArea_body_exited(body):
 	remove_from_collision_object_arr(body)
+
+#属性值变更
+func _on_PlayerParam_param_item_value_change(_param_item):
+	emit_signal("node_param_item_value_change",_param_item)
