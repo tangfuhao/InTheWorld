@@ -35,7 +35,6 @@ func _ready():
 	interaction_listview.connect("on_item_selected",self,"on_interaction_item_selected")
 
 func _process(delta):
-
 	if current_interaction_template:
 		var has_excute_interaction = current_select_interaction != null
 		excute_interaction_button.set_disabled(has_excute_interaction)
@@ -154,5 +153,5 @@ func _on_Button4_pressed():
 #作用停止
 func _on_Button5_pressed():
 	if current_select_interaction:
-		current_player.stop_interaction(current_select_interaction)
+		current_player.break_interaction(current_select_interaction)
 		

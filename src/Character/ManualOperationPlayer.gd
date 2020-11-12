@@ -132,9 +132,9 @@ func excute_interaction(_interaction_template,_node_arr):
 	interaction_layer.add_child(interaction_implement)
 	interaction_dic[_interaction_template] = interaction_implement
 
-func stop_interaction(_interaction):
+func break_interaction(_interaction):
 	if interaction_layer.get_children().has(_interaction):
-		_interaction.is_finish = true
+		_interaction.is_break = true
 
 #作用模板-作用对象
 var interaction_dic := {}

@@ -39,8 +39,12 @@ var is_finish = false
 var is_vaild = false setget set_vaild
 #是否已经激活
 var is_active = false
+#主动停止作用
+var is_break = false
 #是否是主动 调用的交互
 var is_manual_interaction = false
+
+
 
 func set_vaild(_value):
 	is_vaild = _value
@@ -51,6 +55,10 @@ func _ready():
 
 func _process(delta):
 	var is_data_change = apply_change_cache()
+	
+	if is_break:
+		self.is_vaild = false
+	
 	#无效 退出作用
 	if not is_vaild:
 		interaction_quit()
