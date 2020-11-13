@@ -15,7 +15,7 @@
                 "effects": [
                     {
                         "param_name": "饥饿状态",
-                        "transform": "-1*(0.0005 + ${node1[当前运动量]} + 0.0001 * ${node1[当前负重]})"
+                        "transform": "-1*(0.0015 + ${node1[当前运动量]} + 0.0001 * ${node1[当前负重]})"
                     }
                 ]
             }
@@ -37,7 +37,7 @@
                 "effects": [
                     {
                         "param_name": "睡眠状态",
-                        "transform": "-1*(0.0002 + 0.2 * ${node1[当前运动量]})"
+                        "transform": "-1*(0.0003 + 0.4 * ${node1[当前运动量]})"
                     }
                 ]
             }
@@ -59,7 +59,7 @@
                 "effects": [
                     {
                         "param_name": "口渴状态",
-                        "transform": "-1*(0.0002 + 0.2 * ${node1[当前运动量]})"
+                        "transform": "-1*(0.0003 + 0.4 * ${node1[当前运动量]})"
                     }
                 ]
             }
@@ -515,7 +515,7 @@
                 "effects": [
                     {
                         "param_name": "当前运动量",
-                        "assign": 0.0005
+                        "assign": -0.0005
                     },
                     {
                         "change_position": "${node2[位置]}"
@@ -576,7 +576,7 @@
                 "effects": [
                     {
                         "param_name": "当前运动量",
-                        "assign": 0.0001
+                        "assign": -0.0009
                     }
                 ]
             }
@@ -648,7 +648,7 @@
                 "effects": [
                     {
                         "param_name": "当前运动量",
-                        "assign": 0.0003
+                        "assign": -0.0007
                     },
                     {
                         "change_position": "${node2[位置]}"
@@ -718,7 +718,7 @@
                 "effects": [
                     {
                         "param_name": "当前运动量",
-                        "assign": 0.0003
+                        "assign": -0.0007
                     },
                     {
                         "change_position": "${node2[位置]}"
@@ -766,10 +766,11 @@
     },
     {
         "interaction_name": "拿起物品",
-        "interaction_duration": 2,
+        "interaction_duration": 1,
         "interaction_conditions": [
             "$[can_interact, ${node1}, ${node2}]",
-            "${node1[当前负重]} + ${node2[重量]} ≤ ${node1[负重上限]}"
+            "${node1[当前负重]} + ${node2[重量]} ≤ ${node1[负重上限]}",
+            "$[num_of_parent_affiliation, ${node2}] ≡ 0"
         ],
         "_nodes": [
             {
@@ -794,7 +795,7 @@
     },
     {
         "interaction_name": "收纳物品",
-        "interaction_duration": 2,
+        "interaction_duration": 1,
         "interaction_conditions": [
             "$[can_interact, ${node1}, ${node2}]",
             "${node1[当前负重]} + ${node2[重量]} ≤ ${node1[负重上限]}"
@@ -822,7 +823,7 @@
     },
     {
         "interaction_name": "放置物品",
-        "interaction_duration": 2,
+        "interaction_duration": 1,
         "_nodes": [
             {
                 "node_name": "node1",
@@ -992,7 +993,7 @@
     },
     {
         "interaction_name": "倒流体",
-        "interaction_duration": 2,
+        "interaction_duration": 1,
         "interaction_conditions": [
             "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
             "$[is_binding, ${node2}, ${node3}]",
@@ -1882,7 +1883,7 @@
                 "effects": [
                     {
                         "param_name": "当前运动量",
-                        "assign": 0.003
+                        "assign": 0.002
                     }
                 ]
             }
@@ -2079,39 +2080,6 @@
                 "node_name": "node1",
                 "node_type": "Player"
             }
-        ],
-        "_active": [
-            {
-                "node_name": "node1",
-                "effects": [
-                    {
-                        "param_name": "当前运动量",
-                        "assign": 0.001
-                    }
-                ]
-            }
-        ],
-        "_break": [
-            {
-                "node_name": "node1",
-                "effects": [
-                    {
-                        "param_name": "当前运动量",
-                        "assign": 0
-                    }
-                ]
-            }
-        ],
-        "_terminate": [
-            {
-                "node_name": "node1",
-                "effects": [
-                    {
-                        "param_name": "当前运动量",
-                        "assign": 0
-                    }
-                ]
-            }
         ]
     },
     {
@@ -2129,7 +2097,7 @@
                 "effects": [
                     {
                         "param_name": "当前运动量",
-                        "assign": 0.003
+                        "assign": 0.002
                     }
                 ]
             }
@@ -2170,17 +2138,6 @@
                 "node_type": "水笔"
             }
         ],
-        "_active": [
-            {
-                "node_name": "node1",
-                "effects": [
-                    {
-                        "param_name": "当前运动量",
-                        "assign": 0.0005
-                    }
-                ]
-            }
-        ],
         "_process": [
             {
                 "node_name": "node2",
@@ -2201,17 +2158,6 @@
                     {
                         "param_name": "墨水量",
                         "transform": -0.01
-                    }
-                ]
-            }
-        ],
-        "_break": [
-            {
-                "node_name": "node1",
-                "effects": [
-                    {
-                        "param_name": "当前运动量",
-                        "assign": 0
                     }
                 ]
             }
@@ -2241,17 +2187,6 @@
                 "node_type": "水笔"
             }
         ],
-        "_active": [
-            {
-                "node_name": "node1",
-                "effects": [
-                    {
-                        "param_name": "当前运动量",
-                        "assign": 0.0005
-                    }
-                ]
-            }
-        ],
         "_process": [
             {
                 "node_name": "node2",
@@ -2272,17 +2207,6 @@
                     {
                         "param_name": "墨水量",
                         "transform": -0.01
-                    }
-                ]
-            }
-        ],
-        "_break": [
-            {
-                "node_name": "node1",
-                "effects": [
-                    {
-                        "param_name": "当前运动量",
-                        "assign": 0
                     }
                 ]
             }
@@ -2332,15 +2256,6 @@
         ],
         "_active": [
             {
-                "node_name": "node1",
-                "effects": [
-                    {
-                        "param_name": "当前运动量",
-                        "assign": 0.001
-                    }
-                ]
-            },
-            {
                 "node_name": "node2",
                 "effects": [
                     {
@@ -2351,15 +2266,6 @@
             }
         ],
         "_break": [
-            {
-                "node_name": "node1",
-                "effects": [
-                    {
-                        "param_name": "当前运动量",
-                        "assign": 0
-                    }
-                ]
-            },
             {
                 "node_name": "node2",
                 "effects": [
@@ -2390,15 +2296,6 @@
         ],
         "_active": [
             {
-                "node_name": "node1",
-                "effects": [
-                    {
-                        "param_name": "当前运动量",
-                        "assign": 0.0005
-                    }
-                ]
-            },
-            {
                 "node_name": "node2",
                 "effects": [
                     {
@@ -2409,15 +2306,6 @@
             }
         ],
         "_break": [
-            {
-                "node_name": "node1",
-                "effects": [
-                    {
-                        "param_name": "当前运动量",
-                        "assign": 0
-                    }
-                ]
-            },
             {
                 "node_name": "node2",
                 "effects": [
@@ -2452,7 +2340,7 @@
                 "effects": [
                     {
                         "param_name": "当前运动量",
-                        "assign": 0.0005
+                        "assign": -0.0005
                     }
                 ]
             }
@@ -2499,17 +2387,6 @@
                 "node_type": "Player"
             }
         ],
-        "_active": [
-            {
-                "node_name": "node1",
-                "effects": [
-                    {
-                        "param_name": "当前运动量",
-                        "assign": 0.0005
-                    }
-                ]
-            }
-        ],
         "_terminate": [
             {
                 "node_name": "node1",
@@ -2532,17 +2409,6 @@
                 "effects": [
                     {
                         "change_position": "${node1[动作位置]}"
-                    }
-                ]
-            }
-        ],
-        "_break": [
-            {
-                "node_name": "node1",
-                "effects": [
-                    {
-                        "param_name": "当前运动量",
-                        "assign": 0
                     }
                 ]
             }
@@ -2598,6 +2464,327 @@
                     {
                         "param_name": "清洁状态",
                         "assign": 0.1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "演奏",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "物品"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.001
+                    }
+                ]
+            }
+        ],
+        "_break": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "打牌",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "扑克牌"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "扑克牌耐久度",
+                        "transform": -0.01
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "扑克牌变垃圾",
+        "interaction_scheduling": "god",
+        "interaction_duration": 0,
+        "interaction_conditions": [
+            "${node1[扑克牌耐久度]} ≡ 0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "扑克牌"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "create": "垃圾"
+                    },
+                    {
+                        "disappear": "${node1}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "聊天",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "Player"
+            }
+        ]
+    },
+    {
+        "interaction_name": "暧昧聊天",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "Player"
+            }
+        ]
+    },
+    {
+        "interaction_name": "用拳头打",
+        "_child": [
+            "用拳头打-妙瓜壳",
+            "用拳头打-人"
+        ],
+        "interaction_conditions": [
+            "0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "物品"
+            }
+        ]
+    },
+    {
+        "interaction_name": "用拳头打-妙瓜壳",
+        "interaction_duration": 1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "妙瓜壳"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.002
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "关闭打开破碎",
+                        "assign": "破碎"
+                    }
+                ]
+            },
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "用拳头打-人",
+        "interaction_duration": 1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "Player"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.002
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "create": "牙齿"
+                    }
+                ]
+            },
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "扇巴掌",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "Player"
+            }
+        ]
+    },
+    {
+        "interaction_name": "抢东西",
+        "interaction_duration": 1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "${node1[当前负重]} + ${node2[重量]} ≤ ${node1[负重上限]}"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "可被化身绑定的"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "bind": "${node2}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "给东西",
+        "interaction_duration": 1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "$[is_binding, ${node1}, ${node3}] ∨ $[is_storing, ${node1}, ${node3}]",
+            "${node2[当前负重]} + ${node3[重量]} ≤ ${node2[负重上限]}"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "可被化身绑定的"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "bind": "${node3}"
                     }
                 ]
             }
