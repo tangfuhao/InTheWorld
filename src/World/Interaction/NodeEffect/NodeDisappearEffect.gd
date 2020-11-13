@@ -1,5 +1,4 @@
 class_name NodeDisappearEffect
-var node
 var node_name
 var disppear_node
 

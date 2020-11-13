@@ -15,6 +15,11 @@ func parse(formula:String,formulas:Dictionary,values:Dictionary,param_accessor):
 	var result =  Calculator.new().eval(expression)
 	return result
 	
+func parse_has_function(formula:String,_function_regex:RegEx,_objecet_regex:RegEx,_function_caller,_param_accessor):
+	var expression = finalExpressionForCondition(formula,_function_regex,_objecet_regex,_function_caller,_param_accessor)
+	var result =  Calculator.new().eval(expression)
+	return result
+	
 func parse_condition(_formula:String,_function_regex:RegEx,_objecet_regex:RegEx,_function_caller,_param_accessor):
 	var expression = finalExpressionForCondition(_formula,_function_regex,_objecet_regex,_function_caller,_param_accessor)
 	var result =  Calculator.new().eval(expression)

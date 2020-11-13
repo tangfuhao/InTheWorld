@@ -38,7 +38,7 @@ signal player_action_notify(body,action_name,is_active)
 signal location_change(body,location_name)
 signal player_selected(body)
 
-
+signal node_param_item_value_change(param_item)
 
 func _ready() -> void:
 	display_name = player_name
@@ -150,3 +150,7 @@ func get_running_interaction(_interaction_template):
 	return null
 
 
+
+
+func _on_PlayerParam_param_item_value_change(_param_item):
+	emit_signal("node_param_item_value_change",_param_item)

@@ -67,6 +67,7 @@ script = ExtResource( 6 )
 
 [node name="InteractionLayer" type="Node2D" parent="."]
 [connection signal="input_event" from="." to="." method="_on_ManualOperationPlayer_input_event"]
+[connection signal="param_item_value_change" from="PlayerParam" to="." method="_on_PlayerParam_param_item_value_change"]
 
 [editable path="HurtBox"]
 

@@ -15,11 +15,13 @@ func _process(_delta,_param_accessor):
 	#如果有引用名 就加到运行时缓存里
 	if create_node_name:
 		_param_accessor.set_runnig_node_ref(create_node,create_node_name)
+	#新增物品 加入上帝
 	
 	
 func add_to_main_scene(node,stuff_node,position):
 	var main_scence = node.get_node("/root/Island")
-	main_scence.customer_node_group.add_child(stuff_node)
-	stuff_node.set_global_position(position)
-	main_scence.binding_customer_node_item(stuff_node)
+	main_scence.add_customer_node(stuff_node)
+#	main_scence.customer_node_group.add_child(stuff_node)
+#	stuff_node.set_global_position(position)
+#	main_scence.binding_customer_node_item(stuff_node)
 	

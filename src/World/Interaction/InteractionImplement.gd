@@ -49,28 +49,39 @@ var is_manual_interaction = false
 func set_vaild(_value):
 	is_vaild = _value
 	
+
 func _ready():
-	interaction_status_check()
+	interaction_status_check(true)
 	binding_node_state_update()
 
+var ssadasdas := ["同步流体体积重量","同步流体体积消失","同步容器的绑定流体量","同步容器的修改流体量","同步容器的解除流体量","同步修改流体容器总重","同步解除流体容器总重","流体解除消失"]
+
 func _process(delta):
-	var is_data_change = apply_change_cache()
-	
 	if is_break:
 		self.is_vaild = false
-	
+
 	#无效 退出作用
 	if not is_vaild:
 		interaction_quit()
+		apply_change_cache()
+		self.is_active = false
 		return 
+		
 
+	# if ssadasdas.has(interaction_name):
+	# 	print("")
+	# if interaction_name == "同步修改负重":
+	# 	print("sss")
+
+	
+	
 	#更新进度
 	current_progress = current_progress + delta
 
 	if is_finish:
 		interaction_terminate()
+		apply_change_cache()
 		self.is_active = false
-		self.is_finish = false
 		self.is_vaild = false
 		return 
 		
@@ -81,7 +92,7 @@ func _process(delta):
 	interaction_process(delta)
 	
 	#如果数据被更改 那么在同步一次条件
-	if is_data_change:
+	if apply_change_cache():
 		interaction_status_check()
 	
 
@@ -136,6 +147,11 @@ func clone_node_effect(_node_effect):
 		clone_obejct.create_name = _node_effect.create_name
 #		clone_obejct.node = node_dic[clone_obejct.node_name]
 		return clone_obejct
+	elif _node_effect is NodeDisappearEffect:
+		var clone_obejct = NodeDisappearEffect.new()
+		clone_obejct.node_name = _node_effect.node_name
+		clone_obejct.disppear_node = _node_effect.disppear_node
+		return clone_obejct
 	else:
 		assert(false)
 		
@@ -150,7 +166,7 @@ func binding_node_state_update():
 	for node_item in node_dic.values():
 		node_item.connect("interaction_object_change",self,"_on_node_interaction_object_change")
 		node_item.connect("node_binding_dependency_change",self,"_on_node_binding_dependency_change")
-		
+		node_item.connect("node_param_item_value_change",self,"_on_node_param_item_value_change")
 		
 func _on_node_interaction_object_change(_node,_can_interaction):
 	interaction_status_check()
@@ -158,17 +174,25 @@ func _on_node_interaction_object_change(_node,_can_interaction):
 func _on_node_binding_dependency_change(_node):
 	interaction_status_check()
 
+func _on_node_param_item_value_change(_param_item):
+	interaction_status_check()
+
 
 #作用状态检查
-func interaction_status_check():
+#_traverse_all_condition 遍历所有条件 保证所有值的缓存都建立
+func interaction_status_check(_traverse_all_condition = false):
 	#当前条件是否满足
-	var is_meet_condition = judge_conditions()
+	var is_meet_condition = judge_conditions(_traverse_all_condition)
 	judge_interaction_vaild(is_meet_condition)
 	runing_timer()
 		
 
 #判断作用是否还有效
 func judge_interaction_vaild(_is_meet_condition):
+	#主动模式下 完成了 就不再能被救活
+	if _is_meet_condition and is_manual_interaction and is_finish:
+		return
+	
 	var vaild = _is_meet_condition
 	if vaild and not is_vaild:
 		init_origin_value()
@@ -190,12 +214,13 @@ func runing_timer():
 		timer.start(duration)
 	
 
-func judge_conditions() -> bool:
+func judge_conditions(_traverse_all_condition) -> bool:
 	var is_meet_all_condition = true
 	for condition_item in conditions_arr:
 		if not judge_condition_item(condition_item):
 			is_meet_all_condition = false
-			break
+			if not _traverse_all_condition:
+				break
 	return is_meet_all_condition
 	
 
@@ -287,6 +312,9 @@ func get_node_ref(_node_param:String):
 	
 func set_runnig_node_ref(_node,_node_ref_name):
 	node_dic[_node_ref_name] = _node
+	_node.connect("interaction_object_change",self,"_on_node_interaction_object_change")
+	_node.connect("node_binding_dependency_change",self,"_on_node_binding_dependency_change")
+	_node.connect("node_param_item_value_change",self,"_on_node_param_item_value_change")
 	
 func can_interact(_node1,_node2):
 	if _node2.has_method("can_interaction"):
@@ -357,12 +385,14 @@ func is_value_change(_node,_param_name):
 	var node_parms = _node.param.get_value(_param_name)
 	if value_cache_dic.has(node_parms):
 		result = value_cache_dic[node_parms] != node_parms.value
-	value_cache_dic[node_parms] = node_parms.value
+	value_change_cache_dic[node_parms] = node_parms.value
 	return transform_bool_to_int(result)
 	
 func num_of_parent_affiliation(_node:Node2D):
 	var stuff_layer = _node.get_node("/root/Island/StuffLayer")
-	return transform_bool_to_int(_node.get_parent() == stuff_layer)
+	if _node.get_parent() == stuff_layer:
+		return 0
+	return 1
 
 func num_of_colliding_objects(_node):
 	return transform_bool_to_int(_node.get_colliding_objects_num())
@@ -370,4 +400,12 @@ func num_of_colliding_objects(_node):
 func is_colliding(_node1,_node2):
 	return transform_bool_to_int(_node1.is_colliding(_node2))
 
+func transform(_node,_node_param_name):
+	var param_model = _node.param.get_value(_node_param_name)
+	assert(value_cache_dic.has(param_model))
+	var result =  param_model.value - value_cache_dic[param_model]
+	return result
 
+		
+	
+		
