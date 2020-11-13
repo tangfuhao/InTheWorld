@@ -129,6 +129,10 @@
                     {
                         "param_name": "重量",
                         "assign": "0.1 * ${node1[流体体积]}"
+                    },
+                    {
+                        "param_name": "总重量",
+                        "assign": "0.1 * ${node1[流体体积]}"
                     }
                 ]
             }
@@ -279,7 +283,7 @@
         ]
     },
     {
-        "interaction_name": "同步绑定流体容器总重",
+        "interaction_name": "同步物体的绑定总重量",
         "interaction_scheduling": "god",
         "interaction_duration": -1,
         "interaction_conditions": [
@@ -289,11 +293,11 @@
         "_nodes": [
             {
                 "node_name": "node1",
-                "node_type": "是流体容器的"
+                "node_type": "物品"
             },
             {
                 "node_name": "node2",
-                "node_type": "是流体的"
+                "node_type": "物品"
             }
         ],
         "_process": [
@@ -309,7 +313,7 @@
         ]
     },
     {
-        "interaction_name": "同步修改流体容器总重",
+        "interaction_name": "同步物体的修改总重量",
         "interaction_scheduling": "god",
         "interaction_duration": -1,
         "interaction_conditions": [
@@ -324,11 +328,11 @@
         "_nodes": [
             {
                 "node_name": "node1",
-                "node_type": "是流体容器的"
+                "node_type": "物品"
             },
             {
                 "node_name": "node2",
-                "node_type": "是流体的"
+                "node_type": "物品"
             }
         ],
         "_process": [
@@ -344,7 +348,7 @@
         ]
     },
     {
-        "interaction_name": "同步解除流体容器总重",
+        "interaction_name": "同步物体的解除总重量",
         "interaction_scheduling": "god",
         "interaction_duration": -1,
         "interaction_conditions": [
@@ -355,11 +359,11 @@
         "_nodes": [
             {
                 "node_name": "node1",
-                "node_type": "是流体容器的"
+                "node_type": "物品"
             },
             {
                 "node_name": "node2",
-                "node_type": "是流体的"
+                "node_type": "物品"
             }
         ],
         "_process": [
@@ -411,7 +415,7 @@
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}] ≡ 0",
             "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
-            "$[is_value_change, ${node2},总重量]"
+            "$[is_value_change,${node2},总重量]"
         ],
         "clean_cache": [
             "$[is_binding, ${node1}, ${node2}] ≡ 0",
@@ -2787,6 +2791,294 @@
                         "bind": "${node3}"
                     }
                 ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "请求许可",
+        "interaction_duration": 1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "Player"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "send_info": "我可以和你${text_input}吗？",
+                        "info_target": "${node2}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "请求对方做事",
+        "interaction_duration": 1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "Player"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "send_info": "你能${text_input}吗？",
+                        "info_target": "${node2}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "请求确认关系",
+        "interaction_duration": 1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "Player"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "send_info": "你能当我的${text_input}吗？",
+                        "info_target": "${node2}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "回应",
+        "interaction_duration": 1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "Player"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "send_info": "我觉得${text_input}。",
+                        "info_target": "${node2}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "亲吻",
+        "interaction_duration": 1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "Player"
+            }
+        ]
+    },
+    {
+        "interaction_name": "拥抱",
+        "interaction_duration": 3,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "Player"
+            }
+        ]
+    },
+    {
+        "interaction_name": "当面表白",
+        "interaction_duration": 5,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "Player"
+            }
+        ]
+    },
+    {
+        "interaction_name": "打招呼",
+        "interaction_duration": 1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "Player"
+            }
+        ]
+    },
+    {
+        "interaction_name": "道歉",
+        "interaction_duration": 3,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "Player"
+            }
+        ]
+    },
+    {
+        "interaction_name": "道谢",
+        "interaction_duration": 3,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "Player"
+            }
+        ]
+    },
+    {
+        "interaction_name": "嘲讽",
+        "interaction_duration": 3,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "Player"
+            }
+        ]
+    },
+    {
+        "interaction_name": "骂人",
+        "interaction_duration": 3,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "Player"
+            }
+        ]
+    },
+    {
+        "interaction_name": "表现无聊",
+        "interaction_duration": -1,
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ]
+    },
+    {
+        "interaction_name": "表现不解",
+        "interaction_duration": -1,
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ]
+    },
+    {
+        "interaction_name": "表现喜欢",
+        "interaction_duration": -1,
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ]
+    },
+    {
+        "interaction_name": "表现好笑",
+        "interaction_duration": -1,
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
             }
         ]
     }
