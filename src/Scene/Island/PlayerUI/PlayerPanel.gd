@@ -11,6 +11,11 @@ onready var excute_interaction_button = $VBoxContainer/HBoxContainer/PanelContai
 onready var stop_interaction_button = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Button5
 onready var interaction_progress_bar := $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/ProgressBar
 
+#物品交互选择框
+onready var interaction_option_menu = $VBoxContainer/HBoxContainer/Control/PopupMenu
+#物品存储窗口
+onready var object_storage_panel = $VBoxContainer/HBoxContainer/Control/WindowDialog
+
 const interaction_info_item = preload("res://src/Scene/Island/PlayerUI/Interaction_Info_Item.tscn")
 
 var interaction_arr
@@ -153,6 +158,17 @@ func object_click(interaction_object):
 		#指定可以运行
 		excute_interaction_button.set_disabled(false)
 
+#右击一个物品
+func object_right_click(_interaction_object):
+	if _interaction_object.storage_layer.get_child_count():
+		show_option_menu(_interaction_object)
+
+#显示选项窗口
+func show_option_menu(_interaction_object:Node2D):
+	interaction_option_menu.set_meta("interaction_object",_interaction_object)
+#	interaction_option_menu.set_global_position(get_global_mouse_position())
+	interaction_option_menu.popup()
+
 	
 func on_player_param_item_value_change(_param_item_model:ComomStuffParam):
 	var index = 0
@@ -185,7 +201,7 @@ func on_stuff_param_item_value_change(_param_item_model:ComomStuffParam):
 		stuff_param_listview.add_content_text(index,content,"状态值文本")
 
 
-
+#作用选择
 func on_interaction_item_selected(index):
 	current_interaction_template = interaction_arr[index]
 	current_select_interaction = current_player.get_running_interaction(current_interaction_template)
@@ -209,3 +225,9 @@ func _on_Button5_pressed():
 	if current_select_interaction:
 		current_player.break_interaction(current_select_interaction)
 		
+
+#打开存储激活
+func _on_PopupMenu_index_pressed(index):
+	var interaction_object = interaction_option_menu.get_meta("interaction_object")
+	object_storage_panel.activate()
+	object_storage_panel.show_wtih_object(interaction_object)

@@ -1,8 +1,11 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/UI/customization/chinese_label_font.tres" type="DynamicFont" id=1]
 [ext_resource path="res://src/UI/customization/listview/CommonListView.tscn" type="PackedScene" id=2]
 [ext_resource path="res://src/Scene/Island/PlayerUI/PlayerPanel.gd" type="Script" id=3]
+[ext_resource path="res://assert/ui/PackgePanelBg.png" type="Texture" id=4]
+[ext_resource path="res://src/Scene/Island/PlayerUI/StuffPackgePanel.gd" type="Script" id=5]
+[ext_resource path="res://src/Scene/Island/PlayerUI/inventory/GridBackPack.gd" type="Script" id=6]
 
 [node name="PlayerPanel" type="Control"]
 anchor_right = 1.0
@@ -196,6 +199,37 @@ custom_fonts/font = ExtResource( 1 )
 enabled_focus_mode = 0
 text = "背包"
 
+[node name="PopupMenu" type="PopupMenu" parent="VBoxContainer/HBoxContainer/Control"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -598.0
+margin_right = -546.0
+margin_bottom = 52.0
+custom_fonts/font = ExtResource( 1 )
+items = [ "打开", null, 0, false, false, 0, 0, null, "", false ]
+
+[node name="WindowDialog" type="WindowDialog" parent="VBoxContainer/HBoxContainer/Control"]
+visible = true
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -100.0
+margin_bottom = 150.0
+rect_min_size = Vector2( 100, 150 )
+window_title = "存储"
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GridBackPack" type="TextureRect" parent="VBoxContainer/HBoxContainer/Control/WindowDialog"]
+margin_right = 40.0
+margin_bottom = 40.0
+texture = ExtResource( 4 )
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
 margin_top = 600.0
 margin_right = 1200.0
@@ -209,3 +243,4 @@ margin_right = 1193.0
 margin_bottom = 193.0
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Button4" to="." method="_on_Button4_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Button5" to="." method="_on_Button5_pressed"]
+[connection signal="index_pressed" from="VBoxContainer/HBoxContainer/Control/PopupMenu" to="." method="_on_PopupMenu_index_pressed"]

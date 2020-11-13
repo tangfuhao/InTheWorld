@@ -25,7 +25,7 @@ func _process(delta):
 		if Input.is_action_just_pressed("operation_option"):
 			var interaction_object = GlobalRef.get_key_global(GlobalRef.global_key.mouse_interaction)
 			if interaction_object:
-				controll_player.task_scheduler.add_tasks([["移动",interaction_object]])
+				player_ui.object_right_click(interaction_object)
 			else:
 				var pos = get_global_mouse_position()
 				controll_player.task_scheduler.add_tasks([["移动",pos]])
