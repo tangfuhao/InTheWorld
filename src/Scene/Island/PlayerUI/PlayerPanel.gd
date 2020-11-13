@@ -1,5 +1,6 @@
 extends Control
 onready var param_listview = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/CommonListView
+onready var stuff_param_listview = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/CommonListView2
 onready var viewport_object_param_listview = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/CommonListView2
 onready var interaction_listview = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/CommonListView
 onready var emotion_listview = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/CommonListView
@@ -13,12 +14,17 @@ onready var interaction_progress_bar := $VBoxContainer/HBoxContainer/PanelContai
 const interaction_info_item = preload("res://src/Scene/Island/PlayerUI/Interaction_Info_Item.tscn")
 
 var interaction_arr
-var cache_parms_dic := {}
+#缓存属性的列表中的序列值=玩家
+var cache_player_parms_dic := {}
+#缓存属性的列表中的序列值=物品
+var cache_stuff_parms_dic := {}
 var current_player
 
 #当前选中的模板
 var current_interaction_template
 var current_select_interaction
+#当前选中的物品
+var current_select_object
 
 
 
@@ -61,17 +67,27 @@ func setup_player(_player:Player):
 	_player.param.connect("param_item_value_change",self,"on_player_param_item_value_change")
 	var index = 0
 	for item in param_arr:
-		cache_parms_dic[item.name] = index
-		var content = "%s:%f" % [item.name,item.value]
-		param_listview.add_content_text(index,content,"状态值文本")
+		cache_player_parms_dic[item.name] = index
+		if item.value is String:
+			var content = "%s:%s" % [item.name,item.value]
+			param_listview.add_content_text(index,content,"状态值文本")
+		else:
+			var content = "%s:%f" % [item.name,item.value]
+			param_listview.add_content_text(index,content,"状态值文本")
 		index = index + 1
-	
+
+
+
+
 	index = 0
 	for item in interaction_arr:
 		var content = item.name
 		interaction_listview.add_content_text(index,content,"交互文本")
 		index = index + 1
-		
+
+
+
+
 func show_interaction_ui():
 	var has_excute_interaction = current_select_interaction != null
 	if not has_excute_interaction:
@@ -97,9 +113,29 @@ func show_interaction_ui():
 		if node_type_name_arr.empty():
 			#指定可以运行
 			excute_interaction_button.set_disabled(false)
+			
+func show_stuff_params(_object):
+	if current_select_object:
+		current_select_object.param.disconnect("param_item_value_change",self,"on_stuff_param_item_value_change")
+		
+	current_select_object = _object
+	var param_arr = _object.param.param_dic.values()
+	_object.param.connect("param_item_value_change",self,"on_stuff_param_item_value_change")
+	
+	var index = 0
+	for item in param_arr:
+		cache_stuff_parms_dic[item.name] = index
+		if item.value is String:
+			var content = "%s:%s" % [item.name,item.value]
+			stuff_param_listview.add_content_text(index,content,"状态值文本")
+		else:
+			var content = "%s:%f" % [item.name,item.value]
+			stuff_param_listview.add_content_text(index,content,"状态值文本")
+		index = index + 1
 
 #在场景中选择一个物品
 func object_click(interaction_object):
+	show_stuff_params(interaction_object)
 	var unselect_num = show_interaction_info_listview.get_child_count()
 	for item in show_interaction_info_listview.get_children():
 		var node = item.get_meta("node")
@@ -120,11 +156,11 @@ func object_click(interaction_object):
 	
 func on_player_param_item_value_change(_param_item_model:ComomStuffParam):
 	var index = 0
-	if cache_parms_dic.has(_param_item_model.name):
-		index = cache_parms_dic[_param_item_model.name]
+	if cache_player_parms_dic.has(_param_item_model.name):
+		index = cache_player_parms_dic[_param_item_model.name]
 	else:
-		index = cache_parms_dic.size()
-		cache_parms_dic[_param_item_model.name] = index
+		index = cache_player_parms_dic.size()
+		cache_player_parms_dic[_param_item_model.name] = index
 	
 	if _param_item_model.value is String:
 		var content = "%s:%s" % [_param_item_model.name,_param_item_model.value]
@@ -133,7 +169,20 @@ func on_player_param_item_value_change(_param_item_model:ComomStuffParam):
 		var content = "%s:%f" % [_param_item_model.name,_param_item_model.value]
 		param_listview.add_content_text(index,content,"状态值文本")
 	
-		
+func on_stuff_param_item_value_change(_param_item_model:ComomStuffParam):
+	var index = 0
+	if cache_stuff_parms_dic.has(_param_item_model.name):
+		index = cache_stuff_parms_dic[_param_item_model.name]
+	else:
+		index = cache_stuff_parms_dic.size()
+		cache_stuff_parms_dic[_param_item_model.name] = index
+
+	if _param_item_model.value is String:
+		var content = "%s:%s" % [_param_item_model.name,_param_item_model.value]
+		stuff_param_listview.add_content_text(index,content,"状态值文本")
+	else:
+		var content = "%s:%f" % [_param_item_model.name,_param_item_model.value]
+		stuff_param_listview.add_content_text(index,content,"状态值文本")
 
 
 
