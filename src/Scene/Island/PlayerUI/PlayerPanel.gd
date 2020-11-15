@@ -231,3 +231,11 @@ func _on_PopupMenu_index_pressed(index):
 	var interaction_object = interaction_option_menu.get_meta("interaction_object")
 	object_storage_panel.activate()
 	object_storage_panel.show_wtih_object(interaction_object)
+
+#用户背包
+func _on_player_package_pressed():
+	if object_storage_panel.visible:
+		object_storage_panel.deactivate()
+	else:
+		object_storage_panel.activate()
+		object_storage_panel.show_wtih_object(current_player)

@@ -94,6 +94,9 @@ func _process(delta):
 	#如果数据被更改 那么在同步一次条件
 	if apply_change_cache():
 		interaction_status_check()
+		
+	if duration and duration == 0:
+		is_finish = true
 	
 
 		
@@ -166,6 +169,7 @@ func binding_node_state_update():
 	for node_item in node_dic.values():
 		node_item.connect("interaction_object_change",self,"_on_node_interaction_object_change")
 		node_item.connect("node_binding_dependency_change",self,"_on_node_binding_dependency_change")
+		node_item.connect("node_storege_dependency_change",self,"_on_node_storage_dependency_change")
 		node_item.connect("node_param_item_value_change",self,"_on_node_param_item_value_change")
 		
 func _on_node_interaction_object_change(_node,_can_interaction):
@@ -177,6 +181,8 @@ func _on_node_binding_dependency_change(_node):
 func _on_node_param_item_value_change(_param_item):
 	interaction_status_check()
 
+func _on_node_storage_dependency_change(_param_item):
+	interaction_status_check()
 
 #作用状态检查
 #_traverse_all_condition 遍历所有条件 保证所有值的缓存都建立
@@ -311,9 +317,11 @@ func get_node_ref(_node_param:String):
 	return null
 	
 func set_runnig_node_ref(_node,_node_ref_name):
+	assert(not node_dic.has(_node_ref_name))
 	node_dic[_node_ref_name] = _node
 	_node.connect("interaction_object_change",self,"_on_node_interaction_object_change")
 	_node.connect("node_binding_dependency_change",self,"_on_node_binding_dependency_change")
+	_node.connect("node_storege_dependency_change",self,"_on_node_storage_dependency_change")
 	_node.connect("node_param_item_value_change",self,"_on_node_param_item_value_change")
 	
 func can_interact(_node1,_node2):
@@ -361,8 +369,11 @@ func affiliation_change(_node1,_node2):
 	var value = is_binding(_node1,_node2) or is_storing(_node1,_node2)
 	if affiliation_cache_dic.has([_node1,_node2]):
 		result = affiliation_cache_dic[[_node1,_node2]] != value
+		affiliation_change_cache_dic[[_node1,_node2]] = value
+	else:
+		affiliation_cache_dic[[_node1,_node2]] = value
 	
-	affiliation_change_cache_dic[[_node1,_node2]] = value
+	
 	return transform_bool_to_int(result)
 
 

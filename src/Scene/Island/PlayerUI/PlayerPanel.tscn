@@ -243,4 +243,5 @@ margin_right = 1193.0
 margin_bottom = 193.0
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Button4" to="." method="_on_Button4_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Button5" to="." method="_on_Button5_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Control/HBoxContainer/Button" to="." method="_on_player_package_pressed"]
 [connection signal="index_pressed" from="VBoxContainer/HBoxContainer/Control/PopupMenu" to="." method="_on_PopupMenu_index_pressed"]

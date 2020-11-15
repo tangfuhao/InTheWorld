@@ -51,28 +51,30 @@ func _process(_delta,_param_accessor):
 		if temp_delta < 1:
 			return 
 		
-		if param_name == "流体体积":
-			print("sdasd")
+
 		var value = node.get_param_value(param_name)
+		if param_name == "流体体积" and value == 2:
+			print("sdasd")
+			
 		var value_change
 		if is_expression:
 			if is_has_function:
 				value_change = parser.parse_has_function(transform, function_regex, objecet_regex,_param_accessor,_param_accessor)
-				value_change = value_change * temp_delta
+				value_change = value_change 
 				value = value + value_change
 			else:
 				value_change = parser.parse(transform, {}, {},_param_accessor)
-				value_change = value_change * temp_delta
+				value_change = value_change
 				value = value + value_change
 		else:
 			if transform is String:
 				value = value_change
 			else:
-				value_change = transform * temp_delta
+				value_change = transform
 				value = value + value_change
 		node.set_param_value(param_name,value)
 		
-		temp_delta = 0
+		temp_delta = temp_delta - 1
 	elif assign != null:
 		if is_expression:
 			var assign_value = parser.parse(assign, {}, {},_param_accessor)

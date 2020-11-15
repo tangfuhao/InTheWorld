@@ -185,7 +185,7 @@
     {
         "interaction_name": "同步容器的绑定流体量",
         "interaction_scheduling": "god",
-        "interaction_duration": -1,
+        "interaction_duration": 0,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}]",
             "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]"
@@ -200,7 +200,7 @@
                 "node_type": "是流体的"
             }
         ],
-        "_process": [
+        "_active": [
             {
                 "node_name": "node1",
                 "effects": [
@@ -215,7 +215,7 @@
     {
         "interaction_name": "同步容器的修改流体量",
         "interaction_scheduling": "god",
-        "interaction_duration": -1,
+        "interaction_duration": 0,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}] ≡ 0",
             "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
@@ -235,13 +235,13 @@
                 "node_type": "是流体的"
             }
         ],
-        "_process": [
+        "_active": [
             {
                 "node_name": "node1",
                 "effects": [
                     {
                         "param_name": "容器内流体量",
-                        "transform": "$(transform, $node2[流体体积])"
+                        "transform": "$(transform, ${node2},流体体积)"
                     }
                 ]
             }
@@ -266,7 +266,7 @@
                 "node_type": "是流体的"
             }
         ],
-        "_process": [
+        "_active": [
             {
                 "node_name": "node1",
                 "effects": [
@@ -315,7 +315,7 @@
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}] ≡ 0",
             "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
-            "$[is_value_change, ${node2},总重量]"
+            "$[is_value_change, ${node2},重量]"
         ],
         "clean_cache": [
             "$[is_binding, ${node1}, ${node2}] ≡ 0",
@@ -331,13 +331,13 @@
                 "node_type": "是流体的"
             }
         ],
-        "_process": [
+        "_active": [
             {
                 "node_name": "node1",
                 "effects": [
                     {
                         "param_name": "总重量",
-                        "transform": "$(transform, $node2[重量])"
+                        "transform": "$(transform, ${node2},重量)"
                     }
                 ]
             }
@@ -362,7 +362,7 @@
                 "node_type": "是流体的"
             }
         ],
-        "_process": [
+        "_active": [
             {
                 "node_name": "node1",
                 "effects": [
@@ -427,13 +427,13 @@
                 "node_type": "可被化身放置的"
             }
         ],
-        "_process": [
+        "_active": [
             {
                 "node_name": "node1",
                 "effects": [
                     {
                         "param_name": "当前负重",
-                        "transform": "$(transform, $node2[总重量])"
+                        "transform": "$(transform, ${node2},总重量)"
                     }
                 ]
             }
@@ -942,8 +942,9 @@
         "interaction_conditions": [
             "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
             "${node1[当前负重]} < ${node1[负重上限]}",
-            "${node2[容器内流体量]} + 1 ≤ ${node2[容器内流体量.max_value]}",
+            "${node2[容器内流体量]} < ${node2[容器内流体量.max_value]}",
             "${node1[所在地]} ≡ 浅海"
+            
         ],
         "_nodes": [
             {
@@ -974,7 +975,7 @@
                 "node_name": "node2",
                 "effects": [
                     {
-                        "bind": "${node3}"
+                        "store": "${node3}"
                     }
                 ]
             }

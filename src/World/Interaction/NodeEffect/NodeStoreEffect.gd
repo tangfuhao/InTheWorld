@@ -16,5 +16,6 @@ func set_store_name(_name):
 func _process(_delta,_param_accessor):
 	var node = _param_accessor.get_node_ref(node_name)
 	var be_store_node = _param_accessor.get_node_ref(sotre_node_name)
-	node.storage_layer.store(be_store_node)
+	if node.storage_layer.store(be_store_node):
+		be_store_node.notify_storage_dependency_change()
 

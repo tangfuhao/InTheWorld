@@ -263,16 +263,28 @@
             "动力学性质": "流体",
             "尺寸": 0.1,
             "是否中空": "否",
-            "重量": 1,
             "颜色": "绿",
             "高度": 1
         },
         "params": {
-            "流体体积": 1
+            "流体体积": 1,
+            "重量": 1,
+            "总重量": 1
+
         },
         "param_config": [
             {
                 "param_name": "流体体积",
+                "init_value": 1,
+                "min_value": 0
+            },
+            {
+                "param_name": "重量",
+                "init_value": 1,
+                "min_value": 0
+            },
+            {
+                "param_name": "总重量",
                 "init_value": 1,
                 "min_value": 0
             }

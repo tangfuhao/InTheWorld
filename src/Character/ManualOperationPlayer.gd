@@ -89,6 +89,8 @@ func get_param_value(_param_name):
 	if _param_name == "动作位置":
 		return "%f,%f" % [self.bind_layer.global_position.x,self.bind_layer.global_position.y]
 	
+	if _param_name == "所在地":
+		return "浅海"
 
 	var param_arr = Array(_param_name.split("."))
 	var param_name = param_arr.pop_front()
