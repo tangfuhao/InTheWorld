@@ -224,7 +224,11 @@ func parse_interaction_lifecycle_process(item,_process_arr,_process_name):
 			elif effect_item.has("add_to_concept"):
 				node_effct = NodeAddToConceptEffect.new()
 				node_effct.node_name = match_node_name
-				
+			elif effect_item.has("send_info"):
+				node_effct = NodeSendInfoToTargetEffect.new()
+				node_effct.node_name = match_node_name
+				node_effct.send_info = effect_item["send_info"]
+				node_effct.info_target = effect_item["info_target"]
 			else:
 				print(effect_item)
 				assert(false)
