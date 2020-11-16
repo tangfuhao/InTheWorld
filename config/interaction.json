@@ -501,7 +501,7 @@
         "interaction_duration": -1,
         "interaction_conditions": [
             "$[can_interact, ${node1}, ${node2}]",
-            "${node2[正坐人数]} < ${node2[正坐人数.max_value]}"
+            "${node2[正坐人数]} ≤ ${node2[正坐人数.max_value]}"
         ],
         "_nodes": [
             {

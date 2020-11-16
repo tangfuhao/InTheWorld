@@ -504,11 +504,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/Scene/Island/PlayerUI/inventory/ItemBase.gd"
 }, {
-"base": "Reference",
-"class": "ParamStatus",
-"language": "GDScript",
-"path": "res://src/World/stuff/ParamStatus.gd"
-}, {
 "base": "Node2D",
 "class": "Pathfinding",
 "language": "GDScript",
@@ -839,7 +834,6 @@ _global_script_class_icons={
 "OrderTakeOut": "",
 "PackageItemModel": "",
 "PackgeItemBase": "",
-"ParamStatus": "",
 "Pathfinding": "",
 "PickUp": "",
 "PlayCards": "",
@@ -900,6 +894,7 @@ IDGenerator="*res://src/Global/IDGenerator.gd"
 GlobalMessageGenerator="*res://src/Global/GlobalMessageGenerator.gd"
 DataManager="*res://src/Global/DataManager.gd"
 GlobalRef="*res://src/Global/GlobalRef.gd"
+CollectionUtilities="*res://src/Global/CollectionUtilities.gd"
 
 [display]
 

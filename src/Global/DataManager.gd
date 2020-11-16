@@ -179,7 +179,7 @@ func parse_interaction(_interaction_arr) ->Dictionary:
 		if item.has("interaction_conditions"):
 			var interaction_condition_arr = item["interaction_conditions"]
 			for interaction_condition_item in interaction_condition_arr:
-				interaction_template.conditions_arr.push_back(interaction_condition_item)
+				interaction_template.add_condition_item(interaction_condition_item)
 		
 		template_dic[interaction_name] = interaction_template
 	

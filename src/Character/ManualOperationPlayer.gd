@@ -37,8 +37,8 @@ signal disappear_notify()
 signal player_action_notify(body,action_name,is_active)
 signal location_change(body,location_name)
 signal player_selected(body)
-
-signal node_param_item_value_change(param_item)
+#物品属性的更新
+signal node_param_item_value_change(node,param_item)
 
 func _ready() -> void:
 	display_name = player_name
@@ -155,4 +155,4 @@ func get_running_interaction(_interaction_template):
 
 
 func _on_PlayerParam_param_item_value_change(_param_item):
-	emit_signal("node_param_item_value_change",_param_item)
+	emit_signal("node_param_item_value_change",self,_param_item)

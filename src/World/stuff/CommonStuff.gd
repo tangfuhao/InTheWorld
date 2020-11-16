@@ -46,7 +46,9 @@ var interaction_onwer = null
 
 signal disappear_notify(_stuff)
 #可交互发生改变的通知
-signal interaction_object_change(_node,_can_interaction)
+signal node_interaction_add_object(_node,_target)
+signal node_interaction_remove_object(_node,_target)
+
 #物品绑定关系改变
 signal node_binding_dependency_change(_node)
 #物品存储关系改变
@@ -54,8 +56,13 @@ signal node_storege_dependency_change(_node)
 #物品位置的更新
 signal node_position_update(_node)
 #物品属性的更新
-signal node_param_item_value_change(_param_item)
-
+signal node_param_item_value_change(_node,_param_item)
+#物品碰撞对象更新
+signal node_collision_add_object(_node,_target)
+signal node_collision_remove_object(_node,_target)
+#物品在场景节点上的变化
+signal node_add_to_main_scene(_node)
+signal node_remove_to_main_scene(_node)
 
 func _set_display_name(_name):
 	display_name = _name
@@ -334,7 +341,7 @@ func is_colliding(_node):
 func _on_InteractArea_body_entered(body):
 	if not interactive_object_list.has(body):
 		interactive_object_list.push_back(body)
-		emit_signal("interaction_object_change",body,true)
+		emit_signal("node_interaction_add_object",self,body)
 
 
 func _on_InteractArea_body_exited(body):
@@ -342,7 +349,7 @@ func _on_InteractArea_body_exited(body):
 	if interaction_onwer == body:
 		return 
 	interactive_object_list.erase(body)
-	emit_signal("interaction_object_change",body,false)
+	emit_signal("node_interaction_remove_object",self,body)
 
 
 func _on_Stuff_mouse_entered():
@@ -356,9 +363,11 @@ func _on_Stuff_mouse_exited():
 func add_to_collision_object_arr(_node):
 	if not is_rigid_body:
 		collision_object_arr.push_back(_node)
+		emit_signal("node_collision_add_object",self,_node)
 func remove_from_collision_object_arr(_node):
 	if not is_rigid_body:
 		collision_object_arr.erase(_node)
+		emit_signal("node_collision_remove_object",self,_node)
 
 #用area 碰撞检测 因为有非刚体
 func _on_StuffArea_area_entered(area):
@@ -375,4 +384,4 @@ func _on_StuffArea_body_exited(body):
 
 #属性值变更
 func _on_PlayerParam_param_item_value_change(_param_item):
-	emit_signal("node_param_item_value_change",_param_item)
+	emit_signal("node_param_item_value_change",self,_param_item)

@@ -44,6 +44,24 @@ var is_break = false
 #是否是主动 调用的交互
 var is_manual_interaction = false
 
+#监听解析 节点名  监听信号
+var update_condition_by_listening_node_signal_dic
+#确定属性
+var update_condition_by_listening_node_value_dic
+#需要监听的节点属性变化
+var lisnter_node_param_value_change_dic := {}
+
+
+#确定交互
+var update_condition_by_listening_node_interaction_dic
+#需要监听的节点的交互对象 更新
+var lisnter_node_interaction_target_change_dic := {}
+
+
+#确定碰撞
+var update_condition_by_listening_node_cllision_dic
+#需要监听的节点的碰撞对象 更新
+var lisnter_node_cllision_target_change_dic := {}
 
 
 
@@ -53,13 +71,15 @@ func set_vaild(_value):
 
 func _ready():
 	interaction_status_check(true)
-	binding_node_state_update()
+	binding_nodes_state_update()
 
 var ssadasdas := ["同步流体体积重量","同步流体体积消失","同步容器的绑定流体量","同步容器的修改流体量","同步容器的解除流体量","同步修改流体容器总重","同步解除流体容器总重","流体解除消失"]
 
 func _process(delta):
 	if is_break:
 		self.is_vaild = false
+	
+
 
 	#无效 退出作用
 	if not is_vaild:
@@ -71,8 +91,8 @@ func _process(delta):
 
 	# if ssadasdas.has(interaction_name):
 	# 	print("")
-	# if interaction_name == "同步修改负重":
-	# 	print("sss")
+#	if interaction_name == "坐":
+#		print("sss")
 
 	
 	
@@ -166,24 +186,85 @@ func init_origin_value():
 	self.is_finish = false
 	
 #根据条件 来监听物品状态的改变
-func binding_node_state_update():
-	for node_item in node_dic.values():
-		node_item.connect("interaction_object_change",self,"_on_node_interaction_object_change")
-		node_item.connect("node_binding_dependency_change",self,"_on_node_binding_dependency_change")
-		node_item.connect("node_storege_dependency_change",self,"_on_node_storage_dependency_change")
-		node_item.connect("node_param_item_value_change",self,"_on_node_param_item_value_change")
+func binding_nodes_state_update():
+	for node_declare_name in node_dic.keys():
+		var node_item = node_dic[node_declare_name]
+		binding_node_state_update(node_declare_name,node_item)
 		
-func _on_node_interaction_object_change(_node,_can_interaction):
+#单个
+func binding_node_state_update(_node_declare_name,_node_item):
+	#通用
+	var node_need_listerning_signal_arr =  CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_signal_dic,_node_declare_name)
+	for item in node_need_listerning_signal_arr:
+		_node_item.connect(item,self,"_on_node_condition_item_change")
+	
+	#熟悉值
+	var node_need_listerning_param_arr =  CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_value_dic,_node_declare_name)
+	if not node_need_listerning_param_arr.empty():
+		_node_item.connect("node_param_item_value_change",self,"_on_node_param_item_value_change")
+		
+	for item in node_need_listerning_param_arr:
+		var listening_parma_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_param_value_change_dic,_node_item)
+		listening_parma_arr.push_back(item)
+	
+	#确定目标的类型
+	#交互对象集
+	var node_need_listerning_interaction_arr =  CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_interaction_dic,_node_declare_name)
+	if not node_need_listerning_interaction_arr.empty():
+		_node_item.connect("node_interaction_add_object",self,"_on_node_interaction_add_object")
+		_node_item.connect("node_interaction_remove_object",self,"_on_node_interaction_remove_object")
+		
+	for item in node_need_listerning_interaction_arr:
+		var listening_interaction_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_interaction_target_change_dic,_node_item)
+		var target_node = node_dic[item]
+		listening_interaction_arr.push_back(target_node)
+		
+	#碰撞对象集
+	var node_need_listerning_cllision_arr =  CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_cllision_dic,_node_declare_name)
+	if not node_need_listerning_cllision_arr.empty():
+		_node_item.connect("node_collision_add_object",self,"_on_node_cllision_add_object")
+		_node_item.connect("node_collision_remove_object",self,"_on_node_cllision_remove_object")
+		
+	for item in node_need_listerning_cllision_arr:
+		var listening_cllision_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_cllision_target_change_dic,_node_item)
+		var target_node = node_dic[item]
+		listening_cllision_arr.push_back(target_node)
+	
+#可交互对象新增 和 删减 信号
+func _on_node_interaction_add_object(_node,_target):
+	node_interaction_object_update(_node,_target)
+
+func _on_node_interaction_remove_object(_node,_target):
+	node_interaction_object_update(_node,_target)
+
+func node_interaction_object_update(_node,_target):
+	var listening_interaction_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_interaction_target_change_dic,_node)
+	if listening_interaction_arr.has(_target):
+		interaction_status_check()
+
+#可碰撞对象新增 和 删减 信号
+func _on_node_cllision_add_object(_node,_target):
+	node_interaction_object_update(_node,_target)
+
+func _on_node_cllision_remove_object(_node,_target):
+	node_interaction_object_update(_node,_target)
+
+func node_cllision_object_update(_node,_target):
+	var listening_cllision_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_cllision_target_change_dic,_node)
+	if listening_cllision_arr.has(_target):
+		interaction_status_check()
+
+#通用条件更改
+func _on_node_condition_item_change(_node):
 	interaction_status_check()
 
-func _on_node_binding_dependency_change(_node):
-	interaction_status_check()
-
-func _on_node_param_item_value_change(_param_item):
-	interaction_status_check()
-
-func _on_node_storage_dependency_change(_param_item):
-	interaction_status_check()
+#属性值更改
+func _on_node_param_item_value_change(_node,_param_item):
+	assert(_node)
+	assert(_param_item)
+	var listening_parma_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_param_value_change_dic,_node)
+	if listening_parma_arr.has(_param_item.name):
+		interaction_status_check()
 
 #作用状态检查
 #_traverse_all_condition 遍历所有条件 保证所有值的缓存都建立
@@ -241,10 +322,6 @@ func judge_condition_item(_condition_item):
 
 
 
-
-		
-		
-
 func interaction_active():
 	for item in active_execute:
 		item._process(1,self)
@@ -301,7 +378,7 @@ func has_node_param(_node_param:String):
 	
 func get_node_param_value(_node_param:String):
 	var find_index = _node_param.find("[")
-	if find_index:
+	if find_index != -1:
 		var string_len = _node_param.length()
 		var node_name = _node_param.substr(0,find_index)
 		if node_dic.has(node_name):
@@ -318,10 +395,7 @@ func get_node_ref(_node_param:String):
 func set_runnig_node_ref(_node,_node_ref_name):
 	assert(not node_dic.has(_node_ref_name))
 	node_dic[_node_ref_name] = _node
-	_node.connect("interaction_object_change",self,"_on_node_interaction_object_change")
-	_node.connect("node_binding_dependency_change",self,"_on_node_binding_dependency_change")
-	_node.connect("node_storege_dependency_change",self,"_on_node_storage_dependency_change")
-	_node.connect("node_param_item_value_change",self,"_on_node_param_item_value_change")
+	binding_node_state_update(_node_ref_name,_node)
 	
 func can_interact(_node1,_node2):
 	if _node2.has_method("can_interaction"):
