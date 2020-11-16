@@ -111,7 +111,7 @@ func load_common_stuff_config_json(_stuff_type_name) ->Dictionary:
 #	else:
 #		return stuff
 #创建自定义物品
-func instance_stuff_node(_stuff_name):
+func instance_stuff_node(_stuff_name) -> CommonStuff:
 	var stuff = STUFF_SCENE.instance()
 	stuff.stuff_type_name = _stuff_name
 	return stuff

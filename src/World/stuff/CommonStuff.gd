@@ -9,6 +9,7 @@ export var stuff_type_name:String
 export var is_location := false
 #是否是刚体
 var is_rigid_body = true
+var is_collision = true
 
 
 onready var area_collision_shape = $StuffArea/CollisionShape2D
@@ -64,8 +65,25 @@ func _set_display_name(_name):
 func _ready():
 	if load_config_by_stuff_type(stuff_type_name):
 		setup_node_by_config(stuff_type_name)
+		set_disbled_collision(is_collision)
+		apply_init_params()
 		#更新地图上点的占用
 		call_deferred("emit_signal","node_position_update",self)
+
+#初始化需要指定的参数
+var init_param_dic := {}
+#指定初始化参数
+func apply_init_params():
+	for param_name_item in init_param_dic.keys():
+		var param_model = param.get_value(param_name_item)
+		assert(param_model)
+		param_model.value = init_param_dic[param_name_item]
+	init_param_dic.clear()
+
+#添加初始化属性值
+func add_init_param(param_name,value):
+	init_param_dic[param_name] = value
+
 
 #TODO 设置物品的可交互状态
 func set_interactino_state(_is_interaction):
@@ -81,8 +99,9 @@ func set_interactino_state(_is_interaction):
 
 #设置物品的可碰撞
 func set_disbled_collision(_is_collision):
-	if is_rigid_body :
-		body_collision_shape.set_disabled(_is_collision)
+	is_collision = _is_collision
+	if is_rigid_body and body_collision_shape:
+		body_collision_shape.set_disabled(is_collision)
 
 
 func get_global_rect() -> Rect2:
@@ -113,6 +132,8 @@ func load_config_by_stuff_type(_type) -> bool:
 		return false
 
 	physics_data = stuff_config["physics"]
+
+	#属性
 	var param_config_arr = stuff_config["param_config"]
 	for item in param_config_arr:
 		var param_name = item["param_name"]
@@ -133,7 +154,19 @@ func load_config_by_stuff_type(_type) -> bool:
 			param_model.value = param_model.init_value
 		
 		param.set_value(param_name,param_model)
-
+		
+	#创建子节点
+	if stuff_config.has("create_n_bind"):
+		var need_create_object_arr = stuff_config["create_n_bind"]
+		for item in need_create_object_arr:
+			var create_node_type = item["name"]
+			var be_create_node = DataManager.instance_stuff_node(create_node_type)
+			var create_node_param_arr = item["params"]
+			for node_param_item in create_node_param_arr:
+				be_create_node.add_init_param(node_param_item["param_name"],node_param_item["assign"])
+			self.bind_layer.bind(be_create_node)
+			
+			
 
 	return true
 
@@ -173,6 +206,7 @@ func apply_phycis_config():
 
 	var dynamics_property = get_param_value("动力学性质")
 	is_rigid_body = dynamics_property == "刚体"
+	is_collision = is_rigid_body
 
 func calculate_point_array(_radius):
 	var points_arr = []
