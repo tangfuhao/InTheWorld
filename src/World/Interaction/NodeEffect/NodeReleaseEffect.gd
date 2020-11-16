@@ -6,8 +6,7 @@ var release_node_name
 
 func set_release_node(_name):
 	release_node = _name
-	var objecet_regex = RegEx.new()
-	objecet_regex.compile("\\$\\{(.+?)\\}")
+	var objecet_regex = DataManager.objecet_regex
 	var node_find_result_arr = objecet_regex.search_all(release_node)
 	if node_find_result_arr:
 		for node_match_item in node_find_result_arr:

@@ -12,14 +12,11 @@ var is_expression = false
 var is_has_function = false
 
 var parser:FormulaParser
-var function_regex
-var objecet_regex 
 func _init():
 	parser = FormulaParser.new("\\$\\{(.+?)\\}")
-	function_regex = RegEx.new()
-	function_regex.compile("\\$\\((.+?)\\)")
-	objecet_regex = RegEx.new()
-	objecet_regex.compile("\\$\\{(.+?)\\}")
+
+
+
 
 func check_is_expression(_expression):
 	var sign_arr := ["+","-","*","/","${"]
@@ -43,7 +40,8 @@ func set_assign(_assign):
 
 func _process(_delta,_param_accessor):
 	var node = _param_accessor.get_node_ref(node_name)
-	
+	var function_regex = DataManager.function_regex
+	var objecet_regex = DataManager.objecet_regex
 
 		
 	if transform != null:
@@ -63,7 +61,7 @@ func _process(_delta,_param_accessor):
 				value_change = value_change 
 				value = value + value_change
 			else:
-				value_change = parser.parse(transform, {}, {},_param_accessor)
+				value_change = parser.parse(transform, {}, {},_param_accessor,objecet_regex)
 				value_change = value_change
 				value = value + value_change
 		else:
@@ -77,7 +75,7 @@ func _process(_delta,_param_accessor):
 		temp_delta = temp_delta - 1
 	elif assign != null:
 		if is_expression:
-			var assign_value = parser.parse(assign, {}, {},_param_accessor)
+			var assign_value = parser.parse(assign, {}, {},_param_accessor,objecet_regex)
 			node.set_param_value(param_name,assign_value)
 		else:
 			node.set_param_value(param_name,assign)
