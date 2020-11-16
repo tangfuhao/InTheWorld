@@ -1,17 +1,13 @@
 class_name FormulaParser
 #一个小型运算解析引擎
-var regex
 
 
 func _init(_regex):
-	if not _regex:
-		_regex = "\\#\\{(.+?)\\}"
-	regex = RegEx.new()
-	regex.compile(_regex)
+	pass
 
 
-func parse(formula:String,formulas:Dictionary,values:Dictionary,param_accessor):
-	var expression = finalExpression(formula,formulas,values,param_accessor)
+func parse(formula:String,formulas:Dictionary,values:Dictionary,param_accessor,_regex = null):
+	var expression = finalExpression(formula,formulas,values,param_accessor,_regex)
 	var result =  Calculator.new().eval(expression)
 	return result
 	
@@ -67,7 +63,11 @@ func finalExpressionForCondition(_formula:String,_function_regex:RegEx,_objecet_
 	return expression
 	
 
-func finalExpression(expression:String,formulas:Dictionary,values:Dictionary,param_accessor):
+func finalExpression(expression:String,formulas:Dictionary,values:Dictionary,param_accessor,_regex = null):
+	var regex = _regex
+	if regex == null:
+		regex = DataManager.content_type_regex
+	
 	var result_arr = regex.search_all(expression)
 	if not result_arr:
 		return expression

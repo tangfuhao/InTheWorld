@@ -32,8 +32,7 @@ var stage
 func _ready():
 	stage = owner
 	
-	key_word_regex = RegEx.new()
-	key_word_regex.compile("\\#\\{(.+?)\\}")
+	key_word_regex = DataManager.content_type_regex
 	
 
 	

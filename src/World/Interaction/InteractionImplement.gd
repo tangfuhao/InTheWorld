@@ -46,6 +46,7 @@ var is_manual_interaction = false
 
 
 
+
 func set_vaild(_value):
 	is_vaild = _value
 	
@@ -231,10 +232,8 @@ func judge_conditions(_traverse_all_condition) -> bool:
 	
 
 func judge_condition_item(_condition_item):
-	var function_regex = RegEx.new()
-	function_regex.compile("\\$\\[(.+?)\\]")
-	var objecet_regex = RegEx.new()
-	objecet_regex.compile("\\$\\{(.+?)\\}")
+	var function_regex = DataManager.function_regex
+	var objecet_regex = DataManager.objecet_regex
 
 	var parser = FormulaParser.new(null)
 	return parser.parse_condition(_condition_item,function_regex,objecet_regex,self,self) 
