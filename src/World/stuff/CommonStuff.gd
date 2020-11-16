@@ -298,7 +298,7 @@ func notify_disappear():
 	if is_inside_tree():
 		emit_signal("disappear_notify",self)
 
-#物品的绑定关系改变 延迟到下个周期发送
+#物品的绑定关系改变
 func notify_binding_dependency_change():
 	emit_signal("node_binding_dependency_change",self)
 

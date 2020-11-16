@@ -120,14 +120,19 @@ func show_interaction_ui():
 			excute_interaction_button.set_disabled(false)
 			
 func show_stuff_params(_object):
+	if current_select_object == _object:
+		return 
+		
 	if current_select_object:
 		current_select_object.param.disconnect("param_item_value_change",self,"on_stuff_param_item_value_change")
-		
 	current_select_object = _object
-	var param_arr = _object.param.param_dic.values()
-	_object.param.connect("param_item_value_change",self,"on_stuff_param_item_value_change")
+	current_select_object.param.connect("param_item_value_change",self,"on_stuff_param_item_value_change")
+	var param_arr = current_select_object.param.param_dic.values()
+	stuff_param_listview.clear_item()
+	var display_name_item = "名称:%s"%_object.display_name
+	stuff_param_listview.add_content_text(0,display_name_item,"状态值文本")
 	
-	var index = 0
+	var index = 1
 	for item in param_arr:
 		cache_stuff_parms_dic[item.name] = index
 		if item.value is String:
