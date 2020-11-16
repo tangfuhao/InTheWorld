@@ -32,6 +32,11 @@ var current_select_interaction
 var current_select_object
 
 
+var temp_emotion_arr := [["开心","快感","满足","解脱","兴奋","悠闲","骄傲"],
+						["生气","悲伤","害怕","厌恶","内疚","惭愧","嫉妒"],
+						["惊讶","不屑","不屑","不屑","不屑","不屑","不屑"]]
+
+
 
 func active()->void:
 	self.show()
@@ -44,6 +49,26 @@ func inactive()->void:
 func _ready():
 	interaction_arr = DataManager.get_interaction_arr_by_type("body")
 	interaction_listview.connect("on_item_selected",self,"on_interaction_item_selected")
+	
+	
+	emotion_listview.connect("on_item_selected",self,"on_emotion_item_selected")
+	var index = 0
+	for emotion_type_index in range(temp_emotion_arr.size()):
+		var emotion_type_arr = temp_emotion_arr[emotion_type_index]
+		for item in emotion_type_arr:
+			var content
+			if emotion_type_index == 0:
+				content = "积极情绪:%s" % item
+			elif emotion_type_index == 1:
+				content = "消极情绪:%s" % item
+			elif emotion_type_index == 2:
+				content = "中性情绪:%s" % item
+			emotion_listview.add_content_text(index,content,"交互文本")
+			index = index + 1
+
+		
+	
+	
 
 func _process(delta):
 	if current_interaction_template:
@@ -212,6 +237,13 @@ func on_interaction_item_selected(index):
 	current_select_interaction = current_player.get_running_interaction(current_interaction_template)
 	
 	show_interaction_ui()
+
+#情绪选择
+func on_emotion_item_selected(index):
+	var type_index = index / 7
+	index = index % 7
+	print(temp_emotion_arr[type_index][index])
+	
 
 
 #执行 作用
