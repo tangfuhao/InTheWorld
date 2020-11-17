@@ -11,6 +11,7 @@ var next_destination = null
 func active():
 	.active()
 	
+	
 	#目标位置 
 	setup_target()
 	if is_reach_target():
@@ -23,8 +24,13 @@ func active():
 		human.movement.is_on = true
 		path_world.pop_front()
 		plan_next_destination()
+		var exercise =  human.get_param_value("当前运动量")
+		exercise = exercise + 0.5
+		human.set_param_value("当前运动量",exercise)
 	else:
 		goal_status = STATE.GOAL_FAILED
+	
+	
 
 
 func process(_delta: float):
@@ -51,6 +57,9 @@ func terminate():
 	.terminate()
 	human.movement.is_on = false
 	human.movement.direction = Vector2.ZERO
+	var exercise =  human.get_param_value("当前运动量")
+	exercise = exercise - 0.5
+	human.set_param_value("当前运动量",exercise)
 	
 func setup_target():
 	action_target = get_index_params(0)
