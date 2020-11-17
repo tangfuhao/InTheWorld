@@ -1,7 +1,7 @@
 #主要承担两种不同的功能 
 #1，是交互物品本身
 #2，是代表一个区域
-extends Node2D
+extends StaticBody2D
 class_name CommonStuff
 #物体类别
 export var stuff_type_name:String
@@ -11,9 +11,8 @@ export var is_location := false
 var is_rigid_body = true
 var is_collision = true
 
-
+onready var body_collision_shape = $CollisionShape2D
 onready var area_collision_shape = $StuffArea/CollisionShape2D
-onready var body_collision_shape = $StuffBody/CollisionShape2D
 onready var interact_collision_shape = $InteractArea/CollisionShape2D
 
 onready var line2d = $Line2D
