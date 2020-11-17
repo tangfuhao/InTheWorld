@@ -62,6 +62,8 @@ func send_message(_target,_message_text):
 	pass
 
 
+func can_interaction(_node:Node2D):
+	return is_approach(_node.global_position,100)
 
 func is_approach(_target,_distance):
 	var tolerance = 1 

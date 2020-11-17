@@ -332,9 +332,9 @@ func judge_conditions(_traverse_all_condition) -> bool:
 	for condition_item in conditions_arr:
 		if not judge_condition_item(condition_item):
 			is_meet_all_condition = false
+			if is_manual_interaction:
+				LogSys.log_i("因为条件:%s 不满足，作用:%s 不执行" % [condition_item,interaction_name])
 			if not _traverse_all_condition:
-				if is_manual_interaction:
-					LogSys.log_i("因为条件:%s 不满足，作用:%s 不执行" % [condition_item,interaction_name])
 				break
 	return is_meet_all_condition
 	
@@ -425,12 +425,16 @@ func set_runnig_node_ref(_node,_node_ref_name):
 	binding_node_state_update(_node_ref_name,_node)
 	
 func can_interact(_node1,_node2):
-	if _node2.has_method("can_interaction"):
-		if _node2.can_interaction(_node1):
-			return 1
-	if _node1.has_method("can_interaction"):
+	if _node1 is Player and _node2 is Player:
 		if _node1.can_interaction(_node2):
-			return 1
+			return 1 
+	else:
+		if _node1 is CommonStuff:
+			if _node1.can_interaction(_node2):
+				return 1
+		else:
+			if _node2.can_interaction(_node1):
+				return 1
 	return 0
 	
 	
