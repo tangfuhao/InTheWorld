@@ -78,11 +78,11 @@ stuff_type_name = "马桶"
 
 [node name="Stuff10" parent="StuffLayer" instance=ExtResource( 8 )]
 position = Vector2( 774.1, 1949.49 )
-stuff_type_name = "水杯"
+stuff_type_name = "水笔"
 
 [node name="Stuff13" parent="StuffLayer" instance=ExtResource( 8 )]
 position = Vector2( 882.598, 1917.58 )
-stuff_type_name = "流体水"
+stuff_type_name = "纸"
 
 [node name="Stuff11" parent="StuffLayer" instance=ExtResource( 8 )]
 position = Vector2( 672.208, 1966.61 )
