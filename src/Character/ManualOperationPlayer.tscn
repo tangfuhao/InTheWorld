@@ -40,9 +40,11 @@ visible = false
 control_obj = NodePath("..")
 
 [node name="HurtBox" parent="." instance=ExtResource( 8 )]
+visible = false
 input_pickable = false
 
 [node name="HitBox" parent="." instance=ExtResource( 3 )]
+visible = false
 input_pickable = false
 
 [node name="CollisionShape2D" parent="HitBox" index="0"]
@@ -66,7 +68,8 @@ script = ExtResource( 6 )
 [node name="BindLayer" parent="." instance=ExtResource( 9 )]
 
 [node name="InteractionLayer" type="Node2D" parent="."]
-[connection signal="input_event" from="." to="." method="_on_ManualOperationPlayer_input_event"]
+[connection signal="mouse_entered" from="." to="." method="_on_ManualOperationPlayer_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_ManualOperationPlayer_mouse_exited"]
 [connection signal="param_item_value_change" from="PlayerParam" to="." method="_on_PlayerParam_param_item_value_change"]
 
 [editable path="HurtBox"]

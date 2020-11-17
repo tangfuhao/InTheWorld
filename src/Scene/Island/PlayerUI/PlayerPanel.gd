@@ -159,6 +159,10 @@ func show_stuff_params(_object):
 	if current_select_object:
 		current_select_object.param.disconnect("param_item_value_change",self,"on_stuff_param_item_value_change")
 	current_select_object = _object
+	if not current_select_object:
+		return
+		
+		
 	current_select_object.param.connect("param_item_value_change",self,"on_stuff_param_item_value_change")
 	var param_arr = current_select_object.param.param_dic.values()
 	stuff_param_listview.clear_item()
@@ -179,6 +183,8 @@ func show_stuff_params(_object):
 #在场景中选择一个物品
 func object_click(interaction_object):
 	show_stuff_params(interaction_object)
+	if not interaction_object:
+		return
 	var unselect_num = show_interaction_info_listview.get_child_count()
 	for item in show_interaction_info_listview.get_children():
 		var node = item.get_meta("node")

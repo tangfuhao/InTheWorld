@@ -21,18 +21,26 @@ func _ready():
 	
 
 func _process(delta):
-	if controll_player:
-		if Input.is_action_just_pressed("operation_option"):
+	if Input.is_action_just_pressed("operation_option"):
+		if controll_player:
 			var interaction_object = GlobalRef.get_key_global(GlobalRef.global_key.mouse_interaction)
 			if interaction_object:
 				player_ui.object_right_click(interaction_object)
 			else:
 				var pos = get_global_mouse_position()
 				controll_player.task_scheduler.add_tasks([["移动",pos]])
-		elif Input.is_action_just_pressed("inv_grab"):
-			var interaction_object = GlobalRef.get_key_global(GlobalRef.global_key.mouse_interaction)
-			if interaction_object:
+	elif Input.is_action_just_pressed("inv_grab"):
+		var interaction_object = GlobalRef.get_key_global(GlobalRef.global_key.mouse_interaction)
+		if interaction_object is Player:
+			if not controll_player:
+				controll_player = interaction_object
+				camera.focus_player(controll_player)
+				player_ui.active()
+				player_ui.setup_player(controll_player)
+			else:
 				player_ui.object_click(interaction_object)
+		else:
+			player_ui.object_click(interaction_object)
 			
 	
 
@@ -59,12 +67,6 @@ func remove_customer_node(_node):
 	emit_signal("customer_stuff_create",_node,false)
 	
 
-
-func _on_Player_player_selected(body):
-	controll_player = body
-	camera.focus_player(controll_player)
-	player_ui.active()
-	player_ui.setup_player(controll_player)
 
 
 

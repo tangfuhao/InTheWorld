@@ -59,10 +59,10 @@ func _ready() -> void:
 	
 
 
-func _on_ManualOperationPlayer_input_event(viewport, event, shape_idx):
-	if event is InputEventMouseButton:
-		if event.is_pressed() and event.button_index == BUTTON_LEFT:
-			emit_signal("player_selected",self)
+#func _on_ManualOperationPlayer_input_event(viewport, event, shape_idx):
+#	if event is InputEventMouseButton:
+#		if event.is_pressed() and event.button_index == BUTTON_LEFT:
+#			emit_signal("player_selected",self)
 
 
 
@@ -156,3 +156,14 @@ func get_running_interaction(_interaction_template):
 
 func _on_PlayerParam_param_item_value_change(_param_item):
 	emit_signal("node_param_item_value_change",self,_param_item)
+
+
+func _on_ManualOperationPlayer_mouse_entered():
+	GlobalRef.set_key_value_global(GlobalRef.global_key.mouse_interaction,self)
+
+
+func _on_ManualOperationPlayer_mouse_exited():
+	GlobalRef.remove_value_from_key_global(GlobalRef.global_key.mouse_interaction,self)
+
+
+

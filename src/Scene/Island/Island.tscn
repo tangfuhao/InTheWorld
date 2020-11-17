@@ -111,5 +111,3 @@ script = ExtResource( 7 )
 [connection signal="customer_stuff_create" from="." to="InteractionDispatcher" method="_on_Island_customer_stuff_create"]
 [connection signal="customer_stuff_param_update" from="." to="InteractionDispatcher" method="_on_Island_customer_stuff_param_update"]
 [connection signal="cancle_focus_player" from="CameraMovement" to="." method="_on_CameraMovement_cancle_focus_player"]
-[connection signal="player_selected" from="PlayerLayer/Player" to="." method="_on_Player_player_selected"]
-[connection signal="player_selected" from="PlayerLayer/Player2" to="." method="_on_Player_player_selected"]

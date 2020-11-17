@@ -353,10 +353,12 @@ func _on_InteractArea_body_exited(body):
 
 
 func _on_Stuff_mouse_entered():
+	print("1111")
 	GlobalRef.set_key_value_global(GlobalRef.global_key.mouse_interaction,self)
 
 func _on_Stuff_mouse_exited():
 	GlobalRef.remove_value_from_key_global(GlobalRef.global_key.mouse_interaction,self)
+	print("222")
 
 
 
@@ -371,6 +373,7 @@ func remove_from_collision_object_arr(_node):
 
 #用area 碰撞检测 因为有非刚体
 func _on_StuffArea_area_entered(area):
+	assert(false)
 	add_to_collision_object_arr(area)
 
 func _on_StuffArea_area_exited(area):
