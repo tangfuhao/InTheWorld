@@ -2811,12 +2811,23 @@
                 "node_type": "Player"
             }
         ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "request_input": "我可以和你${node1[请求行为名]}吗？",
+                        "set_param":"交互文本"
+                    }
+                ]
+            }
+        ],
         "_terminate": [
             {
                 "node_name": "node1",
                 "effects": [
                     {
-                        "send_info": "我可以和你${text_input}吗？",
+                        "send_info": "${node1[交互文本]}",
                         "info_target": "${node2}"
                     }
                 ]

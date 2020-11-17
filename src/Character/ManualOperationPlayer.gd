@@ -58,11 +58,8 @@ func _ready() -> void:
 
 
 
-#func _on_ManualOperationPlayer_input_event(viewport, event, shape_idx):
-#	if event is InputEventMouseButton:
-#		if event.is_pressed() and event.button_index == BUTTON_LEFT:
-#			emit_signal("player_selected",self)
-
+func send_message(_target,_message_text):
+	pass
 
 
 

@@ -238,6 +238,11 @@ func parse_interaction_lifecycle_process(item,_process_arr,_process_name):
 				node_effct.node_name = match_node_name
 				node_effct.send_info = effect_item["send_info"]
 				node_effct.info_target = effect_item["info_target"]
+			elif effect_item.has("request_input"):
+				node_effct = NodeRequestInputEffect.new()
+				node_effct.node_name = match_node_name
+				node_effct.request_input = effect_item["request_input"]
+				node_effct.bind_param = effect_item["set_param"]
 			else:
 				print(effect_item)
 				assert(false)
