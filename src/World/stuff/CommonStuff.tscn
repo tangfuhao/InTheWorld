@@ -53,3 +53,4 @@ script = ExtResource( 3 )
 [connection signal="mouse_exited" from="StuffArea" to="." method="_on_StuffArea_mouse_exited"]
 [connection signal="body_entered" from="InteractArea" to="." method="_on_InteractArea_body_entered"]
 [connection signal="body_exited" from="InteractArea" to="." method="_on_InteractArea_body_exited"]
+[connection signal="param_item_value_change" from="PlayerParam" to="." method="_on_PlayerParam_param_item_value_change"]
