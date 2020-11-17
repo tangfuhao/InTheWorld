@@ -1,5 +1,8 @@
 extends Node
 
 
+var data_arr := []
+var processed_message_queue := []
+
 func log_i(_str):
-	print(_str)
+	processed_message_queue.push_back(_str)

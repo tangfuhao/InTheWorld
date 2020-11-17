@@ -72,6 +72,13 @@ func _ready():
 	
 
 func _process(delta):
+	if not LogSys.processed_message_queue.empty():
+		var content_text = LogSys.processed_message_queue.pop_front()
+		var index = LogSys.data_arr.size()
+		log_listview.add_content_text(index,content_text,"世界文本")
+		LogSys.data_arr.push_back(content_text)
+	
+	
 	if current_interaction_template:
 		var has_excute_interaction = current_select_interaction != null
 		excute_interaction_button.set_disabled(has_excute_interaction)
