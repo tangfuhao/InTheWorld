@@ -189,8 +189,17 @@ func object_click(interaction_object):
 	for item in show_interaction_info_listview.get_children():
 		var node = item.get_meta("node")
 		if not node:
+			var is_match_type = false
 			#通过条件 匹配节点
-			if DataManager.is_belong_type(item.text,interaction_object.stuff_type_name):
+			if interaction_object is Player:
+				is_match_type = item.text == "Player"
+			else:
+				if item.text == "物品":
+					is_match_type == true
+				else:
+					is_match_type = DataManager.is_belong_type(item.text,interaction_object.stuff_type_name)
+			
+			if is_match_type:
 				item.set_meta("node",interaction_object)
 				item.text = interaction_object.display_name
 				item.set_disabled(true)
