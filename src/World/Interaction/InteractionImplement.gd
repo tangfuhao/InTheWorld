@@ -189,10 +189,13 @@ func init_origin_value():
 func binding_nodes_state_update():
 	for node_declare_name in node_dic.keys():
 		var node_item = node_dic[node_declare_name]
-		binding_node_state_update(node_declare_name,node_item)
+		if node_item:
+			binding_node_state_update(node_declare_name,node_item)
 		
 #单个
 func binding_node_state_update(_node_declare_name,_node_item):
+	#存在 
+	_node_item.connect("disappear_notify",self,"on_node_disappear_notify")
 	#通用
 	var node_need_listerning_signal_arr =  CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_signal_dic,_node_declare_name)
 	for item in node_need_listerning_signal_arr:
@@ -229,7 +232,10 @@ func binding_node_state_update(_node_declare_name,_node_item):
 		var listening_cllision_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_cllision_target_change_dic,_node_item)
 		var target_node = node_dic[item]
 		listening_cllision_arr.push_back(target_node)
-	
+
+func on_node_disappear_notify(_node):
+	interaction_status_check()
+
 #可交互对象新增 和 删减 信号
 func _on_node_interaction_add_object(_node,_target):
 	node_interaction_object_update(_node,_target)
@@ -300,14 +306,25 @@ func runing_timer():
 		timer.connect("timeout",self,"on_interaction_time_out")
 		add_child(timer)
 		timer.start(duration)
-	
+
+#检测所有节点存在
+func check_node_exist():
+	for item in node_dic.keys():
+		var node_item = node_dic[item]
+		if not node_item:
+			LogSys.log_i("因为节点:%s 不存在，作用:%s 不执行" % [item,interaction_name])
+			return false
+	return true
 
 func judge_conditions(_traverse_all_condition) -> bool:
+	if not check_node_exist():
+		return false
 	var is_meet_all_condition = true
 	for condition_item in conditions_arr:
 		if not judge_condition_item(condition_item):
 			is_meet_all_condition = false
 			if not _traverse_all_condition:
+				LogSys.log_i("因为条件:%s 不满足，作用:%s 不执行" % [condition_item,interaction_name])
 				break
 	return is_meet_all_condition
 	
