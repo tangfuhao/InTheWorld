@@ -241,6 +241,19 @@ margin_left = 7.0
 margin_top = 7.0
 margin_right = 1193.0
 margin_bottom = 193.0
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+margin_right = 591.0
+margin_bottom = 186.0
+size_flags_horizontal = 3
+
+[node name="CommonListView" parent="VBoxContainer/PanelContainer/HBoxContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 595.0
+margin_right = 1186.0
+margin_bottom = 186.0
+size_flags_horizontal = 3
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Button4" to="." method="_on_Button4_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Button5" to="." method="_on_Button5_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Control/HBoxContainer/Button" to="." method="_on_player_package_pressed"]

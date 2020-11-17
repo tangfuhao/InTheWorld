@@ -4,6 +4,7 @@ onready var stuff_param_listview = $VBoxContainer/HBoxContainer/PanelContainer/H
 onready var viewport_object_param_listview = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/CommonListView2
 onready var interaction_listview = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/CommonListView
 onready var emotion_listview = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/CommonListView
+onready var log_listview = $VBoxContainer/PanelContainer/HBoxContainer/CommonListView
 
 onready var show_interaction_info_listview = $VBoxContainer/HBoxContainer/Control/HBoxContainer/HBoxContainer
 
@@ -242,7 +243,7 @@ func on_interaction_item_selected(index):
 func on_emotion_item_selected(index):
 	var type_index = index / 7
 	index = index % 7
-	print(temp_emotion_arr[type_index][index])
+	LogSys.log_i(temp_emotion_arr[type_index][index])
 	
 
 
