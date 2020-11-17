@@ -21,5 +21,6 @@ func remove_value_from_key_global(_key,_value):
 func get_key_global(_key):
 	if cache_ref.has(_key):
 		var value_arr:Array = cache_ref[_key]
-		return value_arr.back()
+		if not value_arr.empty():
+			return value_arr.back()
 	return null

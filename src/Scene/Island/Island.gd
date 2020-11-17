@@ -51,7 +51,7 @@ func binding_customer_node_event():
 		binding_customer_node_item(item)
 
 func binding_customer_node_item(_item):
-	_item.connect("stuff_update_state",self,"_on_stuff_update_state")
+	# _item.connect("stuff_update_state",self,"_on_stuff_update_state")
 	_item.connect("disappear_notify",self,"_on_stuff_disappear")
 
 #把自定义物品 加入到场景
@@ -90,9 +90,10 @@ func _on_PlayerUI_drop_package_item(_package_item):
 
 #物品的状态更新
 func _on_stuff_update_state(_state_name, _state_value):
-	if _state_name == "position":
-		if not _state_value.is_location:
-			pathfinding.set_collision_stuff_global_rect(_state_value)
+	# if _state_name == "position":
+	# 	if not _state_value.is_location:
+	# 		pathfinding.set_collision_stuff_global_rect(_state_value)
+	pass
 
 func _on_stuff_disappear(_stuff):
 	pathfinding.clear_collision_stuff_global_rect(_stuff)

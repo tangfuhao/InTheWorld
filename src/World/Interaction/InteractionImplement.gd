@@ -199,9 +199,10 @@ func binding_node_state_update(_node_declare_name,_node_item):
 	#通用
 	var node_need_listerning_signal_arr =  CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_signal_dic,_node_declare_name)
 	for item in node_need_listerning_signal_arr:
-		_node_item.connect(item,self,"_on_node_condition_item_change")
+		if _node_item.has_signal(item):
+			_node_item.connect(item,self,"_on_node_condition_item_change")
 	
-	#熟悉值
+	#属性值
 	var node_need_listerning_param_arr =  CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_value_dic,_node_declare_name)
 	if not node_need_listerning_param_arr.empty():
 		_node_item.connect("node_param_item_value_change",self,"_on_node_param_item_value_change")
@@ -214,8 +215,9 @@ func binding_node_state_update(_node_declare_name,_node_item):
 	#交互对象集
 	var node_need_listerning_interaction_arr =  CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_interaction_dic,_node_declare_name)
 	if not node_need_listerning_interaction_arr.empty():
-		_node_item.connect("node_interaction_add_object",self,"_on_node_interaction_add_object")
-		_node_item.connect("node_interaction_remove_object",self,"_on_node_interaction_remove_object")
+		if _node_item.has_signal("node_interaction_add_object"):
+			_node_item.connect("node_interaction_add_object",self,"_on_node_interaction_add_object")
+			_node_item.connect("node_interaction_remove_object",self,"_on_node_interaction_remove_object")
 		
 	for item in node_need_listerning_interaction_arr:
 		var listening_interaction_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_interaction_target_change_dic,_node_item)
@@ -225,8 +227,9 @@ func binding_node_state_update(_node_declare_name,_node_item):
 	#碰撞对象集
 	var node_need_listerning_cllision_arr =  CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_cllision_dic,_node_declare_name)
 	if not node_need_listerning_cllision_arr.empty():
-		_node_item.connect("node_collision_add_object",self,"_on_node_cllision_add_object")
-		_node_item.connect("node_collision_remove_object",self,"_on_node_cllision_remove_object")
+		if _node_item.has_signal("node_collision_add_object"):
+			_node_item.connect("node_collision_add_object",self,"_on_node_cllision_add_object")
+			_node_item.connect("node_collision_remove_object",self,"_on_node_cllision_remove_object")
 		
 	for item in node_need_listerning_cllision_arr:
 		var listening_cllision_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_cllision_target_change_dic,_node_item)
@@ -324,7 +327,8 @@ func judge_conditions(_traverse_all_condition) -> bool:
 		if not judge_condition_item(condition_item):
 			is_meet_all_condition = false
 			if not _traverse_all_condition:
-				LogSys.log_i("因为条件:%s 不满足，作用:%s 不执行" % [condition_item,interaction_name])
+				if is_manual_interaction:
+					LogSys.log_i("因为条件:%s 不满足，作用:%s 不执行" % [condition_item,interaction_name])
 				break
 	return is_meet_all_condition
 	
