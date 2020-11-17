@@ -290,3 +290,7 @@ func _on_player_package_pressed():
 	else:
 		object_storage_panel.activate()
 		object_storage_panel.show_wtih_object(current_player)
+
+
+func _on_LogClean_Button_pressed():
+	log_listview.clear_item()
