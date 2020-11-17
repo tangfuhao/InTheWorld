@@ -108,7 +108,7 @@ func set_interactino_state(_is_interaction):
 func set_disbled_collision(_is_collision):
 	is_collision = _is_collision
 	if is_rigid_body and body_collision_shape:
-		body_collision_shape.set_disabled(is_collision)
+		body_collision_shape.set_disabled(!is_collision)
 
 
 func get_global_rect() -> Rect2:
