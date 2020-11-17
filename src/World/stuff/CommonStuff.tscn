@@ -45,3 +45,11 @@ script = ExtResource( 3 )
 [node name="BindLayer" parent="." instance=ExtResource( 4 )]
 
 [node name="StorageLayer" parent="." instance=ExtResource( 5 )]
+[connection signal="area_entered" from="StuffArea" to="." method="_on_StuffArea_area_entered"]
+[connection signal="area_exited" from="StuffArea" to="." method="_on_StuffArea_area_exited"]
+[connection signal="body_entered" from="StuffArea" to="." method="_on_StuffArea_body_entered"]
+[connection signal="body_exited" from="StuffArea" to="." method="_on_StuffArea_body_exited"]
+[connection signal="mouse_entered" from="StuffArea" to="." method="_on_StuffArea_mouse_entered"]
+[connection signal="mouse_exited" from="StuffArea" to="." method="_on_StuffArea_mouse_exited"]
+[connection signal="body_entered" from="InteractArea" to="." method="_on_InteractArea_body_entered"]
+[connection signal="body_exited" from="InteractArea" to="." method="_on_InteractArea_body_exited"]

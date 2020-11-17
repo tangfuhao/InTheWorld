@@ -351,14 +351,6 @@ func _on_InteractArea_body_exited(body):
 	emit_signal("node_interaction_remove_object",self,body)
 
 
-func _on_Stuff_mouse_entered():
-	print("1111")
-	GlobalRef.set_key_value_global(GlobalRef.global_key.mouse_interaction,self)
-
-func _on_Stuff_mouse_exited():
-	GlobalRef.remove_value_from_key_global(GlobalRef.global_key.mouse_interaction,self)
-	print("222")
-
 
 
 func add_to_collision_object_arr(_node):
@@ -387,3 +379,11 @@ func _on_StuffArea_body_exited(body):
 #属性值变更
 func _on_PlayerParam_param_item_value_change(_param_item):
 	emit_signal("node_param_item_value_change",self,_param_item)
+
+
+func _on_StuffArea_mouse_entered():
+	GlobalRef.set_key_value_global(GlobalRef.global_key.mouse_interaction,self)
+
+
+func _on_StuffArea_mouse_exited():
+	GlobalRef.remove_value_from_key_global(GlobalRef.global_key.mouse_interaction,self)
