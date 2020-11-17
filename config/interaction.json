@@ -1357,7 +1357,7 @@
                 "node_name": "node1",
                 "effects": [
                     {
-                        "bind": "node2"
+                        "bind": "${node2}"
                     }
                 ]
             }
