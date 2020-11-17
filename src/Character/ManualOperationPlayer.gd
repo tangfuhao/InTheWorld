@@ -5,8 +5,8 @@ class_name Player
 const Bullet = preload("res://src/World/bullet/Bullet.tscn")
 
 export var player_name = "player1"
-export (NodePath) var bullets_node_path
-var bullets_node_layer
+#export (NodePath) var bullets_node_path
+#var bullets_node_layer
 
 
 onready var name_label := $NameDisplay
@@ -44,11 +44,11 @@ func _ready() -> void:
 	display_name = player_name
 	name_label.set_text(display_name)
 	node_name = display_name + IDGenerator.pop_id_index()
-
-	bullets_node_layer = get_node(bullets_node_path)
+	
+#	assert(bullets_node_path)
+#	bullets_node_layer = get_node(bullets_node_path)
 
 	inventory_system = InventorySystem.new()
-	
 	
 	#TEST
 	var param_model = ComomStuffParam.new()
@@ -56,7 +56,6 @@ func _ready() -> void:
 	param_model.value = 10
 	param.set_value(param_model.name,param_model)
 
-	
 
 
 #func _on_ManualOperationPlayer_input_event(viewport, event, shape_idx):
