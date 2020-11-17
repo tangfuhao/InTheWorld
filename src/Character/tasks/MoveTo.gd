@@ -7,7 +7,7 @@ var target_pos
 var path_world:Array
 var next_destination = null
 
-
+var plus = false
 func active():
 	.active()
 	
@@ -27,6 +27,7 @@ func active():
 		var exercise =  human.get_param_value("当前运动量")
 		exercise = exercise + 0.5
 		human.set_param_value("当前运动量",exercise)
+		plus = true
 	else:
 		goal_status = STATE.GOAL_FAILED
 	
@@ -57,9 +58,11 @@ func terminate():
 	.terminate()
 	human.movement.is_on = false
 	human.movement.direction = Vector2.ZERO
-	var exercise =  human.get_param_value("当前运动量")
-	exercise = exercise - 0.5
-	human.set_param_value("当前运动量",exercise)
+	if plus:
+		var exercise =  human.get_param_value("当前运动量")
+		exercise = exercise - 0.5
+		human.set_param_value("当前运动量",exercise)
+		plus = false
 	
 func setup_target():
 	action_target = get_index_params(0)
