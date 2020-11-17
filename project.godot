@@ -977,6 +977,10 @@ operation_option={
 2d_physics/layer_4="stuff"
 2d_physics/layer_5="hurt_player"
 
+[logging]
+
+file_logging/enable_file_logging=true
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"
