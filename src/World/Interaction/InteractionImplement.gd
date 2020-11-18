@@ -121,7 +121,7 @@ func _process(delta):
 		interaction_status_check()
 	
 	#时间为0  只执行一次
-	if duration and duration == 0:
+	if duration != null and duration == 0:
 		is_finish = true
 	
 
@@ -299,6 +299,8 @@ func _on_node_condition_item_change(_node):
 func _on_node_param_item_value_change(_node,_param_item):
 	assert(_node)
 	assert(_param_item)
+	if interaction_name == "同步流体体积消失":
+		print("sdasdasd")
 	var listening_parma_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_param_value_change_dic,_node)
 	if listening_parma_arr.has(_param_item.name):
 		interaction_status_check()
