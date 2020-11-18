@@ -122,6 +122,7 @@ func setup_player(_player:Player):
 		var content = item.name
 		interaction_listview.add_content_text(index,content,"交互文本")
 		index = index + 1
+	#对话框
 
 
 
