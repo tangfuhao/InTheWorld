@@ -2327,7 +2327,7 @@
         "interaction_duration": 10,
         "interaction_conditions": [
             "$[can_interact, ${node1}, ${node2}]",
-            "${node2[正坐人数]} = 0"
+            "${node2[正坐人数]} ≡ 0"
         ],
         "_nodes": [
             {
