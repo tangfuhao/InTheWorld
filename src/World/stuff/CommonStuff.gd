@@ -104,8 +104,8 @@ func set_interactino_state(_is_interaction):
 			interact_collision_shape.set_disabled(true)
 
 #设置物品的可碰撞
-func set_disbled_collision(_is_collision):
-	is_collision = _is_collision
+func set_disbled_collision(_disable_collision):
+	is_collision = !_disable_collision
 	if is_rigid_body and body_collision_shape:
 		body_collision_shape.set_disabled(!is_collision)
 
