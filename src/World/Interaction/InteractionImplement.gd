@@ -174,6 +174,7 @@ func clone_node_effect(_node_effect):
 		var clone_obejct = NodeCreateEffect.new()
 		clone_obejct.node_name = _node_effect.node_name
 		clone_obejct.create_name = _node_effect.create_name
+		clone_obejct.params_arr = _node_effect.params_arr
 #		clone_obejct.node = node_dic[clone_obejct.node_name]
 		return clone_obejct
 	elif _node_effect is NodeDisappearEffect:
