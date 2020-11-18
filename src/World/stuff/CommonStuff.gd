@@ -167,9 +167,10 @@ func load_config_by_stuff_type(_type) -> bool:
 		for item in need_create_object_arr:
 			var create_node_type = item["name"]
 			var be_create_node = DataManager.instance_stuff_node(create_node_type)
-			var create_node_param_arr = item["params"]
-			for node_param_item in create_node_param_arr:
-				be_create_node.add_init_param(node_param_item["param_name"],node_param_item["assign"])
+			if item.has("params"):
+				var create_node_param_arr = item["params"]
+				for node_param_item in create_node_param_arr:
+					be_create_node.add_init_param(node_param_item["param_name"],node_param_item["assign"])
 			self.bind_layer.bind(be_create_node)
 			
 			
