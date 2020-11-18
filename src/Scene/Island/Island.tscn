@@ -60,6 +60,10 @@ should_display_grid = false
 position = Vector2( 1057.58, 1794.19 )
 stuff_type_name = "椅子"
 
+[node name="Stuff14" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 979.565, 1789.77 )
+stuff_type_name = "椅子"
+
 [node name="Stuff6" parent="StuffLayer" instance=ExtResource( 8 )]
 position = Vector2( 1092.98, 1950.06 )
 stuff_type_name = "沙发"
