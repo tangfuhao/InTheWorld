@@ -373,3 +373,16 @@ func _on_Confirm_Dialog_Button_pressed():
 func _on_Cancle_Dialog_Button_pressed():
 	clear_dialog_panel()
 	current_player.set_response_text(null)
+
+
+#移动
+func _on_Move_Button_pressed():
+	current_player.movement.switch_move_state("move")
+
+#跑
+func _on_Run_Button_pressed():
+	current_player.movement.switch_move_state("run")
+
+#散步
+func _on_Walk_Button_pressed():
+	current_player.movement.switch_move_state("walk")

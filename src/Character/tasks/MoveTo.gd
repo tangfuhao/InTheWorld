@@ -7,7 +7,9 @@ var target_pos
 var path_world:Array
 var next_destination = null
 
-var plus = false
+
+
+var exercise_transform = 0
 func active():
 	.active()
 	
@@ -24,14 +26,20 @@ func active():
 		human.movement.is_on = true
 		path_world.pop_front()
 		plan_next_destination()
-		var exercise =  human.get_param_value("当前运动量")
-		exercise = exercise + 0.5
-		human.set_param_value("当前运动量",exercise)
-		plus = true
+		update_movement()
+
 	else:
 		goal_status = STATE.GOAL_FAILED
 	
-	
+func update_movement():
+	var exercise_transform_temp = get_player_exercise_transform(human)
+	if exercise_transform != exercise_transform_temp:
+		var exercise =  human.get_param_value("当前运动量")
+		exercise = exercise - exercise_transform + exercise_transform_temp
+		exercise_transform = exercise_transform_temp
+		human.set_param_value("当前运动量",exercise)
+
+
 
 
 func process(_delta: float):
@@ -44,7 +52,7 @@ func process(_delta: float):
 		goal_status = STATE.GOAL_COMPLETED
 		return goal_status
 		
-	
+	update_movement()
 	
 	if next_destination and human.is_approach(next_destination,10):
 		next_destination = null
@@ -58,12 +66,11 @@ func terminate():
 	.terminate()
 	human.movement.is_on = false
 	human.movement.direction = Vector2.ZERO
-	if plus:
+	if exercise_transform:
 		var exercise =  human.get_param_value("当前运动量")
-		exercise = exercise - 0.5
+		exercise = exercise - exercise_transform
 		human.set_param_value("当前运动量",exercise)
-		plus = false
-	
+
 func setup_target():
 	action_target = get_index_params(0)
 	if action_target is CommonStuff:
@@ -107,3 +114,13 @@ func path_finding():
 	else:
 		var path_world = path_finding.get_new_path(human.get_global_position(),target_pos)
 		return path_world
+
+
+func get_player_exercise_transform(_human):
+	if _human.movement.move_state == "move":
+		return 0.0005
+	elif _human.movement.move_state == "run":
+		return 0.002
+	elif _human.movement.move_state == "walk":
+		return 0.0003
+	return 0

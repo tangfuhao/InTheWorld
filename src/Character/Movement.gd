@@ -17,10 +17,14 @@ onready var wanderController = $WanderController
 onready var wanderController_Position = $WanderController/Position2D
 onready var wall_avoid_ray = $WallAvoidRay
 
+
+export var move_speed_max := 110
+export var move_acceleration_max := 400
+
 export var walk_speed_max := 80
 export var walk_acceleration_max := 300
 
-export var run_speed_max := 120
+export var run_speed_max := 150
 export var run_acceleration_max := 600
 
 export var rotation_speed_max := 1000
@@ -33,6 +37,8 @@ var acceleration_max = walk_acceleration_max
 var velocity := Vector2.ZERO
 var angular_velocity := 0.0
 var direction := Vector2.ZERO
+
+var move_state = "walk"
 
 func _ready() -> void:
 	randomize()
@@ -86,6 +92,7 @@ func _physics_process(_delta: float) -> void:
 		control_node.rotation = velocity.angle()
 
 func switch_move_state(_move_state):
+	move_state = _move_state
 	if _move_state == "run":
 		agent.linear_speed_max = run_speed_max
 		agent.linear_acceleration_max = run_acceleration_max
@@ -95,6 +102,11 @@ func switch_move_state(_move_state):
 		agent.linear_speed_max = walk_speed_max
 		agent.linear_acceleration_max = walk_acceleration_max
 		speed_max = walk_speed_max
+		acceleration_max = walk_acceleration_max
+	elif _move_state == "move":
+		agent.linear_speed_max = move_speed_max
+		agent.linear_acceleration_max = move_acceleration_max
+		speed_max = move_speed_max
 		acceleration_max = walk_acceleration_max
 
 	
