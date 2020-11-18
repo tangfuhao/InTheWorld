@@ -182,6 +182,11 @@ func clone_node_effect(_node_effect):
 		clone_obejct.send_info = _node_effect.send_info
 		clone_obejct.info_target = _node_effect.info_target
 		return clone_obejct
+	elif _node_effect is NodeAddToConceptEffect:
+		var clone_obejct = NodeAddToConceptEffect.new()
+		clone_obejct.node_name = _node_effect.node_name
+		#TODO ...
+		return clone_obejct
 	else:
 		assert(false)
 		
