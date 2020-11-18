@@ -86,7 +86,7 @@ func preload_global_data():
 
 #返回类型集
 func get_node_type_group(type_name) -> Array:
-	var node_type_group = []
+	var node_type_group := ["物品"]
 	assert(create_object_dic.has(type_name))
 	node_type_group.push_back(type_name)
 	iteration_node_type(type_name,node_type_group)

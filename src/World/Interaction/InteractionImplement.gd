@@ -505,6 +505,7 @@ func affiliation_change(_node1,_node2):
 		result = affiliation_cache_dic[[_node1,_node2]] != value
 		affiliation_change_cache_dic[[_node1,_node2]] = value
 	else:
+		result = value
 		affiliation_cache_dic[[_node1,_node2]] = value
 	
 	

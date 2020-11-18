@@ -189,7 +189,7 @@
     {
         "interaction_name": "同步容器的绑定流体量",
         "interaction_scheduling": "god",
-        "interaction_duration": 0,
+        "interaction_duration": -1,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}]",
             "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]"
@@ -219,7 +219,7 @@
     {
         "interaction_name": "同步容器的修改流体量",
         "interaction_scheduling": "god",
-        "interaction_duration": 0,
+        "interaction_duration": -1,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}] ≡ 0",
             "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
@@ -300,7 +300,7 @@
                 "node_type": "物品"
             }
         ],
-        "_process": [
+        "_active": [
             {
                 "node_name": "node1",
                 "effects": [

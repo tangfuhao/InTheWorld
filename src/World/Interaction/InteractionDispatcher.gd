@@ -109,12 +109,13 @@ func node_match_iteration_collect(_arr:Array,_index,_select_node_arr,_result_arr
 		if i == _index:
 			var child_arr = _arr[i]
 			for node_item in child_arr:
-				var select_node_arr = _select_node_arr.duplicate(true)
-				select_node_arr.push_back(node_item)
-				if i < arr_size - 1:
-					node_match_iteration_collect(_arr,_index+1,select_node_arr,_result_arr)
-				else:
-					_result_arr.push_back(select_node_arr)
+				if not _select_node_arr.has(node_item):
+					var select_node_arr = _select_node_arr.duplicate(true)
+					select_node_arr.push_back(node_item)
+					if i < arr_size - 1:
+						node_match_iteration_collect(_arr,_index+1,select_node_arr,_result_arr)
+					else:
+						_result_arr.push_back(select_node_arr)
 
 #在类型数组里 匹配类型 在数组里的序号
 func match_meet_node_type_in_arr(_type_arr,_inherit_type_group):
