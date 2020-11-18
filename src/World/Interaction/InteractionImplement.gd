@@ -107,15 +107,20 @@ func _process(delta):
 		return 
 		
 	if not is_active:
-		self.is_active = true
-		interaction_active()
+		self.is_active = interaction_active()
+		if self.is_active:
+			interaction_process(delta)
+			runing_timer()
+	else:
+		interaction_process(delta)
 		
-	interaction_process(delta)
+	
 	
 	#如果数据被更改 那么在同步一次条件
 	if apply_change_cache():
 		interaction_status_check()
-		
+	
+	#时间为0  只执行一次
 	if duration and duration == 0:
 		is_finish = true
 	
@@ -181,6 +186,18 @@ func clone_node_effect(_node_effect):
 		clone_obejct.node_name = _node_effect.node_name
 		clone_obejct.send_info = _node_effect.send_info
 		clone_obejct.info_target = _node_effect.info_target
+		return clone_obejct
+	elif _node_effect is NodeSendInfoToTargetEffect:
+		var clone_obejct = NodeSendInfoToTargetEffect.new()
+		clone_obejct.node_name = _node_effect.node_name
+		clone_obejct.send_info = _node_effect.send_info
+		clone_obejct.info_target = _node_effect.info_target
+		return clone_obejct
+	elif _node_effect is NodeRequestInputEffect:
+		var clone_obejct = NodeRequestInputEffect.new()
+		clone_obejct.node_name = _node_effect.node_name
+		clone_obejct.request_input = _node_effect.request_input
+		clone_obejct.bind_param = _node_effect.bind_param
 		return clone_obejct
 	elif _node_effect is NodeAddToConceptEffect:
 		var clone_obejct = NodeAddToConceptEffect.new()
@@ -292,7 +309,6 @@ func interaction_status_check(_traverse_all_condition = false):
 	#当前条件是否满足
 	var is_meet_condition = judge_conditions(_traverse_all_condition)
 	judge_interaction_vaild(is_meet_condition)
-	runing_timer()
 		
 
 #判断作用是否还有效
@@ -308,13 +324,14 @@ func judge_interaction_vaild(_is_meet_condition):
 
 #运行计时器
 func runing_timer():
-	if is_active:
-		return 
-	
 	if not is_vaild:
 		return 
 
 	if duration and duration > 0:
+		for item in self.get_children():
+			remove_child(item)
+		current_progress = 0
+
 		var timer = Timer.new()
 		timer.set_one_shot(true)
 		timer.connect("timeout",self,"on_interaction_time_out")
@@ -354,9 +371,13 @@ func judge_condition_item(_condition_item):
 
 
 
-func interaction_active():
+#true 激活成功  false 激活等待
+func interaction_active() -> bool:
 	for item in active_execute:
-		item._process(1,self)
+		var i = item._process(1,self)
+		if i:
+			return false
+	return true
 
 func interaction_process(_delta):
 	for item in process_execute:
@@ -380,6 +401,7 @@ func interaction_quit():
 	if is_active:
 		self.is_active = false
 		interaction_break()
+
 	
 	if is_manual_interaction:
 		queue_free()

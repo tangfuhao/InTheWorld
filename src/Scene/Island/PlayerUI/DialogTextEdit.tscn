@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assert/font/interaction_dialog_message_dynamicfont.tres" type="DynamicFont" id=1]
+
+[node name="DialogTextEdit" type="TextEdit"]
+margin_left = 24.0
+margin_right = 174.0
+margin_bottom = 40.0
+rect_min_size = Vector2( 150, 0 )
+custom_fonts/font = ExtResource( 1 )
+context_menu_enabled = false
+shortcut_keys_enabled = false
+selecting_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}

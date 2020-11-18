@@ -10,10 +10,11 @@ func _process(_delta,_param_accessor):
 	var create_node_type = create_params.pop_front()
 	var create_node_name = create_params.pop_front()
 	var create_node = DataManager.instance_stuff_node(create_node_type)
-	for item in params_arr:
-		var param_name = item["param_name"]
-		var value = item["assign"]
-		create_node.add_init_param(param_name,value)
+	if params_arr:
+		for item in params_arr:
+			var param_name = item["param_name"]
+			var value = item["assign"]
+			create_node.add_init_param(param_name,value)
 
 
 	add_to_main_scene(node,create_node,node.get_global_position())

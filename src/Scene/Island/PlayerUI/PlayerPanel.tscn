@@ -210,7 +210,6 @@ custom_fonts/font = ExtResource( 1 )
 items = [ "打开", null, 0, false, false, 0, 0, null, "", false ]
 
 [node name="WindowDialog" type="WindowDialog" parent="VBoxContainer/HBoxContainer/Control"]
-visible = true
 anchor_left = 1.0
 anchor_right = 1.0
 margin_left = -100.0
@@ -243,10 +242,41 @@ margin_top = 7.0
 margin_right = 1193.0
 margin_bottom = 193.0
 
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/PanelContainer/HBoxContainer"]
+[node name="Container" type="Panel" parent="VBoxContainer/PanelContainer/HBoxContainer"]
 margin_right = 591.0
 margin_bottom = 186.0
 size_flags_horizontal = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/PanelContainer/HBoxContainer/Container"]
+margin_right = 40.0
+margin_bottom = 40.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button5" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer/Container"]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -36.0
+margin_top = -21.0
+custom_fonts/font = ExtResource( 1 )
+text = "确定"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button6" type="Button" parent="VBoxContainer/PanelContainer/HBoxContainer/Container"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -21.0
+margin_right = 36.0
+custom_fonts/font = ExtResource( 1 )
+text = "取消"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="CommonListView" parent="VBoxContainer/PanelContainer/HBoxContainer" instance=ExtResource( 2 )]
 anchor_right = 0.0
@@ -270,4 +300,6 @@ __meta__ = {
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/HBoxContainer2/Button5" to="." method="_on_Button5_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/Control/HBoxContainer/Button" to="." method="_on_player_package_pressed"]
 [connection signal="index_pressed" from="VBoxContainer/HBoxContainer/Control/PopupMenu" to="." method="_on_PopupMenu_index_pressed"]
+[connection signal="pressed" from="VBoxContainer/PanelContainer/HBoxContainer/Container/Button5" to="." method="_on_Confirm_Dialog_Button_pressed"]
+[connection signal="pressed" from="VBoxContainer/PanelContainer/HBoxContainer/Container/Button6" to="." method="_on_Cancle_Dialog_Button_pressed"]
 [connection signal="pressed" from="VBoxContainer/PanelContainer/HBoxContainer/CommonListView/Button4" to="." method="_on_LogClean_Button_pressed"]

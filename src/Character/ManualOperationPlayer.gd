@@ -28,9 +28,9 @@ var node_name
 var display_name
 #库存
 var inventory_system:InventorySystem
-
-
-
+#请求输入队列
+var dialog_message_arr := []
+var current_dialog_text
 
 
 signal disappear_notify()
@@ -39,6 +39,9 @@ signal location_change(body,location_name)
 signal player_selected(body)
 #物品属性的更新
 signal node_param_item_value_change(node,param_item)
+#请求输入的结果
+signal request_input_result(_result_text)
+signal request_input(dialog_text)
 
 func _ready() -> void:
 	display_name = player_name
@@ -55,12 +58,31 @@ func _ready() -> void:
 	param_model.name = "负重上限"
 	param_model.value = 10
 	param.set_value(param_model.name,param_model)
+	
+	
+func _process(delta):
+	handle_dialog_messages()
+	
+
+func handle_dialog_messages():
+	if current_dialog_text:
+		return
+	current_dialog_text = dialog_message_arr.pop_front()
+	if current_dialog_text:
+		emit_signal("request_input",current_dialog_text)
 
 
+#加入请求文本
+func add_request_input(_message_text):
+	dialog_message_arr.push_back(_message_text)
 
-func send_message(_target,_message_text):
-	pass
+#回复文本
+func set_response_text(_response_text):
+	emit_signal("request_input_result",_response_text)
 
+func send_message(_target,_message):
+	var message_text ="%s给:%s 发送消息:%s" % [ display_name,_target.display_name,_message]
+	LogSys.log_i(message_text)
 
 func can_interaction(_node:Node2D):
 	return is_approach(_node.global_position,100)

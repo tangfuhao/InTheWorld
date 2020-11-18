@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://assert/font/interaction_dialog_message_dynamicfont.tres" type="DynamicFont" id=1]
+
+[node name="DialogLabel" type="Label"]
+margin_top = 7.0
+margin_right = 20.0
+margin_bottom = 32.0
+custom_fonts/font = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

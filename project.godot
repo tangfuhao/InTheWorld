@@ -549,6 +549,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/TypeEmitter/PlayerMessageAnalyzer.gd"
 }, {
+"base": "Control",
+"class": "PlayerPanel",
+"language": "GDScript",
+"path": "res://src/Scene/Island/PlayerUI/PlayerPanel.gd"
+}, {
 "base": "Node2D",
 "class": "PlayerParam",
 "language": "GDScript",
@@ -848,6 +853,7 @@ _global_script_class_icons={
 "Player": "",
 "PlayerAI": "",
 "PlayerMessageAnalyzer": "",
+"PlayerPanel": "",
 "PlayerParam": "",
 "Punch": "",
 "ReachForTouch": "",

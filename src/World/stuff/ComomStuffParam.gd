@@ -33,11 +33,10 @@ func set_value(_value):
 	elif min_value != null and value < min_value:
 		value = min_value
 	
-	if value != temp_value:
+	if typeof(value) != typeof(temp_value) or value != temp_value:
 		#值改变  发送信号
 		emit_signal("param_item_value_change",self)
-		
-	
+
 
 func _process(_detal):
 	temp_detal = temp_detal + _detal

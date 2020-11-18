@@ -1,10 +1,12 @@
 extends Control
+class_name PlayerPanel
 onready var param_listview = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/CommonListView
 onready var stuff_param_listview = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/CommonListView2
 onready var viewport_object_param_listview = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer/CommonListView2
 onready var interaction_listview = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/CommonListView
 onready var emotion_listview = $VBoxContainer/HBoxContainer/PanelContainer/HBoxContainer/VBoxContainer2/CommonListView
 onready var log_listview = $VBoxContainer/PanelContainer/HBoxContainer/CommonListView
+onready var dialog_panel = $VBoxContainer/PanelContainer/HBoxContainer/Container/HBoxContainer
 
 onready var show_interaction_info_listview = $VBoxContainer/HBoxContainer/Control/HBoxContainer/HBoxContainer
 
@@ -18,6 +20,8 @@ onready var interaction_option_menu = $VBoxContainer/HBoxContainer/Control/Popup
 onready var object_storage_panel = $VBoxContainer/HBoxContainer/Control/WindowDialog
 
 const interaction_info_item = preload("res://src/Scene/Island/PlayerUI/Interaction_Info_Item.tscn")
+const dialog_label = preload("res://src/Scene/Island/PlayerUI/DialogLabel.tscn")
+const dialog_edit = preload("res://src/Scene/Island/PlayerUI/DialogTextEdit.tscn")
 
 var interaction_arr
 #缓存属性的列表中的序列值=玩家
@@ -37,7 +41,8 @@ var temp_emotion_arr := [["开心","快感","满足","解脱","兴奋","悠闲",
 						["生气","悲伤","害怕","厌恶","内疚","惭愧","嫉妒"],
 						["惊讶","不屑","不屑","不屑","不屑","不屑","不屑"]]
 
-
+#输入占位符
+var param_placeholder_arr := []
 
 func active()->void:
 	self.show()
@@ -122,10 +127,47 @@ func setup_player(_player:Player):
 		var content = item.name
 		interaction_listview.add_content_text(index,content,"交互文本")
 		index = index + 1
+		
+		
 	#对话框
+	set_player_dialog_message(_player.current_dialog_text)
+	_player.connect("request_input",self,"on_player_request_input")
 
-
-
+#清理对话面板
+func clear_dialog_panel():
+	for item in dialog_panel.get_children():
+		dialog_panel.remove_child(item)
+		
+#设置对话框
+func set_player_dialog_message(_text):
+	clear_dialog_panel()
+	if not _text:
+		return 
+	#解析文本
+	var objecet_regex = DataManager.objecet_regex
+	var node_find_result_arr = objecet_regex.search_all(_text)
+	if node_find_result_arr:
+		for node_match_item in node_find_result_arr:
+			var origin_text = node_match_item.get_string(0)
+			var node_expression = node_match_item.get_string(1)
+			var find_index = node_expression.find("[")
+			if find_index != -1:
+				var string_len = node_expression.length()
+				var node_name = node_expression.substr(0,find_index)
+				var node_param_name = node_expression.substr(find_index+1,string_len - find_index - 2)
+				param_placeholder_arr.push_back(node_param_name)
+				_text = _text.replace(origin_text,"${}")
+	
+	#生成控件
+	var content_arr = Array(_text.split("${}"))
+	for index in range(content_arr.size()):
+		var dialog_label_item = dialog_label.instance()
+		dialog_label_item.text = content_arr[index]
+		dialog_panel.add_child(dialog_label_item)
+		if index != content_arr.size() - 1:
+			var dialog_edit_item = dialog_edit.instance()
+			dialog_panel.add_child(dialog_edit_item)
+			
 
 func show_interaction_ui():
 	var has_excute_interaction = current_select_interaction != null
@@ -222,6 +264,10 @@ func show_option_menu(_interaction_object:Node2D):
 	interaction_option_menu.set_meta("interaction_object",_interaction_object)
 #	interaction_option_menu.set_global_position(get_global_mouse_position())
 	interaction_option_menu.popup()
+	
+#设置对话请求
+func on_player_request_input(_text):
+	set_player_dialog_message(_text)
 
 	
 func on_player_param_item_value_change(_param_item_model:ComomStuffParam):
@@ -304,3 +350,26 @@ func _on_player_package_pressed():
 
 func _on_LogClean_Button_pressed():
 	log_listview.clear_item()
+
+func verify_input_non_empty() -> bool:
+	for item in dialog_panel.get_children():
+		if item is TextEdit and not item.text:
+			return false
+	return true
+#确认对话框输入
+func _on_Confirm_Dialog_Button_pressed():
+	if verify_input_non_empty():
+		var input_content:PoolStringArray
+		for item in dialog_panel.get_children():
+			input_content.append(item.text)
+			if item is TextEdit:
+				var param_name = param_placeholder_arr.pop_front()
+				current_player.set_param_value(param_name,item.text)
+		clear_dialog_panel()
+		var text_content = input_content.join("")
+		current_player.set_response_text(text_content)
+
+#取消对话框输入
+func _on_Cancle_Dialog_Button_pressed():
+	clear_dialog_panel()
+	current_player.set_response_text(null)
