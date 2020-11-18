@@ -518,7 +518,12 @@ func num_of_colliding_objects(_node):
 	return transform_bool_to_int(_node.get_colliding_objects_num())
 	
 func is_colliding(_node1,_node2):
-	return transform_bool_to_int(_node1.is_colliding(_node2))
+	if _node1.has_method("is_colliding"):
+		return transform_bool_to_int(_node1.is_colliding(_node2))
+	elif  _node2.has_method("is_colliding"):
+		return transform_bool_to_int(_node2.is_colliding(_node1))
+	else:
+		assert(false)
 
 func transform(_node,_node_param_name):
 	var param_model = _node.param.get_value(_node_param_name)

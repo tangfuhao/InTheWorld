@@ -71,7 +71,7 @@ func _set_display_name(_name):
 func _ready():
 	if load_config_by_stuff_type(stuff_type_name):
 		setup_node_by_config(stuff_type_name)
-		set_disbled_collision(is_collision)
+		set_disbled_collision(!is_collision)
 		apply_init_params()
 		#更新地图上点的占用
 		call_deferred("emit_signal","node_position_update",self)
