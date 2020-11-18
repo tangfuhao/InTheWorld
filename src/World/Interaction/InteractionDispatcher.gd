@@ -45,14 +45,22 @@ func make_stuff_type_tree():
 	var stuff_node_arr = stuff_layer.get_children()
 	var player_node_arr = player_layer.get_children()
 	type_stuff_dic["Player"] = player_node_arr
+	traverse_child_type_tree(stuff_node_arr)
 	
-	for node_item in stuff_node_arr:
+	
+
+func traverse_child_type_tree(_stuff_node_arr):
+	for node_item in _stuff_node_arr:
 		var type_name = node_item.stuff_type_name
 		var node_type_group = DataManager.get_node_type_group(type_name)
 		for item in node_type_group:
 			var node_arr = get_arr_value_from_dic(type_stuff_dic,item)
-			node_arr.push_back(node_item)
-				
+			if not node_arr.has(node_item):
+				node_arr.push_back(node_item)
+		
+		traverse_child_type_tree(node_item.bind_layer.get_children())
+		traverse_child_type_tree(node_item.storage_layer.get_children())
+		
 
 func get_arr_value_from_dic(_type_stuff_dic,_item) -> Array:
 	if not _type_stuff_dic.has(_item):
