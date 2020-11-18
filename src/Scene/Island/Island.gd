@@ -63,8 +63,7 @@ func add_customer_node(_node):
 
 #移除节点
 func remove_customer_node(_node):
-	customer_node_group.remove_child(_node)
-	emit_signal("customer_stuff_create",_node,false)
+	call_deferred("emit_signal","customer_stuff_create",_node,false)
 	
 
 
@@ -97,3 +96,4 @@ func _on_stuff_update_state(_state_name, _state_value):
 
 func _on_stuff_disappear(_stuff):
 	pathfinding.clear_collision_stuff_global_rect(_stuff)
+	remove_customer_node(_stuff)

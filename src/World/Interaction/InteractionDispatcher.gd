@@ -28,7 +28,8 @@ func _ready():
 			#绑定关系
 			for node_item in match_node_pair_item.values():
 				var interaction_arr = get_arr_value_from_dic(active_node_to_interaction_dic,node_item)
-				interaction_arr.push_back(interaction_implement)
+				if not interaction_arr.has(interaction_implement):
+					interaction_arr.push_back(interaction_implement)
 			#加入场景
 			add_child(interaction_implement)
 		
@@ -182,7 +183,8 @@ func _on_Island_customer_stuff_create(_node,_create_or_release):
 					#绑定关系
 					for node_item in match_node_pair_item.values():
 						var interaction_arr = get_arr_value_from_dic(active_node_to_interaction_dic,node_item)
-						interaction_arr.push_back(interaction_implement)
+						if not interaction_arr.has(interaction_implement):
+							interaction_arr.push_back(interaction_implement)
 					#加入场景
 					add_child(interaction_implement)
 				
@@ -190,13 +192,16 @@ func _on_Island_customer_stuff_create(_node,_create_or_release):
 				for node_type_item in node_match.values():
 					var interaction_template_arr = get_arr_value_from_dic(use_node_type_to_interaction_template_dic,node_type_item)
 					interaction_template_arr.push_back(item)
+					#TODO 模板被没用的加入了
+					
 
 		print("add new object finish")
 	else:
-		var interaction_template_arr = get_arr_value_from_dic(use_node_type_to_interaction_template_dic,_node)
-		for item in interaction_template_arr:
+		var active_interaction_arr = get_arr_value_from_dic(active_node_to_interaction_dic,_node)
+		for item in active_interaction_arr:
 			remove_child(item)
-		interaction_template_arr.clear()
+			item.queue_free()
+		active_interaction_arr.clear()
 
 
 #场景通知 自定义物品 属性通知
