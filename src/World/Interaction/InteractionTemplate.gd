@@ -149,7 +149,7 @@ func parse_condition_to_set_listening_content(item):
 			elif function_name == "num_of_colliding_objects":
 				for node_name in function_params:
 					node_name = extract_node_name(objecet_regex,node_name)
-					var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_signal_dic,node_name)
+					var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_cllision_dic,node_name)
 					CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_signal_arr,"node_collision_add_object")
 					CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_signal_arr,"node_collision_remove_object")
 

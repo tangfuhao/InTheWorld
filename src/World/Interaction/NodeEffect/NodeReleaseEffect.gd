@@ -35,5 +35,6 @@ func _process(_delta,_param_accessor):
 func add_to_main_scene(main_scence,stuff_node,position):
 	main_scence.add_child(stuff_node)
 	stuff_node.set_global_position(position)
-	main_scence.binding_customer_node_item(stuff_node)
+	#TODO 链接地图
+#	main_scence.binding_customer_node_item(stuff_node)
 	

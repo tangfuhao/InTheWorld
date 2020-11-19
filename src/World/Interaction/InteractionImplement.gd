@@ -229,6 +229,7 @@ func binding_node_state_update(_node_declare_name,_node_item):
 	var node_need_listerning_signal_arr =  CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_signal_dic,_node_declare_name)
 	for item in node_need_listerning_signal_arr:
 		if _node_item.has_signal(item):
+			assert(item != "node_collision_add_object")
 			_node_item.connect(item,self,"_on_node_condition_item_change")
 	
 	#属性值
@@ -262,8 +263,9 @@ func binding_node_state_update(_node_declare_name,_node_item):
 		
 	for item in node_need_listerning_cllision_arr:
 		var listening_cllision_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_cllision_target_change_dic,_node_item)
-		var target_node = node_dic[item]
-		listening_cllision_arr.push_back(target_node)
+		if node_dic.has(item):
+			var target_node = node_dic[item]
+			listening_cllision_arr.push_back(target_node)
 
 func on_node_disappear_notify(_node):
 	interaction_status_check()
@@ -289,7 +291,7 @@ func _on_node_cllision_remove_object(_node,_target):
 
 func node_cllision_object_update(_node,_target):
 	var listening_cllision_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_cllision_target_change_dic,_node)
-	if listening_cllision_arr.has(_target):
+	if listening_cllision_arr.empty() and listening_cllision_arr.has(_target):
 		interaction_status_check()
 
 #通用条件更改
