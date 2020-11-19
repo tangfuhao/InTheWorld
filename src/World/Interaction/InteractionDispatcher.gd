@@ -209,8 +209,9 @@ func _on_stuff_disappear(_node):
 		node_arr.erase(_node)
 
 	var active_interaction_arr = get_arr_value_from_dic(active_node_to_interaction_dic,_node)
+	var all_interaction = get_children()
 	for item in active_interaction_arr:
-		if get_children().has(item):
+		if all_interaction.has(item):
 			remove_child(item)
 			item.queue_free()
 
