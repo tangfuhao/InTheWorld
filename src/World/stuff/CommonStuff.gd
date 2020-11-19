@@ -202,7 +202,7 @@ func apply_phycis_config():
 	
 	var shape3 = RectangleShape2D.new()
 	interact_collision_shape.set_shape(shape3)
-	shape3.set_extents(Vector2(half_side_length + 5,half_side_length + 5))
+	shape3.set_extents(Vector2(half_side_length + 10,half_side_length + 10))
 
 	
 	line2d.points = PoolVector2Array(calculate_point_array(half_side_length))
