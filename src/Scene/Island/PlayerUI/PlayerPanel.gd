@@ -238,7 +238,8 @@ func object_click(interaction_object):
 				is_match_type = item.text == "Player"
 			else:
 				if item.text == "物品":
-					is_match_type == true
+					is_match_type = true
+
 				else:
 					is_match_type = DataManager.is_belong_type(item.text,interaction_object.stuff_type_name)
 			
