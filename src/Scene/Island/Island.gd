@@ -11,9 +11,9 @@ onready var customer_node_group := $StuffLayer
 onready var player_layer := $PlayerLayer
 
 
+#TODO  移动到UI面板
 var controll_player
 
-signal customer_stuff_param_update(_node,_param_name)
 
 
 

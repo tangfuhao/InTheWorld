@@ -5,8 +5,6 @@ class_name Player
 const Bullet = preload("res://src/World/bullet/Bullet.tscn")
 
 export var player_name = "player1"
-#export (NodePath) var bullets_node_path
-#var bullets_node_layer
 
 
 onready var name_label := $NameDisplay
@@ -34,9 +32,6 @@ var current_dialog_text
 
 
 signal disappear_notify()
-signal player_action_notify(body,action_name,is_active)
-signal location_change(body,location_name)
-signal player_selected(body)
 #物品属性的更新
 signal node_param_item_value_change(node,param_item)
 #请求输入的结果
@@ -60,7 +55,7 @@ func _ready() -> void:
 	param.set_value(param_model.name,param_model)
 	
 	
-func _process(delta):
+func _process(_delta):
 	handle_dialog_messages()
 	
 
