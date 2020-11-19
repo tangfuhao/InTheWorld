@@ -5,6 +5,7 @@ onready var pathfinding := $Pathfinding
 onready var ground := $Ground
 onready var camera := $CameraMovement
 onready var player_ui := $UI/PlayerPanel
+onready var interaction_dispatcher := $InteractionDispatcher
 
 onready var customer_node_group := $StuffLayer
 
@@ -12,7 +13,7 @@ onready var customer_node_group := $StuffLayer
 var controll_player
 
 signal customer_stuff_param_update(_node,_param_name)
-signal customer_stuff_create(_node,_create_or_release)
+
 
 
 func _ready():
@@ -60,14 +61,7 @@ func add_customer_node(_node:Node2D):
 	assert(_node.get_parent() == null)
 	customer_node_group.add_child(_node)
 	binding_customer_node_item(_node)
-	emit_signal("customer_stuff_create",_node,true)
-
-#移除节点
-func remove_customer_node(_node):
-	emit_signal("customer_stuff_create",_node,false)
-	
-
-
+	interaction_dispatcher.add_new_stuff(_node)
 
 
 func _on_CameraMovement_cancle_focus_player():
@@ -97,4 +91,3 @@ func _on_stuff_update_state(_state_name, _state_value):
 
 func _on_stuff_disappear(_stuff):
 	pathfinding.clear_collision_stuff_global_rect(_stuff)
-	remove_customer_node(_stuff)

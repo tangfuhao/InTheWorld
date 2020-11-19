@@ -52,6 +52,7 @@ func make_stuff_type_tree():
 
 func traverse_child_type_tree(_stuff_node_arr):
 	for node_item in _stuff_node_arr:
+		node_item.connect("disappear_notify",self,"_on_stuff_disappear")
 		var type_name = node_item.stuff_type_name
 		var node_type_group = DataManager.get_node_type_group(type_name)
 		for item in node_type_group:
@@ -128,91 +129,90 @@ func match_meet_node_type_in_arr(_type_arr,_inherit_type_group):
 		
 
 #场景通知 自定义物品 创建或消失的通知
-func _on_Island_customer_stuff_create(_node,_create_or_release):
-	if _create_or_release:
-		#节点匹配的类型集合
-		var inherit_type_group = DataManager.get_node_type_group(_node.stuff_type_name)
-		#类型集合的集合
-		var god_interaction_arr = DataManager.get_interaction_arr_by_type("god")
-		for item in god_interaction_arr:
-			var node_match = item.node_matching
-			var node_type_arr:Array = node_match.values()
-			var node_name_arr = node_match.keys()
+func add_new_stuff(_node):
+	#节点匹配的类型集合
+	var inherit_type_group = DataManager.get_node_type_group(_node.stuff_type_name)
+	#类型集合的集合
+	var god_interaction_arr = DataManager.get_interaction_arr_by_type("god")
+	for item in god_interaction_arr:
+		var node_match = item.node_matching
+		var node_type_arr:Array = node_match.values()
+		var node_name_arr = node_match.keys()
+		
+		#匹配满足的node类型
+		var match_type_index_arr = match_meet_node_type_in_arr(node_type_arr,inherit_type_group)
+		for type_index_item in match_type_index_arr:
+			#根据类型筛选出来的节点集合的队列
+			var node_arr_queue_by_type := []
+			for node_type_item_index in range(node_type_arr.size()):
+				if type_index_item == node_type_item_index:
+					node_arr_queue_by_type.push_back([_node])
+				else:
+					var node_type_item = node_type_arr[node_type_item_index]
+					if not type_stuff_dic.has(node_type_item):
+						break
 			
-			#匹配满足的node类型
-			var match_type_index_arr = match_meet_node_type_in_arr(node_type_arr,inherit_type_group)
-			for type_index_item in match_type_index_arr:
-				#根据类型筛选出来的节点集合的队列
-				var node_arr_queue_by_type := []
-				for node_type_item_index in range(node_type_arr.size()):
-					if type_index_item == node_type_item_index:
-						node_arr_queue_by_type.push_back([_node])
-					else:
-						var node_type_item = node_type_arr[node_type_item_index]
-						if not type_stuff_dic.has(node_type_item):
-							break
-				
-						var node_type_group = type_stuff_dic[node_type_item]
-						if node_type_group.empty():
-							break
-						
-						node_arr_queue_by_type.push_back(node_type_group)
-				
-				
-				#可以搭配的节点 组合
-				#TODO 应该加入条件
-				var result_arr := []
-				node_match_iteration_collect(node_arr_queue_by_type,0,[],result_arr)
-				
-				
-				
-				var node_name_item_arr := []
-				for node_arr_item in result_arr:
-					var node_pair := {}
-					var node_size = node_arr_item.size()
-					for node_item_index in range(node_size):
-						var node_name = node_name_arr[node_item_index]
-						var node_item = node_arr_item[node_item_index]
-						node_pair[node_name] = node_item
-					node_name_item_arr.push_back(node_pair)
+					var node_type_group = type_stuff_dic[node_type_item]
+					if node_type_group.empty():
+						break
 					
+					node_arr_queue_by_type.push_back(node_type_group)
+			
+			
+			#可以搭配的节点 组合
+			#TODO 应该加入条件
+			var result_arr := []
+			node_match_iteration_collect(node_arr_queue_by_type,0,[],result_arr)
+			
+			
+			
+			var node_name_item_arr := []
+			for node_arr_item in result_arr:
+				var node_pair := {}
+				var node_size = node_arr_item.size()
+				for node_item_index in range(node_size):
+					var node_name = node_name_arr[node_item_index]
+					var node_item = node_arr_item[node_item_index]
+					node_pair[node_name] = node_item
+				node_name_item_arr.push_back(node_pair)
 				
+			
+			
+			for match_node_pair_item in node_name_item_arr:
+				#创建交互
+				var interaction_implement = item.create_interaction(match_node_pair_item)
+				#绑定关系
+				for node_item in match_node_pair_item.values():
+					var interaction_arr = get_arr_value_from_dic(active_node_to_interaction_dic,node_item)
+					if not interaction_arr.has(interaction_implement):
+						interaction_arr.push_back(interaction_implement)
+				#加入场景
+				add_child(interaction_implement)
+			
+			#绑定交互模板的关系
+			for node_type_item in node_match.values():
+				var interaction_template_arr = get_arr_value_from_dic(use_node_type_to_interaction_template_dic,node_type_item)
+				interaction_template_arr.push_back(item)
+				#TODO 模板被没用的加入了
 				
-				for match_node_pair_item in node_name_item_arr:
-					#创建交互
-					var interaction_implement = item.create_interaction(match_node_pair_item)
-					#绑定关系
-					for node_item in match_node_pair_item.values():
-						var interaction_arr = get_arr_value_from_dic(active_node_to_interaction_dic,node_item)
-						if not interaction_arr.has(interaction_implement):
-							interaction_arr.push_back(interaction_implement)
-					#加入场景
-					add_child(interaction_implement)
-				
-				#绑定交互模板的关系
-				for node_type_item in node_match.values():
-					var interaction_template_arr = get_arr_value_from_dic(use_node_type_to_interaction_template_dic,node_type_item)
-					interaction_template_arr.push_back(item)
-					#TODO 模板被没用的加入了
-					
-
-		print("add new object finish")
-	else:
-		var type_name = _node.stuff_type_name
-		var node_type_group = DataManager.get_node_type_group(type_name)
-		for item in node_type_group:
-			var node_arr = get_arr_value_from_dic(type_stuff_dic,item)
-			node_arr.erase(_node)
-
-		var active_interaction_arr = get_arr_value_from_dic(active_node_to_interaction_dic,_node)
-		for item in active_interaction_arr:
-			if get_children().has(item):
-				remove_child(item)
-				item.queue_free()
-
-		active_interaction_arr.clear()
+	
+	_node.connect("disappear_notify",self,"_on_stuff_disappear")
+	print("add new object finish")
 
 
-#场景通知 自定义物品 属性通知
-func _on_Island_customer_stuff_param_update(_node,_param_name):
-	pass # Replace with function body.
+#物品消失时 移除相关作用
+func _on_stuff_disappear(_node):
+	var type_name = _node.stuff_type_name
+	var node_type_group = DataManager.get_node_type_group(type_name)
+	for item in node_type_group:
+		var node_arr = get_arr_value_from_dic(type_stuff_dic,item)
+		node_arr.erase(_node)
+
+	var active_interaction_arr = get_arr_value_from_dic(active_node_to_interaction_dic,_node)
+	for item in active_interaction_arr:
+		if get_children().has(item):
+			remove_child(item)
+			item.queue_free()
+
+	active_interaction_arr.clear()
+
