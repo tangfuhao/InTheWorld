@@ -3,11 +3,12 @@ extends Node2D
 
 onready var pathfinding := $Pathfinding
 onready var ground := $Ground
+onready var sandbeach := $Sandbeach
 onready var camera := $CameraMovement
 onready var player_ui := $UI/PlayerPanel
 onready var interaction_dispatcher := $InteractionDispatcher
-
 onready var customer_node_group := $StuffLayer
+onready var player_layer := $PlayerLayer
 
 
 var controll_player
@@ -42,8 +43,25 @@ func _process(delta):
 				player_ui.object_click(interaction_object)
 		else:
 			player_ui.object_click(interaction_object)
-			
 	
+	update_player_location(delta)
+			
+
+var update_locotion_step = 0.5
+var record_location_time = 0
+#更新用户的位置
+func update_player_location(delta):
+	record_location_time = record_location_time + delta
+	if record_location_time > update_locotion_step:
+		record_location_time = record_location_time - update_locotion_step
+		var players = player_layer.get_children()
+		for player_item in players:
+			var map_cell_id = sandbeach.get_cellv(sandbeach.world_to_map(player_item.get_global_position()))
+			if map_cell_id == TileMap.INVALID_CELL:
+				player_item.set_param_value("所在地","草地")
+			else:
+				player_item.set_param_value("所在地","沙滩")
+
 
 #监听自定义物品的事件
 func binding_customer_node_event():
