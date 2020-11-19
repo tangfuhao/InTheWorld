@@ -164,7 +164,16 @@ func get_running_interaction(_interaction_template):
 		return interaction_dic[_interaction_template]
 	return null
 
-
+#移除节点
+func disappear():
+	queue_free()
+	notify_disappear()
+	
+#TODO 现在的方式 是不是也是在场景上 才发送信号
+func notify_disappear():
+	#只有在场景上 才会通知这个事件
+	if is_inside_tree():
+		emit_signal("disappear_notify",self)
 
 
 func _on_PlayerParam_param_item_value_change(_param_item):
