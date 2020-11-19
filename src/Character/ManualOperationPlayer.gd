@@ -22,8 +22,7 @@ onready var storage_layer := $Storage
 var node_name
 #显示名称
 var display_name
-#库存
-var inventory_system:InventorySystem
+
 #请求输入队列
 var dialog_message_arr := []
 var current_dialog_text
@@ -40,11 +39,7 @@ func _ready() -> void:
 	display_name = player_name
 	name_label.set_text(display_name)
 	node_name = display_name + IDGenerator.pop_id_index()
-	
 
-
-	inventory_system = InventorySystem.new()
-	
 	#TEST
 	var param_model = ComomStuffParam.new()
 	param_model.name = "负重上限"

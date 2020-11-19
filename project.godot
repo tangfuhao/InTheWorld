@@ -244,11 +244,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/World/Interaction/InteractionTemplate.gd"
 }, {
-"base": "Reference",
-"class": "InventorySystem",
-"language": "GDScript",
-"path": "res://src/Character/package/InventorySystem.gd"
-}, {
 "base": "Sensor",
 "class": "MemorySensor",
 "language": "GDScript",
@@ -323,11 +318,6 @@ _global_script_classes=[ {
 "class": "Operator",
 "language": "GDScript",
 "path": "res://src/Math/Operator.gd"
-}, {
-"base": "Reference",
-"class": "PackageItemModel",
-"language": "GDScript",
-"path": "res://src/Character/package/PackageItemModel.gd"
 }, {
 "base": "MarginContainer",
 "class": "PackgeItemBase",
@@ -507,7 +497,6 @@ _global_script_class_icons={
 "InteractionDispatcher": "",
 "InteractionImplement": "",
 "InteractionTemplate": "",
-"InventorySystem": "",
 "MemorySensor": "",
 "MotivationModel": "",
 "MoveTo": "",
@@ -523,7 +512,6 @@ _global_script_class_icons={
 "NodeSendInfoToTargetEffect": "",
 "NodeStoreEffect": "",
 "Operator": "",
-"PackageItemModel": "",
 "PackgeItemBase": "",
 "Pathfinding": "",
 "Player": "",
