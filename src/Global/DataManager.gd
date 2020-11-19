@@ -54,7 +54,7 @@ func get_stuff_list():
 func get_interaction_arr_by_type(_type):
 	var interaction_arr := []
 	for item in interaction_template_dic.values():
-		if not item.parant_interaction and item.type == _type :
+		if item.type == _type :
 			interaction_arr.push_back(item)
 	return interaction_arr
 
