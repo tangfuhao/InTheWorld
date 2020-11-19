@@ -305,6 +305,13 @@ func notify_binding_dependency_change():
 func notify_storage_dependency_change():
 	emit_signal("node_storege_dependency_change",self)
 
+func notify_node_add_to_main_scene():
+	emit_signal("node_add_to_main_scene",self)
+
+func notify_node_remove_to_main_scene():
+	emit_signal("node_remove_to_main_scene",self)
+
+
 
 #执行影响改变
 func excute_effect(effect_param_arr):

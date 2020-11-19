@@ -30,7 +30,7 @@ func set_transform(_transform):
 	transform = _transform
 	if _transform is String:
 		is_expression = check_is_expression(transform)
-		is_has_function = "$(" in transform
+		is_has_function = "$[" in transform
 
 func set_assign(_assign):
 	assign = _assign
@@ -40,6 +40,7 @@ func set_assign(_assign):
 
 func _process(_delta,_param_accessor):
 	var node = _param_accessor.get_node_ref(node_name)
+	assert(node)
 	var function_regex = DataManager.function_regex
 	var objecet_regex = DataManager.objecet_regex
 
@@ -51,9 +52,6 @@ func _process(_delta,_param_accessor):
 		
 
 		var value = node.get_param_value(param_name)
-		if param_name == "流体体积" and value == 2:
-			print("sdasd")
-			
 		var value_change
 		if is_expression:
 			if is_has_function:

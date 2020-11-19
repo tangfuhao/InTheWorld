@@ -27,7 +27,4 @@ func _process(_delta,_param_accessor):
 func add_to_main_scene(node,stuff_node,position):
 	var main_scence = node.get_node("/root/Island")
 	main_scence.add_customer_node(stuff_node)
-#	main_scence.customer_node_group.add_child(stuff_node)
-#	stuff_node.set_global_position(position)
-#	main_scence.binding_customer_node_item(stuff_node)
 	

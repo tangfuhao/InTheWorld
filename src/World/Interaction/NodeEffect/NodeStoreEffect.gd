@@ -15,6 +15,11 @@ func set_store_name(_name):
 func _process(_delta,_param_accessor):
 	var node = _param_accessor.get_node_ref(node_name)
 	var be_store_node = _param_accessor.get_node_ref(sotre_node_name)
+	
+	var main_scence = node.get_node("/root/Island/StuffLayer")
+	var parent_node = be_store_node.get_parent()
 	if node.storage_layer.store(be_store_node):
+		if parent_node and parent_node == main_scence:
+			be_store_node.notify_node_remove_to_main_scene()
 		be_store_node.notify_storage_dependency_change()
 

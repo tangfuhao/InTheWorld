@@ -56,14 +56,15 @@ func binding_customer_node_item(_item):
 
 #把自定义物品 加入到场景
 #TODO 信号传给上帝作用 重新分配  可能不合理
-func add_customer_node(_node):
+func add_customer_node(_node:Node2D):
+	assert(_node.get_parent() == null)
 	customer_node_group.add_child(_node)
 	binding_customer_node_item(_node)
 	emit_signal("customer_stuff_create",_node,true)
 
 #移除节点
 func remove_customer_node(_node):
-	call_deferred("emit_signal","customer_stuff_create",_node,false)
+	emit_signal("customer_stuff_create",_node,false)
 	
 
 

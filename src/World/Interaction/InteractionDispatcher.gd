@@ -168,7 +168,7 @@ func _on_Island_customer_stuff_create(_node,_create_or_release):
 				
 				var node_name_item_arr := []
 				for node_arr_item in result_arr:
-					var node_pair = {}
+					var node_pair := {}
 					var node_size = node_arr_item.size()
 					for node_item_index in range(node_size):
 						var node_name = node_name_arr[node_item_index]
@@ -198,10 +198,18 @@ func _on_Island_customer_stuff_create(_node,_create_or_release):
 
 		print("add new object finish")
 	else:
+		var type_name = _node.stuff_type_name
+		var node_type_group = DataManager.get_node_type_group(type_name)
+		for item in node_type_group:
+			var node_arr = get_arr_value_from_dic(type_stuff_dic,item)
+			node_arr.erase(_node)
+
 		var active_interaction_arr = get_arr_value_from_dic(active_node_to_interaction_dic,_node)
 		for item in active_interaction_arr:
-			remove_child(item)
-			item.queue_free()
+			if get_children().has(item):
+				remove_child(item)
+				item.queue_free()
+
 		active_interaction_arr.clear()
 
 

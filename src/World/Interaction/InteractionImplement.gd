@@ -300,8 +300,8 @@ func _on_node_condition_item_change(_node):
 func _on_node_param_item_value_change(_node,_param_item):
 	assert(_node)
 	assert(_param_item)
-	if interaction_name == "同步流体体积消失":
-		print("sdasdasd")
+	if interaction_name == "同步容器的修改流体量":
+		print("同步容器的修改流体量")
 	var listening_parma_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_param_value_change_dic,_node)
 	if listening_parma_arr.has(_param_item.name):
 		interaction_status_check()
@@ -309,6 +309,8 @@ func _on_node_param_item_value_change(_node,_param_item):
 #作用状态检查
 #_traverse_all_condition 遍历所有条件 保证所有值的缓存都建立
 func interaction_status_check(_traverse_all_condition = false):
+	if interaction_name == "流体解除消失":
+		print("流体解除消失")
 	#当前条件是否满足
 	var is_meet_condition = judge_conditions(_traverse_all_condition)
 	judge_interaction_vaild(is_meet_condition)
