@@ -1,5 +1,7 @@
 class_name NodeParamEffect
 
+const update_time_step = 1
+
 var node_name
 var param_name
 var transform setget set_transform
@@ -47,7 +49,7 @@ func _process(_delta,_param_accessor):
 		
 	if transform != null:
 		temp_delta = temp_delta + _delta
-		if temp_delta < 1:
+		if temp_delta < update_time_step:
 			return 
 		
 
@@ -56,11 +58,11 @@ func _process(_delta,_param_accessor):
 		if is_expression:
 			if is_has_function:
 				value_change = parser.parse_has_function(transform, function_regex, objecet_regex,_param_accessor,_param_accessor)
-				value_change = value_change 
+				value_change = value_change * update_time_step
 				value = value + value_change
 			else:
 				value_change = parser.parse(transform, {}, {},_param_accessor,objecet_regex)
-				value_change = value_change
+				value_change = value_change * update_time_step
 				value = value + value_change
 		else:
 			if transform is String:
@@ -70,7 +72,7 @@ func _process(_delta,_param_accessor):
 				value = value + value_change
 		node.set_param_value(param_name,value)
 		
-		temp_delta = temp_delta - 1
+		temp_delta = temp_delta - update_time_step
 	elif assign != null:
 		if is_expression:
 			var assign_value = parser.parse(assign, {}, {},_param_accessor,objecet_regex)
