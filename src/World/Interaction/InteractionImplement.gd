@@ -533,6 +533,8 @@ func is_binding(_node1,_node2):
 func is_storing(_node1,_node2):
 	return transform_bool_to_int(_node1.storage_layer.is_store(_node2))
 
+func is_equal(_value1,_value2):
+	return transform_bool_to_int(_value1 == _value2)
 
 
 func is_value_change(_node,_param_name):

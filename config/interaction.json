@@ -947,7 +947,7 @@
             "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
             "${node1[当前负重]} < ${node1[负重上限]}",
             "${node2[容器内流体量]} < ${node2[容器内流体量.max_value]}",
-            "${node1[所在地]} ≡ 浅海"
+            "$[is_equal,${node1[所在地]},浅海]"
             
         ],
         "_nodes": [
@@ -1796,7 +1796,7 @@
         "interaction_duration": 2,
         "interaction_conditions": [
             "$[can_interact, ${node1}, ${node2}]",
-            "${node2[关闭打开破碎]} ≠ 破碎"
+            "$[is_equal,${node1[关闭打开破碎]},破碎] ≡ 0"
         ],
         "_nodes": [
             {
@@ -1972,7 +1972,7 @@
         "interaction_scheduling": "god",
         "interaction_duration": 0,
         "interaction_conditions": [
-            "${node1[关闭打开破碎]} ≡ 打开",
+            "$[is_equal,${node1[关闭打开破碎]},打开]",
             "$[is_storing, ${node1}, ${node2}]"
         ],
         "_nodes": [
@@ -2001,7 +2001,7 @@
         "interaction_scheduling": "god",
         "interaction_duration": 0,
         "interaction_conditions": [
-            "${node1[关闭打开破碎]} ≡ 破碎",
+            "$[is_equal,${node1[关闭打开破碎]},破碎]",
             "$[is_storing, ${node1}, ${node2}]"
         ],
         "_nodes": [
@@ -2030,7 +2030,7 @@
         "interaction_scheduling": "god",
         "interaction_duration": 0,
         "interaction_conditions": [
-            "${node1[关闭打开破碎]} ≡ 打开",
+            "$[is_equal,${node1[关闭打开破碎]},打开]",
             "$[is_storing, ${node1}, ${node2}]",
             "$[is_storing, ${node1}, ${node3}]"
         ],
