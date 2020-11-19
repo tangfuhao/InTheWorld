@@ -344,11 +344,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/Character/ManualOperationPlayer.gd"
 }, {
-"base": "Node2D",
-"class": "PlayerAI",
-"language": "GDScript",
-"path": "res://src/Scene/Island/PlayerAI.gd"
-}, {
 "base": "Node",
 "class": "PlayerMessageAnalyzer",
 "language": "GDScript",
@@ -532,7 +527,6 @@ _global_script_class_icons={
 "PackgeItemBase": "",
 "Pathfinding": "",
 "Player": "",
-"PlayerAI": "",
 "PlayerMessageAnalyzer": "",
 "PlayerPanel": "",
 "PlayerParam": "",

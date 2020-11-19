@@ -2,8 +2,6 @@ extends KinematicBody2D
 class_name Player
 
 
-const Bullet = preload("res://src/World/bullet/Bullet.tscn")
-
 export var player_name = "player1"
 
 
@@ -43,8 +41,7 @@ func _ready() -> void:
 	name_label.set_text(display_name)
 	node_name = display_name + IDGenerator.pop_id_index()
 	
-#	assert(bullets_node_path)
-#	bullets_node_layer = get_node(bullets_node_path)
+
 
 	inventory_system = InventorySystem.new()
 	
