@@ -12,8 +12,7 @@ var duration
 var current_progress = 0
 #代指名-节点对象
 var node_dic:Dictionary
-#运行时  代指名-节点对象
-#var running_node_dic := {}
+
 
 #各种情况 作用的影响
 var active_execute := []
@@ -104,7 +103,8 @@ func _process(delta):
 		apply_change_cache()
 		self.is_active = false
 		self.is_vaild = false
-		return 
+		if not is_manual_interaction:
+			interaction_status_check()
 		
 	if not is_active:
 		self.is_active = interaction_active()
@@ -282,9 +282,14 @@ func node_interaction_object_update(_node,_target):
 	if listening_interaction_arr.has(_target):
 		interaction_status_check()
 
+func node_collision_object_update(_node,_target):
+	var listening_collision_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_cllision_target_change_dic,_node)
+	if listening_collision_arr.empty() or listening_collision_arr.has(_target):
+		interaction_status_check()
+
 #可碰撞对象新增 和 删减 信号
 func _on_node_cllision_add_object(_node,_target):
-	node_interaction_object_update(_node,_target)
+	node_collision_object_update(_node,_target)
 
 func _on_node_cllision_remove_object(_node,_target):
 	node_interaction_object_update(_node,_target)
@@ -311,8 +316,8 @@ func _on_node_param_item_value_change(_node,_param_item):
 #作用状态检查
 #_traverse_all_condition 遍历所有条件 保证所有值的缓存都建立
 func interaction_status_check(_traverse_all_condition = false):
-	if interaction_name == "流体解除消失":
-		print("流体解除消失")
+	if interaction_name == "衣服遇水":
+		print("衣服遇水")
 	#当前条件是否满足
 	var is_meet_condition = judge_conditions(_traverse_all_condition)
 	judge_interaction_vaild(is_meet_condition)
@@ -349,7 +354,7 @@ func runing_timer():
 func check_node_exist():
 	for item in node_dic.keys():
 		var node_item = node_dic[item]
-		if not node_item:
+		if not node_item or node_item.is_queued_for_deletion():
 			LogSys.log_i("因为节点:%s 不存在，作用:%s 不执行" % [item,interaction_name])
 			return false
 	return true
@@ -548,6 +553,8 @@ func num_of_colliding_objects(_node):
 	return transform_bool_to_int(_node.get_colliding_objects_num())
 	
 func is_colliding(_node1,_node2):
+	if _node1.display_name == "衣服" or _node2.display_name == "衣服":
+		print("sss123")
 	if _node1.has_method("is_colliding"):
 		return transform_bool_to_int(_node1.is_colliding(_node2))
 	elif  _node2.has_method("is_colliding"):

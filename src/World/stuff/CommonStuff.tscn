@@ -25,9 +25,8 @@ polygon = PoolVector2Array( -6.62574, -5.83961, 6.12357, -6.0521, 6.37148, 7.724
 [node name="LabelLayout" parent="." instance=ExtResource( 2 )]
 
 [node name="StuffArea" type="Area2D" parent="."]
-monitorable = false
 collision_layer = 524288
-collision_mask = 10
+collision_mask = 524290
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StuffArea"]
 

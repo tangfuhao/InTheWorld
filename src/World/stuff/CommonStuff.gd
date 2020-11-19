@@ -285,8 +285,9 @@ func set_param_value(_param_name,_param_value):
 
 #移除节点
 func disappear():
-	notify_disappear()
 	queue_free()
+	notify_disappear()
+	
 	
 
 func get_type():
@@ -372,11 +373,10 @@ func remove_from_collision_object_arr(_node):
 
 #用area 碰撞检测 因为有非刚体
 func _on_StuffArea_area_entered(area):
-	assert(false)
-	add_to_collision_object_arr(area)
+	add_to_collision_object_arr(area.get_parent())
 
 func _on_StuffArea_area_exited(area):
-	remove_from_collision_object_arr(area)
+	remove_from_collision_object_arr(area.get_parent())
 
 func _on_StuffArea_body_entered(body):
 	add_to_collision_object_arr(body)
