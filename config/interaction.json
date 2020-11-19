@@ -245,7 +245,7 @@
                 "effects": [
                     {
                         "param_name": "容器内流体量",
-                        "transform": "$(transform, ${node2},流体体积)"
+                        "transform": "$[transform, ${node2},流体体积]"
                     }
                 ]
             }
@@ -341,7 +341,7 @@
                 "effects": [
                     {
                         "param_name": "总重量",
-                        "transform": "$(transform, ${node2},重量)"
+                        "transform": "$[transform, ${node2},重量]"
                     }
                 ]
             }
@@ -437,7 +437,7 @@
                 "effects": [
                     {
                         "param_name": "当前负重",
-                        "transform": "$(transform, ${node2},总重量)"
+                        "transform": "$[transform, ${node2},总重量]"
                     }
                 ]
             }
