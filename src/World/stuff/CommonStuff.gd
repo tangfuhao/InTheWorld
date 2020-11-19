@@ -309,16 +309,16 @@ func disappear():
 	queue_free()
 	notify_disappear()
 	
-	
-
-func get_type():
-	return "stuff"
-
 #TODO 现在的方式 是不是也是在场景上 才发送信号
 func notify_disappear():
 	#只有在场景上 才会通知这个事件
 	if is_inside_tree():
 		emit_signal("disappear_notify",self)
+
+func get_type():
+	return "stuff"
+
+
 
 #物品的绑定关系改变
 func notify_binding_dependency_change():

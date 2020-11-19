@@ -5,10 +5,12 @@ const cnofig_file_path = "res://config/overview.json"
 const task_prefix_path = "res://src/Character/tasks/"
 
 
-
+#数据概述
 var config_data
 
+#缓存用户的数据 包括ai
 var player_config_dic := {}
+
 var base_action_dic:Dictionary
 
 #物品定义map集合
