@@ -10,6 +10,7 @@ export var is_location := false
 #是否是刚体
 var is_rigid_body = true
 var is_collision = true
+var is_interaction = true
 
 onready var body_collision_shape = $CollisionShape2D
 onready var area_collision_shape = $StuffArea/CollisionShape2D
@@ -93,9 +94,14 @@ func add_init_param(param_name,value):
 
 #TODO 设置物品的可交互状态
 func set_interactino_state(_is_interaction):
-	body_collision_shape.set_disabled(!_is_interaction)
-	interact_collision_shape.set_disabled(!_is_interaction)
-	area_collision_shape.set_disabled(!_is_interaction)
+	is_interaction = _is_interaction
+	if body_collision_shape:
+		body_collision_shape.set_disabled(!_is_interaction)
+	if interact_collision_shape:
+		interact_collision_shape.set_disabled(!_is_interaction)
+	if area_collision_shape:
+		area_collision_shape.set_disabled(!_is_interaction)
+	
 	if _is_interaction:
 		if not is_rigid_body:
 			body_collision_shape.set_disabled(true)
@@ -171,7 +177,22 @@ func load_config_by_stuff_type(_type) -> bool:
 				var create_node_param_arr = item["params"]
 				for node_param_item in create_node_param_arr:
 					be_create_node.add_init_param(node_param_item["param_name"],node_param_item["assign"])
+			var main_scence = get_node("/root/Island")
+			main_scence.add_customer_node(be_create_node)	
 			self.bind_layer.bind(be_create_node)
+	
+	if stuff_config.has("create_n_store"):
+		var need_create_object_arr = stuff_config["create_n_store"]
+		for item in need_create_object_arr:
+			var create_node_type = item["name"]
+			var be_create_node = DataManager.instance_stuff_node(create_node_type)
+			if item.has("params"):
+				var create_node_param_arr = item["params"]
+				for node_param_item in create_node_param_arr:
+					be_create_node.add_init_param(node_param_item["param_name"],node_param_item["assign"])
+			var main_scence = get_node("/root/Island")
+			main_scence.add_customer_node(be_create_node)		
+			self.storage_layer.store(be_create_node)
 			
 			
 
@@ -183,7 +204,7 @@ func setup_node_by_config(_type):
 	self.node_name = _type + IDGenerator.pop_id_index()
 	self.display_name = _type
 	apply_phycis_config()
-	set_interactino_state(true)
+	set_interactino_state(is_interaction)
 
 
 #应用物理属性
