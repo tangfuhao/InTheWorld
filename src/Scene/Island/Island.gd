@@ -59,9 +59,10 @@ func binding_customer_node_item(_item):
 #TODO 信号传给上帝作用 重新分配  可能不合理
 func add_customer_node(_node:Node2D):
 	assert(_node.get_parent() == null)
-	customer_node_group.add_child(_node)
-	binding_customer_node_item(_node)
-	interaction_dispatcher.add_new_stuff(_node)
+	if customer_node_group:
+		customer_node_group.add_child(_node)
+		binding_customer_node_item(_node)
+		interaction_dispatcher.add_new_stuff(_node)
 
 
 func _on_CameraMovement_cancle_focus_player():
