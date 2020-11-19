@@ -1077,7 +1077,7 @@
             },
             {
                 "node_name": "node2",
-                "node_type": "流体水"
+                "node_type": "是流体的"
             }
         ],
         "_terminate": [
@@ -2052,6 +2052,9 @@
             {
                 "node_name": "node1",
                 "effects": [
+                    {
+                        "bind": "${node2}"
+                    },
                     {
                         "bind": "${node3}"
                     },
