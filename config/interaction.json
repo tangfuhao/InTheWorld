@@ -1380,7 +1380,7 @@
                 "node_name": "node1",
                 "effects": [
                     {
-                        "release": "node2"
+                        "release": "${node2}"
                     }
                 ]
             }
