@@ -88,11 +88,10 @@ func _process(delta):
 		return 
 		
 
-	# if ssadasdas.has(interaction_name):
-	# 	print("")
-#	if interaction_name == "坐":
-#		print("sss")
-
+#	if interaction_name == "同步流体体积消失":
+#		print("同步流体体积消失")
+#	if interaction_name == "流体解除消失":
+#		print("流体解除消失")
 	
 	
 	#更新进度
@@ -292,7 +291,7 @@ func _on_node_cllision_add_object(_node,_target):
 	node_collision_object_update(_node,_target)
 
 func _on_node_cllision_remove_object(_node,_target):
-	node_interaction_object_update(_node,_target)
+	node_collision_object_update(_node,_target)
 
 func node_cllision_object_update(_node,_target):
 	var listening_cllision_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_cllision_target_change_dic,_node)
@@ -316,8 +315,10 @@ func _on_node_param_item_value_change(_node,_param_item):
 #作用状态检查
 #_traverse_all_condition 遍历所有条件 保证所有值的缓存都建立
 func interaction_status_check(_traverse_all_condition = false):
-	if interaction_name == "衣服遇水":
-		print("衣服遇水")
+#	if interaction_name == "同步流体体积消失":
+#		print("同步流体体积消失")
+#	if interaction_name == "流体解除消失":
+#		print("流体解除消失")
 	#当前条件是否满足
 	var is_meet_condition = judge_conditions(_traverse_all_condition)
 	judge_interaction_vaild(is_meet_condition)
