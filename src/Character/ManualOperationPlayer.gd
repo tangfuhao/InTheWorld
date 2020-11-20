@@ -107,7 +107,10 @@ func get_param_value(_param_name):
 	if not param_model:
 		param_model = ComomStuffParam.new()
 		param_model.name = _param_name
-		param_model.value = 0
+		if param_name.find("状态") == -1:
+			param_model.value = 0
+		else:
+			param_model.value = 1
 		param.set_value(_param_name,param_model)
 
 	if param_arr.empty():
@@ -128,7 +131,10 @@ func set_param_value(_param_name,_param_value):
 		if not param_model:
 			param_model = ComomStuffParam.new()
 			param_model.name = _param_name
-			param_model.value = 1
+			if _param_name.find("状态") == -1:
+				param_model.value = 0
+			else:
+				param_model.value = 1
 			param.set_value(_param_name,param_model)
 		param_model.set_value(_param_value)
 	
