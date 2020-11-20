@@ -203,7 +203,7 @@ func clone_node_effect(_node_effect):
 	elif _node_effect is NodeAddToConceptEffect:
 		var clone_obejct = NodeAddToConceptEffect.new()
 		clone_obejct.node_name = _node_effect.node_name
-		#TODO ...
+		clone_obejct.concept_config_arr = _node_effect.concept_config_arr
 		return clone_obejct
 	else:
 		assert(false)

@@ -142,6 +142,15 @@ func is_belong_type(_parent_type,_child_type):
 				
 	return false
 
+#遍历迭代 判断是否有满足的父类
+func is_node_belong_type(_parent_type,_node):
+	#加入的概念
+	for item in _node.new_add_concept:
+		if is_belong_type(_parent_type,item):
+			return true
+
+	return is_belong_type(_parent_type,_node.stuff_type_name)
+
 
 #解析作用 并生成 作用创建的模板
 func parse_interaction(_interaction_arr) ->Dictionary:
@@ -235,6 +244,7 @@ func parse_interaction_lifecycle_process(item,_process_arr,_process_name):
 			elif effect_item.has("add_to_concept"):
 				node_effct = NodeAddToConceptEffect.new()
 				node_effct.node_name = match_node_name
+				node_effct.concept_config_arr = effect_item["add_to_concept"]
 			elif effect_item.has("send_info"):
 				node_effct = NodeSendInfoToTargetEffect.new()
 				node_effct.node_name = match_node_name

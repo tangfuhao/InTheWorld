@@ -12,14 +12,15 @@ func _process(delta):
 
 
 
+
 func set_value(_key:String,_value:ComomStuffParam):
 	if param_dic.has(_key):
 		var param_model = param_dic[_key]
-		param_model.value = _value
-	else:
-		_value.connect("param_item_value_change",self,"on_param_item_self_value_change")
-		param_dic[_key] = _value
-		emit_signal("param_item_value_change",_value)
+		param_model.disconnect("param_item_value_change",self,"on_param_item_self_value_change")
+
+	_value.connect("param_item_value_change",self,"on_param_item_self_value_change")
+	param_dic[_key] = _value
+	emit_signal("param_item_value_change",_value)
 
 func get_value(_key) -> ComomStuffParam:
 	if param_dic.has(_key):

@@ -3,8 +3,6 @@ class_name Player
 
 
 export var player_name = "player1"
-
-
 onready var name_label := $NameDisplay
 onready var movement = $Movement
 onready var hurt_box = $HurtBox
@@ -57,6 +55,7 @@ func handle_dialog_messages():
 	current_dialog_text = dialog_message_arr.pop_front()
 	if current_dialog_text:
 		emit_signal("request_input",current_dialog_text)
+
 
 
 #加入请求文本
@@ -161,7 +160,7 @@ func disappear():
 	queue_free()
 	notify_disappear()
 	
-#TODO 现在的方式 是不是也是在场景上 才发送信号
+
 func notify_disappear():
 	#只有在场景上 才会通知这个事件
 	if is_inside_tree():

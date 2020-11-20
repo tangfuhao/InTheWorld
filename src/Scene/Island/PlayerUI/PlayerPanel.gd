@@ -239,9 +239,8 @@ func object_click(interaction_object):
 			else:
 				if item.text == "物品":
 					is_match_type = true
-
 				else:
-					is_match_type = DataManager.is_belong_type(item.text,interaction_object.stuff_type_name)
+					is_match_type = DataManager.is_node_belong_type(item.text,interaction_object)
 			
 			if is_match_type:
 				item.set_meta("node",interaction_object)

@@ -42,6 +42,10 @@ var collision_object_arr := []
 var physics_data:Dictionary
 #交互拥有者
 var interaction_onwer = null
+#初始化需要指定的参数
+var init_param_dic := {}
+#新增的概念
+var new_add_concept := []
 
 
 signal disappear_notify(_stuff)
@@ -64,6 +68,8 @@ signal node_collision_remove_object(_node,_target)
 signal node_add_to_main_scene(_node)
 signal node_remove_to_main_scene(_node)
 
+signal node_add_concept(_node,_concept_name)
+
 func _set_display_name(_name):
 	display_name = _name
 	if item_display_name:
@@ -76,9 +82,37 @@ func _ready():
 		apply_init_params()
 		#更新地图上点的占用
 		call_deferred("emit_signal","node_position_update",self)
+		
 
-#初始化需要指定的参数
-var init_param_dic := {}
+#加入概念 
+func add_concept(_concept_name):
+	if not new_add_concept.has(_concept_name):
+		new_add_concept.push_back(_concept_name)
+		emit_signal("node_add_concept",self,_concept_name)
+	
+#设置属性定义
+func set_param_config(_param_config):
+	for item in _param_config:
+		var param_name = item["param_name"]
+		var param_model = ComomStuffParam.new()
+		param_model.name = param_name
+		
+		if item.has("max_value"):
+			param_model.max_value = item["max_value"]
+		
+		if item.has("min_value"):
+			param_model.min_value = item["min_value"]
+			
+		if item.has("transform"):
+			param_model.transform = item["transform"]
+		
+		if item.has("init_value"):
+			param_model.init_value = item["init_value"]
+			param_model.value = param_model.init_value
+		
+		param.set_value(param_name,param_model)
+
+
 #指定初始化参数
 func apply_init_params():
 	for param_name_item in init_param_dic.keys():
@@ -123,9 +157,6 @@ func get_global_rect() -> Rect2:
 	
 func can_interaction(_object:Node2D):
 	var can_interaction =  interactive_object_list.has(_object)
-	#TODO  应该是功能节点 而不是本身
-#	if not can_interaction:
-#		can_interaction = get_parent() == _object or _object.get_parent() == self
 	return can_interaction
 	
 #通过物品类型 初始化物品属性
@@ -147,25 +178,8 @@ func load_config_by_stuff_type(_type) -> bool:
 
 	#属性
 	var param_config_arr = stuff_config["param_config"]
-	for item in param_config_arr:
-		var param_name = item["param_name"]
-		var param_model = ComomStuffParam.new()
-		param_model.name = param_name
-		
-		if item.has("max_value"):
-			param_model.max_value = item["max_value"]
-		
-		if item.has("min_value"):
-			param_model.min_value = item["min_value"]
-			
-		if item.has("transform"):
-			param_model.transform = item["transform"]
-		
-		if item.has("init_value"):
-			param_model.init_value = item["init_value"]
-			param_model.value = param_model.init_value
-		
-		param.set_value(param_name,param_model)
+	set_param_config(param_config_arr)
+
 		
 	#创建子节点
 	if stuff_config.has("create_n_bind"):
@@ -191,11 +205,8 @@ func load_config_by_stuff_type(_type) -> bool:
 				for node_param_item in create_node_param_arr:
 					be_create_node.add_init_param(node_param_item["param_name"],node_param_item["assign"])
 			var main_scence = get_node("/root/Island")
-			main_scence.add_customer_node(be_create_node)		
+			main_scence.add_customer_node(be_create_node)
 			self.storage_layer.store(be_create_node)
-			
-			
-
 	return true
 
 
