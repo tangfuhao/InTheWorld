@@ -3,16 +3,17 @@ extends Node2D
 
 onready var pathfinding := $Pathfinding
 onready var ground := $Ground
+onready var sandbeach := $Sandbeach
 onready var camera := $CameraMovement
 onready var player_ui := $UI/PlayerPanel
 onready var interaction_dispatcher := $InteractionDispatcher
-
 onready var customer_node_group := $StuffLayer
+onready var player_layer := $PlayerLayer
 
 
+#TODO  移动到UI面板
 var controll_player
 
-signal customer_stuff_param_update(_node,_param_name)
 
 
 
@@ -42,8 +43,25 @@ func _process(delta):
 				player_ui.object_click(interaction_object)
 		else:
 			player_ui.object_click(interaction_object)
-			
 	
+	update_player_location(delta)
+			
+
+var update_locotion_step = 0.5
+var record_location_time = 0
+#更新用户的位置
+func update_player_location(delta):
+	record_location_time = record_location_time + delta
+	if record_location_time > update_locotion_step:
+		record_location_time = record_location_time - update_locotion_step
+		var players = player_layer.get_children()
+		for player_item in players:
+			var map_cell_id = sandbeach.get_cellv(sandbeach.world_to_map(player_item.get_global_position()))
+			if map_cell_id == TileMap.INVALID_CELL:
+				player_item.set_param_value("所在地","草地")
+			else:
+				player_item.set_param_value("所在地","沙滩")
+
 
 #监听自定义物品的事件
 func binding_customer_node_event():
@@ -69,26 +87,6 @@ func _on_CameraMovement_cancle_focus_player():
 	player_ui.inactive()
 	controll_player = null
 
-
-#ui操作交互
-func _on_PlayerUI_interaction_commond(_player, _target, _task_name):
-	if _target is CommonStuff:
-		_player.task_scheduler.add_tasks([["移动",_target],[_task_name,_target]])
-	elif _target is PackageItemModel:
-		_player.task_scheduler.add_tasks([[_task_name,_target]])
-
-#有背包物品被扔出
-func _on_PlayerUI_drop_package_item(_package_item):
-	assert(_package_item is PackageItemModel)
-	assert(controll_player)
-	controll_player.task_scheduler.add_tasks([["扔出",_package_item]])
-
-#物品的状态更新
-func _on_stuff_update_state(_state_name, _state_value):
-	# if _state_name == "position":
-	# 	if not _state_value.is_location:
-	# 		pathfinding.set_collision_stuff_global_rect(_state_value)
-	pass
 
 func _on_stuff_disappear(_stuff):
 	pathfinding.clear_collision_stuff_global_rect(_stuff)

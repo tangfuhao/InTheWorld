@@ -188,5 +188,6 @@ player_name = "小夕"
 visible = false
 
 [node name="InteractionDispatcher" type="Node2D" parent="."]
+visible = false
 script = ExtResource( 7 )
 [connection signal="cancle_focus_player" from="CameraMovement" to="." method="_on_CameraMovement_cancle_focus_player"]

@@ -2,11 +2,7 @@ extends KinematicBody2D
 class_name Player
 
 
-const Bullet = preload("res://src/World/bullet/Bullet.tscn")
-
 export var player_name = "player1"
-#export (NodePath) var bullets_node_path
-#var bullets_node_layer
 
 
 onready var name_label := $NameDisplay
@@ -26,17 +22,13 @@ onready var storage_layer := $Storage
 var node_name
 #显示名称
 var display_name
-#库存
-var inventory_system:InventorySystem
+
 #请求输入队列
 var dialog_message_arr := []
 var current_dialog_text
 
 
 signal disappear_notify()
-signal player_action_notify(body,action_name,is_active)
-signal location_change(body,location_name)
-signal player_selected(body)
 #物品属性的更新
 signal node_param_item_value_change(node,param_item)
 #请求输入的结果
@@ -47,12 +39,7 @@ func _ready() -> void:
 	display_name = player_name
 	name_label.set_text(display_name)
 	node_name = display_name + IDGenerator.pop_id_index()
-	
-#	assert(bullets_node_path)
-#	bullets_node_layer = get_node(bullets_node_path)
 
-	inventory_system = InventorySystem.new()
-	
 	#TEST
 	var param_model = ComomStuffParam.new()
 	param_model.name = "负重上限"
@@ -60,7 +47,7 @@ func _ready() -> void:
 	param.set_value(param_model.name,param_model)
 	
 	
-func _process(delta):
+func _process(_delta):
 	handle_dialog_messages()
 	
 
@@ -109,8 +96,6 @@ func get_param_value(_param_name):
 	if _param_name == "动作位置":
 		return "%f,%f" % [self.bind_layer.global_position.x,self.bind_layer.global_position.y]
 	
-	if _param_name == "所在地":
-		return "浅海"
 
 	var param_arr = Array(_param_name.split("."))
 	var param_name = param_arr.pop_front()
@@ -171,7 +156,16 @@ func get_running_interaction(_interaction_template):
 		return interaction_dic[_interaction_template]
 	return null
 
-
+#移除节点
+func disappear():
+	queue_free()
+	notify_disappear()
+	
+#TODO 现在的方式 是不是也是在场景上 才发送信号
+func notify_disappear():
+	#只有在场景上 才会通知这个事件
+	if is_inside_tree():
+		emit_signal("disappear_notify",self)
 
 
 func _on_PlayerParam_param_item_value_change(_param_item):
