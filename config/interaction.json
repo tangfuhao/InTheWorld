@@ -773,8 +773,7 @@
         "interaction_duration": 1,
         "interaction_conditions": [
             "$[can_interact, ${node1}, ${node2}]",
-            "${node1[当前负重]} + ${node2[重量]} ≤ ${node1[负重上限]}",
-            "$[num_of_parent_affiliation, ${node2}] ≡ 0"
+            "${node1[当前负重]} + ${node2[重量]} ≤ ${node1[负重上限]}"
         ],
         "_nodes": [
             {
