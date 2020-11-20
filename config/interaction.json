@@ -773,8 +773,7 @@
         "interaction_duration": 1,
         "interaction_conditions": [
             "$[can_interact, ${node1}, ${node2}]",
-            "${node1[当前负重]} + ${node2[重量]} ≤ ${node1[负重上限]}",
-            "$[num_of_parent_affiliation, ${node2}] ≡ 0"
+            "${node1[当前负重]} + ${node2[重量]} ≤ ${node1[负重上限]}"
         ],
         "_nodes": [
             {
@@ -979,7 +978,7 @@
                 "node_name": "node2",
                 "effects": [
                     {
-                        "store": "${node3}"
+                        "bind": "${node3}"
                     }
                 ]
             }
@@ -1001,7 +1000,7 @@
         "interaction_duration": 1,
         "interaction_conditions": [
             "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
-            "$[is_binding, ${node2}, ${node3}]",
+            "$[is_binding, ${node2}, ${node3}] ∨ $[is_storing, ${node2}, ${node3}]",
             "${node2[容器内流体量]} > 0"
         ],
         "_nodes": [
