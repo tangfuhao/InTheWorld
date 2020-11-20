@@ -27,4 +27,5 @@ func _process(_delta,_param_accessor):
 func add_to_main_scene(node,stuff_node,position):
 	var main_scence = node.get_node("/root/Island")
 	main_scence.add_customer_node(stuff_node)
+	stuff_node.set_global_position(position)
 	

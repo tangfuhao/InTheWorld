@@ -913,7 +913,7 @@
                 "node_name": "node5",
                 "effects": [
                     {
-                        "change_position": "${node2[位置]}"
+                        "change_position": "${node2[动作位置]}"
                     }
                 ]
             }

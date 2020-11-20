@@ -142,10 +142,11 @@ func add_new_stuff(_node):
 		
 		#匹配满足的node类型
 		var match_type_index_arr = match_meet_node_type_in_arr(node_type_arr,inherit_type_group)
+		var type_queue_size = node_type_arr.size()
 		for type_index_item in match_type_index_arr:
 			#根据类型筛选出来的节点集合的队列
 			var node_arr_queue_by_type := []
-			for node_type_item_index in range(node_type_arr.size()):
+			for node_type_item_index in range(type_queue_size):
 				if type_index_item == node_type_item_index:
 					node_arr_queue_by_type.push_back([_node])
 				else:
@@ -158,6 +159,10 @@ func add_new_stuff(_node):
 						break
 					
 					node_arr_queue_by_type.push_back(node_type_group)
+					
+			if node_arr_queue_by_type.size() != node_type_arr.size():
+				#不能匹配合适的节点
+				continue
 			
 			
 			#可以搭配的节点 组合

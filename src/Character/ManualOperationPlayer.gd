@@ -26,6 +26,7 @@ var dialog_message_arr := []
 var current_dialog_text
 
 var next_frame_disappear = false
+var is_rigid_body = true
 
 
 signal disappear_notify()

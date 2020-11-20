@@ -282,6 +282,8 @@ func choice_color(_color):
 func get_param_value(_param_name):
 	if _param_name == "位置":
 		return "%f,%f" % [self.global_position.x,self.global_position.y]
+	if _param_name == "动作位置":
+		return "%f,%f" % [bind_layer.global_position.x,bind_layer.global_position.y]
 		
 	if physics_data and physics_data.has(_param_name):
 		var stuff_param_value = physics_data[_param_name]
@@ -336,6 +338,10 @@ func notify_before_disappear():
 		notify_storage_dependency_change()
 	else:
 		notify_binding_dependency_change()
+		
+	if not collision_object_arr.empty():
+		for item in collision_object_arr:
+			emit_signal("node_collision_remove_object",self,item)
 		
 
 func get_type():
@@ -407,11 +413,11 @@ func _on_InteractArea_body_exited(body):
 
 
 func add_to_collision_object_arr(_node):
-	if not is_rigid_body:
+	if not is_rigid_body or not _node.is_rigid_body:
 		collision_object_arr.push_back(_node)
 		emit_signal("node_collision_add_object",self,_node)
 func remove_from_collision_object_arr(_node):
-	if not is_rigid_body:
+	if not is_rigid_body or not _node.is_rigid_body:
 		collision_object_arr.erase(_node)
 		emit_signal("node_collision_remove_object",self,_node)
 
