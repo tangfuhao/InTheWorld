@@ -839,7 +839,7 @@
         },
         "param_config": [
             {
-                "param_name": "容器流体量",
+                "param_name": "容器内流体量",
                 "init_value": 0,
                 "max_value": 200,
                 "min_value": 0
