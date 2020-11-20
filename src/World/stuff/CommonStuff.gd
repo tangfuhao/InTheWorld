@@ -313,18 +313,30 @@ func set_param_value(_param_name,_param_value):
 		assert(param_model)
 		param_model.set_value(_param_value)
 
-
+#下一帧删除
+var next_frame_disappear = false
 
 #移除节点
 func disappear():
+	next_frame_disappear = true
+	notify_before_disappear()
+	yield(get_tree(),"idle_frame")
 	queue_free()
-	notify_disappear()
-	
-#TODO 现在的方式 是不是也是在场景上 才发送信号
-func notify_disappear():
 	#只有在场景上 才会通知这个事件
 	if is_inside_tree():
 		emit_signal("disappear_notify",self)
+
+	
+
+func notify_before_disappear():
+	var sutfff_layer = get_node("/root/Island/StuffLayer")
+	if get_parent() == sutfff_layer:
+		notify_node_remove_to_main_scene()
+	elif get_parent() is Storage:
+		notify_storage_dependency_change()
+	else:
+		notify_binding_dependency_change()
+		
 
 func get_type():
 	return "stuff"

@@ -528,9 +528,15 @@ func transform_bool_to_int(_value):
 		return 0
 	
 func is_binding(_node1,_node2):
+	if _node1.next_frame_disappear or _node2.next_frame_disappear:
+		return 0
+		
 	return transform_bool_to_int(_node1.bind_layer.is_bind(_node2))
 
 func is_storing(_node1,_node2):
+	if _node1.next_frame_disappear or _node2.next_frame_disappear:
+		return 0
+		
 	return transform_bool_to_int(_node1.storage_layer.is_store(_node2))
 
 func is_equal(_value1,_value2):
@@ -555,8 +561,9 @@ func num_of_colliding_objects(_node):
 	return transform_bool_to_int(_node.get_colliding_objects_num())
 	
 func is_colliding(_node1,_node2):
-	if _node1.display_name == "衣服" or _node2.display_name == "衣服":
-		print("sss123")
+	if _node1.next_frame_disappear or _node2.next_frame_disappear:
+		return 0
+		
 	if _node1.has_method("is_colliding"):
 		return transform_bool_to_int(_node1.is_colliding(_node2))
 	elif  _node2.has_method("is_colliding"):

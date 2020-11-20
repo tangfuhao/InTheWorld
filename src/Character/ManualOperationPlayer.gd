@@ -25,6 +25,8 @@ var display_name
 var dialog_message_arr := []
 var current_dialog_text
 
+var next_frame_disappear = false
+
 
 signal disappear_notify()
 #物品属性的更新
