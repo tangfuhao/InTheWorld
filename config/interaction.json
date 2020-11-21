@@ -1483,7 +1483,7 @@
             },
             {
                 "node_name": "node3",
-                "node_type": "流体水"
+                "node_type": "流体酒"
             }
         ],
         "_active": [
@@ -1606,7 +1606,8 @@
             "食用-野果",
             "食用-妙瓜种子",
             "食用-妙瓜瓤",
-            "食用-椰子肉"
+            "食用-椰子肉",
+            "食用-屎"
         ],
         "interaction_conditions": [
             "0"
@@ -1765,6 +1766,56 @@
                     {
                         "param_name": "耐久度",
                         "transform": -0.1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "食用-屎",
+        "interaction_duration": 5,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_parant": [
+            "食用"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "屎"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "饥饿状态",
+                        "transform": 0.02
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "耐久度",
+                        "transform": -0.1
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+        	{
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "disappear": "${node1}"
                     }
                 ]
             }
@@ -2018,7 +2069,7 @@
                 "node_name": "node1",
                 "effects": [
                     {
-                        "release": "${node2}"
+                        "release": "${node1}"
                     }
                 ]
             }
@@ -2224,7 +2275,7 @@
         "interaction_scheduling": "god",
         "interaction_duration": -1,
         "interaction_conditions": [
-            "${node2[电量]} > 0"
+            "${node1[电量]} > 0"
         ],
         "_nodes": [
             {
@@ -2238,7 +2289,7 @@
                 "effects": [
                     {
                         "param_name": "电量",
-                        "transform": "- (0.0005 + ${node1[当前耗电速度]})"
+                        "transform": "- 0.0005 - ${node1[当前耗电速度]}"
                     }
                 ]
             }
@@ -2852,12 +2903,23 @@
                 "node_type": "Player"
             }
         ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "request_input": "你能${node1[请求行为名]}吗？",
+                        "set_param":"交互文本"
+                    }
+                ]
+            }
+        ],
         "_terminate": [
             {
                 "node_name": "node1",
                 "effects": [
                     {
-                        "send_info": "你能${text_input}吗？",
+                        "send_info": "${node1[交互文本]}",
                         "info_target": "${node2}"
                     }
                 ]
@@ -2880,12 +2942,23 @@
                 "node_type": "Player"
             }
         ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "request_input": "你能当我的${node1[关系名]}吗？",
+                        "set_param":"交互文本"
+                    }
+                ]
+            }
+        ],
         "_terminate": [
             {
                 "node_name": "node1",
                 "effects": [
                     {
-                        "send_info": "你能当我的${text_input}吗？",
+                        "send_info": "${node1[交互文本]}",
                         "info_target": "${node2}"
                     }
                 ]
@@ -2908,12 +2981,23 @@
                 "node_type": "Player"
             }
         ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "request_input": "我觉得${node1[回应内容]}。",
+                        "set_param":"交互文本"
+                    }
+                ]
+            }
+        ],
         "_terminate": [
             {
                 "node_name": "node1",
                 "effects": [
                     {
-                        "send_info": "我觉得${text_input}。",
+                        "send_info": "${node1[交互文本]}",
                         "info_target": "${node2}"
                     }
                 ]
