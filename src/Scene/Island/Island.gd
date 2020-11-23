@@ -79,6 +79,7 @@ func add_customer_node(_node:Node2D):
 	if customer_node_group:
 		customer_node_group.add_child(_node)
 		binding_customer_node_item(_node)
+		#新增物品 加入上帝
 		interaction_dispatcher.add_new_stuff(_node)
 
 

@@ -21,7 +21,7 @@ func _process(_delta,_param_accessor):
 	#如果有引用名 就加到运行时缓存里
 	if create_node_name:
 		_param_accessor.set_runnig_node_ref(create_node,create_node_name)
-	#新增物品 加入上帝
+	
 	
 	
 func add_to_main_scene(node,stuff_node,position):
