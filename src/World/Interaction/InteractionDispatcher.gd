@@ -131,6 +131,8 @@ func match_meet_node_type_in_arr(_type_arr,_inherit_type_group):
 
 #场景通知 自定义物品 创建或消失的通知
 func add_new_stuff(_node):
+#	print("==================================>")
+#	print("新增节点：%s 开始"  %  _node.display_name)
 	#节点匹配的类型集合
 	var inherit_type_group = DataManager.get_node_type_group(_node.stuff_type_name)
 	#类型集合的集合
@@ -187,6 +189,10 @@ func add_new_stuff(_node):
 			for match_node_pair_item in node_name_item_arr:
 				#创建交互
 				var interaction_implement = item.create_interaction(match_node_pair_item)
+#				print("创建作用 ",interaction_implement.interaction_name)
+				for node_item_key in match_node_pair_item.keys():
+#					print("作用节点%s:%s" % [node_item_key,match_node_pair_item[node_item_key].node_name])
+				
 				#绑定关系
 				for node_item in match_node_pair_item.values():
 					var interaction_arr = get_arr_value_from_dic(active_node_to_interaction_dic,node_item)
@@ -204,7 +210,12 @@ func add_new_stuff(_node):
 				
 	
 	_node.connect("disappear_notify",self,"_on_stuff_disappear")
-	print("add new object finish")
+	for item in inherit_type_group:
+		var node_arr = get_arr_value_from_dic(type_stuff_dic,item)
+		if not node_arr.has(_node):
+			node_arr.push_back(_node)
+#	print("新增节点：%s 结束" % _node.display_name)
+#	print("==================================<")
 
 
 #物品消失时 移除相关作用
