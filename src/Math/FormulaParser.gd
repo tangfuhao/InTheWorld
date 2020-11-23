@@ -54,7 +54,7 @@ func finalExpressionForCondition(_formula:String,_function_regex:RegEx,_objecet_
 				else:
 					transform_argumeen_arr.push_back(argument_name_item)
 			
-			print("123311:",function_name)
+#			print("123311:",function_name)
 			var value = _function_caller.callv(function_name,transform_argumeen_arr)
 			if value == null:
 				value = 0

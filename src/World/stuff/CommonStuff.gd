@@ -187,7 +187,6 @@ func iteration_parent_node(_match_node,parent_node):
 	parent_node = parent_node.get_parent()
 	if _match_node == parent_node:
 		return true
-	print(typeof(parent_node))
 	if parent_node.is_class("CommonStuff"):
 		return iteration_parent_node(_match_node,parent_node)
 	return false

@@ -87,11 +87,12 @@ func _process(delta):
 		self.is_active = false
 		return 
 		
-
-#	if interaction_name == "同步流体体积消失":
-#		print("同步流体体积消失")
-#	if interaction_name == "流体解除消失":
-#		print("流体解除消失")
+#	if interaction_name == "碰到屎变脏":
+#		print("碰到屎变脏")
+#	if interaction_name == "妙瓜种子浇水":
+#		print("妙瓜种子浇水")
+#	if interaction_name == "妙瓜壳被打开":
+#		print("妙瓜壳被打开")
 	
 	
 	#更新进度
@@ -293,10 +294,10 @@ func _on_node_cllision_add_object(_node,_target):
 func _on_node_cllision_remove_object(_node,_target):
 	node_collision_object_update(_node,_target)
 
-func node_cllision_object_update(_node,_target):
-	var listening_cllision_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_cllision_target_change_dic,_node)
-	if listening_cllision_arr.empty() and listening_cllision_arr.has(_target):
-		interaction_status_check()
+#func node_cllision_object_update(_node,_target):
+#	var listening_cllision_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_cllision_target_change_dic,_node)
+#	if listening_cllision_arr.empty() and listening_cllision_arr.has(_target):
+#		interaction_status_check()
 
 #通用条件更改
 func _on_node_condition_item_change(_node):
@@ -306,8 +307,8 @@ func _on_node_condition_item_change(_node):
 func _on_node_param_item_value_change(_node,_param_item):
 	assert(_node)
 	assert(_param_item)
-	if interaction_name == "同步容器的修改流体量":
-		print("同步容器的修改流体量")
+#	if interaction_name == "同步容器的修改流体量":
+#		print("同步容器的修改流体量")
 	var listening_parma_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_param_value_change_dic,_node)
 	if listening_parma_arr.has(_param_item.name):
 		interaction_status_check()
@@ -315,8 +316,8 @@ func _on_node_param_item_value_change(_node,_param_item):
 #作用状态检查
 #_traverse_all_condition 遍历所有条件 保证所有值的缓存都建立
 func interaction_status_check(_traverse_all_condition = false):
-#	if interaction_name == "同步流体体积消失":
-#		print("同步流体体积消失")
+#	if interaction_name == "碰到屎变脏":
+#		print("碰到屎变脏")
 #	if interaction_name == "流体解除消失":
 #		print("流体解除消失")
 	#当前条件是否满足
