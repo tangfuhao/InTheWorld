@@ -19,13 +19,13 @@ onready var wall_avoid_ray = $WallAvoidRay
 
 
 export var move_speed_max := 110
-export var move_acceleration_max := 400
+export var move_acceleration_max := 4000
 
 export var walk_speed_max := 80
-export var walk_acceleration_max := 300
+export var walk_acceleration_max := 3000
 
 export var run_speed_max := 150
-export var run_acceleration_max := 600
+export var run_acceleration_max := 6000
 
 export var rotation_speed_max := 1000
 export var rotation_accel_max := 5000
