@@ -469,11 +469,11 @@ func can_interact(_node1,_node2):
 		if _node1.can_interaction(_node2):
 			return 1 
 	else:
-		if _node1 is CommonStuff:
-			if _node1.can_interaction(_node2):
+		if _node2 is CommonStuff:
+			if _node2.can_interaction(_node1):
 				return 1
 		else:
-			if _node2.can_interaction(_node1):
+			if _node1.can_interaction(_node2):
 				return 1
 	return 0
 	

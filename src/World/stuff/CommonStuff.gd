@@ -157,7 +157,20 @@ func get_global_rect() -> Rect2:
 	
 func can_interaction(_object:Node2D):
 	var can_interaction =  interactive_object_list.has(_object)
+	if not can_interaction:
+		can_interaction = iteration_parent_node(_object,self)
 	return can_interaction
+
+
+func iteration_parent_node(_match_node,parent_node):
+	parent_node = parent_node.get_parent()
+	if _match_node == parent_node:
+		return true
+	print(typeof(parent_node))
+	if parent_node.is_class("CommonStuff"):
+		return iteration_parent_node(_match_node,parent_node)
+	return false
+	
 	
 #通过物品类型 初始化物品属性
 func load_config_by_stuff_type(_type) -> bool:
