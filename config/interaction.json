@@ -1649,7 +1649,12 @@
                     {
                         "param_name": "饥饿状态",
                         "transform": 0.1
-                    },
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
                     {
                         "disappear": "${node2}"
                     }
@@ -1683,7 +1688,12 @@
                     {
                         "param_name": "饥饿状态",
                         "transform": 0.005
-                    },
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
                     {
                         "disappear": "${node2}"
                     }
