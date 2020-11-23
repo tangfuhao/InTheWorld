@@ -4,8 +4,7 @@ func bind(_node) -> bool:
 	if _node.get_parent() == self:
 		return false
 		
-	_node.set_interactino_state(true)
-	_node.set_disbled_collision(true)
+	_node.set_bind_state(true)
 	_node.position = Vector2(0,0)
 	_node.interaction_onwer = self.get_parent()
 	if _node.get_parent():
@@ -18,7 +17,7 @@ func un_bind(_node:Node2D) -> bool:
 	if _node.get_parent() != self:
 		return false
 	
-	_node.set_disbled_collision(false)
+	_node.set_bind_state(false)
 	self.remove_child(_node)
 	_node.interaction_onwer = null
 	return true

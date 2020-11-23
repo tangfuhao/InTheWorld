@@ -25,10 +25,19 @@ polygon = PoolVector2Array( -6.62574, -5.83961, 6.12357, -6.0521, 6.37148, 7.724
 [node name="LabelLayout" parent="." instance=ExtResource( 2 )]
 
 [node name="StuffArea" type="Area2D" parent="."]
-collision_layer = 524288
-collision_mask = 524290
+input_pickable = false
+collision_layer = 32
+collision_mask = 34
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StuffArea"]
+
+[node name="MouseArea" type="Area2D" parent="."]
+monitoring = false
+monitorable = false
+collision_layer = 512
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MouseArea"]
 
 [node name="InteractArea" type="Area2D" parent="."]
 input_pickable = false
@@ -48,8 +57,8 @@ script = ExtResource( 3 )
 [connection signal="area_exited" from="StuffArea" to="." method="_on_StuffArea_area_exited"]
 [connection signal="body_entered" from="StuffArea" to="." method="_on_StuffArea_body_entered"]
 [connection signal="body_exited" from="StuffArea" to="." method="_on_StuffArea_body_exited"]
-[connection signal="mouse_entered" from="StuffArea" to="." method="_on_StuffArea_mouse_entered"]
-[connection signal="mouse_exited" from="StuffArea" to="." method="_on_StuffArea_mouse_exited"]
+[connection signal="mouse_entered" from="MouseArea" to="." method="_on_StuffArea_mouse_entered"]
+[connection signal="mouse_exited" from="MouseArea" to="." method="_on_StuffArea_mouse_exited"]
 [connection signal="body_entered" from="InteractArea" to="." method="_on_InteractArea_body_entered"]
 [connection signal="body_exited" from="InteractArea" to="." method="_on_InteractArea_body_exited"]
 [connection signal="param_item_value_change" from="PlayerParam" to="." method="_on_PlayerParam_param_item_value_change"]

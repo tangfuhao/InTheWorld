@@ -6,7 +6,8 @@ func store(_node:Node2D):
 	if _node.get_parent() == self:
 		return false
 		
-	_node.set_interactino_state(false)
+	_node.set_storage_state(true)
+
 	_node.position = Vector2(0,0)
 	_node.interaction_onwer = self.get_parent()
 	if _node.get_parent():
@@ -18,7 +19,7 @@ func un_store(_node:Node2D):
 	if _node.get_parent() != self:
 		return false
 		
-	_node.set_interactino_state(true)
+	_node.set_storage_state(false)
 	self.remove_child(_node)
 	_node.interaction_onwer = null
 	

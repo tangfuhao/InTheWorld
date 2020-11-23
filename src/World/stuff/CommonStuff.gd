@@ -8,13 +8,14 @@ export var stuff_type_name:String
 #是否是一个区域
 export var is_location := false
 #是否是刚体
-var is_rigid_body = true
-var is_collision = true
-var is_interaction = true
+var is_rigid_body = false
+var is_be_storage = false
+var is_be_bind = false
 
 onready var body_collision_shape = $CollisionShape2D
 onready var area_collision_shape = $StuffArea/CollisionShape2D
 onready var interact_collision_shape = $InteractArea/CollisionShape2D
+onready var mouse_collision_shape = $MouseArea/CollisionShape2D
 
 onready var line2d = $Line2D
 onready var polygon2d = $Polygon2D
@@ -48,6 +49,7 @@ var init_param_dic := {}
 var new_add_concept := []
 
 
+
 signal disappear_notify(_stuff)
 #可交互发生改变的通知
 signal node_interaction_add_object(_node,_target)
@@ -78,7 +80,7 @@ func _set_display_name(_name):
 func _ready():
 	if load_config_by_stuff_type(stuff_type_name):
 		setup_node_by_config(stuff_type_name)
-		set_disbled_collision(!is_collision)
+		update_stuff_physical_state()
 		apply_init_params()
 		#更新地图上点的占用
 		call_deferred("emit_signal","node_position_update",self)
@@ -126,28 +128,47 @@ func add_init_param(param_name,value):
 	init_param_dic[param_name] = value
 
 
-#TODO 设置物品的可交互状态
-func set_interactino_state(_is_interaction):
-	is_interaction = _is_interaction
-	if body_collision_shape:
-		body_collision_shape.set_disabled(!_is_interaction)
-	if interact_collision_shape:
-		interact_collision_shape.set_disabled(!_is_interaction)
-	if area_collision_shape:
-		area_collision_shape.set_disabled(!_is_interaction)
-	
-	if _is_interaction:
-		if not is_rigid_body:
-			body_collision_shape.set_disabled(true)
-		
-		if is_location:
-			interact_collision_shape.set_disabled(true)
 
-#设置物品的可碰撞
-func set_disbled_collision(_disable_collision):
-	is_collision = !_disable_collision
-	if is_rigid_body and body_collision_shape:
-		body_collision_shape.set_disabled(!is_collision)
+#设置物品是否被存储
+func set_storage_state(_is_be_storage):
+	is_be_storage = _is_be_storage
+	update_stuff_physical_state()
+
+#设置物体被绑定状态 
+#1.不能碰撞
+#2.不能互相影响
+func set_bind_state(_is_bind):
+	is_be_bind = _is_bind
+	update_stuff_physical_state()
+
+func update_stuff_physical_state():
+	if is_be_storage:
+		if body_collision_shape:
+			body_collision_shape.set_disabled(is_be_storage)
+		if interact_collision_shape:
+			interact_collision_shape.set_disabled(is_be_storage)
+		if area_collision_shape:
+			area_collision_shape.set_disabled(is_be_storage)
+		if mouse_collision_shape:
+			mouse_collision_shape.set_disabled(is_be_storage)
+	elif is_be_bind:
+		if body_collision_shape:
+			body_collision_shape.set_disabled(is_be_bind)
+		if interact_collision_shape:
+			interact_collision_shape.set_disabled(is_be_bind)
+		if area_collision_shape:
+			area_collision_shape.set_disabled(is_be_bind)
+		if mouse_collision_shape:
+			mouse_collision_shape.set_disabled(false)
+	else:
+		if body_collision_shape:
+			body_collision_shape.set_disabled(not is_rigid_body)
+		if interact_collision_shape:
+			interact_collision_shape.set_disabled(is_location)
+		if area_collision_shape:
+			area_collision_shape.set_disabled(false)
+		if mouse_collision_shape:
+			mouse_collision_shape.set_disabled(false)
 
 
 func get_global_rect() -> Rect2:
@@ -228,7 +249,6 @@ func setup_node_by_config(_type):
 	self.node_name = _type + IDGenerator.pop_id_index()
 	self.display_name = _type
 	apply_phycis_config()
-	set_interactino_state(is_interaction)
 
 
 #应用物理属性
@@ -248,7 +268,10 @@ func apply_phycis_config():
 	var shape3 = RectangleShape2D.new()
 	interact_collision_shape.set_shape(shape3)
 	shape3.set_extents(Vector2(half_side_length + 10,half_side_length + 10))
-
+	
+	var shape4 = RectangleShape2D.new()
+	mouse_collision_shape.set_shape(shape4)
+	shape4.set_extents(Vector2(half_side_length,half_side_length))
 	
 	line2d.points = PoolVector2Array(calculate_point_array(half_side_length))
 	polygon2d.polygon = line2d.points
@@ -258,7 +281,6 @@ func apply_phycis_config():
 
 	var dynamics_property = get_param_value("动力学性质")
 	is_rigid_body = dynamics_property == "刚体"
-	is_collision = is_rigid_body
 
 func calculate_point_array(_radius):
 	var points_arr = []
