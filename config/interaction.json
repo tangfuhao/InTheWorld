@@ -2420,12 +2420,7 @@
                     {
                         "param_name": "当前运动量",
                         "assign": 0
-                    }
-                ]
-            },
-            {
-                "node_name": "node2",
-                "effects": [
+                    },
                     {
                         "param_name": "排泄状态",
                         "transform": 0.8
