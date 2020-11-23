@@ -256,7 +256,7 @@ func object_click(interaction_object):
 
 #右击一个物品
 func object_right_click(_interaction_object):
-	if _interaction_object.storage_layer.get_child_count():
+	if _interaction_object.storage_layer.get_child_count() or _interaction_object.bind_layer.get_child_count():
 		show_option_menu(_interaction_object)
 
 #显示选项窗口
@@ -335,9 +335,12 @@ func _on_Button5_pressed():
 
 #打开存储激活
 func _on_PopupMenu_index_pressed(index):
-	var interaction_object = interaction_option_menu.get_meta("interaction_object")
-	object_storage_panel.activate()
-	object_storage_panel.show_wtih_object(interaction_object)
+	if index == 0:
+		var interaction_object = interaction_option_menu.get_meta("interaction_object")
+		object_storage_panel.show_wtih_object(interaction_object.storage_layer)
+	elif index == 1:
+		var interaction_object = interaction_option_menu.get_meta("interaction_object")
+		object_storage_panel.show_wtih_object(interaction_object.bind_layer)
 
 #用户背包
 func _on_player_package_pressed():
