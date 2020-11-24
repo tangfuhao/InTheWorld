@@ -195,7 +195,7 @@ func add_new_stuff(_node):
 				#创建交互
 				var interaction_implement = item.create_interaction(match_node_pair_item)
 #				print("创建作用 ",interaction_implement.interaction_name)
-				for node_item_key in match_node_pair_item.keys():
+#				for node_item_key in match_node_pair_item.keys():
 #					print("作用节点%s:%s" % [node_item_key,match_node_pair_item[node_item_key].node_name])
 				
 				#绑定关系
