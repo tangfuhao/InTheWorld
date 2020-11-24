@@ -26,3 +26,6 @@ func un_bind(_node:Node2D) -> bool:
 	
 func is_bind(_node:Node2D):
 	return _node.get_parent() == self
+
+func container_type():
+	return "binder"

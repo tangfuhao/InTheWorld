@@ -155,7 +155,7 @@ func update_stuff_physical_state():
 		if body_collision_shape:
 			body_collision_shape.set_disabled(is_be_bind)
 		if interact_collision_shape:
-			interact_collision_shape.set_disabled(is_be_bind)
+			interact_collision_shape.set_disabled(false)
 		if area_collision_shape:
 			area_collision_shape.set_disabled(is_be_bind)
 		if mouse_collision_shape:
@@ -185,11 +185,15 @@ func can_interaction(_object:Node2D):
 
 func iteration_parent_node(_match_node,parent_node):
 	parent_node = parent_node.get_parent()
-	if _match_node == parent_node:
-		return true
-	if parent_node.is_class("CommonStuff"):
-		return iteration_parent_node(_match_node,parent_node)
+	if parent_node.has_method("container_type"):
+		var container_type = parent_node.container_type()
+		if container_type == "binder":
+			parent_node = parent_node.get_parent()
+			if _match_node == parent_node:
+				return true
+			return iteration_parent_node(_match_node,parent_node)
 	return false
+
 	
 	
 #通过物品类型 初始化物品属性
