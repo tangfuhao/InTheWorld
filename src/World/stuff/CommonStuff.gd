@@ -184,14 +184,16 @@ func can_interaction(_object:Node2D):
 
 
 func iteration_parent_node(_match_node,parent_node):
-	parent_node = parent_node.get_parent().get_parent()
-	if _match_node == parent_node:
-		return true
-#	var node_class_name = parent_node.get_class()
-#	print("node_class_name")
-	if parent_node.is_class("StaticBody2D"):
-		return iteration_parent_node(_match_node,parent_node)
+	parent_node = parent_node.get_parent()
+	if parent_node.has_method("container_type"):
+		var container_type = parent_node.container_type()
+		if container_type == "binder":
+			parent_node = parent_node.get_parent()
+			if _match_node == parent_node:
+				return true
+			return iteration_parent_node(_match_node,parent_node)
 	return false
+
 	
 	
 #通过物品类型 初始化物品属性

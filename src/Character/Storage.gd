@@ -28,3 +28,6 @@ func un_store(_node:Node2D):
 func is_store(_node:Node2D):
 	return _node.get_parent() == self
 
+
+func container_type():
+	return "storage"
