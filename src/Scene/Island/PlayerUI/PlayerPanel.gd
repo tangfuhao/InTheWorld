@@ -348,7 +348,7 @@ func _on_player_package_pressed():
 		object_storage_panel.deactivate()
 	else:
 		object_storage_panel.activate()
-		object_storage_panel.show_wtih_object(current_player)
+		object_storage_panel.show_wtih_object(current_player.storage_layer)
 
 
 func _on_LogClean_Button_pressed():
