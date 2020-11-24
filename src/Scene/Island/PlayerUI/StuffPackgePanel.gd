@@ -26,7 +26,7 @@ func show_wtih_object(_node:Node2D):
 	activate()
 	node_name_to_node_dic.clear()
 	grid_bkpk.clear()
-	synchron_data_to_ui(_node.get_children())
+	synchron_data_to_ui(_node.storage_layer.get_children())
 	
 #存储node_name对node的引用
 var node_name_to_node_dic := {}

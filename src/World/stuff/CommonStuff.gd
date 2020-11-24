@@ -155,7 +155,7 @@ func update_stuff_physical_state():
 		if body_collision_shape:
 			body_collision_shape.set_disabled(is_be_bind)
 		if interact_collision_shape:
-			interact_collision_shape.set_disabled(is_be_bind)
+			interact_collision_shape.set_disabled(false)
 		if area_collision_shape:
 			area_collision_shape.set_disabled(is_be_bind)
 		if mouse_collision_shape:
