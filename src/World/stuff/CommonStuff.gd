@@ -184,10 +184,12 @@ func can_interaction(_object:Node2D):
 
 
 func iteration_parent_node(_match_node,parent_node):
-	parent_node = parent_node.get_parent()
+	parent_node = parent_node.get_parent().get_parent()
 	if _match_node == parent_node:
 		return true
-	if parent_node.is_class("CommonStuff"):
+#	var node_class_name = parent_node.get_class()
+#	print("node_class_name")
+	if parent_node.is_class("StaticBody2D"):
 		return iteration_parent_node(_match_node,parent_node)
 	return false
 	
