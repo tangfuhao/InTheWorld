@@ -232,7 +232,7 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "InteractionDispatcher",
 "language": "GDScript",
-"path": "res://src/World/Interaction/InteractionDispatcher.gd"
+"path": "res://src/World/Interaction/InteractionDispatcher2.gd"
 }, {
 "base": "Node2D",
 "class": "InteractionImplement",

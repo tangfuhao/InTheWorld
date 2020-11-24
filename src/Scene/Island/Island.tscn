@@ -6,14 +6,14 @@
 [ext_resource path="res://src/Scene/Island/PlayerUI/PlayerPanel.tscn" type="PackedScene" id=4]
 [ext_resource path="res://src/AI/Pathfinding.gd" type="Script" id=5]
 [ext_resource path="res://src/Scene/Island/Island.gd" type="Script" id=6]
-[ext_resource path="res://src/World/Interaction/InteractionDispatcher.gd" type="Script" id=7]
+[ext_resource path="res://src/World/Interaction/InteractionDispatcher2.gd" type="Script" id=7]
 [ext_resource path="res://src/World/stuff/CommonStuff.tscn" type="PackedScene" id=8]
 
 [node name="Island" type="Node2D"]
 script = ExtResource( 6 )
 
 [node name="CameraMovement" type="Camera2D" parent="."]
-position = Vector2( 633.515, 1836.28 )
+position = Vector2( 704.305, 1476.01 )
 current = true
 smoothing_speed = 10.0
 script = ExtResource( 2 )
@@ -56,117 +56,17 @@ should_display_grid = false
 
 [node name="StuffLayer" type="Node2D" parent="."]
 
-[node name="Stuff1" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 641.103, 1684.3 )
-stuff_type_name = "椅子"
-
-[node name="Stuff2" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 642.258, 1750.11 )
-stuff_type_name = "沙发"
-
-[node name="Stuff3" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 642.258, 1816.3 )
-stuff_type_name = "床"
-
-[node name="Stuff4" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 643.413, 1882.11 )
-stuff_type_name = "桌子"
-
-[node name="Stuff5" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 642.643, 1950.61 )
-stuff_type_name = "马桶"
-
-[node name="Stuff6" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 738.853, 1685.07 )
-stuff_type_name = "流体水"
-
-[node name="Stuff7" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 739.623, 1751.27 )
-stuff_type_name = "流体酒"
-
-[node name="Stuff8" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 738.083, 1816.69 )
-stuff_type_name = "海水"
-
-[node name="Stuff9" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 736.544, 1881.73 )
-stuff_type_name = "水杯"
-
-[node name="Stuff10" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 736.929, 1949.46 )
-stuff_type_name = "妙瓜种子"
-
-[node name="Stuff11" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 831.984, 1684.3 )
-stuff_type_name = "妙瓜壳"
-
-[node name="Stuff12" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 833.523, 1750.88 )
-stuff_type_name = "妙瓜瓤"
-
-[node name="Stuff13" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 833.138, 1816.69 )
-stuff_type_name = "酒瓶"
-
-[node name="Stuff14" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 833.908, 1881.73 )
-stuff_type_name = "衣服"
-
 [node name="Stuff15" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 833.138, 1949.46 )
-stuff_type_name = "石块"
-
-[node name="Stuff16" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 927.424, 1685.84 )
-stuff_type_name = "椰子树"
-
-[node name="Stuff17" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 927.424, 1752.03 )
-stuff_type_name = "椰子壳"
-
-[node name="Stuff18" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 925.5, 1817.84 )
-stuff_type_name = "椰子肉"
-
-[node name="Stuff19" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 925.885, 1880.96 )
-stuff_type_name = "椰子汁"
-
-[node name="Stuff20" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 928.194, 1950.26 )
-stuff_type_name = "野果"
-
-[node name="Stuff21" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 1012.47, 1685.46 )
-stuff_type_name = "纸"
-
-[node name="Stuff22" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 1012.47, 1752.03 )
-stuff_type_name = "水笔"
-
-[node name="Stuff23" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 1015.17, 1815.92 )
+position = Vector2( 1128.94, 1504.49 )
 stuff_type_name = "大水桶"
 
-[node name="Stuff24" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 1016.32, 1878.26 )
-stuff_type_name = "手机"
+[node name="Stuff17" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1186.57, 1516.9 )
+stuff_type_name = "马桶"
 
-[node name="Stuff25" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 1014.78, 1947.53 )
-stuff_type_name = "屎"
-
-[node name="Stuff26" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 1095.21, 1685.07 )
-stuff_type_name = "扑克牌"
-
-[node name="Stuff27" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 1097.14, 1752.8 )
-stuff_type_name = "垃圾"
-
-[node name="Stuff28" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 1098.68, 1819.38 )
-stuff_type_name = "牙齿"
+[node name="Stuff18" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1103.21, 1610.34 )
+stuff_type_name = "妙瓜种子"
 
 [node name="PlayerLayer" type="Node2D" parent="."]
 
@@ -175,12 +75,6 @@ position = Vector2( 815.031, 1592.1 )
 rotation = 2.23568
 collision_mask = 11
 player_name = "军宏"
-
-[node name="Player2" parent="PlayerLayer" instance=ExtResource( 1 )]
-position = Vector2( 911.091, 1591.55 )
-rotation = 3.69706
-collision_mask = 11
-player_name = "小夕"
 
 [node name="UI" type="CanvasLayer" parent="."]
 
