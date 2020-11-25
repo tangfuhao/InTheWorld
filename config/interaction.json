@@ -1,4 +1,124 @@
-[
+[	
+	{
+        "interaction_name": "饥饿死亡",
+        "interaction_scheduling": "god",
+        "interaction_duration": 0,
+        "interaction_conditions": [
+	        "${node1[饥饿状态]} < 0"
+	    ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "disappear": "${node1}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "睡眠死亡",
+        "interaction_scheduling": "god",
+        "interaction_duration": 0,
+        "interaction_conditions": [
+	        "${node1[睡眠状态]} < 0"
+	    ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "disappear": "${node1}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "口渴死亡",
+        "interaction_scheduling": "god",
+        "interaction_duration": 0,
+        "interaction_conditions": [
+	        "${node1[口渴状态]} < 0"
+	    ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "disappear": "${node1}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "清洁死亡",
+        "interaction_scheduling": "god",
+        "interaction_duration": 0,
+        "interaction_conditions": [
+	        "${node1[清洁状态]} < 0"
+	    ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "disappear": "${node1}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "排泄死亡",
+        "interaction_scheduling": "god",
+        "interaction_duration": 0,
+        "interaction_conditions": [
+	        "${node1[排泄状态]} < 0"
+	    ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "disappear": "${node1}"
+                    }
+                ]
+            }
+        ]
+    },
     {
         "interaction_name": "基础饥饿消耗",
         "interaction_scheduling": "god",
@@ -946,7 +1066,7 @@
             "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
             "${node1[当前负重]} < ${node1[负重上限]}",
             "${node2[容器内流体量]} < ${node2[容器内流体量.max_value]}",
-            "$[is_equal,${node1[所在地]},浅海]"
+            "$[is_equal,${node1[所在地]},沙滩]"
             
         ],
         "_nodes": [
@@ -1041,8 +1161,7 @@
         "interaction_scheduling": "god",
         "interaction_duration": -1,
         "interaction_conditions": [
-            "$[num_of_parent_affiliation, ${node1}] ≡ 0",
-            "$[num_of_colliding_objects, ${node1}] ≡ 0"
+            "$[num_of_parent_affiliation, ${node1}] ≡ 0"
         ],
         "_nodes": [
             {
@@ -1462,6 +1581,26 @@
                     }
                 ]
             }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                   		"release": "${node3}"
+                	}
+                ]
+            }
+        ],
+        "_break": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                   		"release": "${node3}"
+                	}
+                ]
+            }
         ]
     },
     {
@@ -1515,6 +1654,26 @@
                     }
                 ]
             }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                   		"release": "${node3}"
+                	}
+                ]
+            }
+        ],
+        "_break": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                   		"release": "${node3}"
+                	}
+                ]
+            }
         ]
     },
     {
@@ -1566,6 +1725,26 @@
                         "param_name": "流体体积",
                         "transform": -6
                     }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                   		"release": "${node3}"
+                	}
+                ]
+            }
+        ],
+        "_break": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                   		"release": "${node3}"
+                	}
                 ]
             }
         ]
@@ -3182,6 +3361,35 @@
             {
                 "node_name": "node1",
                 "node_type": "Player"
+            }
+        ]
+    },
+    {
+        "interaction_name": "公主获得风之铃",
+        "interaction_scheduling": "god",
+        "interaction_duration": 5,
+        "interaction_conditions": [
+	        "$[is_binding, ${node1}, ${node2}]",
+	        "${node1[名称]} ≡ 小夕"
+	    ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "风之铃"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "disappear": "${node1}"
+                    }
+                ]
             }
         ]
     }
