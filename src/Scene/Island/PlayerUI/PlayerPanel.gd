@@ -28,7 +28,7 @@ var interaction_arr
 var cache_player_parms_dic := {}
 #缓存属性的列表中的序列值=物品
 var cache_stuff_parms_dic := {}
-var current_player
+var current_player:Player
 
 #当前选中的模板
 var current_interaction_template
@@ -39,7 +39,7 @@ var current_select_object
 
 var temp_emotion_arr := [["开心","快感","满足","解脱","兴奋","悠闲","骄傲"],
 						["生气","悲伤","害怕","厌恶","内疚","惭愧","嫉妒"],
-						["惊讶","不屑","不屑","不屑","不屑","不屑","不屑"]]
+						["惊讶","不屑","纠结","无奈","孤独","尴尬","不屑"]]
 
 #输入占位符
 var param_placeholder_arr := []
@@ -312,7 +312,8 @@ func on_interaction_item_selected(index):
 func on_emotion_item_selected(index):
 	var type_index = index / 7
 	index = index % 7
-	LogSys.log_i(temp_emotion_arr[type_index][index])
+	var emotion_content = "%s:%s" % [current_player.display_name,temp_emotion_arr[type_index][index]]
+	LogSys.log_i(emotion_content)
 	
 
 
