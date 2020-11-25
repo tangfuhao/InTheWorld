@@ -282,6 +282,10 @@ func preload_player_config_detail():
 		var item_dic = get_dic_item_by_key_from_dic(player_config_dic,player_name)
 		handle_player_ai_data(item_dic,item["ai"])
 		handle_player_text_data(item_dic,item["text"])
+		handle_player_param_config(item_dic,item["param_config"])
+
+func handle_player_param_config(_item_dic,_item):
+	_item_dic["param_config"] = _item
 
 func handle_player_text_data(_item_dic,_item):
 	var action_to_text_path = get_item_from_dic(_item,"action_to_text")

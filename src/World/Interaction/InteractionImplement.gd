@@ -357,7 +357,9 @@ func check_node_exist():
 	for item in node_dic.keys():
 		var node_item = node_dic[item]
 		if not node_item or node_item.is_queued_for_deletion():
-			LogSys.log_i("因为节点:%s 不存在，作用:%s 不执行" % [item,interaction_name])
+			if is_manual_interaction:
+				LogSys.log_i("因为节点:%s 不存在，作用:%s 不执行" % [item,interaction_name])
+			
 			return false
 	return true
 

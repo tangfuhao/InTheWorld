@@ -25,7 +25,47 @@
                 "active_motivation_to_text": "res://config/text/active_motivation_to_text.json",
                 "meet_motivation_to_text": "res://config/text/meet_motivation_to_text.json",
                 "execute_motivation_to_text": "res://config/text/execute_motivation_to_text.json"
-            }
+            },
+            "param_config": [
+                {
+                    "param_name": "负重上限",
+                    "init_value": 10
+                },
+                {
+                    "param_name": "饥饿状态",
+                    "init_value": 1,
+                    "max_value": 1,
+                    "min_value": 0
+                },
+                {
+                    "param_name": "睡眠状态",
+                    "init_value": 1,
+                    "max_value": 1,
+                    "min_value": 0
+                },
+                {
+                    "param_name": "口渴状态",
+                    "init_value": 1,
+                    "max_value": 1,
+                    "min_value": 0
+                },
+                {
+                    "param_name": "清洁状态",
+                    "init_value": 1,
+                    "max_value": 1,
+                    "min_value": 0
+                },
+                {
+                    "param_name": "排泄状态",
+                    "init_value": 1,
+                    "max_value": 1,
+                    "min_value": 0
+                },
+                {
+                    "param_name": "名称",
+                    "init_value": "军宏"
+                },
+            ]
         },
         {
             "player_name": "小夕",
@@ -49,7 +89,47 @@
                 "active_motivation_to_text": "res://config/text/active_motivation_to_text.json",
                 "meet_motivation_to_text": "res://config/text/meet_motivation_to_text.json",
                 "execute_motivation_to_text": "res://config/text/execute_motivation_to_text.json"
-            }
+            },
+            "param_config": [
+                {
+                    "param_name": "负重上限",
+                    "init_value": 10
+                },
+                {
+                    "param_name": "饥饿状态",
+                    "init_value": 1,
+                    "max_value": 1,
+                    "min_value": 0
+                },
+                {
+                    "param_name": "睡眠状态",
+                    "init_value": 1,
+                    "max_value": 1,
+                    "min_value": 0
+                },
+                {
+                    "param_name": "口渴状态",
+                    "init_value": 1,
+                    "max_value": 1,
+                    "min_value": 0
+                },
+                {
+                    "param_name": "清洁状态",
+                    "init_value": 1,
+                    "max_value": 1,
+                    "min_value": 0
+                },
+                {
+                    "param_name": "排泄状态",
+                    "init_value": 1,
+                    "max_value": 1,
+                    "min_value": 0
+                },
+                {
+                    "param_name": "名称",
+                    "init_value": "小夕"
+                },
+            ]
         }
     ]
 }
