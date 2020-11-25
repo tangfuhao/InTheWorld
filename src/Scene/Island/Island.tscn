@@ -168,6 +168,34 @@ stuff_type_name = "垃圾"
 position = Vector2( 1098.68, 1819.38 )
 stuff_type_name = "牙齿"
 
+[node name="Stuff29" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 758.452, 1585.09 )
+stuff_type_name = "风之铃"
+
+[node name="Stuff30" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 802.577, 1517.71 )
+stuff_type_name = "黑色宝箱"
+
+[node name="Stuff31" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 854.971, 1517.43 )
+stuff_type_name = "红色宝箱"
+
+[node name="Stuff32" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 906.52, 1516.58 )
+stuff_type_name = "橙色宝箱"
+
+[node name="Stuff33" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 802.939, 1547.93 )
+stuff_type_name = "石斧头"
+
+[node name="Stuff34" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 855.106, 1546.68 )
+stuff_type_name = "石斧头"
+
+[node name="Stuff35" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 906.269, 1546.68 )
+stuff_type_name = "石斧头"
+
 [node name="PlayerLayer" type="Node2D" parent="."]
 
 [node name="Player" parent="PlayerLayer" instance=ExtResource( 1 )]

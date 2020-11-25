@@ -3392,5 +3392,290 @@
                 ]
             }
         ]
+    },
+    {
+        "interaction_name": "制作石斧头",
+        "interaction_duration": 10,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "$[can_interact, ${node1}, ${node3}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "木棍"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "石块"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.01
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "disappear": "${node2}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "disappear": "${node3}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    },
+                    {
+                        "create": "石斧头"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "石斧头砍黑色宝箱",
+        "interaction_duration": 10,
+        "interaction_conditions": [
+            "$[is_binding, ${node1}, ${node2}]",
+            "$[can_interact, ${node1}, ${node3}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "石斧头"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "黑色宝箱"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.01
+                    }
+                ]
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "param_name": "耐久度",
+                        "transform": -0.1
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "disappear": "${node2}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "disappear": "${node3}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    },
+                    {
+                        "create": "风之铃"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "石斧头砍红色宝箱",
+        "interaction_duration": 10,
+        "interaction_conditions": [
+            "$[is_binding, ${node1}, ${node2}]",
+            "$[can_interact, ${node1}, ${node3}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "石斧头"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "红色宝箱"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.01
+                    }
+                ]
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "param_name": "耐久度",
+                        "transform": -0.1
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "disappear": "${node2}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "disappear": "${node3}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    },
+                    {
+                        "create": "妙瓜瓤"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "石斧头砍橙色宝箱",
+        "interaction_duration": 10,
+        "interaction_conditions": [
+            "$[is_binding, ${node1}, ${node2}]",
+            "$[can_interact, ${node1}, ${node3}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "石斧头"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "橙色宝箱"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.01
+                    }
+                ]
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "param_name": "耐久度",
+                        "transform": -0.1
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "disappear": "${node2}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "disappear": "${node3}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    },
+                    {
+                        "create": "垃圾"
+                    }
+                ]
+            }
+        ]
     }
 ]
