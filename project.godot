@@ -232,6 +232,11 @@ _global_script_classes=[ {
 "base": "Node2D",
 "class": "InteractionDispatcher",
 "language": "GDScript",
+"path": "res://src/World/Interaction/InteractionDispatcher.gd"
+}, {
+"base": "Node2D",
+"class": "InteractionDispatcher2",
+"language": "GDScript",
 "path": "res://src/World/Interaction/InteractionDispatcher2.gd"
 }, {
 "base": "Node2D",
@@ -495,6 +500,7 @@ _global_script_class_icons={
 "GSAITargetAcceleration": "",
 "GSAIUtils": "",
 "InteractionDispatcher": "",
+"InteractionDispatcher2": "",
 "InteractionImplement": "",
 "InteractionTemplate": "",
 "MemorySensor": "",

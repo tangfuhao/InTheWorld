@@ -1,6 +1,6 @@
 #被动作用调度器
 extends Node2D
-class_name InteractionDispatcher
+class_name InteractionDispatcher2
 
 #创建一个物品类型的引用 类型:节点集合
 var type_stuff_dic := {}
@@ -18,27 +18,236 @@ var fail_interaction_arr := []
 
 func _ready():
 	make_stuff_type_tree()
-	var god_interaction_arr = DataManager.get_interaction_arr_by_type("god")
-	for item in god_interaction_arr:
-		var node_match = item.node_matching
-		#满足匹配关系的节点
-		var match_node_arr = node_match(node_match)
-		for match_node_pair_item in match_node_arr:
+	make_interaction_relation()
+	matching_and_create_interaction()
+#	var god_interaction_arr = DataManager.get_interaction_arr_by_type("god")
+#	for item in god_interaction_arr:
+#		var node_match = item.node_matching
+#		#满足匹配关系的节点
+#		var match_node_arr = node_match(node_match)
+#		for match_node_pair_item in match_node_arr:
+#
+#			#创建交互
+#			var interaction_implement = item.create_interaction(match_node_pair_item)
+#			#绑定关系
+#			for node_item in match_node_pair_item.values():
+#				var interaction_arr = get_arr_value_from_dic(active_node_to_interaction_dic,node_item)
+#				if not interaction_arr.has(interaction_implement):
+#					interaction_arr.push_back(interaction_implement)
+#			#加入场景
+#			add_child(interaction_implement)
+#
+#		#绑定交互模板的关系
+#		for node_type_item in node_match.values():
+#			var interaction_template_arr = get_arr_value_from_dic(use_node_type_to_interaction_template_dic,node_type_item)
+#			interaction_template_arr.push_back(item)
 
-			#创建交互
-			var interaction_implement = item.create_interaction(match_node_pair_item)
-			#绑定关系
-			for node_item in match_node_pair_item.values():
-				var interaction_arr = get_arr_value_from_dic(active_node_to_interaction_dic,node_item)
-				if not interaction_arr.has(interaction_implement):
-					interaction_arr.push_back(interaction_implement)
-			#加入场景
-			add_child(interaction_implement)
+#创建并匹配存在的作用
+func matching_and_create_interaction():
+	var god_interaction_arr = DataManager.get_interaction_arr_by_type("god")
+	for interaction_template_item in god_interaction_arr:
+		#获取作用里的节点匹配列表
+		#包括 指代名 类型 节点受限条件 和 非受限条件
+		var node_matchings = interaction_template_item.get_node_matchings()
+		#创建匹配出的节点集合
+		var node_pair := {}
 		
-		#绑定交互模板的关系
-		for node_type_item in node_match.values():
-			var interaction_template_arr = get_arr_value_from_dic(use_node_type_to_interaction_template_dic,node_type_item)
-			interaction_template_arr.push_back(item)
+		var node_matching_size = node_matchings.size()
+		#遍历匹配
+		for node_matching_index in range(node_matching_size):
+			
+			
+
+				
+			
+							
+			
+
+#通过给定的节点匹配序列 匹配出相应的可以 节点对
+func verify_node_matching_for_node_pair(_node_matching_index,_node_matchings,_node_pair):
+	#节点的匹配
+	var node_matching_item = _node_matchings[_node_matching_index]
+	#节点指向名
+	var node_name_in_interaction = node_matching_item.node_name_in_interaction
+	var node_type = node_matching_item.node_type
+	
+	
+	
+	#如果已经拥有 限制出节点集 则直接进行验证
+	if node_pair.has(node_name_in_interaction):
+		#验证通过的节点
+		var after_verify_node_arr := []
+		var restrict_node_arr = node_pair[node_name_in_interaction]
+		#遍历检查 节点是否可用
+		for restrict_node_item in restrict_node_arr:
+			#验证类型是否匹配 不匹配下一个
+			if not DataManager.is_belong_type(node_type,restrict_node_item.stuff_type_name):
+				continue
+		
+			#获取限制节点范围的条件
+			var restrict_node_condition_arr:Array = node_matching_item.get_restrict_node_condition()
+			#不存在限制节点范围 直接加入节点
+			if restrict_node_condition_arr.empty():
+				after_verify_node_arr.push_back(restrict_node_item)
+				continue
+			
+			#存在限制节点范围 进行验证
+			var restrict_condition_node = match_restrict_condition_node(node_item,restrict_node_condition_arr,node_pair)
+			#如果根据限制条件 没有合适的节点 换下一个节点
+			if restrict_condition_node.empty():
+				break
+			#通过验证
+			after_verify_node_arr.push_back(restrict_node_item)
+		
+		#如果验证结果 没有合适的节点 
+		if after_verify_node_arr.empty():
+			_node_pair = {}
+		else:
+			verify_node_matching_for_node_pair(_node_matching_index + 1,_node_matchings,_node_pair)
+	else:
+		#通过类型 获取节点列表
+		var match_node_arr:Array = match_node_arr_by_type(node_type)
+		#没有匹配到合适的节点 清空节点对
+		if match_node_arr.empty():
+			_node_pair = {}
+			return 
+			
+		#遍历节点
+		for node_item in match_node_arr:
+			#把节点加入节点组 [指代名:节点]
+			#TODO 值为数组
+			_node_pair[node_name_in_interaction] = node_item
+			#获取限制节点范围的条件
+			var restrict_node_condition_arr:Array = node_matching_item.get_restrict_node_condition()
+			#不存在限制节点范围 直接遍历下一个节点
+			if restrict_node_condition_arr.empty():
+				verify_node_matching_for_node_pair(_node_matching_index + 1,_node_matchings,_node_pair)
+				break
+				
+
+			#根据限制条件匹配出 需要的节点 [代指名:[节点列表]]
+			var restrict_condition_node_dic = match_restrict_condition_node(node_item,restrict_node_condition_arr,node_pair)
+			#如果根据限制条件 没有合适的节点 换下一个节点
+			if restrict_condition_node.empty():
+				continue
+			
+			
+			#遍历限制完的节点 再验证节点条件
+			for restrict_condition_node_name in node_pair.keys():
+				var restrict_condition_node_arr:Array = node_pair[restrict_condition_node_name]
+				assert(not restrict_condition_node_arr.empty())
+				var assign_node_matching = interaction_template_item.find_node_matching(restrict_condition_node_name)
+				var assign_node_name_in_interaction = assign_node_matching.node_name_in_interaction
+				
+				for restrict_node_item in restrict_condition_node_arr:
+					#验证类型是否匹配 不匹配下一个
+					if not DataManager.is_belong_type(assign_node_name_in_interaction,restrict_node_item.stuff_type_name):
+						continue
+					
+					#获取限制节点范围的条件
+					var assign_restrict_node_condition_arr:Array = assign_node_matching.get_restrict_node_condition()
+					#存在限制节点范围
+					if not assign_restrict_node_condition_arr.empty():
+						node_pair = match_restrict_condition_node(restrict_node_item,assign_restrict_node_condition_arr,node_pair)
+
+			
+
+#根据限制条件 匹配相应的节点
+func match_restrict_condition_node(_node:Node2D,_restrict_node_condition_arr:Array,node_dic:Dictionary) -> Dictionary:
+	for restrict_condition_item in _restrict_node_condition_arr:
+		var node_name_in_interaction = restrict_condition_item.node_name_in_interaction
+		#根据限制条件 限制节点  比如 可交互节点组  绑定节点组 ....
+		var limit_node_arr:Array = restrict_condition_item.limit_node(_node,node_dic)
+		#如果不存在  直接返回空  
+		if limit_node_arr.empty():
+			return {}
+		node_dic[node_name_in_interaction] = limit_node_arr
+
+#		#根据限制条件 限制节点  比如 可交互节点组  绑定节点组 ....
+#		var limit_node_arr:Array = restrict_condition_item.limit_node(_node)
+#		#如果不存在  直接返回空  
+#		if limit_node_arr.empty():
+#			return {}
+#
+#		#如果限制节点 有多个条件  计算相交的部分
+#		if node_dic.has(node_name_in_interaction):
+#
+#			var exist_limit_node_arr:Array = node_arr[node_name_in_interaction]
+#			var intersection_limit_node_arr = array_intersection(limit_node_arr,exist_limit_node_arr)
+#			#如果不存在  直接返回空  
+#			if intersection_limit_node_arr.empty():
+#				return {}
+#
+#			node_arr[node_name_in_interaction] = intersection_limit_node_arr
+#		else:
+#			node_dic[node_name_in_interaction] = limit_node_arr
+	return node_dic
+
+
+#数组相交
+func array_intersection(_arr1:Array,_arr2:Array) -> Array:
+	var intersection_arr := []
+	for item in _arr1:
+		if _arr2.has(item):
+			intersection_arr.push_back(item)
+	return intersection_arr
+
+
+
+
+
+
+#通过节点类型 获取存在的 node列表
+func match_node_arr_by_type(_node_type:String) -> Array:
+	var node_arr := []
+	#获取node所有类型集
+	var node_type_group = DataManager.get_node_type_group(_node_type)
+	for item in node_type_group:
+		var find_node_arr = get_arr_value_from_dic(type_stuff_dic,item)
+		for node_item in find_node_arr:
+			if node_arr.has(node_item):
+				continue
+			node_arr.push_back(node_item)
+	return node_arr
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#组织交互模板关系
+func make_interaction_relation():
+	var god_interaction_arr = DataManager.get_interaction_arr_by_type("god")
+	for interaction_template_item in god_interaction_arr:
+		#分析条件
+		make_ineraction_condition(interaction_template_item)
+
+
+#分析交互模板的条件  编译条件
+func make_ineraction_condition(_interaction_template:InteractionTemplate):
+	var condition_arr = _interaction_template.conditions_arr
+	for item in condition_arr:
+		var methods = extract_method(item)
+
+#提取函数名
+func extract_method(expression:String) ->Array:
+	var methods := []
+	var function_regex = DataManager.function_regex
+	var result_arr = function_regex.search_all(expression)
+	for match_item in result_arr:
+		var full = match_item.get_string(0)
+		var group = match_item.get_string(1)
+	return methods
+		
 
 #组织节点类型
 func make_stuff_type_tree():
