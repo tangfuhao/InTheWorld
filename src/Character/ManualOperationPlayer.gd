@@ -40,12 +40,9 @@ func _ready() -> void:
 	display_name = player_name
 	name_label.set_text(display_name)
 	node_name = display_name + IDGenerator.pop_id_index()
-
-	#TEST
-	var param_model = ComomStuffParam.new()
-	param_model.name = "负重上限"
-	param_model.value = 10
-	param.set_value(param_model.name,param_model)
+	
+	#加载属性
+	preload_param_config()
 	
 	
 func _process(_delta):
@@ -59,7 +56,28 @@ func handle_dialog_messages():
 	if current_dialog_text:
 		emit_signal("request_input",current_dialog_text)
 
-
+#加载预定义属性
+func preload_param_config():
+	var param_config_arr = DataManager.get_player_data(player_name,"param_config")
+	for item in param_config_arr:
+		var param_name = item["param_name"]
+		var param_model = ComomStuffParam.new()
+		param_model.name = param_name
+		
+		if item.has("max_value"):
+			param_model.max_value = item["max_value"]
+		
+		if item.has("min_value"):
+			param_model.min_value = item["min_value"]
+			
+		if item.has("transform"):
+			param_model.transform = item["transform"]
+		
+		if item.has("init_value"):
+			param_model.init_value = item["init_value"]
+			param_model.value = param_model.init_value
+		
+		param.set_value(param_name,param_model)
 
 #加入请求文本
 func add_request_input(_message_text):
@@ -107,10 +125,7 @@ func get_param_value(_param_name):
 	if not param_model:
 		param_model = ComomStuffParam.new()
 		param_model.name = _param_name
-		if param_name.find("状态") == -1:
-			param_model.value = 0
-		else:
-			param_model.value = 1
+		param_model.value = 0
 		param.set_value(_param_name,param_model)
 
 	if param_arr.empty():
