@@ -2,6 +2,15 @@
 class_name InteractionTemplate
 
 
+#节点匹配项
+class InteractionNodeMatching:
+	var node_name_in_interaction
+	var node_type
+	
+	func get_restrict_node_condition():
+		return []
+
+
 const interaction_implement_scene = preload("res://src/World/Interaction/InteractionImplement.tscn")
 
 var name
@@ -13,8 +22,8 @@ var parant_interaction
 var conditions_arr := []
 
 #名称-类型
-var node_matching := {}
-var node_match_name_arr := []
+var node_matching := []
+
 
 #影响数组
 var active_execute := []
@@ -40,6 +49,18 @@ func _init(_interaction_type,_interaction_name,_interaction_duration):
 	type = _interaction_type
 	name = _interaction_name
 	duration = _interaction_duration
+
+#新增节点配对
+func add_node_matching(_node_name,_node_type):
+	if name == "拿起物品":
+		print("sdasd")
+	var node_matching_item = InteractionNodeMatching.new()
+	node_matching_item.node_name_in_interaction = _node_name
+	node_matching_item.node_type = _node_type
+	node_matching.push_back(node_matching_item)
+
+func get_node_matchings():
+	return node_matching
 
 #创建交互实例  通过传入的交互节点
 func create_interaction(_node_pair_item:Dictionary):

@@ -172,26 +172,30 @@ func set_player_dialog_message(_text):
 func show_interaction_ui():
 	var has_excute_interaction = current_select_interaction != null
 	if not has_excute_interaction:
-		var node_match_dic = current_interaction_template.node_matching
-		var node_name_arr = node_match_dic.keys().duplicate()
-		var node_type_name_arr = node_match_dic.values().duplicate()
-		var player_index = 0
-		for item in node_type_name_arr:
-			if item == "Player":
-				node_type_name_arr.remove(player_index)
-				node_name_arr.remove(player_index)
-				break
-			player_index = player_index + 1
+		var node_matching_arr:Array = current_interaction_template.get_node_matchings()
+		var local_node_matching_arr = node_matching_arr.duplicate()
+		local_node_matching_arr.pop_front()
+		# var node_name_arr = node_match_dic.keys().duplicate()
+		# var node_type_name_arr = node_match_dic.values().duplicate()
+		# var player_index = 0
+		# for item in node_type_name_arr:
+		# 	if item == "Player":
+		# 		node_type_name_arr.remove(player_index)
+		# 		node_name_arr.remove(player_index)
+		# 		break
+		# 	player_index = player_index + 1
 
+		#移除所有之前的子节点
 		for item in show_interaction_info_listview.get_children():
 			show_interaction_info_listview.remove_child(item)
 		
-		for item in node_type_name_arr:
+		#根据节点匹配 新增
+		for item in local_node_matching_arr:
 			var interaction_item_button = interaction_info_item.instance()
-			interaction_item_button.text = item
+			interaction_item_button.text = item.node_type
 			show_interaction_info_listview.add_child(interaction_item_button)
 			
-		if node_type_name_arr.empty():
+		if local_node_matching_arr.empty():
 			#指定可以运行
 			excute_interaction_button.set_disabled(false)
 			
@@ -319,7 +323,7 @@ func on_emotion_item_selected(index):
 
 #执行 作用
 func _on_Button4_pressed():
-	var node_arr = []
+	var node_arr := []
 	for item in show_interaction_info_listview.get_children():
 		node_arr.push_back(item.get_meta("node"))
 	

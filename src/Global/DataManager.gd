@@ -178,8 +178,7 @@ func parse_interaction(_interaction_arr) ->Dictionary:
 		for node_item in node_arr:
 			var node_name = node_item["node_name"]
 			var node_type = node_item["node_type"]
-			interaction_template.node_matching[node_name] = node_type
-			interaction_template.node_match_name_arr.push_back(node_name)
+			interaction_template.add_node_matching(node_name,node_type)
 		
 		parse_interaction_lifecycle_process(item,interaction_template.active_execute,"_active")
 		parse_interaction_lifecycle_process(item,interaction_template.process_execute,"_process")

@@ -156,11 +156,13 @@ func set_param_value(_param_name,_param_value):
 
 #执行作用
 func excute_interaction(_interaction_template,_node_arr):
-	var node_match_name_arr = _interaction_template.node_match_name_arr
+	var node_matchings_arr = _interaction_template.get_node_matchings()
 	var node_pair := {}
-	node_pair[node_match_name_arr[0]] = self
-	for index in range(_node_arr.size()):
-		node_pair[node_match_name_arr[index + 1]] = _node_arr[index]
+	for index in range(node_matchings_arr.size()):
+		if index == 0:
+			node_pair[node_matchings_arr[index].node_name_in_interaction] = self
+		else:
+			node_pair[node_matchings_arr[index].node_name_in_interaction] = _node_arr[index-1]
 	#创建交互
 	var interaction_implement = _interaction_template.create_interaction(node_pair)
 	interaction_implement.is_manual_interaction = true
