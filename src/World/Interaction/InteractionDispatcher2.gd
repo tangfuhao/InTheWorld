@@ -109,7 +109,16 @@ func verify_node_matching_for_node_pair(_node_matching_index,_node_matchings:Arr
 			#把限制出的节点对集合 给 当前节点对集合
 			for restrict_condition_node_name_item in restrict_condition_node_dic.keys():
 				var limit_node_arr = restrict_condition_node_dic[restrict_condition_node_name_item]
+				var current_restrict_node_arr = get_arr_value_from_dic(local_node_pair,restrict_condition_node_name_item)
+				if not current_restrict_node_arr.empty():
+					limit_node_arr = array_intersection(current_restrict_node_arr,limit_node_arr)
+					
 				local_node_pair[restrict_condition_node_name_item] = limit_node_arr
+				if limit_node_arr.empty():
+					local_node_pair = {}
+					break
+			if local_node_pair.empty():
+				continue
 			
 			verify_node_matching_for_node_pair(_node_matching_index + 1,_node_matchings,_node_pair_arr,local_node_pair)
 
@@ -137,14 +146,23 @@ func verify_node_matching_for_node_pair(_node_matching_index,_node_matchings:Arr
 				
 
 			#根据限制条件匹配出 需要的节点 [代指名:[节点列表]]
-			var restrict_condition_node_dic:Dictionary = match_restrict_condition_node(node_item,restrict_node_condition_arr,_node_pair)
+			var restrict_condition_node_dic:Dictionary = match_restrict_condition_node(node_item,restrict_node_condition_arr,local_node_pair)
 			#如果根据限制条件 没有合适的节点 换下一个节点
 			if restrict_condition_node_dic.empty():
 				continue
 			#把限制出的节点对集合 给 当前节点对集合
 			for restrict_condition_node_name_item in restrict_condition_node_dic.keys():
 				var limit_node_arr = restrict_condition_node_dic[restrict_condition_node_name_item]
+				var current_restrict_node_arr = get_arr_value_from_dic(local_node_pair,restrict_condition_node_name_item)
+				if not current_restrict_node_arr.empty():
+					limit_node_arr = array_intersection(current_restrict_node_arr,limit_node_arr)
+					
 				local_node_pair[restrict_condition_node_name_item] = limit_node_arr
+				if limit_node_arr.empty():
+					local_node_pair = {}
+					break
+			if local_node_pair.empty():
+				continue
 			
 			verify_node_matching_for_node_pair(_node_matching_index + 1,_node_matchings,_node_pair_arr,local_node_pair)
 			
@@ -173,45 +191,35 @@ func verify_node_matching_for_node_pair(_node_matching_index,_node_matchings:Arr
 
 #根据限制条件 匹配相应的节点
 func match_restrict_condition_node(_node:Node2D,_restrict_node_condition_arr:Array,_node_dic:Dictionary) -> Dictionary:
-	var node_dic := {}
+	var restrict_node_dic := {}
 	for restrict_condition_item in _restrict_node_condition_arr:
 		#根据限制条件 限制节点  比如 可交互节点组  绑定节点组 ....
-		var limit_node_arr:Array = restrict_condition_item.limit_node(_node,_node_dic)
-		#如果不存在  直接返回空  
+		var limit_node_arr:Array = restrict_condition_item.limit_node(_node)
+		
 		if limit_node_arr.empty():
+			#如果不存在  直接返回空  
 			return {}
-
+		
 		var node_name_in_interaction = restrict_condition_item.node_name_in_interaction
-		node_dic[node_name_in_interaction] = limit_node_arr
+		var restrict_node_arr = get_arr_value_from_dic(restrict_node_dic,node_name_in_interaction)
+		if not restrict_node_arr.empty():
+			limit_node_arr = array_intersection(restrict_node_arr,limit_node_arr)
+			if limit_node_arr.empty():
+				#如果不存在  直接返回空  
+				return {}
 
-#		#根据限制条件 限制节点  比如 可交互节点组  绑定节点组 ....
-#		var limit_node_arr:Array = restrict_condition_item.limit_node(_node)
-#		#如果不存在  直接返回空  
-#		if limit_node_arr.empty():
-#			return {}
-#
-#		#如果限制节点 有多个条件  计算相交的部分
-#		if node_dic.has(node_name_in_interaction):
-#
-#			var exist_limit_node_arr:Array = node_arr[node_name_in_interaction]
-#			var intersection_limit_node_arr = array_intersection(limit_node_arr,exist_limit_node_arr)
-#			#如果不存在  直接返回空  
-#			if intersection_limit_node_arr.empty():
-#				return {}
-#
-#			node_arr[node_name_in_interaction] = intersection_limit_node_arr
-#		else:
-#			node_dic[node_name_in_interaction] = limit_node_arr
-	return node_dic
+		restrict_node_dic[node_name_in_interaction] = limit_node_arr
+
+	return restrict_node_dic
 
 
 ##数组相交
-#func array_intersection(_arr1:Array,_arr2:Array) -> Array:
-#	var intersection_arr := []
-#	for item in _arr1:
-#		if _arr2.has(item):
-#			intersection_arr.push_back(item)
-#	return intersection_arr
+func array_intersection(_arr1:Array,_arr2:Array) -> Array:
+	var intersection_arr := []
+	for item in _arr1:
+		if _arr2.has(item):
+			intersection_arr.push_back(item)
+	return intersection_arr
 
 
 
