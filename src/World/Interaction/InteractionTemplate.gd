@@ -17,12 +17,18 @@ class IneractionRestrictCondition:
 			if not _node_arr.has(item):
 				_node_arr.push_back(item)
 			traverse_bind_node(item,_node_arr)
+
+	func traverse_store_node(_node,_node_arr:Array):
+		var store_object_list = _node.storage_layer.get_children()
+		for item in store_object_list:
+			if not _node_arr.has(item):
+				_node_arr.push_back(item)
+			traverse_store_node(item,_node_arr)
 		
 		
 	func limit_node(_node)->Array:
-		var node_arr
+		var node_arr := []
 		if restrict_mode == "can_interact":
-			node_arr = []
 			traverse_bind_node(_node,node_arr)
 			
 			for item in _node.interactive_object_list:
@@ -34,6 +40,14 @@ class IneractionRestrictCondition:
 			node_arr = _node.storage_layer.get_children()
 		elif restrict_mode == "is_colliding":
 			node_arr = _node.collision_object_arr
+		elif restrict_mode == "is_affiliation":
+			traverse_bind_node(_node,node_arr)
+			var store_node_arr := []
+			traverse_store_node(_node,store_node_arr)
+			for item in store_node_arr:
+				if not node_arr.has(item):
+					node_arr.push_back(item)
+
 			
 			
 		
@@ -135,7 +149,7 @@ func parse_condition_for_restrict_node(_condition_item):
 			var group = match_item.get_string(1)
 			var function_params = Array(group.split(","))
 			var function_name = function_params.pop_front()
-			if function_name == "can_interact" or function_name == "is_binding" or function_name == "is_storing" or function_name == "is_colliding":
+			if function_name == "can_interact" or function_name == "is_binding" or function_name == "is_storing" or function_name == "is_colliding" or function_name == "is_affiliation":
 				var node_name = function_params.pop_front()
 				node_name = extract_node_name(objecet_regex,node_name)
 				var target_node_name = function_params.pop_front()

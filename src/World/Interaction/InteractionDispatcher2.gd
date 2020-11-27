@@ -46,6 +46,8 @@ func _ready():
 func matching_and_create_interaction():
 	var god_interaction_arr = DataManager.get_interaction_arr_by_type("god")
 	for interaction_template_item in god_interaction_arr:
+		if interaction_template_item.name == "同步绑定负重":
+			print("sdasd")
 		#获取作用里的节点匹配列表
 		#包括 指代名 类型 节点受限条件 和 非受限条件
 		var node_matchings = interaction_template_item.get_node_matchings()
@@ -56,6 +58,9 @@ func matching_and_create_interaction():
 		for node_pair_item in node_pair_arr:
 			#创建交互
 			var interaction_implement = interaction_template_item.create_interaction(node_pair_item)
+			print("创建作用 ",interaction_implement.interaction_name)
+			for node_item_key in node_pair_item.keys():
+				print("作用节点%s:%s" % [node_item_key,node_pair_item[node_item_key].node_name])
 			#加入场景
 			add_child(interaction_implement)
 

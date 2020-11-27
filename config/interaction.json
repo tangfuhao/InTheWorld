@@ -312,7 +312,7 @@
         "interaction_duration": -1,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}]",
-            "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]"
+            "$[is_affiliation, ${node1}, ${node2}]"
         ],
         "_nodes": [
             {
@@ -342,7 +342,7 @@
         "interaction_duration": -1,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}] ≡ 0",
-            "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
+            "$[is_affiliation, ${node1}, ${node2}]",
             "$[is_value_change, ${node2},流体体积]"
         ],
         "clean_cache": [
@@ -408,7 +408,7 @@
         "interaction_duration": -1,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}]",
-            "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]"
+            "$[is_affiliation, ${node1}, ${node2}]"
         ],
         "_nodes": [
             {
@@ -438,7 +438,7 @@
         "interaction_duration": -1,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}] ≡ 0",
-            "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
+            "$[is_affiliation, ${node1}, ${node2}]",
             "$[is_value_change, ${node2},重量]"
         ],
         "clean_cache": [
@@ -504,7 +504,7 @@
         "interaction_duration": -1,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}]",
-            "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]"
+            "$[is_affiliation, ${node1}, ${node2}]"
         ],
         "_nodes": [
             {
@@ -534,7 +534,7 @@
         "interaction_duration": -1,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}] ≡ 0",
-            "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
+            "$[is_affiliation, ${node1}, ${node2}]",
             "$[is_value_change,${node2},总重量]"
         ],
         "clean_cache": [
@@ -973,7 +973,7 @@
         "interaction_duration": -1,
         "interaction_conditions": [
             "$[can_interact, ${node1}, ${node3}]",
-            "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
+            "$[is_affiliation, ${node1}, ${node2}]",
             "$[is_binding, ${node3}, ${node4}]",
             "${node1[当前负重]} < ${node1[负重上限]}",
             "${node2[容器内流体量]} < ${node2[容器内流体量.max_value]}",
@@ -1063,7 +1063,7 @@
         "interaction_name": "装海水",
         "interaction_duration": -1,
         "interaction_conditions": [
-            "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
+            "$[is_affiliation, ${node1}, ${node2}]",
             "${node1[当前负重]} < ${node1[负重上限]}",
             "${node2[容器内流体量]} < ${node2[容器内流体量.max_value]}",
             "$[is_equal,${node1[所在地]},沙滩]"
@@ -1119,8 +1119,8 @@
         "interaction_name": "倒流体",
         "interaction_duration": 1,
         "interaction_conditions": [
-            "$[is_binding, ${node1}, ${node2}] ∨ $[is_storing, ${node1}, ${node2}]",
-            "$[is_binding, ${node2}, ${node3}] ∨ $[is_storing, ${node2}, ${node3}]",
+            "$[is_affiliation, ${node1}, ${node2}]",
+            "$[is_affiliation, ${node2}, ${node3}]",
             "${node2[容器内流体量]} > 0"
         ],
         "_nodes": [
@@ -2105,7 +2105,7 @@
         "interaction_duration": 2,
         "interaction_conditions": [
             "$[can_interact, ${node1}, ${node2}]",
-            "$[is_binding, ${node1}, ${node3}] ∨ $[is_storing, ${node1}, ${node3}]"
+            "$[is_affiliation, ${node1}, ${node3}]"
         ],
         "_nodes": [
             {
@@ -2158,7 +2158,7 @@
         "interaction_duration": 5,
         "interaction_conditions": [
             "$[can_interact, ${node1}, ${node2}]",
-            "$[is_binding, ${node1}, ${node3}] ∨ $[is_storing, ${node1}, ${node3}]"
+            "$[is_affiliation, ${node1}, ${node3}]"
         ],
         "_nodes": [
             {
@@ -3004,7 +3004,7 @@
         "interaction_duration": 1,
         "interaction_conditions": [
             "$[can_interact, ${node1}, ${node2}]",
-            "$[is_binding, ${node1}, ${node3}] ∨ $[is_storing, ${node1}, ${node3}]",
+            "$[is_affiliation, ${node1}, ${node3}]",
             "${node2[当前负重]} + ${node3[重量]} ≤ ${node2[负重上限]}"
         ],
         "_nodes": [

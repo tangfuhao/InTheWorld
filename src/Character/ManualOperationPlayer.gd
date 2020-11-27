@@ -28,6 +28,9 @@ var current_dialog_text
 var next_frame_disappear = false
 var is_rigid_body = true
 
+#记录 正在碰撞的物体
+var collision_object_arr := []
+
 
 signal disappear_notify()
 #物品属性的更新
