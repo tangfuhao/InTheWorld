@@ -37,6 +37,10 @@
         "object_name": "是耐久物品的",
         "child_object": "妙瓜瓤,椰子肉,屎"
     },
+    "是猪肉的": {
+        "object_name": "是猪肉的",
+        "child_object": "死猪,熟猪"
+    },
     "椅子": {
         "object_name": "椅子",
         "inherit_concept": "可坐的,可被化身绑定的",
@@ -915,7 +919,7 @@
         "inherit_concept": "可被化身绑定的,可被化身储存的,是耐久物品的",
         "physics": {
             "几何形状": "长方形",
-            "动力学性质": "流体",
+            "动力学性质": "柔性物",
             "尺寸": 0.5,
             "颜色": "灰"
         },
@@ -1225,5 +1229,107 @@
                 "min_value": 0
             }
         ]
-    }
+    },
+    "大山": {
+        "object_name": "大山",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 30,
+            "颜色": "灰"
+        },
+        "params": {
+            "重量": 100000,
+            "总重量": 100000
+        },
+        "param_config": [
+            {
+                "param_name": "重量",
+                "init_value": 100000,
+                "min_value": 0
+            },
+            {
+                "param_name": "总重量",
+                "init_value": 100000,
+                "min_value": 0
+            }
+        ]
+    },
+    "死猪": {
+        "object_name": "死猪",
+        "inherit_concept": "可被化身绑定的,可被化身储存的,是猪肉的",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 1,
+            "颜色": "棕"
+        },
+        "params": {
+            "重量": 10,
+            "总重量": 10
+        },
+        "param_config": [
+            {
+                "param_name": "重量",
+                "init_value": 10,
+                "min_value": 0
+            },
+            {
+                "param_name": "总重量",
+                "init_value": 10,
+                "min_value": 0
+            }
+        ]
+    },
+    "熟猪": {
+        "object_name": "熟猪",
+        "inherit_concept": "可被化身绑定的,可被化身储存的,是猪肉的",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 1,
+            "颜色": "灰"
+        },
+        "params": {
+            "重量": 10,
+            "总重量": 10
+        },
+        "param_config": [
+            {
+                "param_name": "重量",
+                "init_value": 10,
+                "min_value": 0
+            },
+            {
+                "param_name": "总重量",
+                "init_value": 10,
+                "min_value": 0
+            }
+        ]
+    },
+    "火": {
+        "object_name": "火",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "流体",
+            "尺寸": 1,
+            "颜色": "红"
+        },
+        "params": {
+            "重量": 0,
+            "总重量": 0
+        },
+        "param_config": [
+            {
+                "param_name": "重量",
+                "init_value": 0,
+                "min_value": 0
+            },
+            {
+                "param_name": "总重量",
+                "init_value": 0,
+                "min_value": 0
+            }
+        ]
+    },
 }

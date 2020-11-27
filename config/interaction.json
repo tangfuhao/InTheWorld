@@ -120,6 +120,30 @@
         ]
     },
     {
+        "interaction_name": "健康死亡",
+        "interaction_scheduling": "god",
+        "interaction_duration": 0,
+        "interaction_conditions": [
+	        "${node1[健康状态]} ≤ 0"
+	    ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "disappear": "${node1}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "interaction_name": "基础饥饿消耗",
         "interaction_scheduling": "god",
         "interaction_duration": -1,
@@ -2940,6 +2964,10 @@
                 "effects": [
                     {
                         "create": "牙齿"
+                    },
+                    {
+                        "param_name": "健康状态",
+                    	"transform": "-0.1"
                     }
                 ]
             },
@@ -3677,5 +3705,86 @@
                 ]
             }
         ]
-    }
+    },
+    {
+        "interaction_name": "烹饪死猪",
+        "interaction_duration": 10,
+        "interaction_conditions": [
+            "$[is_binding, ${node1}, ${node2}]",
+            "$[can_interact, ${node1}, ${node3}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "死猪"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "火"
+            }
+        ],
+        "_terminate": [
+        	{
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "create": "熟猪:node4"
+                    },
+                    {
+                        "bind": "${node4}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "disappear": "${node2}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "人碰到火",
+        "interaction_scheduling": "god",
+        "interaction_duration": 1,
+        "interaction_conditions": [
+            "$[is_colliding, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "衣服"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "是流体的"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "干湿度",
+                        "assign": 1
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "流体体积",
+                        "transform": -1
+                    }
+                ]
+            }
+        ]
+    },
 ]

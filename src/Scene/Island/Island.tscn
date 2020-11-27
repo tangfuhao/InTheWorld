@@ -196,6 +196,18 @@ stuff_type_name = "石斧头"
 position = Vector2( 906.269, 1546.68 )
 stuff_type_name = "石斧头"
 
+[node name="Stuff36" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 585.716, 1433.64 )
+stuff_type_name = "大山"
+
+[node name="Stuff37" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 993.673, 1586.95 )
+stuff_type_name = "火"
+
+[node name="Stuff38" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 993.673, 1536.28 )
+stuff_type_name = "死猪"
+
 [node name="PlayerLayer" type="Node2D" parent="."]
 
 [node name="Player" parent="PlayerLayer" instance=ExtResource( 1 )]
