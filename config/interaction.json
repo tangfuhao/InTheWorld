@@ -1810,7 +1810,9 @@
             "食用-妙瓜种子",
             "食用-妙瓜瓤",
             "食用-椰子肉",
-            "食用-屎"
+            "食用-屎",
+            "食用-死猪",
+            "食用-熟猪"
         ],
         "interaction_conditions": [
             "0"
@@ -2009,7 +2011,11 @@
                 "effects": [
                     {
                         "param_name": "饥饿状态",
-                        "transform": 0.02
+                        "transform": 0.05
+                    },
+                    {
+                        "param_name": "健康状态",
+                        "transform": -0.1
                     }
                 ]
             },
@@ -2022,13 +2028,87 @@
                     }
                 ]
             }
+        ]
+    },
+    {
+        "interaction_name": "食用-死猪",
+        "interaction_duration": 10,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
         ],
-        "_terminate": [
-        	{
+        "_parant": [
+            "食用"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "死猪"
+            }
+        ],
+        "_process": [
+            {
                 "node_name": "node1",
                 "effects": [
                     {
-                        "disappear": "${node1}"
+                        "param_name": "饥饿状态",
+                        "transform": 0.02
+                    },
+                    {
+                        "param_name": "健康状态",
+                        "transform": -0.05
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "耐久度",
+                        "transform": -0.01
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "食用-熟猪",
+        "interaction_duration": 10,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_parant": [
+            "食用"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "熟猪"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "饥饿状态",
+                        "transform": 0.03
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "耐久度",
+                        "transform": -0.01
                     }
                 ]
             }
@@ -3398,7 +3478,7 @@
         "interaction_duration": 5,
         "interaction_conditions": [
 	        "$[is_binding, ${node1}, ${node2}]",
-	        "${node1[名称]} ≡ 小夕"
+	        "$[is_equal, ${node1[名称]}, 小夕]"
 	    ],
         "_nodes": [
             {
@@ -3416,6 +3496,9 @@
                 "effects": [
                     {
                         "disappear": "${node1}"
+                    },
+                    {
+                    	"create": "成功！"
                     }
                 ]
             }
@@ -3752,39 +3835,74 @@
     {
         "interaction_name": "人碰到火",
         "interaction_scheduling": "god",
-        "interaction_duration": 1,
+        "interaction_duration": -1,
         "interaction_conditions": [
             "$[is_colliding, ${node1}, ${node2}]"
         ],
         "_nodes": [
             {
                 "node_name": "node1",
-                "node_type": "衣服"
+                "node_type": "Player"
             },
             {
                 "node_name": "node2",
-                "node_type": "是流体的"
+                "node_type": "火"
             }
         ],
-        "_terminate": [
+        "_process": [
             {
                 "node_name": "node1",
                 "effects": [
                     {
-                        "param_name": "干湿度",
-                        "assign": 1
-                    }
-                ]
-            },
-            {
-                "node_name": "node2",
-                "effects": [
-                    {
-                        "param_name": "流体体积",
-                        "transform": -1
+                        "param_name": "健康状态",
+                        "transform": -0.1
                     }
                 ]
             }
         ]
     },
+    {
+        "interaction_name": "废品再生",
+        "interaction_scheduling": "god",
+        "interaction_duration": 0,
+        "interaction_conditions": [
+            "$[is_binding, ${node1}, ${node3}]",
+            "$[is_colliding, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "废品再生中心"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "物品"
+            },
+        ],
+        "_terminate": [
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "disappear": "${node3}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "create": "手机:node4"
+                    },
+                    {
+                        "bind": "${node4}"
+                    }
+                ]
+            }
+        ]
+    }
 ]

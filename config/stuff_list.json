@@ -1265,10 +1265,17 @@
             "颜色": "棕"
         },
         "params": {
+            "耐久度":1,
             "重量": 10,
             "总重量": 10
         },
         "param_config": [
+            {
+                "param_name": "耐久度",
+                "init_value": 1,
+                "max_value": 1,
+                "min_value": 0
+            },
             {
                 "param_name": "重量",
                 "init_value": 10,
@@ -1291,10 +1298,17 @@
             "颜色": "灰"
         },
         "params": {
+            "耐久度":1,
             "重量": 10,
             "总重量": 10
         },
         "param_config": [
+            {
+                "param_name": "耐久度",
+                "init_value": 1,
+                "max_value": 1,
+                "min_value": 0
+            },
             {
                 "param_name": "重量",
                 "init_value": 10,
@@ -1328,6 +1342,56 @@
             {
                 "param_name": "总重量",
                 "init_value": 0,
+                "min_value": 0
+            }
+        ]
+    },
+    "成功": {
+        "object_name": "成功",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 1,
+            "颜色": "黑"
+        },
+        "params": {
+            "重量": 0,
+            "总重量": 0
+        },
+        "param_config": [
+            {
+                "param_name": "重量",
+                "init_value": 0,
+                "min_value": 0
+            },
+            {
+                "param_name": "总重量",
+                "init_value": 0,
+                "min_value": 0
+            }
+        ]
+    },
+    "废物再生中心": {
+        "object_name": "废物再生中心",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "柔性物",
+            "尺寸": 10,
+            "颜色": "黑"
+        },
+        "params": {
+            "重量": 100000,
+            "总重量": 100000
+        },
+        "param_config": [
+            {
+                "param_name": "重量",
+                "init_value": 100000,
+                "min_value": 0
+            },
+            {
+                "param_name": "总重量",
+                "init_value": 100000,
                 "min_value": 0
             }
         ]

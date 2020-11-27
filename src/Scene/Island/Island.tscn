@@ -208,6 +208,18 @@ stuff_type_name = "火"
 position = Vector2( 993.673, 1536.28 )
 stuff_type_name = "死猪"
 
+[node name="Stuff39" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 993.673, 1536.28 )
+stuff_type_name = "死猪"
+
+[node name="Stuff40" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1075.07, 1587.28 )
+stuff_type_name = "成功"
+
+[node name="Stuff41" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1122.96, 1445.96 )
+stuff_type_name = "废物再生中心"
+
 [node name="PlayerLayer" type="Node2D" parent="."]
 
 [node name="Player" parent="PlayerLayer" instance=ExtResource( 1 )]
