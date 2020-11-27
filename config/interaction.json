@@ -4,7 +4,7 @@
         "interaction_scheduling": "god",
         "interaction_duration": 0,
         "interaction_conditions": [
-	        "${node1[饥饿状态]} < 0"
+	        "${node1[饥饿状态]} ≡ 0"
 	    ],
         "_nodes": [
             {
@@ -28,7 +28,7 @@
         "interaction_scheduling": "god",
         "interaction_duration": 0,
         "interaction_conditions": [
-	        "${node1[睡眠状态]} < 0"
+	        "${node1[睡眠状态]} ≡ 0"
 	    ],
         "_nodes": [
             {
@@ -52,7 +52,7 @@
         "interaction_scheduling": "god",
         "interaction_duration": 0,
         "interaction_conditions": [
-	        "${node1[口渴状态]} < 0"
+	        "${node1[口渴状态]} ≡ 0"
 	    ],
         "_nodes": [
             {
@@ -76,7 +76,7 @@
         "interaction_scheduling": "god",
         "interaction_duration": 0,
         "interaction_conditions": [
-	        "${node1[清洁状态]} < 0"
+	        "${node1[清洁状态]} ≡ 0"
 	    ],
         "_nodes": [
             {
@@ -100,7 +100,7 @@
         "interaction_scheduling": "god",
         "interaction_duration": 0,
         "interaction_conditions": [
-	        "${node1[排泄状态]} < 0"
+	        "${node1[排泄状态]} ≡ 0"
 	    ],
         "_nodes": [
             {
@@ -124,7 +124,7 @@
         "interaction_scheduling": "god",
         "interaction_duration": 0,
         "interaction_conditions": [
-	        "${node1[健康状态]} ≤ 0"
+	        "${node1[健康状态]} ≡ 0"
 	    ],
         "_nodes": [
             {
