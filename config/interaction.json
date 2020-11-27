@@ -1812,7 +1812,8 @@
             "食用-椰子肉",
             "食用-屎",
             "食用-死猪",
-            "食用-熟猪"
+            "食用-熟猪",
+            "食用-草药"
         ],
         "interaction_conditions": [
             "0"
@@ -2109,6 +2110,45 @@
                     {
                         "param_name": "耐久度",
                         "transform": -0.01
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "食用-草药",
+        "interaction_duration": 1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_parant": [
+            "食用"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "草药"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "健康状态",
+                        "transform": 0.3
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "disappear": "${node2}"
                     }
                 ]
             }
@@ -3498,7 +3538,7 @@
                         "disappear": "${node1}"
                     },
                     {
-                    	"create": "成功！"
+                    	"create": "成功"
                     }
                 ]
             }
@@ -3862,9 +3902,9 @@
         ]
     },
     {
-        "interaction_name": "废品再生",
+        "interaction_name": "废物再生",
         "interaction_scheduling": "god",
-        "interaction_duration": 0,
+        "interaction_duration": 1,
         "interaction_conditions": [
             "$[is_binding, ${node1}, ${node3}]",
             "$[is_colliding, ${node1}, ${node2}]"
@@ -3876,7 +3916,7 @@
             },
             {
                 "node_name": "node2",
-                "node_type": "废品再生中心"
+                "node_type": "废物再生中心"
             },
             {
                 "node_name": "node3",
@@ -3904,5 +3944,64 @@
                 ]
             }
         ]
-    }
+    },
+    {
+        "interaction_name": "瞬移",
+        "interaction_duration": 1,
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "瞬移点"
+            }
+        ],
+        "_terminate": [
+        	{
+                "node_name": "node1",
+                "effects": [
+                    {
+                    	"change_position": "${node2[位置]}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "生火",
+        "interaction_duration": 7,
+        "interaction_conditions": [
+            "$[is_binding, ${node1}, ${node2}]",
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "木棍"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "disappear": "${node2}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "create": "火"
+                    }
+                ]
+            }
+        ]
+    },
 ]

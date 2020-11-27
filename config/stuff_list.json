@@ -1255,6 +1255,31 @@
             }
         ]
     },
+    "小山": {
+        "object_name": "小山",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 10,
+            "颜色": "灰"
+        },
+        "params": {
+            "重量": 100000,
+            "总重量": 100000
+        },
+        "param_config": [
+            {
+                "param_name": "重量",
+                "init_value": 100000,
+                "min_value": 0
+            },
+            {
+                "param_name": "总重量",
+                "init_value": 100000,
+                "min_value": 0
+            }
+        ]
+    },
     "死猪": {
         "object_name": "死猪",
         "inherit_concept": "可被化身绑定的,可被化身储存的,是猪肉的",
@@ -1392,6 +1417,57 @@
             {
                 "param_name": "总重量",
                 "init_value": 100000,
+                "min_value": 0
+            }
+        ]
+    },
+    "草药": {
+        "object_name": "草药",
+        "inherit_concept": "可被化身绑定的,可被化身储存的",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "刚体",
+            "尺寸": 0.5,
+            "颜色": "绿"
+        },
+        "params": {
+            "重量": 0.1,
+            "总重量": 0.1
+        },
+        "param_config": [
+            {
+                "param_name": "重量",
+                "init_value": 0.1,
+                "min_value": 0
+            },
+            {
+                "param_name": "总重量",
+                "init_value": 0.1,
+                "min_value": 0
+            }
+        ]
+    },
+    "瞬移点": {
+        "object_name": "瞬移点",
+        "physics": {
+            "几何形状": "长方形",
+            "动力学性质": "柔性物",
+            "尺寸": 1,
+            "颜色": "黑"
+        },
+        "params": {
+            "重量": 1,
+            "总重量": 1
+        },
+        "param_config": [
+            {
+                "param_name": "重量",
+                "init_value": 1,
+                "min_value": 0
+            },
+            {
+                "param_name": "总重量",
+                "init_value": 1,
                 "min_value": 0
             }
         ]
