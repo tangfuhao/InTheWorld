@@ -116,16 +116,20 @@ stuff_type_name = "石块"
 position = Vector2( 942.605, 1770.02 )
 stuff_type_name = "椰子树"
 
-[node name="Stuff17" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 1306.61, 1905.39 )
-stuff_type_name = "椰子树"
-
-[node name="Stuff28" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 1256.07, 1771.31 )
-stuff_type_name = "椰子树"
-
 [node name="Stuff18" parent="StuffLayer" instance=ExtResource( 8 )]
 position = Vector2( 970.503, 1926.71 )
+stuff_type_name = "椰子肉"
+
+[node name="Stuff25" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1035.14, 1743.21 )
+stuff_type_name = "椰子肉"
+
+[node name="Stuff27" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 522.904, 1483.2 )
+stuff_type_name = "椰子肉"
+
+[node name="Stuff28" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 547.42, 1466.85 )
 stuff_type_name = "椰子肉"
 
 [node name="Stuff20" parent="StuffLayer" instance=ExtResource( 8 )]
@@ -137,7 +141,7 @@ position = Vector2( 687.198, 1686.93 )
 stuff_type_name = "野果"
 
 [node name="Stuff53" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 610.411, 1780.54 )
+position = Vector2( 611.897, 1808.03 )
 stuff_type_name = "野果"
 
 [node name="Stuff54" parent="StuffLayer" instance=ExtResource( 8 )]

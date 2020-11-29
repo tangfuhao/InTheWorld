@@ -159,7 +159,7 @@
                 "effects": [
                     {
                         "param_name": "饥饿状态",
-                        "transform": "-1*(0.0015 + ${node1[当前运动量]} + 0.0001 * ${node1[当前负重]})"
+                        "transform": "-0.6*(0.0015 + ${node1[当前运动量]} + 0.0001 * ${node1[当前负重]})"
                     }
                 ]
             }
@@ -3999,6 +3999,39 @@
                 "effects": [
                     {
                         "create": "火"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "石头打宝箱",
+        "interaction_duration": 1,
+        "interaction_conditions": [
+            "$[is_binding, ${node1}, ${node2}]",
+            "$[can_interact, ${node1}, ${node3}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "石块"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "黑色宝箱"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "param_name": "耐久度",
+                        "transform": -0.1
                     }
                 ]
             }
