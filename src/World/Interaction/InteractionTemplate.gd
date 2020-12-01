@@ -1,6 +1,7 @@
 #作用的生成模板
 class_name InteractionTemplate
 const interaction_implement_scene = preload("res://src/World/Interaction/InteractionImplement.tscn")
+const god_interaction_implement_scene = preload("res://src/World/Interaction/GodInteractionImplement.tscn")
 
 
 #限制的条件
@@ -262,9 +263,25 @@ func extract_node_name(_regex,_node_expression):
 	
 	
 #创建交互实例  通过传入的交互节点
-func create_interaction(_node_pair_item:Dictionary):
+func create_interaction(_interaction_id,_node_pair_item:Dictionary) -> InteractionImplement:
 	var interaction_implement = interaction_implement_scene.instance()
 	interaction_implement.interaction_name = name
+	interaction_implement.interaction_id = _interaction_id
+	interaction_implement.duration = duration
+	interaction_implement.conditions_arr = conditions_arr
+	interaction_implement.update_condition_by_listening_node_signal_dic = update_condition_by_listening_node_signal_dic
+	interaction_implement.update_condition_by_listening_node_value_dic = update_condition_by_listening_node_value_dic
+	interaction_implement.update_condition_by_listening_node_interaction_dic = update_condition_by_listening_node_interaction_dic
+	interaction_implement.update_condition_by_listening_node_cllision_dic = update_condition_by_listening_node_cllision_dic
+	
+	interaction_implement.clone_data(_node_pair_item,active_execute,process_execute,terminate_execute,break_execute)
+	return interaction_implement
+	
+#创建交互实例  通过传入的交互节点
+func create_god_interaction(_interaction_id,_node_pair_item:Dictionary):
+	var interaction_implement = god_interaction_implement_scene.instance()
+	interaction_implement.interaction_name = name
+	interaction_implement.interaction_id = _interaction_id
 	interaction_implement.duration = duration
 	interaction_implement.conditions_arr = conditions_arr
 	interaction_implement.update_condition_by_listening_node_signal_dic = update_condition_by_listening_node_signal_dic

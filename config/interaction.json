@@ -341,7 +341,7 @@
         "interaction_scheduling": "god",
         "interaction_duration": -1,
         "interaction_conditions": [
-            "$[affiliation_change, ${node1}, ${node2}] ≡ 0",
+            "$[affiliation_unchange, ${node1}, ${node2}]",
             "$[is_affiliation, ${node1}, ${node2}]",
             "$[is_value_change, ${node2},流体体积]"
         ],
@@ -377,8 +377,8 @@
         "interaction_duration": -1,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}]",
-            "$[is_binding, ${node1}, ${node2}] ≡ 0",
-            "$[is_storing, ${node1}, ${node2}] ≡ 0"
+            "$[un_binding, ${node1}, ${node2}]",
+            "$[un_storing, ${node1}, ${node2}]"
         ],
         "_nodes": [
             {
@@ -437,7 +437,7 @@
         "interaction_scheduling": "god",
         "interaction_duration": -1,
         "interaction_conditions": [
-            "$[affiliation_change, ${node1}, ${node2}] ≡ 0",
+            "$[affiliation_unchange, ${node1}, ${node2}]",
             "$[is_affiliation, ${node1}, ${node2}]",
             "$[is_value_change, ${node2},重量]"
         ],
@@ -473,8 +473,8 @@
         "interaction_duration": -1,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}]",
-            "$[is_binding, ${node1}, ${node2}] ≡ 0",
-            "$[is_storing, ${node1}, ${node2}] ≡ 0"
+            "$[un_binding, ${node1}, ${node2}]",
+            "$[un_storing, ${node1}, ${node2}]"
         ],
         "_nodes": [
             {
@@ -533,7 +533,7 @@
         "interaction_scheduling": "god",
         "interaction_duration": -1,
         "interaction_conditions": [
-            "$[affiliation_change, ${node1}, ${node2}] ≡ 0",
+            "$[affiliation_unchange, ${node1}, ${node2}]",
             "$[is_affiliation, ${node1}, ${node2}]",
             "$[is_value_change,${node2},总重量]"
         ],
@@ -569,8 +569,8 @@
         "interaction_duration": -1,
         "interaction_conditions": [
             "$[affiliation_change, ${node1}, ${node2}]",
-            "$[is_binding, ${node1}, ${node2}] ≡ 0",
-            "$[is_storing, ${node1}, ${node2}] ≡ 0"
+            "$[un_binding, ${node1}, ${node2}]",
+            "$[un_storing, ${node1}, ${node2}]"
         ],
         "_nodes": [
             {
@@ -3361,35 +3361,6 @@
             {
                 "node_name": "node1",
                 "node_type": "Player"
-            }
-        ]
-    },
-    {
-        "interaction_name": "公主获得风之铃",
-        "interaction_scheduling": "god",
-        "interaction_duration": 5,
-        "interaction_conditions": [
-	        "$[is_binding, ${node1}, ${node2}]",
-	        "${node1[名称]} ≡ 小夕"
-	    ],
-        "_nodes": [
-            {
-                "node_name": "node1",
-                "node_type": "Player"
-            },
-            {
-                "node_name": "node2",
-                "node_type": "风之铃"
-            }
-        ],
-        "_terminate": [
-            {
-                "node_name": "node1",
-                "effects": [
-                    {
-                        "disappear": "${node1}"
-                    }
-                ]
             }
         ]
     }

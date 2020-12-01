@@ -230,9 +230,9 @@ _global_script_classes=[ {
 "path": "res://src/addons/com.gdquest.godot-steering-ai-framework/GSAIUtils.gd"
 }, {
 "base": "Node2D",
-"class": "InteractionDispatcher",
+"class": "GodInteractionImplement",
 "language": "GDScript",
-"path": "res://src/World/Interaction/InteractionDispatcher.gd"
+"path": "res://src/World/Interaction/GodInteractionImplement.gd"
 }, {
 "base": "Node2D",
 "class": "InteractionDispatcher2",
@@ -499,7 +499,7 @@ _global_script_class_icons={
 "GSAISteeringBehavior": "",
 "GSAITargetAcceleration": "",
 "GSAIUtils": "",
-"InteractionDispatcher": "",
+"GodInteractionImplement": "",
 "InteractionDispatcher2": "",
 "InteractionImplement": "",
 "InteractionTemplate": "",
@@ -560,12 +560,12 @@ DataManager="*res://src/Global/DataManager.gd"
 GlobalRef="*res://src/Global/GlobalRef.gd"
 CollectionUtilities="*res://src/Global/CollectionUtilities.gd"
 LogSys="*res://src/Global/LogSys.gd"
+ValueCacheManager="*res://src/Global/ValueCacheManager.gd"
 
 [display]
 
 window/size/width=1200
 window/size/height=800
-window/size/always_on_top=true
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 

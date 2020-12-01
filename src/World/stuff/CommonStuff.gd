@@ -62,7 +62,7 @@ signal node_storege_dependency_change(_node)
 #物品位置的更新
 signal node_position_update(_node)
 #物品属性的更新
-signal node_param_item_value_change(_node,_param_item)
+signal node_param_item_value_change(_node,_param_item,_old_value,_new_value)
 #物品碰撞对象更新
 signal node_collision_add_object(_node,_target)
 signal node_collision_remove_object(_node,_target)
@@ -91,6 +91,7 @@ func add_concept(_concept_name):
 	if not new_add_concept.has(_concept_name):
 		new_add_concept.push_back(_concept_name)
 		emit_signal("node_add_concept",self,_concept_name)
+		print("add_concept")
 	
 #设置属性定义
 func set_param_config(_param_config):
@@ -230,7 +231,10 @@ func load_config_by_stuff_type(_type) -> bool:
 					be_create_node.add_init_param(node_param_item["param_name"],node_param_item["assign"])
 			var main_scence = get_node("/root/Island")
 			main_scence.add_customer_node(be_create_node)	
-			self.bind_layer.bind(be_create_node)
+			if self.bind_layer.bind(be_create_node):
+				pass
+				# be_create_node.notify_binding_dependency_change()
+			
 	
 	if stuff_config.has("create_n_store"):
 		var need_create_object_arr = stuff_config["create_n_store"]
@@ -243,7 +247,10 @@ func load_config_by_stuff_type(_type) -> bool:
 					be_create_node.add_init_param(node_param_item["param_name"],node_param_item["assign"])
 			var main_scence = get_node("/root/Island")
 			main_scence.add_customer_node(be_create_node)
-			self.storage_layer.store(be_create_node)
+			if self.storage_layer.store(be_create_node):
+				pass
+				# be_create_node.notify_storage_dependency_change()
+			
 	return true
 
 
@@ -380,10 +387,6 @@ func notify_before_disappear():
 	if not collision_object_arr.empty():
 		for item in collision_object_arr:
 			emit_signal("node_collision_remove_object",self,item)
-		
-
-func get_type():
-	return "stuff"
 
 
 
@@ -473,8 +476,8 @@ func _on_StuffArea_body_exited(body):
 	remove_from_collision_object_arr(body)
 
 #属性值变更
-func _on_PlayerParam_param_item_value_change(_param_item):
-	emit_signal("node_param_item_value_change",self,_param_item)
+func _on_PlayerParam_param_item_value_change(_param_item,_old_value,_new_value):
+	emit_signal("node_param_item_value_change",self,_param_item,_old_value,_new_value)
 
 
 func _on_StuffArea_mouse_entered():

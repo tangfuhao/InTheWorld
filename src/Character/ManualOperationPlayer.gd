@@ -20,6 +20,7 @@ onready var storage_layer := $Storage
 var node_name
 #显示名称
 var display_name
+var stuff_type_name := "Player"
 
 #请求输入队列
 var dialog_message_arr := []
@@ -34,7 +35,8 @@ var collision_object_arr := []
 
 signal disappear_notify()
 #物品属性的更新
-signal node_param_item_value_change(node,param_item)
+signal node_param_item_value_change(node,param_item,old_value,new_value)
+signal node_add_concept(_node,_concept_name)
 #请求输入的结果
 signal request_input_result(_result_text)
 signal request_input(dialog_text)
@@ -102,10 +104,6 @@ func is_approach(_target,_distance):
 	return global_position.distance_to(_target) < (_distance + tolerance)
 
 
-func get_type():
-	return "player"
-
-
 
 func get_all_param()->Array:
 	return param.get_all_param()
@@ -167,7 +165,7 @@ func excute_interaction(_interaction_template,_node_arr):
 		else:
 			node_pair[node_matchings_arr[index].node_name_in_interaction] = _node_arr[index-1]
 	#创建交互
-	var interaction_implement = _interaction_template.create_interaction(node_pair)
+	var interaction_implement = _interaction_template.create_interaction(0,node_pair)
 	interaction_implement.is_manual_interaction = true
 	#加入场景
 	interaction_layer.add_child(interaction_implement)
@@ -196,8 +194,8 @@ func notify_disappear():
 		emit_signal("disappear_notify",self)
 
 
-func _on_PlayerParam_param_item_value_change(_param_item):
-	emit_signal("node_param_item_value_change",self,_param_item)
+func _on_PlayerParam_param_item_value_change(_param_item,_old_value,_new_value):
+	emit_signal("node_param_item_value_change",self,_param_item,_old_value,_new_value)
 
 
 func _on_ManualOperationPlayer_mouse_entered():

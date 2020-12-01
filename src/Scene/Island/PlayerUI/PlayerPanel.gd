@@ -234,8 +234,7 @@ func object_click(interaction_object):
 		return
 	var unselect_num = show_interaction_info_listview.get_child_count()
 	for item in show_interaction_info_listview.get_children():
-		var node = item.get_meta("node")
-		if not node:
+		if not item.has_meta("node"):
 			var is_match_type = false
 			#通过条件 匹配节点
 			if interaction_object is Player:
@@ -274,7 +273,7 @@ func on_player_request_input(_text):
 	set_player_dialog_message(_text)
 
 	
-func on_player_param_item_value_change(_param_item_model:ComomStuffParam):
+func on_player_param_item_value_change(_param_item_model:ComomStuffParam,_old_value,_new_value):
 	var index = 0
 	if cache_player_parms_dic.has(_param_item_model.name):
 		index = cache_player_parms_dic[_param_item_model.name]
@@ -325,6 +324,7 @@ func on_emotion_item_selected(index):
 func _on_Button4_pressed():
 	var node_arr := []
 	for item in show_interaction_info_listview.get_children():
+		assert(item.has_meta("node"))
 		node_arr.push_back(item.get_meta("node"))
 	
 	#当前选中的作用
@@ -341,9 +341,11 @@ func _on_Button5_pressed():
 #打开存储激活
 func _on_PopupMenu_index_pressed(index):
 	if index == 0:
+		assert(interaction_option_menu.has_meta("interaction_object"))
 		var interaction_object = interaction_option_menu.get_meta("interaction_object")
 		object_storage_panel.show_wtih_object(interaction_object.storage_layer)
 	elif index == 1:
+		assert(interaction_option_menu.has_meta("interaction_object"))
 		var interaction_object = interaction_option_menu.get_meta("interaction_object")
 		object_storage_panel.show_wtih_object(interaction_object.bind_layer)
 

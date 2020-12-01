@@ -1,6 +1,6 @@
 #交互的实现
 extends Node2D
-class_name InteractionImplement
+class_name GodInteractionImplement
 
 
 #作用名
@@ -43,8 +43,8 @@ var is_vaild = false setget set_vaild
 var is_active = false
 #主动停止作用
 var is_break = false
-#是否是主动 调用的交互
-var is_manual_interaction = false
+##是否是主动 调用的交互
+#var is_manual_interaction = false
 
 #监听解析 节点名  监听信号
 var update_condition_by_listening_node_signal_dic
@@ -65,21 +65,17 @@ var update_condition_by_listening_node_cllision_dic
 #需要监听的节点的碰撞对象 更新
 var lisnter_node_cllision_target_change_dic := {}
 
-
+#作用结束
+signal interaction_finish(_interaction_implement)
 
 func set_vaild(_value):
 	is_vaild = _value
 	
 
 func _ready():
-	if interaction_name == "收纳物品":
-		print("收纳物品1")
 	interaction_status_check(true)
 	binding_nodes_state_update()
-	if interaction_name == "收纳物品":
-		print("收纳物品2")
 
-var ssadasdas := ["同步流体体积重量","同步流体体积消失","同步容器的绑定流体量","同步容器的修改流体量","同步容器的解除流体量","同步修改流体容器总重","同步解除流体容器总重","流体解除消失"]
 
 func _process(delta):
 	if is_break:
@@ -110,8 +106,7 @@ func _process(delta):
 		apply_change_cache()
 		self.is_active = false
 		self.is_vaild = false
-		if not is_manual_interaction:
-			interaction_status_check()
+		interaction_status_check()
 		
 	if not is_active:
 		self.is_active = interaction_active()
@@ -334,13 +329,10 @@ func interaction_status_check(_traverse_all_condition = false):
 
 #判断作用是否还有效
 func judge_interaction_vaild(_is_meet_condition):
-	#主动模式下 完成了 就不再能被救活
-	if _is_meet_condition and is_manual_interaction and is_finish:
-		return
-	
 	var vaild = _is_meet_condition
 	if vaild and not is_vaild:
 		init_origin_value()
+		print("作用:%s 激活" % interaction_name)
 	self.is_vaild = vaild
 
 #运行计时器
@@ -364,9 +356,6 @@ func check_node_exist():
 	for item in node_dic.keys():
 		var node_item = node_dic[item]
 		if not node_item or node_item.is_queued_for_deletion():
-			if is_manual_interaction:
-				LogSys.log_i("因为节点:%s 不存在，作用:%s 不执行" % [item,interaction_name])
-			
 			return false
 	return true
 
@@ -377,8 +366,6 @@ func judge_conditions(_traverse_all_condition) -> bool:
 	for condition_item in conditions_arr:
 		if not judge_condition_item(condition_item):
 			is_meet_all_condition = false
-			if is_manual_interaction:
-				LogSys.log_i("因为条件:%s 不满足，作用:%s 不执行" % [condition_item,interaction_name])
 			if not _traverse_all_condition:
 				break
 	return is_meet_all_condition
@@ -426,8 +413,8 @@ func interaction_quit():
 		interaction_break()
 
 	
-	if is_manual_interaction:
-		queue_free()
+	emit_signal("interaction_finish",self)
+	queue_free()
 		
 func remove_all_child():
 	for item in get_children():
@@ -518,18 +505,6 @@ func clear_interaction_chache():
 	value_cache_dic.clear()
 	
 
-func affiliation_change(_node1,_node2):
-	var result = false
-	var value = is_binding(_node1,_node2) or is_storing(_node1,_node2)
-	if affiliation_cache_dic.has([_node1,_node2]):
-		result = affiliation_cache_dic[[_node1,_node2]] != value
-		affiliation_change_cache_dic[[_node1,_node2]] = value
-	else:
-		result = value
-		affiliation_cache_dic[[_node1,_node2]] = value
-	
-	
-	return transform_bool_to_int(result)
 
 func affiliation_unchange(_node1,_node2):
 	if affiliation_change(_node1,_node2) == 0:
@@ -576,13 +551,7 @@ func is_equal(_value1,_value2):
 	return transform_bool_to_int(_value1 == _value2)
 
 
-func is_value_change(_node,_param_name):
-	var result = false
-	var node_parms = _node.param.get_value(_param_name)
-	if value_cache_dic.has(node_parms):
-		result = value_cache_dic[node_parms] != node_parms.value
-	value_change_cache_dic[node_parms] = node_parms.value
-	return transform_bool_to_int(result)
+
 	
 func num_of_parent_affiliation(_node:Node2D):
 	var stuff_layer = _node.get_node("/root/Island/StuffLayer")
@@ -603,11 +572,50 @@ func is_colliding(_node1,_node2):
 		return transform_bool_to_int(_node2.is_colliding(_node1))
 	else:
 		assert(false)
+		
+
+func affiliation_change(_node1,_node2):
+	var key = "%s%s" % [_node1.node_name,_node2.node_name]
+	var new_value = is_binding(_node1,_node2) or is_storing(_node1,_node2)
+	
+	
+	var un_update_value
+	#没有默认值  通过全局对象 获取默认值  
+	if affiliation_cache_dic.has(key):
+		un_update_value = affiliation_cache_dic[key]
+	else:
+		un_update_value = ValueCacheManager.get_affiliation(key,_node1,_node2)
+		affiliation_cache_dic[key] = un_update_value
+	
+	affiliation_change_cache_dic[key] = new_value
+	var result = un_update_value != new_value
+	
+	
+	return transform_bool_to_int(result)
+		
+func is_value_change(_node,_param_name):
+	var new_node_param_value = _node.get_param_value(_param_name)
+	var node_parms = _node.param.get_value(_param_name)
+	
+	var un_update_value
+	#没有默认值  通过全局对象 获取默认值  
+	if value_cache_dic.has(node_parms):
+		un_update_value = value_cache_dic[node_parms]
+	else:
+		un_update_value = ValueCacheManager.get_value_param(_node,node_parms)
+		value_cache_dic[node_parms] = un_update_value
+		
+	value_change_cache_dic[node_parms] = new_node_param_value
+	var result = un_update_value != new_node_param_value
+	
+	
+	return transform_bool_to_int(result)
 
 func transform(_node,_node_param_name):
-	var param_model = _node.param.get_value(_node_param_name)
-	assert(value_cache_dic.has(param_model))
-	var result =  param_model.value - value_cache_dic[param_model]
+	var node_parms = _node.param.get_value(_node_param_name)
+	assert(value_cache_dic.has(node_parms))
+	assert(value_change_cache_dic.has(node_parms))
+	var result = value_change_cache_dic[node_parms] - value_cache_dic[node_parms]
 	return result
 
 		

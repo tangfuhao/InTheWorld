@@ -20,7 +20,7 @@ var min_value = null
 var transform:ParamTransform setget set_transform
 var temp_detal = 0
 
-signal param_item_value_change(_param_item)
+signal param_item_value_change(_param_item,_old_value,_new_value)
 
 func set_transform(_transform_value):
 	transform = ParamTransform.new(_transform_value)
@@ -35,7 +35,7 @@ func set_value(_value):
 	
 	if typeof(value) != typeof(temp_value) or value != temp_value:
 		#值改变  发送信号
-		emit_signal("param_item_value_change",self)
+		emit_signal("param_item_value_change",self,temp_value,value)
 
 
 func _process(_detal):

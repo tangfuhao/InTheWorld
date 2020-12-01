@@ -132,6 +132,10 @@ func instance_stuff_node(_stuff_name) -> CommonStuff:
 func is_belong_type(_parent_type,_child_type):
 	if _child_type == _parent_type:
 		return true
+	if _child_type == "Player":
+		return false
+	if _parent_type == "物品":
+		return true
 		
 	var node_config = create_object_dic[_child_type]
 	if node_config.has("inherit_concept"):
@@ -556,10 +560,16 @@ func parse_motivations(motivation_arr):
 		motivation_dic[motivation_name] = motivation_model
 	return motivation_dic
 
-func get_dic_item_by_key_from_dic(_dic,_key):
+func get_dic_item_by_key_from_dic(_dic,_key) -> Dictionary:
 	if _dic.has(_key):
 		return _dic[_key]
 	_dic[_key] = {}
+	return _dic[_key]
+	
+func get_arr_item_by_key_from_dic(_dic,_key) -> Array:
+	if _dic.has(_key):
+		return _dic[_key]
+	_dic[_key] = []
 	return _dic[_key]
 
 func get_item_from_dic(_item,_key):
