@@ -86,8 +86,9 @@ func get_value_param(_node,_node_parms):
 	if not value_cache_dic.has(_node):
 		var node_param_arr = DataManager.get_dic_item_by_key_from_dic(value_cache_dic,_node)
 		node_param_arr[_node_parms] = _node_parms.value
-
-	var node_param_cache_dic =  value_cache_dic[_node]
+	var node_param_cache_dic = value_cache_dic[_node]
+	if not node_param_cache_dic.has(_node_parms):
+		node_param_cache_dic[_node_parms] = _node_parms.value
 	return node_param_cache_dic[_node_parms]
 	
 	

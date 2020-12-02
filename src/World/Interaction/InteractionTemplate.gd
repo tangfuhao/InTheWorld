@@ -131,6 +131,14 @@ func find_node_matching(_node_name_in_interaction:String)->InteractionNodeMatchi
 			return item
 	assert(false)
 	return null
+
+#根据node类型 获取 node的匹配项
+func find_node_matching_by_node(_node:Node2D)->Array:
+	var node_matching_arr := []
+	for item in node_matching:
+		if DataManager.is_node_belong_type(item.node_type,_node):
+			node_matching_arr.push_back(item)
+	return node_matching_arr
 	
 func add_condition_item(item):
 	conditions_arr.push_back(item)
@@ -187,50 +195,58 @@ func parse_condition_to_set_listening_content(item):
 			var function_name = function_params.pop_front()
 			if function_name == "can_interact":
 				var node_name = function_params.pop_front()
-				node_name = extract_node_name(objecet_regex,node_name)
+#				node_name = extract_node_name(objecet_regex,node_name)
 				var target_node_name = function_params.pop_front()
 				target_node_name = extract_node_name(objecet_regex,target_node_name)
 				
-				var node_lisntening_interaction_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_interaction_dic,node_name)
-				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_interaction_arr,target_node_name)
-				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_interaction_arr,target_node_name)
+#				var node_lisntening_interaction_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_interaction_dic,node_name)
+#				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_interaction_arr,target_node_name)
 				
-				node_lisntening_interaction_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_interaction_dic,target_node_name)
-				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_interaction_arr,node_name)
-				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_interaction_arr,node_name)
+				var node_lisntening_interaction_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_interaction_dic,target_node_name)
+				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_interaction_arr,target_node_name)
+
 			elif function_name == "is_binding":
-				for node_name in function_params:
-					node_name = extract_node_name(objecet_regex,node_name)
-					var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_signal_dic,node_name)
-					CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_signal_arr,"node_binding_dependency_change")
+				var node_name = function_params.pop_front()
+#				node_name = extract_node_name(objecet_regex,node_name)
+				var target_node_name = function_params.pop_front()
+				target_node_name = extract_node_name(objecet_regex,target_node_name)
+				
+				var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_signal_dic,target_node_name)
+				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_signal_arr,"node_binding_dependency_change")
 
 			elif function_name == "is_storing":
-				for node_name in function_params:
-					node_name = extract_node_name(objecet_regex,node_name)
-					var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_signal_dic,node_name)
-					CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_signal_arr,"node_storege_dependency_change")
+				var node_name = function_params.pop_front()
+#				node_name = extract_node_name(objecet_regex,node_name)
+				var target_node_name = function_params.pop_front()
+				target_node_name = extract_node_name(objecet_regex,target_node_name)
+
+				var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_signal_dic,target_node_name)
+				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_signal_arr,"node_storege_dependency_change")
 
 			elif function_name == "is_colliding":
 				var node_name = function_params.pop_front()
-				node_name = extract_node_name(objecet_regex,node_name)
+#				node_name = extract_node_name(objecet_regex,node_name)
 				var target_node_name = function_params.pop_front()
 				target_node_name = extract_node_name(objecet_regex,target_node_name)
 				
-				var node_lisntening_collision_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_cllision_dic,node_name)
-				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_collision_arr,target_node_name)
-				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_collision_arr,target_node_name)
+#				var node_lisntening_collision_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_cllision_dic,node_name)
+#				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_collision_arr,target_node_name)
+#				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_collision_arr,target_node_name)
 				
-				node_lisntening_collision_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_cllision_dic,target_node_name)
-				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_collision_arr,node_name)
-				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_collision_arr,node_name)
+				var node_lisntening_collision_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_cllision_dic,target_node_name)
+				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_collision_arr,target_node_name)
 				
 				
 			elif function_name == "affiliation_change":
-				for node_name in function_params:
-					node_name = extract_node_name(objecet_regex,node_name)
-					var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_signal_dic,node_name)
-					CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_signal_arr,"node_binding_dependency_change")
-					CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_signal_arr,"node_storege_dependency_change")
+				var node_name = function_params.pop_front()
+#				node_name = extract_node_name(objecet_regex,node_name)
+				var target_node_name = function_params.pop_front()
+				target_node_name = extract_node_name(objecet_regex,target_node_name)
+				
+				var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_signal_dic,target_node_name)
+				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_signal_arr,"node_binding_dependency_change")
+				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_signal_arr,"node_storege_dependency_change")
+				
 			elif function_name == "is_value_change":
 				var node_name = function_params.pop_front()
 				node_name = extract_node_name(objecet_regex,node_name)

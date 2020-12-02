@@ -52,6 +52,8 @@ func get_base_task_data():
 
 func get_stuff_list():
 	return create_object_dic.values()
+func get_stuff_type_list():
+	return create_object_dic.keys()
 	
 func get_interaction_arr_by_type(_type):
 	var interaction_arr := []
@@ -86,13 +88,32 @@ func preload_global_data():
 	interaction_template_dic = parse_interaction(load_json_data(interaction_path))
 
 
-#返回类型集
+#返回父类型集
+#没有缓存 尽量不要多次频繁调用
 func get_node_type_group(type_name) -> Array:
 	var node_type_group := ["物品"]
 	assert(create_object_dic.has(type_name))
 	node_type_group.push_back(type_name)
 	iteration_node_type(type_name,node_type_group)
 	return node_type_group
+
+#返回子类型集
+#没有缓存 尽量不要多次频繁调用
+func get_node_child_type_group(type_name) -> Array:
+	var node_type_group := [type_name]
+	iteration_node_child_type(type_name,node_type_group)
+	return node_type_group
+
+#迭代子类型
+func iteration_node_child_type(_type_name,_node_type_group):
+	var node_config = create_object_dic[_type_name]
+	if node_config.has("child_object"):
+		var child_object = node_config.child_object
+		var child_object_arr = child_object.split(",")
+		for item in child_object_arr:
+			if not _node_type_group.has(item):
+				_node_type_group.push_back(item)
+				iteration_node_child_type(item,_node_type_group)
 
 #迭代节点类型
 func iteration_node_type(_type_name,_node_type_group):

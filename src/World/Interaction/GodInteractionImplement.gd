@@ -73,6 +73,8 @@ func set_vaild(_value):
 	
 
 func _ready():
+	if interaction_name == "同步容器的绑定流体量":
+		print("同步容器的绑定流体量")
 	interaction_status_check(true)
 	binding_nodes_state_update()
 
@@ -318,8 +320,8 @@ func _on_node_param_item_value_change(_node,_param_item):
 #作用状态检查
 #_traverse_all_condition 遍历所有条件 保证所有值的缓存都建立
 func interaction_status_check(_traverse_all_condition = false):
-#	if interaction_name == "碰到屎变脏":
-#		print("碰到屎变脏")
+	if interaction_name == "同步容器的绑定流体量":
+		print("同步容器的绑定流体量")
 #	if interaction_name == "流体解除消失":
 #		print("流体解除消失")
 	#当前条件是否满足

@@ -21,6 +21,7 @@ var node_name
 #显示名称
 var display_name
 var stuff_type_name := "Player"
+var new_add_concept := []
 
 #请求输入队列
 var dialog_message_arr := []
