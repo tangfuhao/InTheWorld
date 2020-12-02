@@ -544,6 +544,9 @@ func _on_stuff_disappear(_node):
 	var active_interaction_arr = get_arr_value_from_dic(active_node_to_interaction_dic,_node)
 	var all_interaction = get_children()
 	for item in active_interaction_arr:
+		if not item:
+			continue
+			
 		item.is_vaild = false
 		if running_interaction_implements.has(item.interaction_id):
 			running_interaction_implements.erase(item.interaction_id)
