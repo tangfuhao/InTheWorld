@@ -58,13 +58,13 @@ func _on_node_param_item_value_change(_node,_param_item,_old_value,_new_value):
 		node_param_change_dic[_param_item] = _param_item.value
 
 func _on_node_binding_dependency_change(_node):
-	var affiliation_node = _node.get_parent()
+	var affiliation_node = _node.get_parent().get_parent()
 	be_affiliation_node_change_dic[_node] = affiliation_node
 	
 	
 
 func _on_node_storege_dependency_change(_node):
-	var affiliation_node = _node.get_parent()
+	var affiliation_node = _node.get_parent().get_parent()
 	be_affiliation_node_change_dic[_node] = affiliation_node
 
 
@@ -73,7 +73,7 @@ func _on_node_storege_dependency_change(_node):
 #TODO 有重复询问绑定问题  石块-1 石块-1
 func get_affiliation(_key,_node1,_node2):
 	if not be_affiliation_node_dic.has(_node2):
-		var affiliation_node = _node2.get_parent()
+		var affiliation_node = _node2.get_parent().get_parent()
 		be_affiliation_node_change_dic[_node2] = affiliation_node
 		return false
 	else:
