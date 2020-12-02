@@ -490,6 +490,7 @@ func match_meet_node_type_in_arr(_type_arr,_inherit_type_group):
 func add_new_stuff(_node):
 	print("==================================>")
 	print("新增节点：%s 开始"  %  _node.display_name)
+	match_all_node_arr.push_back(_node)
 	ValueCacheManager.add_monitor_node(_node)
 	make_node_type_relation(_node)
 	make_node_signal_binding(_node)
@@ -531,6 +532,8 @@ func _on_stuff_add_concept(_node,_concept):
 
 #物品消失时 移除相关作用
 func _on_stuff_disappear(_node):
+	match_all_node_arr.erase(_node)
+	
 	var type_name = _node.stuff_type_name
 	var node_type_group = DataManager.get_node_type_group(type_name)
 	for item in node_type_group:
@@ -541,6 +544,10 @@ func _on_stuff_disappear(_node):
 	var active_interaction_arr = get_arr_value_from_dic(active_node_to_interaction_dic,_node)
 	var all_interaction = get_children()
 	for item in active_interaction_arr:
+		item.is_vaild = false
+		if running_interaction_implements.has(item.interaction_id):
+			running_interaction_implements.erase(item.interaction_id)
+
 		if all_interaction.has(item):
 			remove_child(item)
 			item.queue_free()
