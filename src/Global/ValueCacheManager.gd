@@ -54,8 +54,8 @@ func _on_node_param_item_value_change(_node,_param_item,_old_value,_new_value):
 		if not node_param_dic.has(_param_item):
 			node_param_dic[_param_item] = _old_value
 	
-		var node_param_change_dic = DataManager.get_dic_item_by_key_from_dic(value_change_cache_dic,_node)
-		node_param_change_dic[_param_item] = _param_item.value
+	var node_param_change_dic = DataManager.get_dic_item_by_key_from_dic(value_change_cache_dic,_node)
+	node_param_change_dic[_param_item] = _param_item.value
 
 func _on_node_binding_dependency_change(_node):
 	var affiliation_node = _node.get_parent().get_parent()
