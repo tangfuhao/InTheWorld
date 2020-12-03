@@ -1,11 +1,11 @@
-[	
-	{
+[
+    {
         "interaction_name": "饥饿死亡",
         "interaction_scheduling": "god",
         "interaction_duration": 0,
         "interaction_conditions": [
-	        "${node1[饥饿状态]} < 0"
-	    ],
+            "${node1[饥饿状态]} ≡ 0"
+        ],
         "_nodes": [
             {
                 "node_name": "node1",
@@ -28,8 +28,8 @@
         "interaction_scheduling": "god",
         "interaction_duration": 0,
         "interaction_conditions": [
-	        "${node1[睡眠状态]} < 0"
-	    ],
+            "${node1[睡眠状态]} ≡ 0"
+        ],
         "_nodes": [
             {
                 "node_name": "node1",
@@ -52,8 +52,8 @@
         "interaction_scheduling": "god",
         "interaction_duration": 0,
         "interaction_conditions": [
-	        "${node1[口渴状态]} < 0"
-	    ],
+            "${node1[口渴状态]} ≡ 0"
+        ],
         "_nodes": [
             {
                 "node_name": "node1",
@@ -76,8 +76,8 @@
         "interaction_scheduling": "god",
         "interaction_duration": 0,
         "interaction_conditions": [
-	        "${node1[清洁状态]} < 0"
-	    ],
+            "${node1[清洁状态]} ≡ 0"
+        ],
         "_nodes": [
             {
                 "node_name": "node1",
@@ -100,8 +100,32 @@
         "interaction_scheduling": "god",
         "interaction_duration": 0,
         "interaction_conditions": [
-	        "${node1[排泄状态]} < 0"
-	    ],
+            "${node1[排泄状态]} ≡ 0"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "disappear": "${node1}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "健康死亡",
+        "interaction_scheduling": "god",
+        "interaction_duration": 0,
+        "interaction_conditions": [
+            "${node1[健康状态]} ≡ 0"
+        ],
         "_nodes": [
             {
                 "node_name": "node1",
@@ -135,7 +159,7 @@
                 "effects": [
                     {
                         "param_name": "饥饿状态",
-                        "transform": "-1*(0.0015 + ${node1[当前运动量]} + 0.0001 * ${node1[当前负重]})"
+                        "transform": "-0.6*(0.0015 + ${node1[当前运动量]} + 0.0001 * ${node1[当前负重]})"
                     }
                 ]
             }
@@ -1067,7 +1091,6 @@
             "${node1[当前负重]} < ${node1[负重上限]}",
             "${node2[容器内流体量]} < ${node2[容器内流体量.max_value]}",
             "$[is_equal,${node1[所在地]},沙滩]"
-            
         ],
         "_nodes": [
             {
@@ -1587,8 +1610,8 @@
                 "node_name": "node2",
                 "effects": [
                     {
-                   		"release": "${node3}"
-                	}
+                        "release": "${node3}"
+                    }
                 ]
             }
         ],
@@ -1597,8 +1620,8 @@
                 "node_name": "node2",
                 "effects": [
                     {
-                   		"release": "${node3}"
-                	}
+                        "release": "${node3}"
+                    }
                 ]
             }
         ]
@@ -1660,8 +1683,8 @@
                 "node_name": "node2",
                 "effects": [
                     {
-                   		"release": "${node3}"
-                	}
+                        "release": "${node3}"
+                    }
                 ]
             }
         ],
@@ -1670,8 +1693,8 @@
                 "node_name": "node2",
                 "effects": [
                     {
-                   		"release": "${node3}"
-                	}
+                        "release": "${node3}"
+                    }
                 ]
             }
         ]
@@ -1733,8 +1756,8 @@
                 "node_name": "node2",
                 "effects": [
                     {
-                   		"release": "${node3}"
-                	}
+                        "release": "${node3}"
+                    }
                 ]
             }
         ],
@@ -1743,8 +1766,8 @@
                 "node_name": "node2",
                 "effects": [
                     {
-                   		"release": "${node3}"
-                	}
+                        "release": "${node3}"
+                    }
                 ]
             }
         ]
@@ -1786,7 +1809,10 @@
             "食用-妙瓜种子",
             "食用-妙瓜瓤",
             "食用-椰子肉",
-            "食用-屎"
+            "食用-屎",
+            "食用-死猪",
+            "食用-熟猪",
+            "食用-草药"
         ],
         "interaction_conditions": [
             "0"
@@ -1985,7 +2011,11 @@
                 "effects": [
                     {
                         "param_name": "饥饿状态",
-                        "transform": 0.02
+                        "transform": 0.05
+                    },
+                    {
+                        "param_name": "健康状态",
+                        "transform": -0.1
                     }
                 ]
             },
@@ -1998,13 +2028,126 @@
                     }
                 ]
             }
+        ]
+    },
+    {
+        "interaction_name": "食用-死猪",
+        "interaction_duration": 10,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
         ],
-        "_terminate": [
-        	{
+        "_parant": [
+            "食用"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "死猪"
+            }
+        ],
+        "_process": [
+            {
                 "node_name": "node1",
                 "effects": [
                     {
-                        "disappear": "${node1}"
+                        "param_name": "饥饿状态",
+                        "transform": 0.02
+                    },
+                    {
+                        "param_name": "健康状态",
+                        "transform": -0.05
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "耐久度",
+                        "transform": -0.01
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "食用-熟猪",
+        "interaction_duration": 10,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_parant": [
+            "食用"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "熟猪"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "饥饿状态",
+                        "transform": 0.03
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "param_name": "耐久度",
+                        "transform": -0.01
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "食用-草药",
+        "interaction_duration": 1,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]"
+        ],
+        "_parant": [
+            "食用"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "草药"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "健康状态",
+                        "transform": 0.3
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "disappear": "${node2}"
                     }
                 ]
             }
@@ -2940,6 +3083,10 @@
                 "effects": [
                     {
                         "create": "牙齿"
+                    },
+                    {
+                        "param_name": "健康状态",
+                        "transform": "-0.1"
                     }
                 ]
             },
@@ -3054,7 +3201,7 @@
                 "effects": [
                     {
                         "request_input": "我可以和你${node1[请求行为名]}吗？",
-                        "set_param":"交互文本"
+                        "set_param": "交互文本"
                     }
                 ]
             }
@@ -3093,7 +3240,7 @@
                 "effects": [
                     {
                         "request_input": "你能${node1[请求行为名]}吗？",
-                        "set_param":"交互文本"
+                        "set_param": "交互文本"
                     }
                 ]
             }
@@ -3132,7 +3279,7 @@
                 "effects": [
                     {
                         "request_input": "你能当我的${node1[关系名]}吗？",
-                        "set_param":"交互文本"
+                        "set_param": "交互文本"
                     }
                 ]
             }
@@ -3171,7 +3318,7 @@
                 "effects": [
                     {
                         "request_input": "我觉得${node1[回应内容]}。",
-                        "set_param":"交互文本"
+                        "set_param": "交互文本"
                     }
                 ]
             }
@@ -3361,6 +3508,531 @@
             {
                 "node_name": "node1",
                 "node_type": "Player"
+            }
+        ]
+    },
+    {
+        "interaction_name": "公主获得风之铃",
+        "interaction_scheduling": "god",
+        "interaction_duration": 5,
+        "interaction_conditions": [
+            "$[is_binding, ${node1}, ${node2}]",
+            "$[is_equal, ${node1[名称]}, 小夕]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "风之铃"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "disappear": "${node1}"
+                    },
+                    {
+                        "create": "成功"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "制作石斧头",
+        "interaction_duration": 10,
+        "interaction_conditions": [
+            "$[can_interact, ${node1}, ${node2}]",
+            "$[can_interact, ${node1}, ${node3}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "木棍"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "石块"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.01
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "disappear": "${node2}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "disappear": "${node3}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    },
+                    {
+                        "create": "石斧头"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "石斧头砍黑色宝箱",
+        "interaction_duration": 10,
+        "interaction_conditions": [
+            "$[is_binding, ${node1}, ${node2}]",
+            "$[can_interact, ${node1}, ${node3}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "石斧头"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "黑色宝箱"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.01
+                    }
+                ]
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "param_name": "耐久度",
+                        "transform": -0.1
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "disappear": "${node2}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "disappear": "${node3}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    },
+                    {
+                        "create": "风之铃"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "石斧头砍红色宝箱",
+        "interaction_duration": 10,
+        "interaction_conditions": [
+            "$[is_binding, ${node1}, ${node2}]",
+            "$[can_interact, ${node1}, ${node3}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "石斧头"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "红色宝箱"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.01
+                    }
+                ]
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "param_name": "耐久度",
+                        "transform": -0.1
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "disappear": "${node2}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "disappear": "${node3}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    },
+                    {
+                        "create": "妙瓜瓤"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "石斧头砍橙色宝箱",
+        "interaction_duration": 10,
+        "interaction_conditions": [
+            "$[is_binding, ${node1}, ${node2}]",
+            "$[can_interact, ${node1}, ${node3}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "石斧头"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "橙色宝箱"
+            }
+        ],
+        "_active": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0.01
+                    }
+                ]
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "param_name": "耐久度",
+                        "transform": -0.1
+                    }
+                ]
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "disappear": "${node2}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "disappear": "${node3}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "当前运动量",
+                        "assign": 0
+                    },
+                    {
+                        "create": "垃圾"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "烹饪死猪",
+        "interaction_duration": 10,
+        "interaction_conditions": [
+            "$[is_binding, ${node1}, ${node2}]",
+            "$[can_interact, ${node1}, ${node3}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "死猪"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "火"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "create": "熟猪:node4"
+                    },
+                    {
+                        "bind": "${node4}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "disappear": "${node2}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "人碰到火",
+        "interaction_scheduling": "god",
+        "interaction_duration": -1,
+        "interaction_conditions": [
+            "$[is_colliding, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "火"
+            }
+        ],
+        "_process": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "param_name": "健康状态",
+                        "transform": -0.1
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "废物再生",
+        "interaction_scheduling": "god",
+        "interaction_duration": 1,
+        "interaction_conditions": [
+            "$[is_binding, ${node1}, ${node3}]",
+            "$[is_colliding, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "废物再生中心"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "物品"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "disappear": "${node3}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "create": "手机:node4"
+                    },
+                    {
+                        "bind": "${node4}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "瞬移",
+        "interaction_duration": 1,
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "瞬移点"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "change_position": "${node2[位置]}"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "生火",
+        "interaction_duration": 7,
+        "interaction_conditions": [
+            "$[is_binding, ${node1}, ${node2}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "木棍"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node2",
+                "effects": [
+                    {
+                        "disappear": "${node2}"
+                    }
+                ]
+            },
+            {
+                "node_name": "node1",
+                "effects": [
+                    {
+                        "create": "火"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "interaction_name": "石头打宝箱",
+        "interaction_duration": 1,
+        "interaction_conditions": [
+            "$[is_binding, ${node1}, ${node2}]",
+            "$[can_interact, ${node1}, ${node3}]"
+        ],
+        "_nodes": [
+            {
+                "node_name": "node1",
+                "node_type": "Player"
+            },
+            {
+                "node_name": "node2",
+                "node_type": "石块"
+            },
+            {
+                "node_name": "node3",
+                "node_type": "黑色宝箱"
+            }
+        ],
+        "_terminate": [
+            {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "param_name": "耐久度",
+                        "transform": -0.1
+                    }
+                ]
             }
         ]
     }

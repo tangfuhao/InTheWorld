@@ -58,11 +58,16 @@ should_display_grid = false
 
 [node name="Stuff15" parent="StuffLayer" instance=ExtResource( 8 )]
 position = Vector2( 913.83, 1581.43 )
-stuff_type_name = "石块"
+stuff_type_name = "水杯"
+
+[node name="Stuff16" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 942.51, 1668.72 )
+scale = Vector2( 1.01256, 1 )
+stuff_type_name = "妙瓜种子"
 
 [node name="Stuff17" parent="StuffLayer" instance=ExtResource( 8 )]
 position = Vector2( 974.658, 1578.84 )
-stuff_type_name = "椰子壳"
+stuff_type_name = "马桶"
 
 [node name="PlayerLayer" type="Node2D" parent="."]
 
