@@ -195,7 +195,7 @@ func parse_condition_to_set_listening_content(item):
 			var function_name = function_params.pop_front()
 			if function_name == "can_interact":
 				var node_name = function_params.pop_front()
-#				node_name = extract_node_name(objecet_regex,node_name)
+				node_name = extract_node_name(objecet_regex,node_name)
 				var target_node_name = function_params.pop_front()
 				target_node_name = extract_node_name(objecet_regex,target_node_name)
 				
@@ -203,7 +203,7 @@ func parse_condition_to_set_listening_content(item):
 #				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_interaction_arr,target_node_name)
 				
 				var node_lisntening_interaction_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_interaction_dic,target_node_name)
-				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_interaction_arr,target_node_name)
+				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_interaction_arr,node_name)
 
 			elif function_name == "is_binding":
 				var node_name = function_params.pop_front()
