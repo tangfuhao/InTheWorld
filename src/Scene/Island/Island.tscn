@@ -13,7 +13,7 @@
 script = ExtResource( 6 )
 
 [node name="CameraMovement" type="Camera2D" parent="."]
-position = Vector2( 704.305, 1476.01 )
+position = Vector2( 633.515, 1836.28 )
 current = true
 smoothing_speed = 10.0
 script = ExtResource( 2 )
@@ -56,26 +56,203 @@ should_display_grid = false
 
 [node name="StuffLayer" type="Node2D" parent="."]
 
-[node name="Stuff15" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 913.83, 1581.43 )
+[node name="Stuff6" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 994.957, 1904.86 )
+stuff_type_name = "椅子"
+
+[node name="Stuff2" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 931.438, 1950.47 )
+stuff_type_name = "沙发"
+
+[node name="Stuff3" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1115, 1932.3 )
+stuff_type_name = "床"
+
+[node name="Stuff4" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 994.242, 1926.72 )
+stuff_type_name = "桌子"
+
+[node name="Stuff5" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 744.242, 1974.95 )
+stuff_type_name = "马桶"
+
+[node name="Stuff9" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1011.77, 1926.59 )
 stuff_type_name = "水杯"
 
-[node name="Stuff16" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 942.51, 1668.72 )
-scale = Vector2( 1.01256, 1 )
+[node name="Stuff10" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 812.038, 1480.65 )
 stuff_type_name = "妙瓜种子"
 
-[node name="Stuff17" parent="StuffLayer" instance=ExtResource( 8 )]
-position = Vector2( 974.658, 1578.84 )
-stuff_type_name = "马桶"
+[node name="Stuff13" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 959.027, 2013.8 )
+stuff_type_name = "酒瓶"
+
+[node name="Stuff19" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1069.19, 1984.6 )
+stuff_type_name = "酒瓶"
+
+[node name="Stuff14" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1095.83, 1938.27 )
+stuff_type_name = "衣服"
+
+[node name="Stuff15" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 568.987, 1908.24 )
+stuff_type_name = "石块"
+
+[node name="Stuff33" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 776.834, 1855.74 )
+stuff_type_name = "石块"
+
+[node name="Stuff45" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 805.874, 1586.9 )
+stuff_type_name = "石块"
+
+[node name="Stuff46" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1129.72, 1700.11 )
+stuff_type_name = "石块"
+
+[node name="Stuff16" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 942.605, 1770.02 )
+stuff_type_name = "椰子树"
+
+[node name="Stuff18" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 970.503, 1926.71 )
+stuff_type_name = "椰子肉"
+
+[node name="Stuff25" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1035.14, 1743.21 )
+stuff_type_name = "椰子肉"
+
+[node name="Stuff27" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 522.904, 1483.2 )
+stuff_type_name = "椰子肉"
+
+[node name="Stuff28" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 547.42, 1466.85 )
+stuff_type_name = "椰子肉"
+
+[node name="Stuff20" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 832.522, 1728.42 )
+stuff_type_name = "野果"
+
+[node name="Stuff52" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 687.198, 1686.93 )
+stuff_type_name = "野果"
+
+[node name="Stuff53" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 611.897, 1808.03 )
+stuff_type_name = "野果"
+
+[node name="Stuff54" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1208.42, 1574.75 )
+stuff_type_name = "野果"
+
+[node name="Stuff55" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 954.829, 1650.63 )
+stuff_type_name = "野果"
+
+[node name="Stuff21" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1151.38, 1857.15 )
+stuff_type_name = "纸"
+
+[node name="Stuff22" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1128.16, 1858.52 )
+stuff_type_name = "水笔"
+
+[node name="Stuff23" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1176.94, 1996.67 )
+stuff_type_name = "大水桶"
+
+[node name="Stuff24" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1045.98, 2021.65 )
+stuff_type_name = "手机"
+
+[node name="Stuff26" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1194, 1966.77 )
+stuff_type_name = "扑克牌"
+
+[node name="Stuff51" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 866.562, 2014.64 )
+stuff_type_name = "垃圾"
+
+[node name="Stuff30" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 221.665, 1383.22 )
+stuff_type_name = "黑色宝箱"
+
+[node name="Stuff31" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 222.277, 1360.64 )
+stuff_type_name = "红色宝箱"
+
+[node name="Stuff32" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 222.04, 1407.11 )
+stuff_type_name = "橙色宝箱"
+
+[node name="Stuff36" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 258.389, 1738 )
+stuff_type_name = "大山"
+
+[node name="Stuff38" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 633.083, 1485.42 )
+stuff_type_name = "死猪"
+
+[node name="Stuff56" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1000.17, 1409.86 )
+stuff_type_name = "草药"
+
+[node name="Stuff58" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 1017.86, 1533.98 )
+stuff_type_name = "草药"
+
+[node name="Stuff41" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 571.442, 1620.86 )
+stuff_type_name = "废物再生中心"
+
+[node name="Stuff43" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 265.529, 1383.33 )
+stuff_type_name = "瞬移点"
+
+[node name="Stuff50" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 150.208, 1299.88 )
+stuff_type_name = "瞬移点"
+
+[node name="小山" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 222.396, 1280.61 )
+stuff_type_name = "小山"
+
+[node name="小山2" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 313.002, 1280.54 )
+stuff_type_name = "小山"
+
+[node name="小山3" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 385.691, 1381.47 )
+stuff_type_name = "小山"
+
+[node name="小山4" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 316.005, 1485.03 )
+stuff_type_name = "小山"
+
+[node name="小山5" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 216.354, 1485.3 )
+stuff_type_name = "小山"
+
+[node name="小山6" parent="StuffLayer" instance=ExtResource( 8 )]
+position = Vector2( 138.065, 1383.5 )
+stuff_type_name = "小山"
 
 [node name="PlayerLayer" type="Node2D" parent="."]
 
 [node name="Player" parent="PlayerLayer" instance=ExtResource( 1 )]
-position = Vector2( 847.805, 1572.44 )
-rotation = 2.23568
+position = Vector2( 1024.8, 2007.58 )
+rotation = -0.763388
 collision_mask = 11
 player_name = "军宏"
+
+[node name="Player2" parent="PlayerLayer" instance=ExtResource( 1 )]
+position = Vector2( 291.744, 1378 )
+rotation = 3.14271
+collision_mask = 11
+player_name = "小夕"
 
 [node name="UI" type="CanvasLayer" parent="."]
 
