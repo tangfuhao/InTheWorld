@@ -49,18 +49,21 @@ var init_param_dic := {}
 var new_add_concept := []
 
 
-
+#物品位置的更新
+signal node_position_update(_node)
 signal disappear_notify(_stuff)
+signal node_add_concept(_node,_concept_name)
 #可交互发生改变的通知
 signal node_interaction_add_object(_node,_target)
 signal node_interaction_remove_object(_node,_target)
 
 #物品绑定关系改变
-signal node_binding_dependency_change(_node)
+signal node_binding_to(_node,_target)
+signal node_un_binding_to(_node,_target)
 #物品存储关系改变
-signal node_storege_dependency_change(_node)
-#物品位置的更新
-signal node_position_update(_node)
+signal node_storage_to(_node,_target)
+signal node_un_storage_to(_node,_target)
+
 #物品属性的更新
 signal node_param_item_value_change(_node,_param_item,_old_value,_new_value)
 #物品碰撞对象更新
@@ -70,7 +73,7 @@ signal node_collision_remove_object(_node,_target)
 signal node_add_to_main_scene(_node)
 signal node_remove_to_main_scene(_node)
 
-signal node_add_concept(_node,_concept_name)
+
 
 func _set_display_name(_name):
 	display_name = _name
@@ -377,12 +380,13 @@ func disappear():
 
 func notify_before_disappear():
 	var sutfff_layer = get_node("/root/Island/StuffLayer")
-	if get_parent() == sutfff_layer:
+	var parent_node = get_parent()
+	if parent_node == sutfff_layer:
 		notify_node_remove_to_main_scene()
-	elif get_parent() is Storage:
-		notify_storage_dependency_change()
+	elif parent_node is Storage:
+		notify_node_un_binding_to(parent_node)
 	else:
-		notify_binding_dependency_change()
+		notify_node_un_storage_to(parent_node)
 		
 	if not collision_object_arr.empty():
 		for item in collision_object_arr:
@@ -391,11 +395,17 @@ func notify_before_disappear():
 
 
 #物品的绑定关系改变
-func notify_binding_dependency_change():
-	emit_signal("node_binding_dependency_change",self)
+func notify_node_binding_to(_target):
+	emit_signal("node_binding_to",self,_target)
+func notify_node_un_binding_to(_target):
+	emit_signal("node_un_binding_to",self,_target)
 
-func notify_storage_dependency_change():
-	emit_signal("node_storege_dependency_change",self)
+func notify_node_storage_to(_target):
+	emit_signal("node_storage_to",self,_target)
+func notify_node_un_storage_to(_target):
+	emit_signal("node_un_storage_to",self,_target)
+
+
 
 func notify_node_add_to_main_scene():
 	emit_signal("node_add_to_main_scene",self)

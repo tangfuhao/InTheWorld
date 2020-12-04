@@ -19,8 +19,8 @@ func _process(delta):
 func add_monitor_node(_node:Node2D):
 	_node.connect("disappear_notify",self,"_on_node_disappear_notify")
 	_node.connect("node_param_item_value_change",self,"_on_node_param_item_value_change")
-	_node.connect("node_binding_dependency_change",self,"_on_node_binding_dependency_change")
-	_node.connect("node_storege_dependency_change",self,"_on_node_storege_dependency_change")
+	_node.connect("node_binding_to",self,"_on_node_binding_dependency_change")
+	_node.connect("node_storage_to",self,"_on_node_storage_dependency_change")
 	
 #	var affiliation_node = _node.get_parent().get_parent()
 #	be_affiliation_node_dic[_node] = affiliation_node
@@ -29,8 +29,8 @@ func add_monitor_node(_node:Node2D):
 func _on_node_disappear_notify(_stuff):
 	_stuff.disconnect("disappear_notify",self,"_on_node_disappear_notify")
 	_stuff.disconnect("node_param_item_value_change",self,"_on_node_param_item_value_change")
-	_stuff.disconnect("node_binding_dependency_change",self,"_on_node_binding_dependency_change")
-	_stuff.disconnect("node_storege_dependency_change",self,"_on_node_storege_dependency_change")
+	_stuff.disconnect("node_binding_to",self,"_on_node_binding_dependency_change")
+	_stuff.disconnect("node_storage_to",self,"_on_node_storage_dependency_change")
 	
 	if value_change_cache_dic.has(_stuff):
 		value_change_cache_dic.erase(_stuff)
@@ -57,13 +57,13 @@ func _on_node_param_item_value_change(_node,_param_item,_old_value,_new_value):
 	var node_param_change_dic = DataManager.get_dic_item_by_key_from_dic(value_change_cache_dic,_node)
 	node_param_change_dic[_param_item] = _param_item.value
 
-func _on_node_binding_dependency_change(_node):
+func _on_node_binding_dependency_change(_node,_target):
 	var affiliation_node = _node.get_parent().get_parent()
 	be_affiliation_node_change_dic[_node] = affiliation_node
 	
 	
 
-func _on_node_storege_dependency_change(_node):
+func _on_node_storage_dependency_change(_node,_target):
 	var affiliation_node = _node.get_parent().get_parent()
 	be_affiliation_node_change_dic[_node] = affiliation_node
 

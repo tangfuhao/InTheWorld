@@ -57,6 +57,8 @@ func make_node_type_relation(_node_item):
 func make_node_signal_binding(_node_item):
 	_node_item.connect("disappear_notify",self,"_on_stuff_disappear")
 	_node_item.connect("node_add_concept",self,"_on_stuff_add_concept")
+
+	_node_item.connect("node_param_item_value_change",self,"_on_node_param_item_value_change")
 	
 	_node_item.connect("node_interaction_add_object",self,"_on_node_interaction_add_object")
 	_node_item.connect("node_interaction_remove_object",self,"_on_node_interaction_remove_object")
@@ -64,10 +66,11 @@ func make_node_signal_binding(_node_item):
 	_node_item.connect("node_collision_add_object",self,"_on_node_cllision_add_object")
 	_node_item.connect("node_collision_remove_object",self,"_on_node_cllision_remove_object")
 	
-	_node_item.connect("node_binding_dependency_change",self,"_on_node_binding_dependency_change")
-	_node_item.connect("node_storege_dependency_change",self,"_on_node_storege_dependency_change")
+	_node_item.connect("node_binding_to",self,"_on_node_binding_dependency_change")
+	_node_item.connect("node_un_binding_to",self,"_on_node_binding_dependency_change")
 	
-	_node_item.connect("node_param_item_value_change",self,"_on_node_param_item_value_change")
+	_node_item.connect("node_storage_to",self,"_on_node_storage_dependency_change")
+	_node_item.connect("node_un_storage_to",self,"_on_node_storage_dependency_change")
 	
 	_node_item.connect("node_add_to_main_scene",self,"_on_node_add_to_main_scene")
 	_node_item.connect("node_remove_to_main_scene",self,"_on_node_remove_to_main_scene")
