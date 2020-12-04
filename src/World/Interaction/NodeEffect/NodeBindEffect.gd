@@ -19,7 +19,13 @@ func _process(_delta,_param_accessor):
 	var main_scence = node.get_node("/root/Island/StuffLayer")
 	var parent_node = be_bind_node.get_parent()
 	
+
+
 	if node.bind_layer.bind(be_bind_node):
-		if parent_node and parent_node == main_scence:
-			be_bind_node.notify_node_remove_to_main_scene()
-		be_bind_node.notify_binding_dependency_change()
+		if parent_node:
+			if parent_node == main_scence:
+				be_bind_node.notify_node_remove_to_main_scene()
+			else:
+				be_bind_node.notify_node_un_binding_to(parent_node)
+
+		be_bind_node.notify_node_binding_to(node.bind_layer)
