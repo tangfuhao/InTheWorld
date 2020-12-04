@@ -35,9 +35,31 @@ var collision_object_arr := []
 
 
 signal disappear_notify()
-#物品属性的更新
-signal node_param_item_value_change(node,param_item,old_value,new_value)
 signal node_add_concept(_node,_concept_name)
+
+
+#可交互发生改变的通知
+signal node_interaction_add_object(_node,_target)
+signal node_interaction_remove_object(_node,_target)
+
+#物品绑定关系改变
+signal node_binding_to(_node,_target)
+signal node_un_binding_to(_node,_target)
+#物品存储关系改变
+signal node_storage_to(_node,_target)
+signal node_un_storage_to(_node,_target)
+
+#物品属性的更新
+signal node_param_item_value_change(_node,_param_item,_old_value,_new_value)
+#物品碰撞对象更新
+signal node_collision_add_object(_node,_target)
+signal node_collision_remove_object(_node,_target)
+#物品在场景节点上的变化
+signal node_add_to_main_scene(_node)
+signal node_remove_to_main_scene(_node)
+
+
+
 #请求输入的结果
 signal request_input_result(_result_text)
 signal request_input(dialog_text)

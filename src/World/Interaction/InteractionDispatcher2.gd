@@ -121,38 +121,7 @@ func create_node_relation_interaction(_node):
 			for node_pair_item in node_pair_arr:
 				create_and_interaction_item(interaction_template_item,node_pair_item)
 
-#根据指定的作用模板 和指定的node对 启动作用
-func create_and_run_interaction_by_node_pair(need_update_interaction_template_arr,assign_interaction_node_pair):
-	for interaction_template_item in need_update_interaction_template_arr:
-		var node_matchings = interaction_template_item.node_matching
-		var interaction_template_item_name = interaction_template_item.name
-		var assign_interaction_node_pair_arr = DataManager.get_arr_item_by_key_from_dic(assign_interaction_node_pair,interaction_template_item_name)
-		for node_pair in assign_interaction_node_pair_arr:
-			assert(node_pair.size() == 1)
-			var node_name_in_interaction = node_pair.keys().front()
-			var node_item = node_pair[node_name_in_interaction]
-			
-			var node_matching_item = interaction_template_item.find_node_matching(node_name_in_interaction)
-			#获取限制节点范围的条件
-			var restrict_node_condition_arr:Array = node_matching_item.get_restrict_node_condition()
-			#存在限制节点范围 
-			if not restrict_node_condition_arr.empty():
-				#存在限制节点范围 进行验证
-				var restrict_condition_node_dic:Dictionary = match_restrict_condition_node(node_item,restrict_node_condition_arr)
-				#如果根据限制条件 没有合适的节点 换下一个节点
-				if restrict_condition_node_dic.empty():
-					continue
-				#把限制出的节点对集合 给 当前节点对集合
-				for restrict_condition_node_name_item in restrict_condition_node_dic.keys():
-					var limit_node_arr = restrict_condition_node_dic[restrict_condition_node_name_item]
-					node_pair[restrict_condition_node_name_item] = limit_node_arr
-			
-			
-			#创建匹配出的节点对 集合
-			var node_pair_arr := []
-			verify_node_matching_for_node_pair(0,node_matchings,node_pair_arr,node_pair)
-			for node_pair_item in node_pair_arr:
-				create_and_interaction_item(interaction_template_item,node_pair_item)
+
 
 #通过节点类型 查询相关的 作用模板
 func get_relation_interaction_template_by_node_type(_node_type):
@@ -214,7 +183,10 @@ func create_and_interaction_item(_interaction_template_item,_node_pair_item):
 			var interaction_arr = get_arr_value_from_dic(active_node_to_interaction_dic,node_item)
 			if not interaction_arr.has(interaction_implement):
 				interaction_arr.push_back(interaction_implement)
-
+	else:
+		print("丢弃的作用:",_interaction_template_item.name)
+		for node_item_key in _node_pair_item.keys():
+			print("作用节点%s:%s" % [node_item_key,_node_pair_item[node_item_key].node_name])
 
 
 
@@ -271,8 +243,14 @@ func verify_node_matching_for_node_pair(_node_matching_index,_node_matchings:Arr
 			for restrict_condition_node_name_item in restrict_condition_node_dic.keys():
 				var limit_node_arr = restrict_condition_node_dic[restrict_condition_node_name_item]
 				var current_restrict_node_arr = get_arr_value_from_dic(local_node_pair,restrict_condition_node_name_item)
-				if not current_restrict_node_arr.empty():
-					limit_node_arr = array_intersection(current_restrict_node_arr,limit_node_arr)
+				
+				if current_restrict_node_arr is Array:
+					if not current_restrict_node_arr.empty():
+						limit_node_arr = array_intersection(current_restrict_node_arr,limit_node_arr)
+				else:
+					if current_restrict_node_arr:
+						limit_node_arr = array_intersection([current_restrict_node_arr],limit_node_arr)
+						
 					
 				local_node_pair[restrict_condition_node_name_item] = limit_node_arr
 				if limit_node_arr.empty():
@@ -487,7 +465,134 @@ func match_meet_node_type_in_arr(_type_arr,_inherit_type_group):
 		if _inherit_type_group.has(item_type):
 			index_arr.push_back(index)
 	return index_arr
-		
+
+func create_and_run_interaction_by_node_pair_for_value_change(need_update_interaction_template_arr,assign_interaction_node_pair):
+	for interaction_template_item in need_update_interaction_template_arr:
+		var node_matchings = interaction_template_item.node_matching
+		var interaction_template_item_name = interaction_template_item.name
+		var assign_interaction_node_pair_arr = DataManager.get_arr_item_by_key_from_dic(assign_interaction_node_pair,interaction_template_item_name)
+		for node_pair in assign_interaction_node_pair_arr:
+			assert(node_pair.size() == 1)
+			var node_name_in_interaction = node_pair.keys().front()
+			var node_item = node_pair[node_name_in_interaction]
+			
+			var node_matching_item = interaction_template_item.find_node_matching(node_name_in_interaction)
+			#获取限制节点范围的条件
+			var restrict_node_condition_arr:Array = node_matching_item.get_restrict_node_condition()
+			#存在限制节点范围 
+			if not restrict_node_condition_arr.empty():
+				#存在限制节点范围 进行验证
+				var restrict_condition_node_dic:Dictionary = match_restrict_condition_node(node_item,restrict_node_condition_arr)
+				#如果根据限制条件 没有合适的节点 换下一个节点
+				if restrict_condition_node_dic.empty():
+					continue
+				#把限制出的节点对集合 给 当前节点对集合
+				for restrict_condition_node_name_item in restrict_condition_node_dic.keys():
+					var limit_node_arr = restrict_condition_node_dic[restrict_condition_node_name_item]
+					node_pair[restrict_condition_node_name_item] = limit_node_arr
+			
+			
+			#创建匹配出的节点对 集合
+			var node_pair_arr := []
+			verify_node_matching_for_node_pair(0,node_matchings,node_pair_arr,node_pair)
+			for node_pair_item in node_pair_arr:
+				create_and_interaction_item(interaction_template_item,node_pair_item)
+#根据指定的作用模板 和指定的node对 启动作用
+func create_and_run_interaction_by_node_pair(need_update_interaction_template_arr,assign_interaction_node_pair):
+	for interaction_template_item in need_update_interaction_template_arr:
+		var node_matchings = interaction_template_item.node_matching
+		var interaction_template_item_name = interaction_template_item.name
+		var assign_interaction_node_pair_arr = DataManager.get_arr_item_by_key_from_dic(assign_interaction_node_pair,interaction_template_item_name)
+		for node_pair in assign_interaction_node_pair_arr:
+#			assert(node_pair.size() == 1)
+#			var node_name_in_interaction = node_pair.keys().front()
+#			var node_item = node_pair[node_name_in_interaction]
+			
+			#TODO 在里面去优化 筛选过程
+#			var node_matching_item = interaction_template_item.find_node_matching(node_name_in_interaction)
+#			#获取限制节点范围的条件
+#			var restrict_node_condition_arr:Array = node_matching_item.get_restrict_node_condition()
+#			#存在限制节点范围 
+#			if not restrict_node_condition_arr.empty():
+#				#存在限制节点范围 进行验证
+#				var restrict_condition_node_dic:Dictionary = match_restrict_condition_node(node_item,restrict_node_condition_arr)
+#				#如果根据限制条件 没有合适的节点 换下一个节点
+#				if restrict_condition_node_dic.empty():
+#					continue
+#				#把限制出的节点对集合 给 当前节点对集合
+#				for restrict_condition_node_name_item in restrict_condition_node_dic.keys():
+#					var limit_node_arr = restrict_condition_node_dic[restrict_condition_node_name_item]
+#					node_pair[restrict_condition_node_name_item] = limit_node_arr
+			
+			
+			#创建匹配出的节点对 集合
+			var node_pair_arr := []
+			verify_node_matching_for_node_pair(0,node_matchings,node_pair_arr,node_pair)
+			for node_pair_item in node_pair_arr:
+				create_and_interaction_item(interaction_template_item,node_pair_item)
+	
+#通过条件的激活来创建相关的作用
+func create_and_run_interaction_by_toggle_condition(_condition_name,_node,_target):
+	#匹配能更新的节点模板
+	var need_update_interaction_template_arr := []
+	#指定的节点对 和 更新的节点模板 名称同步
+	var assign_interaction_node_pair := {}
+	#获取类型有关的作用模板
+	var interaction_template_arr = get_relation_interaction_template_by_node_type(_node.stuff_type_name)
+	#遍历模板
+	for interaction_template_item in interaction_template_arr:
+		#获取模板的监听 交互对象
+		var update_condition_by_listening_node_signal_dic = interaction_template_item.update_condition_by_listening_node_signal_dic
+		#根据当前数据类型  获取符合节点匹配
+		var node_matching_arr =  interaction_template_item.find_node_matching_by_node(_node)
+		#遍历满足的节点匹配
+		for node_matching_item in node_matching_arr:
+			#根据匹配的节点指代名  获取监听的 属性变化
+			var node_name_in_interaction = node_matching_item.node_name_in_interaction
+
+			var node_lisntening_signal_dic = DataManager.get_dic_item_by_key_from_dic(update_condition_by_listening_node_signal_dic,_condition_name)
+			var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(node_lisntening_signal_dic,node_name_in_interaction)
+			
+			
+			#特殊情况  不考虑激活的目标
+			if node_lisntening_signal_arr.has("node_collision_add_object"):
+				#匹配的指定节点对 加入数据
+				var node_pair = {node_name_in_interaction:_node}
+				
+				#加入到节点对 对应 作用的集合 
+				var interaction_template_item_name = interaction_template_item.name
+				var assign_interaction_node_pair_arr = DataManager.get_arr_item_by_key_from_dic(assign_interaction_node_pair,interaction_template_item_name)
+				assign_interaction_node_pair_arr.push_back(node_pair)
+				
+				#加入到待更新的节点模板
+				if not need_update_interaction_template_arr.has(interaction_template_item):
+					need_update_interaction_template_arr.push_back(interaction_template_item)
+				
+				continue
+			
+			#检测目标指代名是否匹配
+			var target_node_matching_arr =  interaction_template_item.find_node_matching_by_node(_target)
+			for target_node_matching_item in target_node_matching_arr:
+				if node_matching_item == target_node_matching_item:
+					continue
+				if node_lisntening_signal_arr.has(target_node_matching_item.node_name_in_interaction):
+					#匹配的指定节点对 加入数据
+					var node_pair = {node_name_in_interaction:_node,target_node_matching_item.node_name_in_interaction:_target}
+					
+					#加入到节点对 对应 作用的集合 
+					var interaction_template_item_name = interaction_template_item.name
+					var assign_interaction_node_pair_arr = DataManager.get_arr_item_by_key_from_dic(assign_interaction_node_pair,interaction_template_item_name)
+					assign_interaction_node_pair_arr.push_back(node_pair)
+					
+					#加入到待更新的节点模板
+					if not need_update_interaction_template_arr.has(interaction_template_item):
+						need_update_interaction_template_arr.push_back(interaction_template_item)
+
+	#匹配和启动 需要更新的作用
+	create_and_run_interaction_by_node_pair(need_update_interaction_template_arr,assign_interaction_node_pair)
+
+
+
 
 #场景通知 自定义物品 创建或消失的通知
 func add_new_stuff(_node):
@@ -566,204 +671,55 @@ func _on_stuff_disappear(_node):
 #某个作用结束
 func _on_interaction_finish(_interaction_implement):
 	print("作用:%s 结束" % _interaction_implement.interaction_name)
-	running_interaction_implements.erase(_interaction_implement.interaction_id)
+	
+	if running_interaction_implements.has(_interaction_implement.interaction_id):
+		running_interaction_implements.erase(_interaction_implement.interaction_id)
+
+	
+	var node_arr = _interaction_implement.node_dic.values()
+	for node_item in node_arr:
+		var active_interaction_arr = get_arr_value_from_dic(active_node_to_interaction_dic,node_item)
+		if active_interaction_arr.has(_interaction_implement):
+			active_interaction_arr.erase(_interaction_implement)
+			
+	
 	_interaction_implement.disconnect("interaction_finish",self,"_on_interaction_finish")
 	remove_child(_interaction_implement)
 
-func _on_node_interaction_add_object(_node,_target):
-	#匹配能更新的节点模板
-	var need_update_interaction_template_arr := []
-	#指定的节点对 和 更新的节点模板 名称同步
-	var assign_interaction_node_pair := {}
-	#获取类型有关的作用模板
-	var interaction_template_arr = get_relation_interaction_template_by_node_type(_target.stuff_type_name)
-	#遍历模板
-	for interaction_template_item in interaction_template_arr:
-		#获取模板的监听 交互对象
-		var update_condition_by_listening_node_interaction_dic = interaction_template_item.update_condition_by_listening_node_interaction_dic
-		#根据当前数据类型  获取符合节点匹配
-		var node_matching_arr =  interaction_template_item.find_node_matching_by_node(_target)
-		#遍历满足的节点匹配
-		for node_matching_item in node_matching_arr:
-			#根据匹配的节点指代名  获取监听的 属性变化
-			var node_name_in_interaction = node_matching_item.node_name_in_interaction
-			var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_interaction_dic,node_name_in_interaction)
-			if node_lisntening_signal_arr.has(node_name_in_interaction):
-				#匹配的指定节点对 加入数据
-				var node_pair = {node_name_in_interaction:_target}
-				var interaction_template_item_name = interaction_template_item.name
-				var assign_interaction_node_pair_arr = DataManager.get_arr_item_by_key_from_dic(assign_interaction_node_pair,interaction_template_item_name)
-				assign_interaction_node_pair_arr.push_back(node_pair)
-				
-				#加入到待更新的节点模板
-				if not need_update_interaction_template_arr.has(interaction_template_item):
-					need_update_interaction_template_arr.push_back(interaction_template_item)
-
-	#匹配和启动 需要更新的作用
-	create_and_run_interaction_by_node_pair(need_update_interaction_template_arr,assign_interaction_node_pair)
 
 
-func _on_node_interaction_remove_object(_node,_target):
-	#匹配能更新的节点模板
-	var need_update_interaction_template_arr := []
-	#指定的节点对 和 更新的节点模板 名称同步
-	var assign_interaction_node_pair := {}
-	#获取类型有关的作用模板
-	var interaction_template_arr = get_relation_interaction_template_by_node_type(_target.stuff_type_name)
-	#遍历模板
-	for interaction_template_item in interaction_template_arr:
-		#获取模板的监听 交互对象
-		var update_condition_by_listening_node_interaction_dic = interaction_template_item.update_condition_by_listening_node_interaction_dic
-		#根据当前数据类型  获取符合节点匹配
-		var node_matching_arr =  interaction_template_item.find_node_matching_by_node(_target)
-		#遍历满足的节点匹配
-		for node_matching_item in node_matching_arr:
-			#根据匹配的节点指代名  获取监听的 属性变化
-			var node_name_in_interaction = node_matching_item.node_name_in_interaction
-			var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_interaction_dic,node_name_in_interaction)
-			if node_lisntening_signal_arr.has(node_name_in_interaction):
-				#匹配的指定节点对 加入数据
-				var node_pair = {node_name_in_interaction:_target}
-				var interaction_template_item_name = interaction_template_item.name
-				var assign_interaction_node_pair_arr = DataManager.get_arr_item_by_key_from_dic(assign_interaction_node_pair,interaction_template_item_name)
-				assign_interaction_node_pair_arr.push_back(node_pair)
-				
-				#加入到待更新的节点模板
-				if not need_update_interaction_template_arr.has(interaction_template_item):
-					need_update_interaction_template_arr.push_back(interaction_template_item)
-
-	#匹配和启动 需要更新的作用
-	create_and_run_interaction_by_node_pair(need_update_interaction_template_arr,assign_interaction_node_pair)
-
-#TODO num_of_colliding_objects 没考虑
-func _on_node_cllision_add_object(_node,_target):
-	#匹配能更新的节点模板
-	var need_update_interaction_template_arr := []
-	#指定的节点对 和 更新的节点模板 名称同步
-	var assign_interaction_node_pair := {}
-	#获取类型有关的作用模板
-	var interaction_template_arr = get_relation_interaction_template_by_node_type(_target.stuff_type_name)
-	#遍历模板
-	for interaction_template_item in interaction_template_arr:
-		#获取模板的监听 交互对象
-		var update_condition_by_listening_node_cllision_dic = interaction_template_item.update_condition_by_listening_node_cllision_dic
-		#根据当前数据类型  获取符合节点匹配
-		var node_matching_arr =  interaction_template_item.find_node_matching_by_node(_target)
-		#遍历满足的节点匹配
-		for node_matching_item in node_matching_arr:
-			#根据匹配的节点指代名  获取监听的 属性变化
-			var node_name_in_interaction = node_matching_item.node_name_in_interaction
-			var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_cllision_dic,node_name_in_interaction)
-			if node_lisntening_signal_arr.has(node_name_in_interaction):
-				#匹配的指定节点对 加入数据
-				var node_pair = {node_name_in_interaction:_target}
-				var interaction_template_item_name = interaction_template_item.name
-				var assign_interaction_node_pair_arr = DataManager.get_arr_item_by_key_from_dic(assign_interaction_node_pair,interaction_template_item_name)
-				assign_interaction_node_pair_arr.push_back(node_pair)
-				
-				#加入到待更新的节点模板
-				if not need_update_interaction_template_arr.has(interaction_template_item):
-					need_update_interaction_template_arr.push_back(interaction_template_item)
-
-	#匹配和启动 需要更新的作用
-	create_and_run_interaction_by_node_pair(need_update_interaction_template_arr,assign_interaction_node_pair)
-
-func _on_node_cllision_remove_object(_node,_target):
-	#匹配能更新的节点模板
-	var need_update_interaction_template_arr := []
-	#指定的节点对 和 更新的节点模板 名称同步
-	var assign_interaction_node_pair := {}
-	#获取类型有关的作用模板
-	var interaction_template_arr = get_relation_interaction_template_by_node_type(_target.stuff_type_name)
-	#遍历模板
-	for interaction_template_item in interaction_template_arr:
-		#获取模板的监听 交互对象
-		var update_condition_by_listening_node_cllision_dic = interaction_template_item.update_condition_by_listening_node_cllision_dic
-		#根据当前数据类型  获取符合节点匹配
-		var node_matching_arr =  interaction_template_item.find_node_matching_by_node(_target)
-		#遍历满足的节点匹配
-		for node_matching_item in node_matching_arr:
-			#根据匹配的节点指代名  获取监听的 属性变化
-			var node_name_in_interaction = node_matching_item.node_name_in_interaction
-			var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_cllision_dic,node_name_in_interaction)
-			if node_lisntening_signal_arr.has(node_name_in_interaction):
-				#匹配的指定节点对 加入数据
-				var node_pair = {node_name_in_interaction:_target}
-				var interaction_template_item_name = interaction_template_item.name
-				var assign_interaction_node_pair_arr = DataManager.get_arr_item_by_key_from_dic(assign_interaction_node_pair,interaction_template_item_name)
-				assign_interaction_node_pair_arr.push_back(node_pair)
-				
-				#加入到待更新的节点模板
-				if not need_update_interaction_template_arr.has(interaction_template_item):
-					need_update_interaction_template_arr.push_back(interaction_template_item)
-
-	#匹配和启动 需要更新的作用
-	create_and_run_interaction_by_node_pair(need_update_interaction_template_arr,assign_interaction_node_pair)
-
-func _on_node_binding_dependency_change(_node):
-	#匹配能更新的节点模板
-	var need_update_interaction_template_arr := []
-	#指定的节点对 和 更新的节点模板 名称同步
-	var assign_interaction_node_pair := {}
-	#获取类型有关的作用模板
-	var interaction_template_arr = get_relation_interaction_template_by_node_type(_node.stuff_type_name)
-	#遍历模板
-	for interaction_template_item in interaction_template_arr:
-		#获取模板的监听 绑定和存储
-		var update_condition_by_listening_node_signal_dic = interaction_template_item.update_condition_by_listening_node_signal_dic
-		#根据当前数据类型  获取符合节点匹配
-		var node_matching_arr =  interaction_template_item.find_node_matching_by_node(_node)
-		#遍历满足的节点匹配
-		for node_matching_item in node_matching_arr:
-			#根据匹配的节点指代名  获取监听的 属性变化
-			var node_name_in_interaction = node_matching_item.node_name_in_interaction
-			var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_signal_dic,node_name_in_interaction)
-			if node_lisntening_signal_arr.has("node_binding_dependency_change"):
-				#匹配的指定节点对 加入数据
-				var node_pair = {node_name_in_interaction:_node}
-				var interaction_template_item_name = interaction_template_item.name
-				var assign_interaction_node_pair_arr = DataManager.get_arr_item_by_key_from_dic(assign_interaction_node_pair,interaction_template_item_name)
-				assign_interaction_node_pair_arr.push_back(node_pair)
-				
-				#加入到待更新的节点模板
-				if not need_update_interaction_template_arr.has(interaction_template_item):
-					need_update_interaction_template_arr.push_back(interaction_template_item)
-
-	#匹配和启动 需要更新的作用
-	create_and_run_interaction_by_node_pair(need_update_interaction_template_arr,assign_interaction_node_pair)
+	
 	
 
-func _on_node_storege_dependency_change(_node):
-	#匹配能更新的节点模板
-	var need_update_interaction_template_arr := []
-	#指定的节点对 和 更新的节点模板 名称同步
-	var assign_interaction_node_pair := {}
-	#获取类型有关的作用模板
-	var interaction_template_arr = get_relation_interaction_template_by_node_type(_node.stuff_type_name)
-	#遍历模板
-	for interaction_template_item in interaction_template_arr:
-		#获取模板的监听 绑定和存储
-		var update_condition_by_listening_node_signal_dic = interaction_template_item.update_condition_by_listening_node_signal_dic
-		#根据当前数据类型  获取符合节点匹配
-		var node_matching_arr =  interaction_template_item.find_node_matching_by_node(_node)
-		#遍历满足的节点匹配
-		for node_matching_item in node_matching_arr:
-			#根据匹配的节点指代名  获取监听的 属性变化
-			var node_name_in_interaction = node_matching_item.node_name_in_interaction
-			var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_signal_dic,node_name_in_interaction)
-			if node_lisntening_signal_arr.has("node_storege_dependency_change"):
-				#匹配的指定节点对 加入数据
-				var node_pair = {node_name_in_interaction:_node}
-				var interaction_template_item_name = interaction_template_item.name
-				var assign_interaction_node_pair_arr = DataManager.get_arr_item_by_key_from_dic(assign_interaction_node_pair,interaction_template_item_name)
-				assign_interaction_node_pair_arr.push_back(node_pair)
-				
-				#加入到待更新的节点模板
-				if not need_update_interaction_template_arr.has(interaction_template_item):
-					need_update_interaction_template_arr.push_back(interaction_template_item)
+func _on_node_interaction_add_object(_node,_target):
+	create_and_run_interaction_by_toggle_condition("can_interact",_node,_target)
 
-	#匹配和启动 需要更新的作用
-	create_and_run_interaction_by_node_pair(need_update_interaction_template_arr,assign_interaction_node_pair)
+func _on_node_interaction_remove_object(_node,_target):
+	create_and_run_interaction_by_toggle_condition("can_interact",_node,_target)
+
+func _on_node_cllision_add_object(_node,_target):
+	create_and_run_interaction_by_toggle_condition("is_colliding",_node,_target)
+
+func _on_node_cllision_remove_object(_node,_target):
+	create_and_run_interaction_by_toggle_condition("is_colliding",_node,_target)
+
+#TODO 修复 拥有绑定目标 和 解绑目标
+#绑定到场景 不设置绑定目标
+func _on_node_binding_dependency_change(_node,_target):
+	var target_node = _target.get_parent()
+	create_and_run_interaction_by_toggle_condition("is_binding",_node,target_node)
+
+func _on_node_un_binding_dependency_change(_node,_target):
+	var target_node = _target.get_parent()
+	create_and_run_interaction_by_toggle_condition("is_binding",_node,target_node)
+
+func _on_node_storage_dependency_change(_node,_target):
+	var target_node = _target.get_parent()
+	create_and_run_interaction_by_toggle_condition("is_storing",_node,target_node)
+
+func _on_node_un_storage_dependency_change(_node,_target):
+	var target_node = _target.get_parent()
+	create_and_run_interaction_by_toggle_condition("is_storing",_node,target_node)
 
 func _on_node_param_item_value_change(_node,_param_item,_old_value,_new_value):
 	#匹配能更新的节点模板
@@ -774,19 +730,23 @@ func _on_node_param_item_value_change(_node,_param_item,_old_value,_new_value):
 	var interaction_template_arr = get_relation_interaction_template_by_node_type(_node.stuff_type_name)
 	#遍历模板
 	for interaction_template_item in interaction_template_arr:
-		#获取模板的监听属性变化数据
-		var update_condition_by_listening_node_value_dic = interaction_template_item.update_condition_by_listening_node_value_dic
+		#获取模板的监听 交互对象
+		var update_condition_by_listening_node_signal_dic = interaction_template_item.update_condition_by_listening_node_signal_dic
 		#根据当前数据类型  获取符合节点匹配
 		var node_matching_arr =  interaction_template_item.find_node_matching_by_node(_node)
 		#遍历满足的节点匹配
 		for node_matching_item in node_matching_arr:
-			var node_name_in_interaction = node_matching_item.node_name_in_interaction
 			#根据匹配的节点指代名  获取监听的 属性变化
-			var node_lisntening_param_value_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_value_dic,node_name_in_interaction)
-			#如果满足属性变化 
-			if node_lisntening_param_value_arr.has(_param_item.name):
+			var node_name_in_interaction = node_matching_item.node_name_in_interaction
+
+			var node_lisntening_signal_dic = DataManager.get_dic_item_by_key_from_dic(update_condition_by_listening_node_signal_dic,"is_value_change")
+			var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(node_lisntening_signal_dic,node_name_in_interaction)
+
+			if node_lisntening_signal_arr.has(_param_item.name):
 				#匹配的指定节点对 加入数据
 				var node_pair = {node_name_in_interaction:_node}
+				
+				#加入到节点对 对应 作用的集合 
 				var interaction_template_item_name = interaction_template_item.name
 				var assign_interaction_node_pair_arr = DataManager.get_arr_item_by_key_from_dic(assign_interaction_node_pair,interaction_template_item_name)
 				assign_interaction_node_pair_arr.push_back(node_pair)
@@ -794,10 +754,9 @@ func _on_node_param_item_value_change(_node,_param_item,_old_value,_new_value):
 				#加入到待更新的节点模板
 				if not need_update_interaction_template_arr.has(interaction_template_item):
 					need_update_interaction_template_arr.push_back(interaction_template_item)
-					
+
 	#匹配和启动 需要更新的作用
-	create_and_run_interaction_by_node_pair(need_update_interaction_template_arr,assign_interaction_node_pair)
-#	print("_on_node_param_item_value_change")
+	create_and_run_interaction_by_node_pair_for_value_change(need_update_interaction_template_arr,assign_interaction_node_pair)
 	
 func _on_node_add_to_main_scene(_node):
 	#匹配能更新的节点模板
@@ -816,10 +775,14 @@ func _on_node_add_to_main_scene(_node):
 		for node_matching_item in node_matching_arr:
 			#根据匹配的节点指代名  获取监听的 属性变化
 			var node_name_in_interaction = node_matching_item.node_name_in_interaction
-			var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_signal_dic,node_name_in_interaction)
-			if node_lisntening_signal_arr.has("node_add_to_main_scene"):
+
+			var node_lisntening_signal_dic = DataManager.get_dic_item_by_key_from_dic(update_condition_by_listening_node_signal_dic,"num_of_parent_affiliation")
+			var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(node_lisntening_signal_dic,node_name_in_interaction)
+			if not node_lisntening_signal_arr.empty():
 				#匹配的指定节点对 加入数据
 				var node_pair = {node_name_in_interaction:_node}
+				
+				#加入到节点对 对应 作用的集合 
 				var interaction_template_item_name = interaction_template_item.name
 				var assign_interaction_node_pair_arr = DataManager.get_arr_item_by_key_from_dic(assign_interaction_node_pair,interaction_template_item_name)
 				assign_interaction_node_pair_arr.push_back(node_pair)
@@ -829,7 +792,7 @@ func _on_node_add_to_main_scene(_node):
 					need_update_interaction_template_arr.push_back(interaction_template_item)
 
 	#匹配和启动 需要更新的作用
-	create_and_run_interaction_by_node_pair(need_update_interaction_template_arr,assign_interaction_node_pair)
+	create_and_run_interaction_by_node_pair_for_value_change(need_update_interaction_template_arr,assign_interaction_node_pair)
 
 func _on_node_remove_to_main_scene(_node):
 	#匹配能更新的节点模板
@@ -848,10 +811,14 @@ func _on_node_remove_to_main_scene(_node):
 		for node_matching_item in node_matching_arr:
 			#根据匹配的节点指代名  获取监听的 属性变化
 			var node_name_in_interaction = node_matching_item.node_name_in_interaction
-			var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_signal_dic,node_name_in_interaction)
-			if node_lisntening_signal_arr.has("node_remove_to_main_scene"):
+
+			var node_lisntening_signal_dic = DataManager.get_dic_item_by_key_from_dic(update_condition_by_listening_node_signal_dic,"num_of_parent_affiliation")
+			var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(node_lisntening_signal_dic,node_name_in_interaction)
+			if not node_lisntening_signal_arr.empty():
 				#匹配的指定节点对 加入数据
 				var node_pair = {node_name_in_interaction:_node}
+				
+				#加入到节点对 对应 作用的集合 
 				var interaction_template_item_name = interaction_template_item.name
 				var assign_interaction_node_pair_arr = DataManager.get_arr_item_by_key_from_dic(assign_interaction_node_pair,interaction_template_item_name)
 				assign_interaction_node_pair_arr.push_back(node_pair)
@@ -861,7 +828,7 @@ func _on_node_remove_to_main_scene(_node):
 					need_update_interaction_template_arr.push_back(interaction_template_item)
 
 	#匹配和启动 需要更新的作用
-	create_and_run_interaction_by_node_pair(need_update_interaction_template_arr,assign_interaction_node_pair)
+	create_and_run_interaction_by_node_pair_for_value_change(need_update_interaction_template_arr,assign_interaction_node_pair)
 
 
 

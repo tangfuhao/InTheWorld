@@ -48,28 +48,21 @@ var is_manual_interaction = false
 
 #监听解析 节点名  监听信号
 var update_condition_by_listening_node_signal_dic
-#确定属性
-var update_condition_by_listening_node_value_dic
+
+
 #需要监听的节点属性变化
 var lisnter_node_param_value_change_dic := {}
-
-
-#确定交互
-var update_condition_by_listening_node_interaction_dic
 #需要监听的节点的交互对象 更新
 var lisnter_node_interaction_target_change_dic := {}
-
-
-#确定碰撞
-var update_condition_by_listening_node_cllision_dic
 #需要监听的节点的碰撞对象 更新
 var lisnter_node_cllision_target_change_dic := {}
-
-
+#需要监听的节点的绑定对象 更新
+var lisnter_node_binding_target_change_dic := {}
+#需要监听的节点的存储对象 更新
+var lisnter_node_storage_target_change_dic := {}
 
 func set_vaild(_value):
 	is_vaild = _value
-	
 
 func _ready():
 	if interaction_name == "收纳物品":
@@ -79,7 +72,6 @@ func _ready():
 	if interaction_name == "收纳物品":
 		print("收纳物品2")
 
-var ssadasdas := ["同步流体体积重量","同步流体体积消失","同步容器的绑定流体量","同步容器的修改流体量","同步容器的解除流体量","同步修改流体容器总重","同步解除流体容器总重","流体解除消失"]
 
 func _process(delta):
 	if is_break:
@@ -96,11 +88,7 @@ func _process(delta):
 		
 	if interaction_name == "收纳物品":
 		print("收纳物品3")
-#	if interaction_name == "妙瓜种子浇水":
-#		print("妙瓜种子浇水")
-#	if interaction_name == "妙瓜壳被打开":
-#		print("妙瓜壳被打开")
-	
+
 	
 	#更新进度
 	current_progress = current_progress + delta
@@ -132,89 +120,7 @@ func _process(delta):
 		is_finish = true
 	
 
-		
-func clone_data(_node_pair,_active_execute,_process_execute,_terminate_execute,_break_execute):
-	node_dic = _node_pair
-	for item in _active_execute:
-		active_execute.push_back(clone_node_effect(item))
-	for item in _process_execute:
-		process_execute.push_back(clone_node_effect(item))
-	for item in _terminate_execute:
-		terminate_execute.push_back(clone_node_effect(item))
-	for item in _break_execute:
-		break_execute.push_back(clone_node_effect(item))
-		
-func clone_node_effect(_node_effect):
-	if _node_effect is NodeParamEffect:
-		var clone_obejct = NodeParamEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.param_name = _node_effect.param_name
-		clone_obejct.transform = _node_effect.transform
-		clone_obejct.assign = _node_effect.assign
-#		clone_obejct.node = node_dic[clone_obejct.node_name]
-		return clone_obejct
-	elif _node_effect is NodeChangePositionEffect:
-		var clone_obejct = NodeChangePositionEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.position = _node_effect.position
-#		clone_obejct.node = node_dic[clone_obejct.node_name]
-		return clone_obejct
-	elif _node_effect is NodeStoreEffect:
-		var clone_obejct = NodeStoreEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.store_node = _node_effect.store_node
-#		clone_obejct.node = node_dic[clone_obejct.node_name]
-		return clone_obejct
-	elif _node_effect is NodeBindEffect:
-		var clone_obejct = NodeBindEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.bind_node = _node_effect.bind_node
-#		clone_obejct.node = node_dic[clone_obejct.node_name]
-		return clone_obejct
-	elif _node_effect is NodeReleaseEffect:
-		var clone_obejct = NodeReleaseEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.release_node = _node_effect.release_node
-#		clone_obejct.node = node_dic[clone_obejct.node_name]
-		return clone_obejct
-	elif _node_effect is NodeCreateEffect:
-		var clone_obejct = NodeCreateEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.create_name = _node_effect.create_name
-		clone_obejct.params_arr = _node_effect.params_arr
-#		clone_obejct.node = node_dic[clone_obejct.node_name]
-		return clone_obejct
-	elif _node_effect is NodeDisappearEffect:
-		var clone_obejct = NodeDisappearEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.disppear_node = _node_effect.disppear_node
-		return clone_obejct
-	elif _node_effect is NodeSendInfoToTargetEffect:
-		var clone_obejct = NodeSendInfoToTargetEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.send_info = _node_effect.send_info
-		clone_obejct.info_target = _node_effect.info_target
-		return clone_obejct
-	elif _node_effect is NodeSendInfoToTargetEffect:
-		var clone_obejct = NodeSendInfoToTargetEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.send_info = _node_effect.send_info
-		clone_obejct.info_target = _node_effect.info_target
-		return clone_obejct
-	elif _node_effect is NodeRequestInputEffect:
-		var clone_obejct = NodeRequestInputEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.request_input = _node_effect.request_input
-		clone_obejct.bind_param = _node_effect.bind_param
-		return clone_obejct
-	elif _node_effect is NodeAddToConceptEffect:
-		var clone_obejct = NodeAddToConceptEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.concept_config_arr = _node_effect.concept_config_arr
-		return clone_obejct
-	else:
-		assert(false)
-		
+
 
 func init_origin_value():
 	current_progress = 0
@@ -227,54 +133,117 @@ func binding_nodes_state_update():
 		var node_item = node_dic[node_declare_name]
 		if node_item:
 			binding_node_state_update(node_declare_name,node_item)
-		
-#单个
+
+
+
+
+
+#根据条件名 寻找监听条件的对象列表
+func get_node_lisntening_signal_arr(_node_declare_name,_condition):
+	var node_lisntening_signal_dic = DataManager.get_dic_item_by_key_from_dic(update_condition_by_listening_node_signal_dic,_condition)
+	var node_lisntening_signal_arr =  CollectionUtilities.get_arr_value_from_dic(node_lisntening_signal_dic,_node_declare_name)
+	return node_lisntening_signal_arr
+
+#把监听对象加入到监听列表
+func add_object_to_listening_list(_node_item,_node_lisntening_signal_arr,_lisnter_target_change_dic):
+	for item in _node_lisntening_signal_arr:
+		var listening_parma_arr = CollectionUtilities.get_arr_value_from_dic(_lisnter_target_change_dic,_node_item)
+		listening_parma_arr.push_back(item)
+
+
+#处理 单个节点 需要监听的信号
 func binding_node_state_update(_node_declare_name,_node_item):
 	#存在 
-	_node_item.connect("disappear_notify",self,"on_node_disappear_notify")
-	#通用
-	var node_need_listerning_signal_arr =  CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_signal_dic,_node_declare_name)
-	for item in node_need_listerning_signal_arr:
-		if _node_item.has_signal(item):
-			assert(item != "node_collision_add_object")
-			_node_item.connect(item,self,"_on_node_condition_item_change")
-	
+	_node_item.connect("disappear_notify",self,"_on_node_disappear_notify")
+
 	#属性值
-	var node_need_listerning_param_arr =  CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_value_dic,_node_declare_name)
-	if not node_need_listerning_param_arr.empty():
-		_node_item.connect("node_param_item_value_change",self,"_on_node_param_item_value_change")
-		
-	for item in node_need_listerning_param_arr:
-		var listening_parma_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_param_value_change_dic,_node_item)
-		listening_parma_arr.push_back(item)
+	if update_condition_by_listening_node_signal_dic.has("is_value_change"):
+		var node_lisntening_signal_arr = get_node_lisntening_signal_arr(_node_declare_name,"is_value_change")
+		if not node_lisntening_signal_arr.empty():
+			_node_item.connect("node_param_item_value_change",self,"_on_node_param_item_value_change")
+		add_object_to_listening_list(_node_item,node_lisntening_signal_arr,lisnter_node_param_value_change_dic)
 	
-	#确定目标的类型
-	#交互对象集
-	var node_need_listerning_interaction_arr =  CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_interaction_dic,_node_declare_name)
-	if not node_need_listerning_interaction_arr.empty():
-		if _node_item.has_signal("node_interaction_add_object"):
+	#交互
+	if update_condition_by_listening_node_signal_dic.has("can_interact"):
+		var node_lisntening_signal_arr = get_node_lisntening_signal_arr(_node_declare_name,"can_interact")
+		if not node_lisntening_signal_arr.empty():
 			_node_item.connect("node_interaction_add_object",self,"_on_node_interaction_add_object")
 			_node_item.connect("node_interaction_remove_object",self,"_on_node_interaction_remove_object")
-		
-	for item in node_need_listerning_interaction_arr:
-		var listening_interaction_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_interaction_target_change_dic,_node_item)
-		var target_node = node_dic[item]
-		listening_interaction_arr.push_back(target_node)
-		
-	#碰撞对象集
-	var node_need_listerning_cllision_arr =  CollectionUtilities.get_arr_value_from_dic(update_condition_by_listening_node_cllision_dic,_node_declare_name)
-	if not node_need_listerning_cllision_arr.empty():
-		if _node_item.has_signal("node_collision_add_object"):
-			_node_item.connect("node_collision_add_object",self,"_on_node_cllision_add_object")
-			_node_item.connect("node_collision_remove_object",self,"_on_node_cllision_remove_object")
-		
-	for item in node_need_listerning_cllision_arr:
-		var listening_cllision_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_cllision_target_change_dic,_node_item)
-		if node_dic.has(item):
-			var target_node = node_dic[item]
-			listening_cllision_arr.push_back(target_node)
+		add_object_to_listening_list(_node_item,node_lisntening_signal_arr,lisnter_node_interaction_target_change_dic)
 
-func on_node_disappear_notify(_node):
+	
+	#绑定 
+	if update_condition_by_listening_node_signal_dic.has("is_binding"):
+		var node_lisntening_signal_arr = get_node_lisntening_signal_arr(_node_declare_name,"is_binding")
+		if not node_lisntening_signal_arr.empty():
+			_node_item.connect("node_binding_to",self,"_on_node_binding_dependency_change")
+			_node_item.connect("node_un_binding_to",self,"_on_node_binding_dependency_change")
+		
+		add_object_to_listening_list(_node_item,node_lisntening_signal_arr,lisnter_node_binding_target_change_dic)
+	
+	#存储
+	if update_condition_by_listening_node_signal_dic.has("is_storing"):
+		var node_lisntening_signal_arr = get_node_lisntening_signal_arr(_node_declare_name,"is_storing")
+		if not node_lisntening_signal_arr.empty():
+			_node_item.connect("node_storage_to",self,"_on_node_storage_dependency_change")
+			_node_item.connect("node_un_storage_to",self,"_on_node_storage_dependency_change")
+		
+		add_object_to_listening_list(_node_item,node_lisntening_signal_arr,lisnter_node_storage_target_change_dic)
+	
+	#碰撞
+	if update_condition_by_listening_node_signal_dic.has("is_colliding"):
+		var node_lisntening_signal_arr = get_node_lisntening_signal_arr(_node_declare_name,"is_colliding")
+		if not node_lisntening_signal_arr.empty():
+			_node_item.connect("node_collision_add_object",self,"_on_node_collision_object_update")
+			_node_item.connect("node_collision_remove_object",self,"_on_node_collision_object_update")
+		add_object_to_listening_list(_node_item,node_lisntening_signal_arr,lisnter_node_cllision_target_change_dic)
+	
+	#是否在场景上
+	if update_condition_by_listening_node_signal_dic.has("num_of_parent_affiliation"):
+		var node_lisntening_signal_arr = get_node_lisntening_signal_arr(_node_declare_name,"num_of_parent_affiliation")
+		if not node_lisntening_signal_arr.empty():
+			_node_item.connect("node_add_to_main_scene",self,"_on_node_on_main_scene_change")
+			_node_item.connect("node_remove_to_main_scene",self,"_on_node_on_main_scene_change")
+
+
+
+func node_collision_object_update(_node,_target):
+	var listening_parma_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_cllision_target_change_dic,_node)
+	for node_item_name_in_interaction_item in node_dic.keys():
+		var node_item = node_dic[node_item_name_in_interaction_item]
+		if _target == node_item:
+			if listening_parma_arr.has(node_item_name_in_interaction_item):
+				interaction_status_check()
+
+func node_interaction_object_update(_node,_target):
+	var listening_parma_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_interaction_target_change_dic,_node)
+	for node_item_name_in_interaction_item in node_dic.keys():
+		var node_item = node_dic[node_item_name_in_interaction_item]
+		if _target == node_item:
+			if listening_parma_arr.has(node_item_name_in_interaction_item):
+				interaction_status_check()
+
+func node_binding_dependency_change(_node,_target):
+	var listening_parma_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_binding_target_change_dic,_node)
+	for node_item_name_in_interaction_item in node_dic.keys():
+		var node_item = node_dic[node_item_name_in_interaction_item]
+		if _target == node_item:
+			if listening_parma_arr.has(node_item_name_in_interaction_item):
+				interaction_status_check()
+
+func node_storage_dependency_change(_node,_target):
+	var listening_parma_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_storage_target_change_dic,_node)
+	for node_item_name_in_interaction_item in node_dic.keys():
+		var node_item = node_dic[node_item_name_in_interaction_item]
+		if _target == node_item:
+			if listening_parma_arr.has(node_item_name_in_interaction_item):
+				interaction_status_check()
+
+
+func _on_node_disappear_notify(_node):
+	interaction_status_check()
+	
+func _on_node_on_main_scene_change(_node):
 	interaction_status_check()
 
 #可交互对象新增 和 删减 信号
@@ -284,16 +253,6 @@ func _on_node_interaction_add_object(_node,_target):
 func _on_node_interaction_remove_object(_node,_target):
 	node_interaction_object_update(_node,_target)
 
-func node_interaction_object_update(_node,_target):
-	var listening_interaction_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_interaction_target_change_dic,_node)
-	if listening_interaction_arr.has(_target):
-		interaction_status_check()
-
-func node_collision_object_update(_node,_target):
-	var listening_collision_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_cllision_target_change_dic,_node)
-	if listening_collision_arr.empty() or listening_collision_arr.has(_target):
-		interaction_status_check()
-
 #可碰撞对象新增 和 删减 信号
 func _on_node_cllision_add_object(_node,_target):
 	node_collision_object_update(_node,_target)
@@ -301,17 +260,17 @@ func _on_node_cllision_add_object(_node,_target):
 func _on_node_cllision_remove_object(_node,_target):
 	node_collision_object_update(_node,_target)
 
-#func node_cllision_object_update(_node,_target):
-#	var listening_cllision_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_cllision_target_change_dic,_node)
-#	if listening_cllision_arr.empty() and listening_cllision_arr.has(_target):
-#		interaction_status_check()
-
-#通用条件更改
-func _on_node_condition_item_change(_node):
-	interaction_status_check()
+#绑定
+func _on_node_binding_dependency_change(_node,_target):
+	var target_node = _target.get_parent()
+	node_binding_dependency_change(_node,target_node)
+#存储
+func _on_node_storage_dependency_change(_node,_target):
+	var target_node = _target.get_parent()
+	node_storage_dependency_change(_node,target_node)
 
 #属性值更改
-func _on_node_param_item_value_change(_node,_param_item):
+func _on_node_param_item_value_change(_node,_param_item,_old_value,_new_value):
 	assert(_node)
 	assert(_param_item)
 #	if interaction_name == "同步容器的修改流体量":

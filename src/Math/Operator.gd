@@ -109,7 +109,7 @@ class EQUAL_TO:
 		operator = _operator
 		priority = _priority
 	func eval(left,right):
-		if left == right:
+		if is_equal_approx(left,right):
 			return 1
 		else:
 			return 0
@@ -121,10 +121,11 @@ class NOT_EQUAL_TO:
 		operator = _operator
 		priority = _priority
 	func eval(left,right):
-		if left != right:
-			return 1
-		else:
+		if is_equal_approx(left,right):
 			return 0
+		else:
+			return 1
+		
 			
 class OR:
 	var operator:String
