@@ -3924,6 +3924,14 @@
         ],
         "_terminate": [
             {
+                "node_name": "node3",
+                "effects": [
+                    {
+                        "disappear": "${node3}"
+                    }
+                ]
+            },
+            {
                 "node_name": "node1",
                 "effects": [
                     {
@@ -3931,14 +3939,6 @@
                     },
                     {
                         "bind": "${node4}"
-                    }
-                ]
-            },
-            {
-                "node_name": "node3",
-                "effects": [
-                    {
-                        "disappear": "${node3}"
                     }
                 ]
             }
