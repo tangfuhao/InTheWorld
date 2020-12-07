@@ -385,9 +385,9 @@ func notify_before_disappear():
 	if parent_node == sutfff_layer:
 		notify_node_remove_to_main_scene()
 	elif parent_node is Storage:
-		notify_node_un_binding_to(parent_node)
-	else:
 		notify_node_un_storage_to(parent_node)
+	else:
+		notify_node_un_binding_to(parent_node)
 		
 	if not collision_object_arr.empty():
 		for item in collision_object_arr:
