@@ -444,13 +444,37 @@ func is_colliding(_node):
 	return collision_object_arr.has(_node)
 	
 
+func add_to_collision_object_arr(_node):
+	if not is_rigid_body or not _node.is_rigid_body:
+		collision_object_arr.push_back(_node)
+		if _node is Player:
+			_node.collision_from_stuff(self)
+		
+		emit_signal("node_collision_add_object",self,_node)
+		
+
+		
+func remove_from_collision_object_arr(_node):
+	if not is_rigid_body or not _node.is_rigid_body:
+		collision_object_arr.erase(_node)
+		if _node is Player:
+			_node.un_collision_from_stuff(self)
+		emit_signal("node_collision_remove_object",self,_node)
+		
+		
+
+
 
 
 #交互对象改变
 func _on_InteractArea_body_entered(body):
 	if not interactive_object_list.has(body):
 		interactive_object_list.push_back(body)
+		if body is Player:
+			body.interaction_from_stuff(self)
 		emit_signal("node_interaction_add_object",self,body)
+		
+		
 
 
 func _on_InteractArea_body_exited(body):
@@ -458,19 +482,16 @@ func _on_InteractArea_body_exited(body):
 	if interaction_onwer == body:
 		return 
 	interactive_object_list.erase(body)
+	if body is Player:
+		body.un_interaction_from_stuff(self)
 	emit_signal("node_interaction_remove_object",self,body)
+	
 
 
 
 
-func add_to_collision_object_arr(_node):
-	if not is_rigid_body or not _node.is_rigid_body:
-		collision_object_arr.push_back(_node)
-		emit_signal("node_collision_add_object",self,_node)
-func remove_from_collision_object_arr(_node):
-	if not is_rigid_body or not _node.is_rigid_body:
-		collision_object_arr.erase(_node)
-		emit_signal("node_collision_remove_object",self,_node)
+
+
 
 #用area 碰撞检测 因为有非刚体
 func _on_StuffArea_area_entered(area):

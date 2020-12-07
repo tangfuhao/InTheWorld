@@ -32,9 +32,12 @@ var is_rigid_body = true
 
 #记录 正在碰撞的物体
 var collision_object_arr := []
+#可交互的范围 对象列表
+var interactive_object_list := []
 
 
-signal disappear_notify()
+
+signal disappear_notify(_node)
 signal node_add_concept(_node,_concept_name)
 
 
@@ -75,6 +78,7 @@ func _ready() -> void:
 	
 func _process(_delta):
 	handle_dialog_messages()
+	
 	
 
 func handle_dialog_messages():
@@ -118,9 +122,34 @@ func set_response_text(_response_text):
 func send_message(_target,_message):
 	var message_text ="%s给:%s 发送消息:%s" % [ display_name,_target.display_name,_message]
 	LogSys.log_i(message_text)
+	
+	
+func can_interaction(_object:Node2D):
+	var can_interaction =  interactive_object_list.has(_object)
+	if not can_interaction:
+		can_interaction = iteration_parent_node(_object,self)
+	return can_interaction
 
-func can_interaction(_node:Node2D):
-	return is_approach(_node.global_position,100)
+
+func iteration_parent_node(_match_node,parent_node):
+	parent_node = parent_node.get_parent()
+	if parent_node.has_method("container_type"):
+		var container_type = parent_node.container_type()
+		if container_type == "binder":
+			parent_node = parent_node.get_parent()
+			if _match_node == parent_node:
+				return true
+			return iteration_parent_node(_match_node,parent_node)
+	return false
+
+#TODO 返回当前碰撞数
+func get_colliding_objects_num():
+	return collision_object_arr.size()
+
+#TODO 是否和节点 有碰触
+func is_colliding(_node):
+	return collision_object_arr.has(_node)
+
 
 func is_approach(_target,_distance):
 	var tolerance = 1 
@@ -215,6 +244,30 @@ func notify_disappear():
 	#只有在场景上 才会通知这个事件
 	if is_inside_tree():
 		emit_signal("disappear_notify",self)
+		
+
+#因物品交互激活
+func interaction_from_stuff(_node:Node2D):
+	interactive_object_list.push_back(_node)
+#	emit_signal("node_interaction_add_object",self,_node)
+
+#因物品 取消 交互激活
+func un_interaction_from_stuff(_node:Node2D):
+	interactive_object_list.erase(_node)
+#	emit_signal("node_interaction_remove_object",self,_node)
+
+
+#因物品 碰撞
+func collision_from_stuff(_node:Node2D):
+	collision_object_arr.push_back(_node)
+#	emit_signal("node_collision_add_object",self,_node)
+
+#因物品 取消 碰撞
+func un_collision_from_stuff(_node:Node2D):
+	collision_object_arr.erase(_node)
+#	emit_signal("node_collision_remove_object",self,_node)
+
+
 
 
 func _on_PlayerParam_param_item_value_change(_param_item,_old_value,_new_value):
