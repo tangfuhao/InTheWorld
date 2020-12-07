@@ -41,9 +41,12 @@ func _ready():
 	preload_config_overview()
 	preload_global_data()
 	preload_player_config_detail()
+
+func get_item_from_dic(_item,_key):
+	return _item[_key]
 	
 func get_player_data(_player_name,_key):
-	var item_dic = get_dic_item_by_key_from_dic(player_config_dic,_player_name)
+	var item_dic = CollectionUtilities.get_dic_item_by_key_from_dic(player_config_dic,_player_name)
 	assert(item_dic.has(_key),_key+"配置不存在")
 	return item_dic[_key]
 
@@ -303,7 +306,7 @@ func preload_player_config_detail():
 	var player_config_file_arr = config_data["players"]
 	for item in player_config_file_arr :
 		var player_name = item["player_name"]
-		var item_dic = get_dic_item_by_key_from_dic(player_config_dic,player_name)
+		var item_dic = CollectionUtilities.get_dic_item_by_key_from_dic(player_config_dic,player_name)
 		handle_player_ai_data(item_dic,item["ai"])
 		handle_player_text_data(item_dic,item["text"])
 		handle_player_param_config(item_dic,item["param_config"])
@@ -581,26 +584,7 @@ func parse_motivations(motivation_arr):
 		motivation_dic[motivation_name] = motivation_model
 	return motivation_dic
 
-func get_dic_item_by_key_from_dic(_dic,_key) -> Dictionary:
-	if _dic.has(_key):
-		return _dic[_key]
-	_dic[_key] = {}
-	return _dic[_key]
-	
-func get_arr_item_by_key_from_dic(_dic,_key) -> Array:
-	if _dic.has(_key):
-		return _dic[_key]
-	_dic[_key] = []
-	return _dic[_key]
 
-func get_item_from_dic(_item,_key):
-	return _item[_key]
-
-func get_var_by_params_in_arr(_arr,_params,_value):
-	for item in _arr:
-		if item[_params] == _value:
-			return item
-	return null
 
 func load_json_data(file_path):
 	var data_file = File.new()

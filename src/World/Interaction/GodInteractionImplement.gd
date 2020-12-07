@@ -228,14 +228,14 @@ func binding_nodes_state_update():
 
 #根据条件名 寻找监听条件的对象列表
 func get_node_lisntening_signal_arr(_node_declare_name,_condition):
-	var node_lisntening_signal_dic = DataManager.get_dic_item_by_key_from_dic(update_condition_by_listening_node_signal_dic,_condition)
-	var node_lisntening_signal_arr =  CollectionUtilities.get_arr_value_from_dic(node_lisntening_signal_dic,_node_declare_name)
+	var node_lisntening_signal_dic = CollectionUtilities.get_dic_item_by_key_from_dic(update_condition_by_listening_node_signal_dic,_condition)
+	var node_lisntening_signal_arr =  CollectionUtilities.get_arr_item_by_key_from_dic(node_lisntening_signal_dic,_node_declare_name)
 	return node_lisntening_signal_arr
 
 #把监听对象加入到监听列表
 func add_object_to_listening_list(_node_item,_node_lisntening_signal_arr,_lisnter_target_change_dic):
 	for item in _node_lisntening_signal_arr:
-		var listening_parma_arr = CollectionUtilities.get_arr_value_from_dic(_lisnter_target_change_dic,_node_item)
+		var listening_parma_arr = CollectionUtilities.get_arr_item_by_key_from_dic(_lisnter_target_change_dic,_node_item)
 		listening_parma_arr.push_back(item)
 		
 #处理 单个节点 需要监听的信号
@@ -294,7 +294,7 @@ func binding_node_state_update(_node_declare_name,_node_item):
 		
 
 func node_collision_object_update(_node,_target):
-	var listening_parma_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_cllision_target_change_dic,_node)
+	var listening_parma_arr = CollectionUtilities.get_arr_item_by_key_from_dic(lisnter_node_cllision_target_change_dic,_node)
 	for node_item_name_in_interaction_item in node_dic.keys():
 		var node_item = node_dic[node_item_name_in_interaction_item]
 		if _target == node_item:
@@ -302,7 +302,7 @@ func node_collision_object_update(_node,_target):
 				interaction_status_check()
 
 func node_interaction_object_update(_node,_target):
-	var listening_parma_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_interaction_target_change_dic,_node)
+	var listening_parma_arr = CollectionUtilities.get_arr_item_by_key_from_dic(lisnter_node_interaction_target_change_dic,_node)
 	for node_item_name_in_interaction_item in node_dic.keys():
 		var node_item = node_dic[node_item_name_in_interaction_item]
 		if _target == node_item:
@@ -310,7 +310,7 @@ func node_interaction_object_update(_node,_target):
 				interaction_status_check()
 
 func node_binding_dependency_change(_node,_target):
-	var listening_parma_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_binding_target_change_dic,_node)
+	var listening_parma_arr = CollectionUtilities.get_arr_item_by_key_from_dic(lisnter_node_binding_target_change_dic,_node)
 	for node_item_name_in_interaction_item in node_dic.keys():
 		var node_item = node_dic[node_item_name_in_interaction_item]
 		if _target == node_item:
@@ -318,7 +318,7 @@ func node_binding_dependency_change(_node,_target):
 				interaction_status_check()
 
 func node_storage_dependency_change(_node,_target):
-	var listening_parma_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_storage_target_change_dic,_node)
+	var listening_parma_arr = CollectionUtilities.get_arr_item_by_key_from_dic(lisnter_node_storage_target_change_dic,_node)
 	for node_item_name_in_interaction_item in node_dic.keys():
 		var node_item = node_dic[node_item_name_in_interaction_item]
 		if _target == node_item:
@@ -361,7 +361,7 @@ func _on_node_param_item_value_change(_node,_param_item,_old_value,_new_value):
 	assert(_param_item)
 #	if interaction_name == "同步容器的修改流体量":
 #		print("同步容器的修改流体量")
-	var listening_parma_arr = CollectionUtilities.get_arr_value_from_dic(lisnter_node_param_value_change_dic,_node)
+	var listening_parma_arr = CollectionUtilities.get_arr_item_by_key_from_dic(lisnter_node_param_value_change_dic,_node)
 	if listening_parma_arr.has(_param_item.name):
 		interaction_status_check()
 
@@ -668,6 +668,4 @@ func transform(_node,_node_param_name):
 	var result = value_change_cache_dic[node_parms] - value_cache_dic[node_parms]
 	return result
 
-		
-	
-		
+

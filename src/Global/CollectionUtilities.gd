@@ -6,8 +6,16 @@ func add_item_to_arr_no_repeat(_arr:Array,_value):
 		return 
 	_arr.push_back(_value)
 
-#TODO 多次用到
-func get_arr_value_from_dic(_type_stuff_dic:Dictionary,_item) -> Array:
-	if not _type_stuff_dic.has(_item):
-		_type_stuff_dic[_item] = []
-	return _type_stuff_dic[_item]
+
+func get_dic_item_by_key_from_dic(_dic,_key) -> Dictionary:
+	if _dic.has(_key):
+		return _dic[_key]
+	_dic[_key] = {}
+	return _dic[_key]
+	
+func get_arr_item_by_key_from_dic(_dic,_key) -> Array:
+	if _dic.has(_key):
+		return _dic[_key]
+	_dic[_key] = []
+	return _dic[_key]
+

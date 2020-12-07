@@ -142,11 +142,11 @@ func iteration_parent_node(_match_node,parent_node):
 			return iteration_parent_node(_match_node,parent_node)
 	return false
 
-#TODO 返回当前碰撞数
+#返回当前碰撞对象数
 func get_colliding_objects_num():
 	return collision_object_arr.size()
 
-#TODO 是否和节点 有碰触
+#是否和节点 有碰触
 func is_colliding(_node):
 	return collision_object_arr.has(_node)
 

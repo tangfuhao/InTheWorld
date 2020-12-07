@@ -91,8 +91,8 @@ func parse_condition_for_restrict_node(_condition_item):
 				
 #根据条件名 寻找监听条件的对象列表  加入目标到 列表
 func add_update_condition_to_dic(_update_condition_by_listening_node_signal_dic,_condition_name,_source,_target):
-	var node_lisntening_signal_dic = DataManager.get_dic_item_by_key_from_dic(_update_condition_by_listening_node_signal_dic,_condition_name)
-	var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(node_lisntening_signal_dic,_source)
+	var node_lisntening_signal_dic = CollectionUtilities.get_dic_item_by_key_from_dic(_update_condition_by_listening_node_signal_dic,_condition_name)
+	var node_lisntening_signal_arr = CollectionUtilities.get_arr_item_by_key_from_dic(node_lisntening_signal_dic,_source)
 	CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_signal_arr,_target)
 
 #根据条件 解析需要监听节点的数据
@@ -178,11 +178,6 @@ func parse_condition_to_set_listening_content(item):
 			elif function_name == "num_of_parent_affiliation":
 				var node_name = function_params.pop_front()
 				node_name = extract_node_name(objecet_regex,node_name)
-				
-#				var node_lisntening_signal_dic = DataManager.get_dic_item_by_key_from_dic(update_condition_by_listening_node_signal_dic,function_name)
-#				var node_lisntening_signal_arr = CollectionUtilities.get_arr_value_from_dic(node_lisntening_signal_dic,node_name)
-#				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_signal_arr,"node_add_to_main_scene")
-#				CollectionUtilities.add_item_to_arr_no_repeat(node_lisntening_signal_arr,"node_remove_to_main_scene")
 				
 				add_update_condition_to_dic(update_condition_by_listening_node_signal_dic,function_name,node_name,"node_add_to_main_scene")
 				add_update_condition_to_dic(update_condition_by_listening_node_signal_dic,function_name,node_name,"node_remove_to_main_scene")

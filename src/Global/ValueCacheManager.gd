@@ -47,14 +47,14 @@ func _on_node_disappear_notify(_stuff):
 
 func _on_node_param_item_value_change(_node,_param_item,_old_value,_new_value):
 	if not value_cache_dic.has(_node):
-		var node_param_dic = DataManager.get_dic_item_by_key_from_dic(value_cache_dic,_node)
+		var node_param_dic = CollectionUtilities.get_dic_item_by_key_from_dic(value_cache_dic,_node)
 		node_param_dic[_param_item] = _old_value
 	else:
 		var node_param_dic = value_cache_dic[_node]
 		if not node_param_dic.has(_param_item):
 			node_param_dic[_param_item] = _old_value
 	
-	var node_param_change_dic = DataManager.get_dic_item_by_key_from_dic(value_change_cache_dic,_node)
+	var node_param_change_dic = CollectionUtilities.get_dic_item_by_key_from_dic(value_change_cache_dic,_node)
 	node_param_change_dic[_param_item] = _param_item.value
 
 func _on_node_binding_dependency_change(_node,_target):
@@ -84,7 +84,7 @@ func get_affiliation(_key,_node1,_node2):
 #获取未更新前的属性值
 func get_value_param(_node,_node_parms):
 	if not value_cache_dic.has(_node):
-		var node_param_arr = DataManager.get_dic_item_by_key_from_dic(value_cache_dic,_node)
+		var node_param_arr = CollectionUtilities.get_dic_item_by_key_from_dic(value_cache_dic,_node)
 		node_param_arr[_node_parms] = _node_parms.value
 	var node_param_cache_dic = value_cache_dic[_node]
 	if not node_param_cache_dic.has(_node_parms):
@@ -100,7 +100,7 @@ func apply_change_cache():
 
 	for item in value_change_cache_dic.keys():
 		var node_param_change_dic = value_change_cache_dic[item]
-		var node_param_dic = DataManager.get_dic_item_by_key_from_dic(value_cache_dic,item)
+		var node_param_dic = CollectionUtilities.get_dic_item_by_key_from_dic(value_cache_dic,item)
 		for node_param_item in node_param_change_dic.keys():
 			node_param_dic[node_param_item] = node_param_change_dic[node_param_item]
 	value_change_cache_dic.clear()
