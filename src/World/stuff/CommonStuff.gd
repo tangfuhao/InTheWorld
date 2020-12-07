@@ -367,14 +367,15 @@ func set_param_value(_param_name,_param_value):
 var next_frame_disappear = false
 
 #移除节点
+#TODO 标志设置为移除了之后  在其他缓存节点 应该也不被使用
 func disappear():
 	next_frame_disappear = true
+	yield(get_tree(),"idle_frame")
 	notify_before_disappear()
 	yield(get_tree(),"idle_frame")
+	emit_signal("disappear_notify",self)
 	queue_free()
-	#只有在场景上 才会通知这个事件
-	if is_inside_tree():
-		emit_signal("disappear_notify",self)
+	
 
 	
 
