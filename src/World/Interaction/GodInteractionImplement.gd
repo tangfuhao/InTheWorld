@@ -281,8 +281,8 @@ func binding_node_state_update(_node_declare_name,_node_item):
 	if update_condition_by_listening_node_signal_dic.has("is_colliding"):
 		var node_lisntening_signal_arr = get_node_lisntening_signal_arr(_node_declare_name,"is_colliding")
 		if not node_lisntening_signal_arr.empty():
-			_node_item.connect("node_collision_add_object",self,"_on_node_collision_object_update")
-			_node_item.connect("node_collision_remove_object",self,"_on_node_collision_object_update")
+			_node_item.connect("node_collision_add_object",self,"_on_node_interaction_add_object")
+			_node_item.connect("node_collision_remove_object",self,"_on_node_cllision_remove_object")
 		add_object_to_listening_list(_node_item,node_lisntening_signal_arr,lisnter_node_cllision_target_change_dic)
 		
 	#是否在场景上
