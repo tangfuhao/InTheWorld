@@ -102,10 +102,10 @@ func parse_condition_for_restrict_node(_condition_item):
 
 
 				var node_match_item:InteractionNodeMatching = find_node_matching(node_name)
-				node_match_item.add_restrict_node_condition("be_binding",target_node_name)
+				node_match_item.add_restrict_node_condition(function_name,target_node_name)
 
 				var node_match_item2:InteractionNodeMatching = find_node_matching(target_node_name)
-				node_match_item2.add_restrict_node_condition(function_name,node_name)
+				node_match_item2.add_restrict_node_condition("be_binding",node_name)
 
 			elif function_name == "is_storing":
 				var node_name = function_params.pop_front()
@@ -115,10 +115,10 @@ func parse_condition_for_restrict_node(_condition_item):
 
 
 				var node_match_item:InteractionNodeMatching = find_node_matching(node_name)
-				node_match_item.add_restrict_node_condition("be_storing",target_node_name)
+				node_match_item.add_restrict_node_condition(function_name,target_node_name)
 
 				var node_match_item2:InteractionNodeMatching = find_node_matching(target_node_name)
-				node_match_item2.add_restrict_node_condition(function_name,node_name)
+				node_match_item2.add_restrict_node_condition("be_storing",node_name)
 
 			elif function_name == "is_colliding":
 				var node_name = function_params.pop_front()
@@ -141,10 +141,10 @@ func parse_condition_for_restrict_node(_condition_item):
 
 
 				var node_match_item:InteractionNodeMatching = find_node_matching(node_name)
-				node_match_item.add_restrict_node_condition("be_affiliation",target_node_name)
+				node_match_item.add_restrict_node_condition(function_name,target_node_name)
 
 				var node_match_item2:InteractionNodeMatching = find_node_matching(target_node_name)
-				node_match_item2.add_restrict_node_condition(function_name,node_name)
+				node_match_item2.add_restrict_node_condition("be_affiliation",node_name)
 
 			elif function_name == "affiliation_change":
 				var node_name = function_params.pop_front()

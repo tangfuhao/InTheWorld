@@ -227,23 +227,26 @@ func verify_node_matching_for_node_pair(_node_matching_index,_node_matchings:Arr
 				continue
 				
 			var local_node_pair = _node_pair.duplicate()
+			local_node_pair[node_name_in_interaction] = restrict_node_item
 			#把限制出的节点对集合 给 当前节点对集合
 			for restrict_condition_node_name_item in restrict_condition_node_dic.keys():
 				var limit_node_arr = restrict_condition_node_dic[restrict_condition_node_name_item]
-				var current_restrict_node_arr = CollectionUtilities.get_arr_item_by_key_from_dic(local_node_pair,restrict_condition_node_name_item)
+				var current_restrict_value = CollectionUtilities.get_arr_item_by_key_from_dic(local_node_pair,restrict_condition_node_name_item)
 				
-				if current_restrict_node_arr is Array:
-					if not current_restrict_node_arr.empty():
-						limit_node_arr = array_intersection(current_restrict_node_arr,limit_node_arr)
-				else:
-					if current_restrict_node_arr:
-						limit_node_arr = array_intersection([current_restrict_node_arr],limit_node_arr)
-						
+				if current_restrict_value is Array:
+					if not current_restrict_value.empty():
+						limit_node_arr = array_intersection(current_restrict_value,limit_node_arr)
 					
-				local_node_pair[restrict_condition_node_name_item] = limit_node_arr
-				if limit_node_arr.empty():
-					local_node_pair = {}
-					break
+					if limit_node_arr.empty():
+						local_node_pair = {}
+						break
+					local_node_pair[restrict_condition_node_name_item] = limit_node_arr
+					
+				else:
+					if not limit_node_arr.has(current_restrict_value):
+						local_node_pair = {}
+						break
+
 			if local_node_pair.empty():
 				continue
 			
@@ -285,14 +288,17 @@ func verify_node_matching_for_node_pair(_node_matching_index,_node_matchings:Arr
 				if current_restrict_value is Array:
 					if not current_restrict_value.empty():
 						limit_node_arr = array_intersection(current_restrict_value,limit_node_arr)
-				else:
-					if current_restrict_value:
-						limit_node_arr = array_intersection([current_restrict_value],limit_node_arr)
 					
-				local_node_pair[restrict_condition_node_name_item] = limit_node_arr
-				if limit_node_arr.empty():
-					local_node_pair = {}
-					break
+					if limit_node_arr.empty():
+						local_node_pair = {}
+						break
+					local_node_pair[restrict_condition_node_name_item] = limit_node_arr
+					
+				else:
+					if not limit_node_arr.has(current_restrict_value):
+						local_node_pair = {}
+						break
+
 			if local_node_pair.empty():
 				continue
 			
