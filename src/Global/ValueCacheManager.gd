@@ -11,19 +11,24 @@ var value_change_cache_dic := {}
 #被联系的对象 和 联系它的对象
 var be_affiliation_node_dic := {}
 var be_affiliation_node_change_dic := {}
+var affiliation_node_change_dic := {}
 
 func _process(delta):
 	apply_change_cache()
 	
+func get_affiliation_change(_node:Node2D):
+	if be_affiliation_node_change_dic.has(_node):
+		return be_affiliation_node_change_dic[_node]
+	elif affiliation_node_change_dic.has(_node):
+		return affiliation_node_change_dic[_node]
+	return null
+
 #新增新的节点
 func add_monitor_node(_node:Node2D):
 	_node.connect("disappear_notify",self,"_on_node_disappear_notify")
 	_node.connect("node_param_item_value_change",self,"_on_node_param_item_value_change")
 	_node.connect("node_binding_to",self,"_on_node_binding_dependency_change")
 	_node.connect("node_storage_to",self,"_on_node_storage_dependency_change")
-	
-#	var affiliation_node = _node.get_parent().get_parent()
-#	be_affiliation_node_dic[_node] = affiliation_node
 
 
 func _on_node_disappear_notify(_stuff):
@@ -39,7 +44,13 @@ func _on_node_disappear_notify(_stuff):
 		value_cache_dic.erase(_stuff)
 		
 	if be_affiliation_node_change_dic.has(_stuff):
+		var be_affiliation_node_change_arr = be_affiliation_node_change_dic[_stuff]
+		for item in be_affiliation_node_change_arr:
+			var affiliation_node_change_arr = affiliation_node_change_dic[item]
+			affiliation_node_change_arr.erase(item)
 		be_affiliation_node_change_dic.erase(_stuff)
+		
+		
 	
 	if be_affiliation_node_dic.has(_stuff):
 		be_affiliation_node_dic.erase(_stuff)
@@ -59,26 +70,36 @@ func _on_node_param_item_value_change(_node,_param_item,_old_value,_new_value):
 
 func _on_node_binding_dependency_change(_node,_target):
 	var affiliation_node = _node.get_parent().get_parent()
-	be_affiliation_node_change_dic[_node] = affiliation_node
+	var be_affiliation_node_change_arr = CollectionUtilities.get_arr_item_by_key_from_dic(be_affiliation_node_change_dic,_node)
+	CollectionUtilities.add_item_to_arr_no_repeat(be_affiliation_node_change_arr,affiliation_node)
+
+	var affiliation_node_change_arr = CollectionUtilities.get_arr_item_by_key_from_dic(affiliation_node_change_dic,affiliation_node)
+	CollectionUtilities.add_item_to_arr_no_repeat(affiliation_node_change_arr,_node)
 	
 	
 
 func _on_node_storage_dependency_change(_node,_target):
 	var affiliation_node = _node.get_parent().get_parent()
-	be_affiliation_node_change_dic[_node] = affiliation_node
+	var be_affiliation_node_change_arr = CollectionUtilities.get_arr_item_by_key_from_dic(be_affiliation_node_change_dic,_node)
+	CollectionUtilities.add_item_to_arr_no_repeat(be_affiliation_node_change_arr,affiliation_node)
+
+	var affiliation_node_change_arr = CollectionUtilities.get_arr_item_by_key_from_dic(affiliation_node_change_dic,affiliation_node)
+	CollectionUtilities.add_item_to_arr_no_repeat(affiliation_node_change_arr,_node)
 
 
 
 #获取未更新前的联系状态
 #TODO 有重复询问绑定问题  石块-1 石块-1
+#TODO 有顺序的问题
 func get_affiliation(_key,_node1,_node2):
 	if not be_affiliation_node_dic.has(_node2):
 		var affiliation_node = _node2.get_parent().get_parent()
-		be_affiliation_node_change_dic[_node2] = affiliation_node
+		var be_affiliation_node_change_arr = CollectionUtilities.get_arr_item_by_key_from_dic(be_affiliation_node_change_dic,_node2)
+		be_affiliation_node_change_arr.push_back(affiliation_node)
 		return false
 	else:
-		var old_parent = be_affiliation_node_dic[_node2]
-		return old_parent == _node1
+		var old_parent_arr = be_affiliation_node_dic[_node2]
+		return old_parent_arr.has(_node1)
 
 
 #获取未更新前的属性值
@@ -95,8 +116,13 @@ func get_value_param(_node,_node_parms):
 #将改变的缓存 同步到 最新数据
 func apply_change_cache():
 	for item in be_affiliation_node_change_dic.keys():
-		be_affiliation_node_dic[item] = be_affiliation_node_change_dic[item]
+		var be_affiliation_node_change_arr = be_affiliation_node_change_dic[item]
+		for be_affiliation_node_item in be_affiliation_node_change_arr:
+			var be_affiliation_node_arr = CollectionUtilities.get_arr_item_by_key_from_dic(be_affiliation_node_dic,item)
+			CollectionUtilities.add_item_to_arr_no_repeat(be_affiliation_node_arr,be_affiliation_node_item)
+
 	be_affiliation_node_change_dic.clear()
+	affiliation_node_change_dic.clear()
 
 	for item in value_change_cache_dic.keys():
 		var node_param_change_dic = value_change_cache_dic[item]
@@ -109,6 +135,7 @@ func apply_change_cache():
 #某个条件满足 清理所有缓存
 func clear_interaction_chache():
 	be_affiliation_node_change_dic.clear()
+	affiliation_node_change_dic.clear()
 	be_affiliation_node_dic.clear()
 	value_change_cache_dic.clear()
 	value_cache_dic.clear()

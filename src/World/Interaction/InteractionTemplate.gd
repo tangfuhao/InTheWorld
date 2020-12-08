@@ -80,15 +80,87 @@ func parse_condition_for_restrict_node(_condition_item):
 			var group = match_item.get_string(1)
 			var function_params = Array(group.split(","))
 			var function_name = function_params.pop_front()
-			if function_name == "can_interact" or function_name == "is_binding" or function_name == "is_storing" or function_name == "is_colliding" or function_name == "is_affiliation":
+
+			
+			if function_name == "can_interact":
 				var node_name = function_params.pop_front()
 				node_name = extract_node_name(objecet_regex,node_name)
 				var target_node_name = function_params.pop_front()
 				target_node_name = extract_node_name(objecet_regex,target_node_name)
-				
+
 				var node_match_item:InteractionNodeMatching = find_node_matching(node_name)
 				node_match_item.add_restrict_node_condition(function_name,target_node_name)
-				
+
+				var node_match_item2:InteractionNodeMatching = find_node_matching(target_node_name)
+				node_match_item2.add_restrict_node_condition(function_name,node_name)
+
+			elif function_name == "is_binding":
+				var node_name = function_params.pop_front()
+				node_name = extract_node_name(objecet_regex,node_name)
+				var target_node_name = function_params.pop_front()
+				target_node_name = extract_node_name(objecet_regex,target_node_name)
+
+
+				var node_match_item:InteractionNodeMatching = find_node_matching(node_name)
+				node_match_item.add_restrict_node_condition("be_binding",target_node_name)
+
+				var node_match_item2:InteractionNodeMatching = find_node_matching(target_node_name)
+				node_match_item2.add_restrict_node_condition(function_name,node_name)
+
+			elif function_name == "is_storing":
+				var node_name = function_params.pop_front()
+				node_name = extract_node_name(objecet_regex,node_name)
+				var target_node_name = function_params.pop_front()
+				target_node_name = extract_node_name(objecet_regex,target_node_name)
+
+
+				var node_match_item:InteractionNodeMatching = find_node_matching(node_name)
+				node_match_item.add_restrict_node_condition("be_storing",target_node_name)
+
+				var node_match_item2:InteractionNodeMatching = find_node_matching(target_node_name)
+				node_match_item2.add_restrict_node_condition(function_name,node_name)
+
+			elif function_name == "is_colliding":
+				var node_name = function_params.pop_front()
+				node_name = extract_node_name(objecet_regex,node_name)
+				var target_node_name = function_params.pop_front()
+				target_node_name = extract_node_name(objecet_regex,target_node_name)
+
+
+				var node_match_item:InteractionNodeMatching = find_node_matching(node_name)
+				node_match_item.add_restrict_node_condition(function_name,target_node_name)
+
+				var node_match_item2:InteractionNodeMatching = find_node_matching(target_node_name)
+				node_match_item2.add_restrict_node_condition(function_name,node_name)
+
+			elif function_name == "is_affiliation":
+				var node_name = function_params.pop_front()
+				node_name = extract_node_name(objecet_regex,node_name)
+				var target_node_name = function_params.pop_front()
+				target_node_name = extract_node_name(objecet_regex,target_node_name)
+
+
+				var node_match_item:InteractionNodeMatching = find_node_matching(node_name)
+				node_match_item.add_restrict_node_condition("be_affiliation",target_node_name)
+
+				var node_match_item2:InteractionNodeMatching = find_node_matching(target_node_name)
+				node_match_item2.add_restrict_node_condition(function_name,node_name)
+
+			elif function_name == "affiliation_change":
+				var node_name = function_params.pop_front()
+				node_name = extract_node_name(objecet_regex,node_name)
+				var target_node_name = function_params.pop_front()
+				target_node_name = extract_node_name(objecet_regex,target_node_name)
+
+
+				var node_match_item:InteractionNodeMatching = find_node_matching(node_name)
+				node_match_item.add_restrict_node_condition(function_name,target_node_name)
+
+				var node_match_item2:InteractionNodeMatching = find_node_matching(target_node_name)
+				node_match_item2.add_restrict_node_condition(function_name,node_name)
+
+
+
 #根据条件名 寻找监听条件的对象列表  加入目标到 列表
 func add_update_condition_to_dic(_update_condition_by_listening_node_signal_dic,_condition_name,_source,_target):
 	var node_lisntening_signal_dic = CollectionUtilities.get_dic_item_by_key_from_dic(_update_condition_by_listening_node_signal_dic,_condition_name)
@@ -353,8 +425,26 @@ class IneractionRestrictCondition:
 					node_arr.push_back(item)
 		elif restrict_mode == "is_binding":
 			node_arr = _node.bind_layer.get_children()
+		elif restrict_mode == "be_binding":
+			var parent_node = _node.get_parent()
+			
+			if parent_node.has_method("container_type"):
+				var container_type = parent_node.container_type()
+				if container_type == "binder":
+					parent_node = parent_node.get_parent()
+					node_arr.push_back(parent_node)
+				
+	
 		elif restrict_mode == "is_storing":
 			node_arr = _node.storage_layer.get_children()
+		
+		elif restrict_mode == "be_storing":
+			var parent_node = _node.get_parent()
+			if parent_node.has_method("container_type"):
+				var container_type = parent_node.container_type()
+				if container_type == "storage":
+					parent_node = parent_node.get_parent()
+					node_arr.push_back(parent_node)
 		elif restrict_mode == "is_colliding":
 			node_arr = _node.collision_object_arr
 		elif restrict_mode == "is_affiliation":
@@ -364,7 +454,11 @@ class IneractionRestrictCondition:
 			for item in store_node_arr:
 				if not node_arr.has(item):
 					node_arr.push_back(item)
-
+					
+		elif restrict_mode == "affiliation_change":
+			var affiliation_node = ValueCacheManager.get_affiliation_change(_node)
+			if affiliation_node:
+				node_arr.push_back(affiliation_node)
 		return node_arr
 
 #节点匹配项
