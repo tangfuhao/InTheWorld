@@ -248,24 +248,22 @@ func notify_disappear():
 
 #因物品交互激活
 func interaction_from_stuff(_node:Node2D):
-	interactive_object_list.push_back(_node)
-#	emit_signal("node_interaction_add_object",self,_node)
+	CollectionUtilities.add_item_to_arr_no_repeat(interactive_object_list,_node)
+
 
 #因物品 取消 交互激活
 func un_interaction_from_stuff(_node:Node2D):
-	interactive_object_list.erase(_node)
-#	emit_signal("node_interaction_remove_object",self,_node)
+	CollectionUtilities.remove_item_from_arr(interactive_object_list,_node)
 
 
 #因物品 碰撞
 func collision_from_stuff(_node:Node2D):
-	collision_object_arr.push_back(_node)
-#	emit_signal("node_collision_add_object",self,_node)
+	CollectionUtilities.add_item_to_arr_no_repeat(collision_object_arr,_node)
+
 
 #因物品 取消 碰撞
 func un_collision_from_stuff(_node:Node2D):
-	collision_object_arr.erase(_node)
-#	emit_signal("node_collision_remove_object",self,_node)
+	CollectionUtilities.remove_item_from_arr(collision_object_arr,_node)
 
 
 

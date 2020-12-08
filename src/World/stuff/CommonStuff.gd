@@ -416,26 +416,6 @@ func notify_node_remove_to_main_scene():
 
 
 
-#执行影响改变
-func excute_effect(effect_param_arr):
-	var effect_value_name = effect_param_arr[0]
-	var value = get_param_value(effect_value_name)
-	assert(value)
-	set_param_value(effect_value_name,evaluateResult(value,effect_param_arr[1],effect_param_arr[2]))
-
-func evaluateResult(property, condition, value) -> float:
-	if property is String:
-		property = float(property)
-	if value is String:
-		value = float(value)
-	if condition == '-':
-		var result = property - value
-		return result
-	elif condition == '+':
-		var result = property + value
-		return result
-	return property
-
 #TODO 返回当前碰撞数
 func get_colliding_objects_num():
 	return collision_object_arr.size()
@@ -448,8 +428,7 @@ func is_colliding(_node):
 func add_to_collision_object_arr(_node):
 	if not is_rigid_body or not _node.is_rigid_body:
 		collision_object_arr.push_back(_node)
-		if _node is Player:
-			_node.collision_from_stuff(self)
+		_node.collision_from_stuff(self)
 		
 		emit_signal("node_collision_add_object",self,_node)
 		
@@ -458,12 +437,27 @@ func add_to_collision_object_arr(_node):
 func remove_from_collision_object_arr(_node):
 	if not is_rigid_body or not _node.is_rigid_body:
 		collision_object_arr.erase(_node)
-		if _node is Player:
-			_node.un_collision_from_stuff(self)
+		_node.un_collision_from_stuff(self)
 		emit_signal("node_collision_remove_object",self,_node)
-		
-		
 
+#因物品交互激活
+func interaction_from_stuff(_node:Node2D):
+	CollectionUtilities.add_item_to_arr_no_repeat(interactive_object_list,_node)
+
+
+#因物品 取消 交互激活
+func un_interaction_from_stuff(_node:Node2D):
+	CollectionUtilities.remove_item_from_arr(interactive_object_list,_node)
+
+
+#因物品 碰撞
+func collision_from_stuff(_node:Node2D):
+	CollectionUtilities.add_item_to_arr_no_repeat(collision_object_arr,_node)
+
+
+#因物品 取消 碰撞
+func un_collision_from_stuff(_node:Node2D):
+	CollectionUtilities.remove_item_from_arr(collision_object_arr,_node)
 
 
 
@@ -471,8 +465,7 @@ func remove_from_collision_object_arr(_node):
 func _on_InteractArea_body_entered(body):
 	if not interactive_object_list.has(body):
 		interactive_object_list.push_back(body)
-		if body is Player:
-			body.interaction_from_stuff(self)
+		body.interaction_from_stuff(self)
 		emit_signal("node_interaction_add_object",self,body)
 		
 		
@@ -483,8 +476,7 @@ func _on_InteractArea_body_exited(body):
 	if interaction_onwer == body:
 		return 
 	interactive_object_list.erase(body)
-	if body is Player:
-		body.un_interaction_from_stuff(self)
+	body.un_interaction_from_stuff(self)
 	emit_signal("node_interaction_remove_object",self,body)
 	
 

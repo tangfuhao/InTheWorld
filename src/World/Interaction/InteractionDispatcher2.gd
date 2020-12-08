@@ -96,6 +96,7 @@ func create_node_relation_interaction(_node):
 		#包括 指代名 类型 节点受限条件 和 非受限条件
 		var node_matchings = interaction_template_item.get_node_matchings()
 		for node_matching_item in node_matchings:
+			#TODO 优化点 空间换时间
 			if not DataManager.is_belong_type(node_matching_item.node_type,_node.stuff_type_name):
 				continue
 
