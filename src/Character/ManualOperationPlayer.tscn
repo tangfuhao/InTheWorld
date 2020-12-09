@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://src/Character/ManualOperationPlayer.gd" type="Script" id=1]
 [ext_resource path="res://src/Character/LabelLayout.tscn" type="PackedScene" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://src/Character/HurtBox.tscn" type="PackedScene" id=8]
 [ext_resource path="res://src/Character/BindLayer.tscn" type="PackedScene" id=9]
 [ext_resource path="res://src/Character/Storage.tscn" type="PackedScene" id=10]
+[ext_resource path="res://src/Character/CPU.tscn" type="PackedScene" id=11]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 3.97226
@@ -68,6 +69,10 @@ script = ExtResource( 6 )
 [node name="BindLayer" parent="." instance=ExtResource( 9 )]
 
 [node name="InteractionLayer" type="Node2D" parent="."]
+
+[node name="CPU" parent="." instance=ExtResource( 11 )]
+visible = false
+control_obj = NodePath("..")
 [connection signal="mouse_entered" from="." to="." method="_on_ManualOperationPlayer_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_ManualOperationPlayer_mouse_exited"]
 [connection signal="param_item_value_change" from="PlayerParam" to="." method="_on_PlayerParam_param_item_value_change"]

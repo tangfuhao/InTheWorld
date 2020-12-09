@@ -417,10 +417,6 @@ func parse_motivation_text(_active_motivation_arr):
 
 
 func handle_player_ai_data(_item_dic,_item):
-	var status_path = _item["status"]
-	var status_dic = parse_status(load_json_data(status_path))
-	_item_dic["status"] = status_dic
-	
 	var motivation_path = _item["motivation"]
 	var motivation_dic = parse_motivations(load_json_data(motivation_path))
 	_item_dic["motivation"] = motivation_dic
@@ -507,25 +503,25 @@ func parse_response_system(_response_system_arr):
 		response_action_dic[item["请求许可的行为"]] = item
 	return response_action_dic
 		
-func parse_status(_status_arr):
-	var status_dic = {}
-	for item in _status_arr:
-		var status_model := StatusModel.new()
-		var status_name = item["状态名"]
-		status_model.status_name = status_name
-		if item.has("默认值"):
-			status_model.status_value = item["默认值"]
+# func parse_status(_status_arr):
+# 	var status_dic = {}
+# 	for item in _status_arr:
+# 		var status_model := StatusModel.new()
+# 		var status_name = item["状态名"]
+# 		status_model.status_name = status_name
+# 		if item.has("默认值"):
+# 			status_model.status_value = item["默认值"]
 		
-		if item.has("影响状态的条件组"):
-			var effects = item["影响状态的条件组"]
-			if typeof(effects) == TYPE_ARRAY:
-				var status_conditions = parse_conditions(effects)
-				status_model.status_conditions = status_conditions
-			else:
-				print("unexpected results")
+# 		if item.has("影响状态的条件组"):
+# 			var effects = item["影响状态的条件组"]
+# 			if typeof(effects) == TYPE_ARRAY:
+# 				var status_conditions = parse_conditions(effects)
+# 				status_model.status_conditions = status_conditions
+# 			else:
+# 				print("unexpected results")
 				
-		status_dic[status_name] = status_model
-	return status_dic
+# 		status_dic[status_name] = status_model
+# 	return status_dic
 
 #解析条件队列
 func parse_conditions(effects_arr):

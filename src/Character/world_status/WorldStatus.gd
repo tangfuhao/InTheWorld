@@ -15,33 +15,9 @@ func setup(_control_node):
 	world_status_dic["可以移动"] = true
 	world_status_dic["周围没有其他人"] = true
 	world_status_dic["其他人没有武器"] = true
-	
-	# world_status_dic["受到攻击"] = false
-	# world_status_dic["不受攻击十秒"] = true
-	
 	world_status_dic["未躲入十秒"] = true
-
-	# world_status_dic["不在近战攻击范围"] = true
-	# world_status_dic["不在远程攻击范围"] = true
-	# world_status_dic["在近战攻击范围"] = false
-	# world_status_dic["在远程攻击范围"] = false
-
-	# world_status_dic["周围有人在喝酒"] = false
-	# world_status_dic["周围有人在聊天"] = false
 	world_status_dic["淋浴间可用"] = true
-#	world_status_dic["淋浴间被占用"] = false
-#	world_status_dic["化身位置"] = "空地"
-#	world_status_dic["非常困"] = false
-	
-#	world_status_dic["看到喜欢的人"] = false
-#	world_status_dic["周围只有喜欢的人"] = false
-#	world_status_dic["看到喜欢的人没穿衣服"] = false
-#	world_status_dic["和喜欢的人在床上"] = false
-#	world_status_dic["周围是黑的"] = false
-#	world_status_dic["拥有:可弹情歌的"] = false
-#	world_status_dic["拥有:是流体的"] = false
-#	world_status_dic["没有远程武器"] = true
-#	world_status_dic["有远程武器"] = false
+
 
 
 

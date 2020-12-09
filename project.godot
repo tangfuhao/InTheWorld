@@ -399,11 +399,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/Character/status/StatusEffectModel.gd"
 }, {
-"base": "Reference",
-"class": "StatusModel",
-"language": "GDScript",
-"path": "res://src/Character/status/StatusModel.gd"
-}, {
 "base": "Node2D",
 "class": "Storage",
 "language": "GDScript",
@@ -533,7 +528,6 @@ _global_script_class_icons={
 "Sensor": "",
 "Status": "",
 "StatusEffectModel": "",
-"StatusModel": "",
 "Storage": "",
 "Strategy": "",
 "StrategyChain": "",

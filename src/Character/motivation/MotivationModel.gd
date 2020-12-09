@@ -10,18 +10,21 @@ signal motivation_active_change(motivation)
 signal motivation_value_change(motivation)
 
 func binding_status_value_change(_status_model):
-	_on_status_value_update(_status_model)
-	_status_model.connect("status_value_update",self,"_on_status_value_update")
+	check_statuc_value_update(_status_model)
+	_status_model.connect("param_item_value_change",self,"_on_status_value_update")
 
-#更新状态值
-func _on_status_value_update(status):
-	var value = status.status_value
+func check_statuc_value_update(_param_item):
+	var value = _param_item.value
 	#激活
 	if value < 0.8:
 		#加入增益
 		self.motivation_value = value + active_gain
 	else:
 		self.motivation_value = value
+
+#更新状态值
+func _on_status_value_update(_param_item,_old_value,_new_value):
+	check_statuc_value_update(_param_item)
 
 func set_motivation_value(value):
 	var is_active_temp = is_active
