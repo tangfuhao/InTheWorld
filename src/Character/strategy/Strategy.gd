@@ -50,7 +50,7 @@ func handle_re_plan_request():
 		if current_running_task:
 			current_running_task.active()
 
-func process_task(_delta: float):
+func _process(_delta: float):
 	var current_delta = _delta
 	handle_re_plan_request()
 
