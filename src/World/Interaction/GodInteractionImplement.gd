@@ -127,89 +127,6 @@ func _process(delta):
 		is_finish = true
 	
 
-		
-func clone_data(_node_pair,_active_execute,_process_execute,_terminate_execute,_break_execute):
-	node_dic = _node_pair
-	for item in _active_execute:
-		active_execute.push_back(clone_node_effect(item))
-	for item in _process_execute:
-		process_execute.push_back(clone_node_effect(item))
-	for item in _terminate_execute:
-		terminate_execute.push_back(clone_node_effect(item))
-	for item in _break_execute:
-		break_execute.push_back(clone_node_effect(item))
-		
-func clone_node_effect(_node_effect):
-	if _node_effect is NodeParamEffect:
-		var clone_obejct = NodeParamEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.param_name = _node_effect.param_name
-		clone_obejct.transform = _node_effect.transform
-		clone_obejct.assign = _node_effect.assign
-#		clone_obejct.node = node_dic[clone_obejct.node_name]
-		return clone_obejct
-	elif _node_effect is NodeChangePositionEffect:
-		var clone_obejct = NodeChangePositionEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.position = _node_effect.position
-#		clone_obejct.node = node_dic[clone_obejct.node_name]
-		return clone_obejct
-	elif _node_effect is NodeStoreEffect:
-		var clone_obejct = NodeStoreEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.store_node = _node_effect.store_node
-#		clone_obejct.node = node_dic[clone_obejct.node_name]
-		return clone_obejct
-	elif _node_effect is NodeBindEffect:
-		var clone_obejct = NodeBindEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.bind_node = _node_effect.bind_node
-#		clone_obejct.node = node_dic[clone_obejct.node_name]
-		return clone_obejct
-	elif _node_effect is NodeReleaseEffect:
-		var clone_obejct = NodeReleaseEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.release_node = _node_effect.release_node
-#		clone_obejct.node = node_dic[clone_obejct.node_name]
-		return clone_obejct
-	elif _node_effect is NodeCreateEffect:
-		var clone_obejct = NodeCreateEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.create_name = _node_effect.create_name
-		clone_obejct.params_arr = _node_effect.params_arr
-#		clone_obejct.node = node_dic[clone_obejct.node_name]
-		return clone_obejct
-	elif _node_effect is NodeDisappearEffect:
-		var clone_obejct = NodeDisappearEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.disppear_node = _node_effect.disppear_node
-		return clone_obejct
-	elif _node_effect is NodeSendInfoToTargetEffect:
-		var clone_obejct = NodeSendInfoToTargetEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.send_info = _node_effect.send_info
-		clone_obejct.info_target = _node_effect.info_target
-		return clone_obejct
-	elif _node_effect is NodeSendInfoToTargetEffect:
-		var clone_obejct = NodeSendInfoToTargetEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.send_info = _node_effect.send_info
-		clone_obejct.info_target = _node_effect.info_target
-		return clone_obejct
-	elif _node_effect is NodeRequestInputEffect:
-		var clone_obejct = NodeRequestInputEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.request_input = _node_effect.request_input
-		clone_obejct.bind_param = _node_effect.bind_param
-		return clone_obejct
-	elif _node_effect is NodeAddToConceptEffect:
-		var clone_obejct = NodeAddToConceptEffect.new()
-		clone_obejct.node_name = _node_effect.node_name
-		clone_obejct.concept_config_arr = _node_effect.concept_config_arr
-		return clone_obejct
-	else:
-		assert(false)
-		
 
 func init_origin_value():
 	current_progress = 0
@@ -556,6 +473,31 @@ func clear_interaction_chache():
 	
 
 
+func transform_bool_to_int(_value):
+	if _value:
+		return 1
+	else:
+		return 0
+		
+func affiliation_change(_node1,_node2):
+	var key = "%s%s" % [_node1.node_name,_node2.node_name]
+	var new_value = is_binding(_node1,_node2) or is_storing(_node1,_node2)
+	
+	
+	var un_update_value
+	#没有默认值  通过全局对象 获取默认值  
+	if affiliation_cache_dic.has(key):
+		un_update_value = affiliation_cache_dic[key]
+	else:
+		un_update_value = ValueCacheManager.get_affiliation(key,_node1,_node2)
+		affiliation_cache_dic[key] = un_update_value
+	
+	affiliation_change_cache_dic[key] = new_value
+	var result = un_update_value != new_value
+	
+	
+	return transform_bool_to_int(result)
+
 func affiliation_unchange(_node1,_node2):
 	if affiliation_change(_node1,_node2) == 0:
 		return 1
@@ -563,11 +505,7 @@ func affiliation_unchange(_node1,_node2):
 		return 0
 
 
-func transform_bool_to_int(_value):
-	if _value:
-		return 1
-	else:
-		return 0
+
 	
 func is_binding(_node1,_node2):
 	if _node1.next_frame_disappear or _node2.next_frame_disappear:
@@ -622,27 +560,7 @@ func is_colliding(_node1,_node2):
 		return transform_bool_to_int(_node2.is_colliding(_node1))
 	else:
 		assert(false)
-		
 
-func affiliation_change(_node1,_node2):
-	var key = "%s%s" % [_node1.node_name,_node2.node_name]
-	var new_value = is_binding(_node1,_node2) or is_storing(_node1,_node2)
-	
-	
-	var un_update_value
-	#没有默认值  通过全局对象 获取默认值  
-	if affiliation_cache_dic.has(key):
-		un_update_value = affiliation_cache_dic[key]
-	else:
-		un_update_value = ValueCacheManager.get_affiliation(key,_node1,_node2)
-		affiliation_cache_dic[key] = un_update_value
-	
-	affiliation_change_cache_dic[key] = new_value
-	var result = un_update_value != new_value
-	
-	
-	return transform_bool_to_int(result)
-		
 func is_value_change(_node,_param_name):
 	var new_node_param_value = _node.get_param_value(_param_name)
 	var node_parms = _node.param.get_value(_param_name)

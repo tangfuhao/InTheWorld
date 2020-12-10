@@ -477,6 +477,13 @@ func clear_interaction_chache():
 	value_cache_dic.clear()
 	
 
+
+func transform_bool_to_int(_value):
+	if _value:
+		return 1
+	else:
+		return 0
+
 func affiliation_change(_node1,_node2):
 	var result = false
 	var value = is_binding(_node1,_node2) or is_storing(_node1,_node2)
@@ -497,12 +504,6 @@ func affiliation_unchange(_node1,_node2):
 		return 0
 
 
-func transform_bool_to_int(_value):
-	if _value:
-		return 1
-	else:
-		return 0
-	
 func is_binding(_node1,_node2):
 	if _node1.next_frame_disappear or _node2.next_frame_disappear:
 		return 0
@@ -535,13 +536,7 @@ func is_equal(_value1,_value2):
 	return transform_bool_to_int(_value1 == _value2)
 
 
-func is_value_change(_node,_param_name):
-	var result = false
-	var node_parms = _node.param.get_value(_param_name)
-	if value_cache_dic.has(node_parms):
-		result = value_cache_dic[node_parms] != node_parms.value
-	value_change_cache_dic[node_parms] = node_parms.value
-	return transform_bool_to_int(result)
+
 	
 func num_of_parent_affiliation(_node:Node2D):
 	var stuff_layer = _node.get_node("/root/Island/StuffLayer")
@@ -562,6 +557,14 @@ func is_colliding(_node1,_node2):
 		return transform_bool_to_int(_node2.is_colliding(_node1))
 	else:
 		assert(false)
+		
+func is_value_change(_node,_param_name):
+	var result = false
+	var node_parms = _node.param.get_value(_param_name)
+	if value_cache_dic.has(node_parms):
+		result = value_cache_dic[node_parms] != node_parms.value
+	value_change_cache_dic[node_parms] = node_parms.value
+	return transform_bool_to_int(result)
 
 func transform(_node,_node_param_name):
 	var param_model = _node.param.get_value(_node_param_name)
