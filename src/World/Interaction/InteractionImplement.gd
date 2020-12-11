@@ -44,7 +44,7 @@ var is_active = false
 #主动停止作用
 var is_break = false
 #是否是主动 调用的交互
-var is_manual_interaction = false
+#var is_manual_interaction = true
 
 #监听解析 节点名  监听信号
 var update_condition_by_listening_node_signal_dic
@@ -60,6 +60,9 @@ var lisnter_node_cllision_target_change_dic := {}
 var lisnter_node_binding_target_change_dic := {}
 #需要监听的节点的存储对象 更新
 var lisnter_node_storage_target_change_dic := {}
+
+#作用结束
+signal interaction_finish(_interaction_implement)
 
 func set_vaild(_value):
 	is_vaild = _value
@@ -98,8 +101,8 @@ func _process(delta):
 		apply_change_cache()
 		self.is_active = false
 		self.is_vaild = false
-		if not is_manual_interaction:
-			interaction_status_check()
+		return 
+
 		
 	if not is_active:
 		self.is_active = interaction_active()
@@ -294,7 +297,7 @@ func interaction_status_check(_traverse_all_condition = false):
 #判断作用是否还有效
 func judge_interaction_vaild(_is_meet_condition):
 	#主动模式下 完成了 就不再能被救活
-	if _is_meet_condition and is_manual_interaction and is_finish:
+	if _is_meet_condition and is_finish:
 		return
 	
 	var vaild = _is_meet_condition
@@ -323,8 +326,7 @@ func check_node_exist():
 	for item in node_dic.keys():
 		var node_item = node_dic[item]
 		if not node_item or node_item.is_queued_for_deletion():
-			if is_manual_interaction:
-				LogSys.log_i("因为节点:%s 不存在，作用:%s 不执行" % [item,interaction_name])
+			LogSys.log_i("因为节点:%s 不存在，作用:%s 不执行" % [item,interaction_name])
 			
 			return false
 	return true
@@ -336,8 +338,7 @@ func judge_conditions(_traverse_all_condition) -> bool:
 	for condition_item in conditions_arr:
 		if not judge_condition_item(condition_item):
 			is_meet_all_condition = false
-			if is_manual_interaction:
-				LogSys.log_i("因为条件:%s 不满足，作用:%s 不执行" % [condition_item,interaction_name])
+			LogSys.log_i("因为条件:%s 不满足，作用:%s 不执行" % [condition_item,interaction_name])
 			if not _traverse_all_condition:
 				break
 	return is_meet_all_condition
@@ -385,9 +386,10 @@ func interaction_quit():
 		interaction_break()
 
 	
-	if is_manual_interaction:
-		queue_free()
-		
+	emit_signal("interaction_finish",self)
+	queue_free()
+
+
 func remove_all_child():
 	for item in get_children():
 		remove_child(item)
@@ -571,7 +573,3 @@ func transform(_node,_node_param_name):
 	assert(value_cache_dic.has(param_model))
 	var result =  param_model.value - value_cache_dic[param_model]
 	return result
-
-		
-	
-		

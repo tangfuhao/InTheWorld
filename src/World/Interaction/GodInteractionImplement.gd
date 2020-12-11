@@ -107,6 +107,7 @@ func _process(delta):
 		self.is_active = false
 		self.is_vaild = false
 		interaction_status_check()
+		return 
 		
 	if not is_active:
 		self.is_active = interaction_active()

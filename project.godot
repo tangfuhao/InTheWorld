@@ -259,6 +259,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/Character/motivation/MotivationModel.gd"
 }, {
+"base": "Node2D",
+"class": "MoveInteractionImplement",
+"language": "GDScript",
+"path": "res://src/World/Interaction/PredefineInteraction/MoveInteractionImplement.gd"
+}, {
 "base": "Reference",
 "class": "MoveTo",
 "language": "GDScript",
@@ -500,6 +505,7 @@ _global_script_class_icons={
 "InteractionTemplate": "",
 "MemorySensor": "",
 "MotivationModel": "",
+"MoveInteractionImplement": "",
 "MoveTo": "",
 "NoLimitTask": "",
 "NodeAddToConceptEffect": "",

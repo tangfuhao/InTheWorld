@@ -71,7 +71,7 @@ func get_interaction_child(_interaction_template):
 		interaction_arr.push_back(get_interaction_by_name(item))
 	return interaction_arr
 	
-func get_interaction_by_name(_name):
+func get_interaction_by_name(_name) -> InteractionTemplate:
 	if interaction_template_dic.has(_name):
 		return interaction_template_dic[_name]
 	return null

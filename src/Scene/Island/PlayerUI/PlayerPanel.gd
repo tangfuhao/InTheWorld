@@ -307,7 +307,7 @@ func on_stuff_param_item_value_change(_param_item_model:ComomStuffParam):
 #作用选择
 func on_interaction_item_selected(index):
 	current_interaction_template = interaction_arr[index]
-	current_select_interaction = current_player.get_running_interaction(current_interaction_template)
+	current_select_interaction = current_player.get_running_interaction(current_interaction_template.name)
 	
 	show_interaction_ui()
 
@@ -329,7 +329,7 @@ func _on_Button4_pressed():
 	
 	#当前选中的作用
 	current_player.excute_interaction(current_interaction_template,node_arr)
-	current_select_interaction = current_player.get_running_interaction(current_interaction_template)
+	current_select_interaction = current_player.get_running_interaction(current_interaction_template.name)
 	
 
 #作用停止

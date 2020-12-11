@@ -34,7 +34,8 @@ var is_rigid_body = true
 var collision_object_arr := []
 #可交互的范围 对象列表
 var interactive_object_list := []
-
+#作用模板-作用对象
+var interaction_dic := {}
 
 
 signal disappear_notify(_node)
@@ -74,12 +75,9 @@ func _ready() -> void:
 	
 	#加载属性
 	preload_param_config()
-	
-	
+
 func _process(_delta):
 	handle_dialog_messages()
-	
-	
 
 func handle_dialog_messages():
 	if current_dialog_text:
@@ -207,8 +205,18 @@ func set_param_value(_param_name,_param_value):
 		param_model.set_value(_param_value)
 	
 
+
+func add_and_connect_interaction_implement(_interaction_implement):
+	_interaction_implement.connect("interaction_finish",self,"_on_interaction_finish")
+	#加入场景
+	interaction_layer.add_child(_interaction_implement)
+	interaction_dic[_interaction_implement.interaction_name] = _interaction_implement
+
 #执行作用
 func excute_interaction(_interaction_template,_node_arr):
+	if interaction_dic.has(_interaction_template.name):
+		return 
+
 	var node_matchings_arr = _interaction_template.get_node_matchings()
 	var node_pair := {}
 	for index in range(node_matchings_arr.size()):
@@ -218,26 +226,25 @@ func excute_interaction(_interaction_template,_node_arr):
 			node_pair[node_matchings_arr[index].node_name_in_interaction] = _node_arr[index-1]
 	#创建交互
 	var interaction_implement = _interaction_template.create_interaction(0,node_pair)
-	interaction_implement.is_manual_interaction = true
-	#加入场景
-	interaction_layer.add_child(interaction_implement)
-	interaction_dic[_interaction_template] = interaction_implement
+	add_and_connect_interaction_implement(interaction_implement)
 
 func break_interaction(_interaction):
 	if interaction_layer.get_children().has(_interaction):
 		_interaction.is_break = true
 
-#作用模板-作用对象
-var interaction_dic := {}
-func get_running_interaction(_interaction_template):
-	if interaction_dic.has(_interaction_template):
-		return interaction_dic[_interaction_template]
+
+
+
+func get_running_interaction(_interaction_template_name):
+	if interaction_dic.has(_interaction_template_name):
+		return interaction_dic[_interaction_template_name]
 	return null
 
 #移除节点
 func disappear():
 	queue_free()
 	notify_disappear()
+
 	
 
 func notify_disappear():
@@ -279,5 +286,8 @@ func _on_ManualOperationPlayer_mouse_entered():
 func _on_ManualOperationPlayer_mouse_exited():
 	GlobalRef.remove_value_from_key_global(GlobalRef.global_key.mouse_interaction,self)
 
-
+#某个作用结束
+func _on_interaction_finish(_interaction_implement):
+	if interaction_dic.has(_interaction_implement.interaction_name):
+		interaction_dic.erase(_interaction_implement.interaction_name)
 
