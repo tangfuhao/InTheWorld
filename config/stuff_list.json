@@ -41,6 +41,10 @@
         "object_name": "是猪肉的",
         "child_object": "死猪,熟猪"
     },
+    "有机物": {
+        "object_name": "有机物",
+        "child_object": "野果,妙瓜种子,妙瓜瓤,椰子肉,屎,死猪,熟猪,草药"
+    },
     "椅子": {
         "object_name": "椅子",
         "inherit_concept": "可坐的,可被化身绑定的",

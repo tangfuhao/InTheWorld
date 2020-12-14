@@ -1,7 +1,6 @@
 extends "res://src/Character/tasks/NoLimitTask.gd"
 class_name MoveTo
 
-var exercise_transform = 0
 func active():
 	.active()
 
