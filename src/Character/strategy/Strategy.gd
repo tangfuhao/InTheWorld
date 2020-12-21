@@ -130,9 +130,13 @@ func _on_world_status_change(_world_status_item):
 
 func _on_motivation_highest_priority_change(motivation):
 	if active_motivation != motivation:
-		new_active_motivation = motivation
-		# print(control_node.player_name,"因为动机改变为:",active_motivation.motivation_name,"，重新规划")
-		send_re_plan_signal(true)
+		if motivation:
+			new_active_motivation = motivation
+			# print(control_node.player_name,"因为动机改变为:",active_motivation.motivation_name,"，重新规划")
+			send_re_plan_signal(true)
+		else:
+			active_motivation = null
+			new_active_motivation = null
 	else:
 		new_active_motivation = motivation
 		send_re_plan_signal(false)
