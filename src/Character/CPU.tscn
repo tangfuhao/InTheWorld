@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://src/Character/CPU.gd" type="Script" id=1]
+[ext_resource path="res://src/Character/sensor/StuffStateSensor.gd" type="Script" id=2]
 [ext_resource path="res://src/Character/motivation/Motivation.tscn" type="PackedScene" id=5]
 [ext_resource path="res://src/Character/strategy/Strategy.tscn" type="PackedScene" id=6]
 [ext_resource path="res://src/Character/world_status/WorldStatus.tscn" type="PackedScene" id=8]
@@ -13,3 +14,6 @@ script = ExtResource( 1 )
 [node name="Strategy" parent="." instance=ExtResource( 6 )]
 
 [node name="WorldStatus" parent="." instance=ExtResource( 8 )]
+
+[node name="StuffStateSensor" type="Node2D" parent="."]
+script = ExtResource( 2 )

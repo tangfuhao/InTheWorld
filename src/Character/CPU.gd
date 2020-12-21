@@ -7,6 +7,9 @@ onready var motivation := $Motivation
 onready var strategy := $Strategy
 onready var world_status := $WorldStatus
 
+
+onready var stuff_state_sensor := $StuffStateSensor
+
 onready var control_node:Player = get_node(control_obj)
 
 
@@ -24,8 +27,6 @@ func _ready() -> void:
 	world_status.setup(control_node)
 	motivation.setup(control_node,status_dic)
 	strategy.setup(control_node,world_status,motivation)
-
-func _process(_delta: float):
-	pass
-#	strategy.process_task(_delta)
 	
+	stuff_state_sensor.setup(control_node,world_status)
+
