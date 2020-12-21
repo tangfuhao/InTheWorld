@@ -33,7 +33,6 @@ collision_mask = 34
 
 [node name="MouseArea" type="Area2D" parent="."]
 monitoring = false
-monitorable = false
 collision_layer = 512
 collision_mask = 0
 

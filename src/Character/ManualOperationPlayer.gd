@@ -16,6 +16,8 @@ onready var interaction_layer = $InteractionLayer
 onready var bind_layer = $BindLayer
 onready var storage_layer := $Storage
 
+#视觉
+onready var vision_sensor := $VisionSensor
 #每个实体都会生成一个唯一的node_id
 var node_name
 #显示名称

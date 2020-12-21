@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/Character/VisionSensor.tscn" type="PackedScene" id=1]
+[ext_resource path="res://src/World/stuff/CommonStuff.tscn" type="PackedScene" id=2]
+
+[sub_resource type="CircleShape2D" id=1]
+radius = 16.8021
+
+[node name="Node2D" type="Node2D"]
+
+[node name="VisionSensor" parent="." instance=ExtResource( 1 )]
+position = Vector2( 453.276, 372.691 )
+
+[node name="RealVision" parent="VisionSensor" index="1"]
+collision_mask = 514
+
+[node name="StuffBody" parent="." instance=ExtResource( 2 )]
+position = Vector2( 443.66, 259.053 )
+stuff_type_name = "水杯"
+
+[node name="CollisionShape2D" parent="StuffBody" index="0"]
+shape = SubResource( 1 )
+
+[node name="MouseArea" parent="StuffBody" index="5"]
+monitorable = true
+
+[editable path="VisionSensor"]
+
+[editable path="StuffBody"]

@@ -2,29 +2,29 @@
 
 [ext_resource path="res://src/Character/VisionSensor.gd" type="Script" id=1]
 
-
 [sub_resource type="CircleShape2D" id=1]
-radius = 589.258
+radius = 203.704
 
 [sub_resource type="ConvexPolygonShape2D" id=2]
-points = PoolVector2Array( 0, 0, -380, -311.4, 380, -311.4 )
+points = PoolVector2Array( 0, 0, -135, -150, 135, -150 )
 
 [node name="VisionSensor" type="Node2D"]
 script = ExtResource( 1 )
 
 [node name="PerceptionVision" type="Area2D" parent="."]
-visible = false
+input_pickable = false
 monitorable = false
 collision_layer = 0
-collision_mask = 10
+collision_mask = 514
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PerceptionVision"]
 shape = SubResource( 1 )
 
 [node name="RealVision" type="Area2D" parent="."]
+input_pickable = false
 monitorable = false
 collision_layer = 0
-collision_mask = 10
+collision_mask = 514
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RealVision"]
 shape = SubResource( 2 )

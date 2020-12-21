@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://src/Character/ManualOperationPlayer.gd" type="Script" id=1]
 [ext_resource path="res://src/Character/LabelLayout.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://src/Character/BindLayer.tscn" type="PackedScene" id=9]
 [ext_resource path="res://src/Character/Storage.tscn" type="PackedScene" id=10]
 [ext_resource path="res://src/Character/CPU.tscn" type="PackedScene" id=11]
+[ext_resource path="res://src/Character/VisionSensor.tscn" type="PackedScene" id=12]
 
 [sub_resource type="CircleShape2D" id=1]
 radius = 3.97226
@@ -50,6 +51,9 @@ input_pickable = false
 
 [node name="CollisionShape2D" parent="HitBox" index="0"]
 position = Vector2( 0.26799, -6.60335 )
+
+[node name="VisionSensor" parent="." instance=ExtResource( 12 )]
+pause_mode = 1
 
 [node name="NameDisplay" parent="." instance=ExtResource( 2 )]
 
