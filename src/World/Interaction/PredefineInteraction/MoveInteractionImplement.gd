@@ -170,8 +170,11 @@ func setup_target(_action_target):
 	action_target = _action_target
 	if action_target is CommonStuff:
 		target_pos = action_target.get_global_position()
+		#TODO 先用坐标吧
+		action_target = target_pos
 	else:
 		target_pos = action_target
+	is_active = false
 
 func is_reach_target():
 	if action_target is CommonStuff:
