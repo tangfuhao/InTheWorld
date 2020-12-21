@@ -223,9 +223,9 @@ func add_and_connect_interaction_implement(_interaction_implement):
 	interaction_dic[_interaction_implement.interaction_name] = _interaction_implement
 
 #执行作用
-func excute_interaction(_interaction_template,_node_arr):
+func excute_interaction(_interaction_template,_node_arr:Array):
 	if interaction_dic.has(_interaction_template.name):
-		return 
+		return interaction_dic[_interaction_template.name]
 
 	var node_matchings_arr = _interaction_template.get_node_matchings()
 	var node_pair := {}
@@ -234,9 +234,22 @@ func excute_interaction(_interaction_template,_node_arr):
 			node_pair[node_matchings_arr[index].node_name_in_interaction] = self
 		else:
 			node_pair[node_matchings_arr[index].node_name_in_interaction] = _node_arr[index-1]
+	
+	return excute_interaction_by_node_mathing(_interaction_template,node_pair)
+
+func generate_interaction_id(_name:String,_node_pair_item:Array):
+	var id_content = _name.hash()
+	for item in _node_pair_item:
+		id_content = id_content + item.node_name.hash()
+	return id_content
+
+#执行作用
+func excute_interaction_by_node_mathing(_interaction_template,_node_mathing:Dictionary):
+	var interaction_id = generate_interaction_id(_interaction_template.name,_node_mathing.values())
 	#创建交互
-	var interaction_implement = _interaction_template.create_interaction(0,node_pair)
+	var interaction_implement = _interaction_template.create_interaction(interaction_id,_node_mathing)
 	add_and_connect_interaction_implement(interaction_implement)
+	return interaction_implement
 
 func break_interaction(_interaction):
 	if interaction_layer.get_children().has(_interaction):
