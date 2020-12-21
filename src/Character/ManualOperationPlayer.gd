@@ -18,6 +18,13 @@ onready var storage_layer := $Storage
 
 #视觉
 onready var vision_sensor := $VisionSensor
+#目标管理
+var target_system
+
+
+
+
+
 #每个实体都会生成一个唯一的node_id
 var node_name
 #显示名称
@@ -75,6 +82,7 @@ func _ready() -> void:
 	name_label.set_text(display_name)
 	node_name = display_name + IDGenerator.pop_id_index()
 	
+	target_system = TargetSystem.new(self)
 	#加载属性
 	preload_param_config()
 
