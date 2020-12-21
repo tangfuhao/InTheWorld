@@ -45,7 +45,7 @@ func make_node_type_relation(_node_item):
 	if _node_item is Player:
 		node_type_group = ["Player"]
 	else:
-		node_type_group = DataManager.get_node_type_group(_node_item.stuff_type_name)
+		node_type_group = DataManager.get_node_parent_type_group(_node_item.stuff_type_name)
 		
 		
 	for item in node_type_group:
@@ -600,7 +600,7 @@ func add_new_stuff(_node):
 func _on_stuff_add_concept(_node,_concept):
 	print("_on_stuff_add_concept 1")
 	var is_change_concept = false
-	var node_type_group = DataManager.get_node_type_group(_concept)
+	var node_type_group = DataManager.get_node_parent_type_group(_concept)
 	node_type_group.erase("物品")
 	for item in node_type_group:
 		var node_arr = CollectionUtilities.get_arr_item_by_key_from_dic(type_stuff_dic,item)
@@ -628,13 +628,15 @@ func _on_stuff_add_concept(_node,_concept):
 
 #物品消失时 移除相关作用
 func _on_stuff_disappear(_node):
-	match_all_node_arr.erase(_node)
+	CollectionUtilities.remove_item_from_arr(match_all_node_arr,_node)
+
 	
 	var type_name = _node.stuff_type_name
-	var node_type_group = DataManager.get_node_type_group(type_name)
+	var node_type_group = DataManager.get_node_parent_type_group(type_name)
 	for item in node_type_group:
 		var node_arr = CollectionUtilities.get_arr_item_by_key_from_dic(type_stuff_dic,item)
-		node_arr.erase(_node)
+		CollectionUtilities.remove_item_from_arr(node_arr,_node)
+
 
 	#移除所有节点有关的作用
 	var active_interaction_arr = CollectionUtilities.get_arr_item_by_key_from_dic(active_node_to_interaction_dic,_node)

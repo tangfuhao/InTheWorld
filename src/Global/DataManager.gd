@@ -65,7 +65,7 @@ func get_interaction_arr_by_type(_type):
 			interaction_arr.push_back(item)
 	return interaction_arr
 
-func get_interaction_child(_interaction_template):
+func get_interaction_child(_interaction_template) -> Array:
 	var interaction_arr := []
 	for item in _interaction_template.child_interaction_arr:
 		interaction_arr.push_back(get_interaction_by_name(item))
@@ -75,6 +75,7 @@ func get_interaction_by_name(_name) -> InteractionTemplate:
 	if interaction_template_dic.has(_name):
 		return interaction_template_dic[_name]
 	return null
+
 
 func preload_config_overview():
 	config_data = load_json_data(cnofig_file_path)
@@ -93,9 +94,14 @@ func preload_global_data():
 
 #返回父类型集
 #没有缓存 尽量不要多次频繁调用
-func get_node_type_group(type_name) -> Array:
-	var node_type_group := ["物品"]
+func get_node_parent_type_group(type_name) -> Array:
+	if type_name == "物品":
+		return type_name
 	assert(create_object_dic.has(type_name))
+	
+
+		
+	var node_type_group := ["物品"]
 	node_type_group.push_back(type_name)
 	iteration_node_type(type_name,node_type_group)
 	return node_type_group

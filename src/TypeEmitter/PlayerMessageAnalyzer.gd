@@ -70,7 +70,7 @@ func get_exit_people_action_state_dic(_player_name):
 
 #记录玩家的行为状态
 func record_people_action_state(_message_dic):
-	var player_name = _message_dic["player"]
+	var player_name = _message_dic["Player"]
 	var type = _message_dic["type"]
 	
 	if type == "execute_action":
@@ -98,7 +98,7 @@ func binding_user(_message_dic):
 	if not player_id:
 		var player_display_name = _message_dic["player_display_name"]
 		if assign_player == player_display_name:
-			player_id = _message_dic["player"]
+			player_id = _message_dic["Player"]
 
 func on_global_message_handle(message_dic):
 	binding_user(message_dic)
@@ -107,7 +107,7 @@ func on_global_message_handle(message_dic):
 	#简单输出log
 	print(message_dic["timestamp"],":",get_dic_str(message_dic))
 #	return
-	var player_name = message_dic["player"]
+	var player_name = message_dic["Player"]
 	if not monitor_people_display_name_dic.has(player_name):
 		var player_display_name = message_dic["player_display_name"]
 		monitor_people_display_name_dic[player_name] = player_display_name
@@ -298,7 +298,7 @@ func meet_all_params(_value,_parmas_arr):
 func get_dic_str(var message_dic):
 	var string_build:PoolStringArray
 	
-	var player_name = message_dic["player"]
+	var player_name = message_dic["Player"]
 	
 	
 	var type = message_dic["type"]

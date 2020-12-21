@@ -9,7 +9,7 @@ location }
 func create_common_message(_player,_type):
 	var message_dic := {}
 	message_dic["timestamp"] = OS.get_system_time_secs()
-	message_dic["player"] = _player.node_name
+	message_dic["Player"] = _player.node_name
 	message_dic["player_display_name"] = _player.display_name
 	message_dic["type"] = _type
 	return message_dic
