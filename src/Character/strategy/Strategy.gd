@@ -121,7 +121,8 @@ func _on_world_status_change(_world_status_item):
 	# 	# print(control_node.player_name,"无视认知改变，不规划")
 	# 	return 
 		
-	
+	if not active_motivation:
+		return
 	
 	# print(control_node.player_name,"因为认知改变，重新规划")
 	send_re_plan_signal(true)
