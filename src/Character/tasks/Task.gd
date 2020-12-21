@@ -18,7 +18,7 @@ var excute_action = false
 #行为的目标
 var action_target setget set_action_target
 
-enum STATE {GOAL_ACTIVE, GOAL_INACTIVE, GOAL_COMPLETED, GOAL_FAILED}
+enum STATE {GOAL_ACTIVE, GOAL_INACTIVE, GOAL_COMPLETED, GOAL_FAILED, GOAL_ACTIVE_SKIP}
 
 var goal_status = STATE.GOAL_ACTIVE
 

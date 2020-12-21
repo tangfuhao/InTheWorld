@@ -1,4 +1,4 @@
-extends "res://src/Character/tasks/NoLimitTask.gd"
+extends "res://src/Character/tasks/Task.gd"
 class_name Wander
 #漫游任务
 

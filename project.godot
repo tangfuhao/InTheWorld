@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Reference",
+"class": "AccessToTarget",
+"language": "GDScript",
+"path": "res://src/Character/tasks/AccessToTarget.gd"
+}, {
 "base": "Sensor",
 "class": "AroundEnvironmentSensor",
 "language": "GDScript",
@@ -78,6 +83,11 @@ _global_script_classes=[ {
 "class": "Evaluate",
 "language": "GDScript",
 "path": "res://src/Character/status/Evaluate.gd"
+}, {
+"base": "Reference",
+"class": "ExcuteInteraction",
+"language": "GDScript",
+"path": "res://src/Character/tasks/ExcuteInteraction.gd"
 }, {
 "base": "Reference",
 "class": "FormulaParser",
@@ -270,9 +280,9 @@ _global_script_classes=[ {
 "path": "res://src/Character/tasks/MoveTo.gd"
 }, {
 "base": "Reference",
-"class": "NoLimitTask",
+"class": "MoveToTarget",
 "language": "GDScript",
-"path": "res://src/Character/tasks/NoLimitTask.gd"
+"path": "res://src/Character/tasks/MoveToTarget.gd"
 }, {
 "base": "Reference",
 "class": "NodeAddToConceptEffect",
@@ -460,6 +470,7 @@ _global_script_classes=[ {
 "path": "res://src/Character/world_status/WorldStatus.gd"
 } ]
 _global_script_class_icons={
+"AccessToTarget": "",
 "AroundEnvironmentSensor": "",
 "AroundLikePeopleSensor": "",
 "AroundPeopleActionSensor": "",
@@ -474,6 +485,7 @@ _global_script_class_icons={
 "ComomStuffParam": "",
 "CustomerObjectModel": "",
 "Evaluate": "",
+"ExcuteInteraction": "",
 "FormulaParser": "",
 "GSAIAgentLocation": "",
 "GSAIArrive": "",
@@ -512,7 +524,7 @@ _global_script_class_icons={
 "MotivationModel": "",
 "MoveInteractionImplement": "",
 "MoveTo": "",
-"NoLimitTask": "",
+"MoveToTarget": "",
 "NodeAddToConceptEffect": "",
 "NodeBindEffect": "",
 "NodeChangePositionEffect": "",
