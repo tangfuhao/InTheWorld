@@ -53,6 +53,7 @@ func inactive()->void:
 	pass
 
 func _ready():
+	GlobalMessageGenerator.connect("message_dispatch",self,"_on_global_message_handle")
 	interaction_arr = DataManager.get_interaction_arr_by_type("body")
 	interaction_listview.connect("on_item_selected",self,"on_interaction_item_selected")
 	
@@ -72,9 +73,7 @@ func _ready():
 			emotion_listview.add_content_text(index,content,"交互文本")
 			index = index + 1
 
-		
-	
-	
+
 
 func _process(delta):
 	if not LogSys.processed_message_queue.empty():
@@ -396,3 +395,209 @@ func _on_Run_Button_pressed():
 #散步
 func _on_Walk_Button_pressed():
 	current_player.movement.switch_move_state("walk")
+
+
+#缓存用户log
+var user_log_dic := {}
+var monitor_people_arr := []
+var active_motivation_aar := []
+var monitor_people_display_name_dic := {}
+#所有用户的数据
+var all_people_state_dic := {}
+
+func parse_content_text(_message_dic) -> Array:
+	var content_arr := []
+	var assign_player = _message_dic["player_display_name"]
+	var action_dic = DataManager.get_player_data(assign_player,"action_to_text")
+	var world_status_dic = DataManager.get_player_data(assign_player,"world_status_to_text")
+	
+	var startegy_plan_dic = DataManager.get_player_data(assign_player,"strategy_to_text")
+	var startegy_sucuss_dic = DataManager.get_player_data(assign_player,"strategy_succeed_to_text")
+	var startegy_fail_dic = DataManager.get_player_data(assign_player,"strategy_fail_to_text")
+
+	var active_motivetion_dic = DataManager.get_player_data(assign_player,"active_motivation_to_text")
+	var meet_motivetion_dic = DataManager.get_player_data(assign_player,"meet_motivation_to_text")
+	var execute_motivation_dic = DataManager.get_player_data(assign_player,"execute_motivation_to_text")
+	
+	
+	var type = _message_dic["type"]
+	if type == "find_in_vision":
+		return content_arr
+	
+	if type != "motivation_change":
+		print("a")
+	
+	if type == "execute_action":
+		var action = _message_dic["value"]
+		if not action_dic.has(action):
+			return content_arr
+
+		var action_content_arr = action_dic[action]
+		for item in action_content_arr:
+			content_arr.push_back(repleace_match_text(item.content,_message_dic))
+
+
+	elif type == "world_status_change":
+		var world_status = _message_dic["target"]
+		var world_status_value = _message_dic["value"]
+		if not world_status_value or not world_status_dic.has(world_status):
+			return content_arr
+		var world_status_content_arr = world_status_dic[world_status]
+		for item in world_status_content_arr:
+			content_arr.push_back(repleace_match_text(item.content,_message_dic))
+
+
+	elif type == "find_player_in_vision":
+		var target = _message_dic["target"]
+		if not monitor_people_arr.has(target):
+			monitor_people_arr.push_back(target)
+	elif type == "lost_player_in_vision":
+		var target = _message_dic["target"]
+		if not monitor_people_arr.has(target):
+			monitor_people_arr.erase(target)
+	elif type == "strategy_plan":
+		var strategy_record = _message_dic["target"]
+		var plan_result = _message_dic["value"]
+		if startegy_plan_dic.has(strategy_record):
+			var strategy_content_arr = startegy_plan_dic[strategy_record]
+			for item in strategy_content_arr:
+				content_arr.push_back(repleace_match_text(item.content,_message_dic))
+	elif type == "strategy_plan_succuss":
+		var strategy_record = _message_dic["target"]
+
+		if startegy_sucuss_dic.has(strategy_record):
+			var strategy_content_arr = startegy_sucuss_dic[strategy_record]
+			for item in strategy_content_arr:
+				content_arr.push_back(repleace_match_text(item.content,_message_dic))
+
+	elif type == "motivation_change":
+		var motivation = _message_dic["target"]
+		var value = _message_dic["value"]
+		var is_active = value < 0.8 
+		if is_active and not active_motivation_aar.has(motivation):
+			active_motivation_aar.push_back(motivation)
+			
+			if active_motivetion_dic.has(motivation):
+				var motivation_content_arr = active_motivetion_dic[motivation]
+				for item in motivation_content_arr:
+					content_arr.push_back(repleace_match_text(item.content,_message_dic))
+
+		elif not is_active and active_motivation_aar.has(motivation):
+			active_motivation_aar.erase(motivation)
+			
+			if meet_motivetion_dic.has(motivation):
+				var meet_motivetion_content_arr = meet_motivetion_dic[motivation]
+				for item in meet_motivetion_content_arr:
+					content_arr.push_back(repleace_match_text(item.content,_message_dic))
+			
+
+	elif type == "highest_priority_motivation":
+		var motivation = _message_dic["target"]
+		if execute_motivation_dic.has(motivation):
+			var execute_motivation_content_arr = execute_motivation_dic[motivation]
+			for item in execute_motivation_content_arr:
+				content_arr.push_back(repleace_match_text(item.content,_message_dic))
+
+	elif type == "lover_value_change":
+		pass
+	elif type == "lover_increase_effect":
+		var action = _message_dic["value"]
+		var target
+		if _message_dic.has("target_display_name"):
+			target =  _message_dic["target_display_name"]
+		else:
+			target =  _message_dic["target"]
+
+		var log_str = "呀……%s还有点意思，感觉有一点喜欢她呢" % target
+		content_arr.push_back(log_str)
+	elif type == "lover_decrease_effect":
+		var action = _message_dic["value"]
+		var target
+		if _message_dic.has("target_display_name"):
+			target =  _message_dic["target_display_name"]
+		else:
+			target =  _message_dic["target"]
+			
+		var log_str = "这……%s竟然在我面前%s，我感觉我不会喜欢她了" % [target,action]
+		content_arr.push_back(log_str)
+	
+	return content_arr
+	
+func repleace_match_text(_content,_message_dic):
+	var key_word_regex = DataManager.content_obj_regex
+	var result_arr = key_word_regex.search_all(_content)
+	if result_arr:
+		for match_item in result_arr:
+			var match_name = match_item.get_string(1)
+			var match_value = convert_match_name_to_value(match_name,_message_dic)
+			if not match_value:
+				match_value = convert_match_name_to_value(match_name,_message_dic)
+			assert(match_value != null)
+			
+			var match_text = match_item.get_string(0)
+			_content = _content.replace(match_text,match_value)
+	return _content
+
+func convert_match_name_to_value(_match_name,_message_dic):
+	var match_arr = Array(_match_name.split(":"))
+	var match_name_item = match_arr.pop_front()
+	var match_name_param = match_arr.pop_front()
+	
+	
+	if match_name_item == "角色" or match_name_item == "角色1":
+		return _message_dic["player_display_name"]
+	elif match_name_item == "角色2" or match_name_item == "功能属性" or match_name_item == "目标" or match_name_item == "物品" or match_name_item == "行为":
+		if _message_dic.has("target_display_name"):
+			return _message_dic["target_display_name"]
+		if _message_dic.has("target"):
+			return _message_dic["target"]
+#	elif match_name_item == "角色集合":
+#		var value = null
+#		if match_name_param:
+#			var match_name_param_arr = Array(match_name_param.split(","))
+#			value = filter_params_around_people(match_name_param_arr)
+#		else:
+#			value = filter_params_around_people([])
+#		if not value:
+#			return monitor_people_display_name_dic[player_id]
+#		else:
+#			return value
+	elif match_name_item == "角色代词":
+		#TODO 未实现
+		return "她"
+	else:
+		print(_match_name)
+
+	return null
+	
+func filter_params_around_people(_parmas_arr):
+	var player_arr_str:PoolStringArray
+	for item in monitor_people_arr:
+		var people_params = all_people_state_dic[item]
+		if meet_all_params(people_params,_parmas_arr):
+			player_arr_str.append(monitor_people_display_name_dic[item])
+	
+	return player_arr_str.join(",")
+
+func meet_all_params(_value,_parmas_arr):
+	if _parmas_arr.empty():
+		return true
+	if _value.empty():
+		return false
+	for item in _parmas_arr:
+		if not _value.has(item):
+			return false
+	return true
+
+func _on_global_message_handle(_message_dic):
+	var player_name = _message_dic["Player"]
+	var content_arr = parse_content_text(_message_dic)
+	if content_arr.empty():
+		return 
+		
+	var player_log_arr = CollectionUtilities.get_arr_item_by_key_from_dic(user_log_dic,player_name)
+	for content_item in content_arr:
+		player_log_arr.push_back(content_item)
+		var index = player_log_arr.size()
+		log_listview.add_content_text(index,content_item,"世界文本")
+	

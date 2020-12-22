@@ -19,7 +19,8 @@ var create_object_dic:Dictionary
 var interaction_template_dic:Dictionary
 
 
-#内容插值正则
+var content_obj_regex
+#内容类型插值正则
 var content_type_regex
 #函数正则
 var function_regex
@@ -33,6 +34,10 @@ class TypeMachineContent:
 func _ready():
 	content_type_regex = RegEx.new()
 	content_type_regex.compile("\\#\\((.+?)\\)")
+	
+	content_obj_regex = RegEx.new()
+	content_obj_regex.compile("\\#\\{(.+?)\\}")
+	
 	function_regex = RegEx.new()
 	function_regex.compile("\\$\\[(.+?)\\]")
 	objecet_regex = RegEx.new()

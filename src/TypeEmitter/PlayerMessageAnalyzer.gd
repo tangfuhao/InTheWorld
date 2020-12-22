@@ -24,15 +24,13 @@ var execute_motivation_dic = {}
 var not_like_people_arr = []
 var active_motivation_aar = []
 
-var key_word_regex
 
 
 var stage
 
 func _ready():
 	stage = owner
-	
-	key_word_regex = DataManager.content_type_regex
+
 	
 
 	
@@ -228,6 +226,7 @@ func on_global_message_handle(message_dic):
 
 
 func repleace_match_text(_content,_message_dic):
+	var key_word_regex = DataManager.content_type_regex
 	var result_arr = key_word_regex.search_all(_content)
 	if result_arr:
 		for match_item in result_arr:

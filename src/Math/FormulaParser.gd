@@ -66,7 +66,8 @@ func finalExpressionForCondition(_formula:String,_function_regex:RegEx,_objecet_
 func finalExpression(expression:String,formulas:Dictionary,values:Dictionary,param_accessor,_regex = null):
 	var regex = _regex
 	if regex == null:
-		regex = DataManager.content_type_regex
+		regex = DataManager.objecet_regex
+		assert(false)
 	
 	var result_arr = regex.search_all(expression)
 	if not result_arr:
@@ -88,6 +89,6 @@ func finalExpression(expression:String,formulas:Dictionary,values:Dictionary,par
 		else:
 			print("异常！！！")
 	
-	return finalExpression(expression, formulas, values,param_accessor)
+	return finalExpression(expression, formulas, values,param_accessor,regex)
 
 	
