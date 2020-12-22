@@ -70,11 +70,12 @@ func action_execute_notity_to_message():
 		excute_action = true
 
 #		human.notify_action(action_name,true)
-		GlobalMessageGenerator.send_player_action(human,full_action,full_target)
+#		GlobalMessageGenerator.send_player_action(human,full_action,full_target)
 
 func action_stop_execute_notify_to_message():
-	if excute_action:
-		GlobalMessageGenerator.send_player_stop_action(human,full_action,full_target)
+#	if excute_action:
+#		GlobalMessageGenerator.send_player_stop_action(human,full_action,full_target)
+	pass
 	
 
 
