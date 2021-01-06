@@ -1,0 +1,102 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://src/Scene/Lobby/Lobby.gd" type="Script" id=1]
+[ext_resource path="res://src/UI/customization/listview/CommonListView.tscn" type="PackedScene" id=2]
+[ext_resource path="res://assert/font/interaction_dialog_message_dynamicfont.tres" type="DynamicFont" id=3]
+
+[node name="Lobby" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+margin_right = 397.0
+margin_bottom = 800.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer"]
+margin_top = -1.0
+margin_right = 397.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 0, 30 )
+custom_fonts/font = ExtResource( 3 )
+text = "大厅玩家"
+valign = 1
+
+[node name="大厅玩家" parent="HBoxContainer/VBoxContainer" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 34.0
+margin_right = 397.0
+margin_bottom = 800.0
+size_flags_vertical = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 401.0
+margin_right = 798.0
+margin_bottom = 800.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer2"]
+margin_top = -1.0
+margin_right = 397.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 0, 30 )
+custom_fonts/font = ExtResource( 3 )
+text = "房间列表"
+valign = 1
+
+[node name="房间列表" parent="HBoxContainer/VBoxContainer2" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 34.0
+margin_right = 397.0
+margin_bottom = 800.0
+size_flags_vertical = 3
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 802.0
+margin_right = 1200.0
+margin_bottom = 800.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer3"]
+margin_top = -1.0
+margin_right = 398.0
+margin_bottom = 29.0
+rect_min_size = Vector2( 0, 30 )
+custom_fonts/font = ExtResource( 3 )
+text = "房间任务列表"
+valign = 1
+
+[node name="房间任务列表" parent="HBoxContainer/VBoxContainer3" instance=ExtResource( 2 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 34.0
+margin_right = 398.0
+margin_bottom = 800.0
+size_flags_vertical = 3
+
+[node name="Button" type="Button" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -112.0
+margin_top = -31.0
+custom_fonts/font = ExtResource( 3 )
+text = "关闭服务器"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

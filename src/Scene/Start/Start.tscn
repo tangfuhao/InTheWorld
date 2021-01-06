@@ -30,7 +30,7 @@ margin_top = 127.0
 margin_right = 272.0
 margin_bottom = 148.0
 custom_fonts/font = ExtResource( 1 )
-text = "载入场景"
+text = "启动服务"
 
 [node name="Button2" type="Button" parent="VBoxContainer"]
 margin_top = 168.0

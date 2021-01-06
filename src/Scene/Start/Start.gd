@@ -2,10 +2,12 @@ extends Control
 
 var zone_scene = preload("res://src/Scene/Island/Island.tscn")
 var edit_object_scene = preload("res://src/UI/customization/CreateObjectPanel.tscn")
+var lobby_scene = preload("res://src/Scene/Lobby/Lobby.tscn")
+
 
 
 func _on_Button_pressed():
-	get_tree().change_scene_to(zone_scene)
+	get_tree().change_scene_to(lobby_scene)
 
 
 func _on_Button2_pressed():
