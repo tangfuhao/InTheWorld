@@ -28,6 +28,11 @@ export var is_auto_scroll = true
 var is_manual_control = false
 
 
+var item_num = 0
+
+func get_item_num():
+	return item_num
+
 func set_data_arr(_data_arr:Array):
 	clear_item()
 	var item_index = 0
@@ -56,10 +61,12 @@ func set_data_dic2(_data_dic:Dictionary,_data_value_dic:Dictionary):
 
 func clear_item():
 	last_select_item = null
+	item_num = 0
 	var child_arr = list.get_children()
 	for item in child_arr:
 		list.remove_child(item)
 		item.queue_free()
+	
 
 func set_selected(_index):
 	if last_select_item:
@@ -72,6 +79,7 @@ func add_item_type_1(_index,_label):
 	var list_item = ListItemType1.instance()
 	list_item.item_index = _index
 	list.add_child(list_item)
+	item_num = item_num + 1
 	list_item.rect_min_size = Vector2(320,30)
 	list_item.connect("item_selected",self,"_on_item_selected")
 	list_item.connect("active_change",self,"_on_item_active")
@@ -90,6 +98,7 @@ func add_item_type_2(_index,_label,_is_active):
 func add_item_type_3(_index,_label,_select_arr,_selected_value):
 	var list_item = ListItemType2.instance()
 	list.add_child(list_item)
+	item_num = item_num + 1
 	list_item.item_index = _index
 	list_item.rect_min_size = Vector2(320,30)
 	list_item.connect("item_value_change",self,"_on_item_value_change")
@@ -115,6 +124,10 @@ func create_list_item_by_type(_label_type):
 			
 
 
+func remove_item(_index):
+	var list_item = list.get_child(_index)
+	list.remove_child(list_item)
+	item_num = item_num - 1
 
 
 func add_content_text(_index,_label,_label_type):
@@ -127,6 +140,7 @@ func add_content_text(_index,_label,_label_type):
 			list_item.connect("on_click",self,"_on_interaction_item_click")
 		list_item.item_index = _index
 		list.add_child(list_item)
+		item_num = item_num + 1
 
 	
 	list_item.set_label(_label)
