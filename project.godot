@@ -64,6 +64,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/Math/Calculator.gd"
 }, {
+"base": "Camera2D",
+"class": "CameraMovement",
+"language": "GDScript",
+"path": "res://src/Scene/Island/CameraMovement.gd"
+}, {
 "base": "StaticBody2D",
 "class": "CommonStuff",
 "language": "GDScript",
@@ -78,6 +83,11 @@ _global_script_classes=[ {
 "class": "CustomerObjectModel",
 "language": "GDScript",
 "path": "res://src/UI/customization/CustomerObjectModel.gd"
+}, {
+"base": "Node2D",
+"class": "CustomerScene",
+"language": "GDScript",
+"path": "res://src/Scene/Island/Island.gd"
 }, {
 "base": "Reference",
 "class": "Evaluate",
@@ -240,9 +250,24 @@ _global_script_classes=[ {
 "path": "res://src/addons/com.gdquest.godot-steering-ai-framework/GSAIUtils.gd"
 }, {
 "base": "Node2D",
+"class": "GameChoreographer",
+"language": "GDScript",
+"path": "res://src/Scene/GameChoreographer.gd"
+}, {
+"base": "Reference",
+"class": "GlobalRef",
+"language": "GDScript",
+"path": "res://src/Scene/GlobalRef.gd"
+}, {
+"base": "Node2D",
 "class": "GodInteractionImplement",
 "language": "GDScript",
 "path": "res://src/World/Interaction/GodInteractionImplement.gd"
+}, {
+"base": "Reference",
+"class": "IDGenerator",
+"language": "GDScript",
+"path": "res://src/Scene/IDGenerator.gd"
 }, {
 "base": "Node2D",
 "class": "InteractionDispatcher2",
@@ -259,10 +284,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/World/Interaction/InteractionTemplate.gd"
 }, {
+"base": "Reference",
+"class": "LogSys",
+"language": "GDScript",
+"path": "res://src/Scene/LogSys.gd"
+}, {
 "base": "Sensor",
 "class": "MemorySensor",
 "language": "GDScript",
 "path": "res://src/Character/sensor/MemorySensor.gd"
+}, {
+"base": "Reference",
+"class": "MessageGenerator",
+"language": "GDScript",
+"path": "res://src/Scene/GlobalMessageGenerator.gd"
 }, {
 "base": "Reference",
 "class": "MotivationModel",
@@ -481,9 +516,11 @@ _global_script_class_icons={
 "CConditionRule": "",
 "CPU": "",
 "Calculator": "",
+"CameraMovement": "",
 "CommonStuff": "",
 "ComomStuffParam": "",
 "CustomerObjectModel": "",
+"CustomerScene": "",
 "Evaluate": "",
 "ExcuteInteraction": "",
 "FormulaParser": "",
@@ -516,11 +553,16 @@ _global_script_class_icons={
 "GSAISteeringBehavior": "",
 "GSAITargetAcceleration": "",
 "GSAIUtils": "",
+"GameChoreographer": "",
+"GlobalRef": "",
 "GodInteractionImplement": "",
+"IDGenerator": "",
 "InteractionDispatcher2": "",
 "InteractionImplement": "",
 "InteractionTemplate": "",
+"LogSys": "",
 "MemorySensor": "",
+"MessageGenerator": "",
 "MotivationModel": "",
 "MoveInteractionImplement": "",
 "MoveTo": "",
@@ -572,12 +614,8 @@ config/icon="res://icon.png"
 
 [autoload]
 
-IDGenerator="*res://src/Global/IDGenerator.gd"
-GlobalMessageGenerator="*res://src/Global/GlobalMessageGenerator.gd"
 DataManager="*res://src/Global/DataManager.gd"
-GlobalRef="*res://src/Global/GlobalRef.gd"
 CollectionUtilities="*res://src/Global/CollectionUtilities.gd"
-LogSys="*res://src/Global/LogSys.gd"
 ValueCacheManager="*res://src/Global/ValueCacheManager.gd"
 GameState="*res://src/Global/GameState.gd"
 

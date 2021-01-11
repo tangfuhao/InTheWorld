@@ -1,4 +1,7 @@
 extends Node2D
+class_name CustomerScene
+
+const player_instance = preload("res://src/Character/ManualOperationPlayer.tscn")
 
 
 onready var pathfinding := $Pathfinding
@@ -10,10 +13,18 @@ onready var interaction_dispatcher := $InteractionDispatcher
 onready var customer_node_group := $StuffLayer
 onready var player_layer := $PlayerLayer
 
+onready var position_1 = $PlayerPositionLayer/Position2D
+onready var position_2 = $PlayerPositionLayer/Position2D2
+onready var position_3 = $PlayerPositionLayer/Position2D3
+onready var position_4 = $PlayerPositionLayer/Position2D4
 
+var update_locotion_step = 0.5
+var record_location_time = 0
 #TODO  移动到UI面板
 var controll_player
-
+# 房间ID
+var room_id
+var pre_load_player_arr
 
 #当前场景的引用
 var main_scene_ref
@@ -23,7 +34,19 @@ func _ready():
 	pathfinding.create_navigation_map(ground)
 	binding_customer_node_event()
 	
+	var position_arr := [position_1,position_2,position_3,position_4]
+	position_arr.shuffle()
+	for player_item in pre_load_player_arr:
+		var player_node = player_instance.instance()
+		player_node.main_scene_ref = main_scene_ref
+		player_node.player_name = player_item
+		add_child(player_node)
+		player_node.global_position = position_arr.pop_back().global_position
+
+#通过传入的房间和用户数据 初始化场景
 func setup(_room_id,_player_arr,_main_scene_ref):
+	room_id = _room_id
+	pre_load_player_arr = _player_arr
 	main_scene_ref = _main_scene_ref
 
 func _process(delta):
@@ -49,10 +72,9 @@ func _process(delta):
 			player_ui.object_click(interaction_object)
 	
 	update_player_location(delta)
-			
 
-var update_locotion_step = 0.5
-var record_location_time = 0
+
+
 #更新用户的位置
 func update_player_location(delta):
 	record_location_time = record_location_time + delta

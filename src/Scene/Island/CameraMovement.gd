@@ -1,4 +1,5 @@
 extends Camera2D
+class_name CameraMovement
 
 export var panSpeed = 10.0
 export var speed = 10.0

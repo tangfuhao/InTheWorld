@@ -1,6 +1,6 @@
 extends Control
 
-const island_scene = preload("res://src/Scene/Island/Island.tscn")
+const game_choreographer = preload("res://src/Scene/GameChoreographer.tscn")
 
 onready var lobby_player_listview = $"HBoxContainer/VBoxContainer/大厅玩家"
 onready var room_listview = $"HBoxContainer/VBoxContainer2/房间列表"
@@ -33,6 +33,6 @@ func _on_game_log_out_player(_player_id,_player_name):
 
 #房间开始载入游戏
 func _on_room_start_game(_room_id,_player_arr):
-	var scene_node = island_scene.instance()
-	scene_node.setup(_room_id,_player_arr)
-	add_child(scene_node)
+	var game_choreographer_node = game_choreographer.instance()
+	game_choreographer_node.setup(_room_id,_player_arr,"island")
+	add_child(game_choreographer_node)
