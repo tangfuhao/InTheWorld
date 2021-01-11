@@ -24,7 +24,10 @@ var record_location_time = 0
 var controll_player
 # 房间ID
 var room_id
-var pre_load_player_arr
+#用户通讯ID
+var player_network_id_arr
+#用户类型
+var player_type_arr
 
 #当前场景的引用
 var main_scene_ref
@@ -36,7 +39,7 @@ func _ready():
 	
 	var position_arr := [position_1,position_2,position_3,position_4]
 	position_arr.shuffle()
-	for player_item in pre_load_player_arr:
+	for player_item in player_type_arr:
 		var player_node = player_instance.instance()
 		player_node.main_scene_ref = main_scene_ref
 		player_node.player_name = player_item
@@ -44,9 +47,10 @@ func _ready():
 		player_node.global_position = position_arr.pop_back().global_position
 
 #通过传入的房间和用户数据 初始化场景
-func setup(_room_id,_player_arr,_main_scene_ref):
+func setup(_room_id,_player_network_id_arr,_player_type_arr,_main_scene_ref):
 	room_id = _room_id
-	pre_load_player_arr = _player_arr
+	player_network_id_arr = _player_network_id_arr
+	player_type_arr = _player_type_arr
 	main_scene_ref = _main_scene_ref
 
 func _process(delta):

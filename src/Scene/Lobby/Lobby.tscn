@@ -29,7 +29,7 @@ margin_right = 397.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
 custom_fonts/font = ExtResource( 3 )
-text = "大厅玩家"
+text = "在线玩家"
 valign = 1
 
 [node name="大厅玩家" parent="HBoxContainer/VBoxContainer" instance=ExtResource( 2 )]

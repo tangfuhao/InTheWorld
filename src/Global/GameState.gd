@@ -29,7 +29,7 @@ signal remove_room(_room_id)
 signal room_add_player(_room_id,_user_id)
 signal room_remove_player(_room_id,_user_id)
 #游戏开启
-signal start_game(_room_id,_player_arr)
+signal start_game(_room_id,_player_network_id_arr,player_type_arr)
 
 
 func _ready():
@@ -53,6 +53,16 @@ func start_server():
 func stop_server():
 	if server_socket.is_listening():
 		server_socket.stop()
+
+func get_player_list_in_room(_room_id) -> Array:
+	if room_data_dic.has(_room_id):
+		return room_data_dic[_room_id]
+	return []
+
+func get_player_data_by_id(_player_id)->Dictionary:
+	if player_data_dic.has(_player_id):
+		return player_data_dic[_player_id]
+	return {}
 
 func _process(delta):
 	server_socket.poll()
@@ -147,8 +157,12 @@ func _on_data_received(id):
 			else:
 				player_owner_room[id] = room_name
 				room_list.push_back(room_name)
+				
 				var player_list_in_room_arr = CollectionUtilities.get_arr_item_by_key_from_dic(room_data_dic,room_name)
 				player_list_in_room_arr.push_back(id)
+				
+				#通知房间的创建
+				emit_signal("create_room",room_name)
 				
 				msg_data["type"] = type + 1
 				msg_data["respond"] = 200
@@ -178,13 +192,14 @@ func _on_data_received(id):
 					var new_room_owner = player_list_in_room_arr.front()
 					if not player_owner_room.has(new_room_owner):
 						#更换第二个玩家为房间主人
-						player_owner_room[new_room_owner] == room_name
+						player_owner_room[new_room_owner] = room_name
 				else:
 					CollectionUtilities.remove_item_from_arr(room_list,room_name)
 					CollectionUtilities.remove_key_from_dic(room_data_dic,room_name)
-
-
-
+					#通知房间的关闭
+					emit_signal("remove_room",room_name)
+				
+				#退出房间 回复
 				msg_data["type"] = type + 1
 				msg_data["respond"] = 200
 				var repkt = to_json(msg_data).to_utf8()
@@ -203,11 +218,11 @@ func _on_data_received(id):
 				player_list_in_game = player_list_in_game.duplicate()
 				prepare_running_room[room_name] = player_list_in_game
 
-				#通知其他玩家 游戏开始
+				#通知房间内所有玩家 游戏可以开始
 				for item in player_list_in_game:
-					if item != id:
-						#通知
-						print("通知玩家",item,"进入游戏界面")
+					#通知
+					notify_player_start_game(item)
+					print("通知玩家",item,"进入游戏界面")
 
 		elif type == 14:
 			#游戏准备完毕
@@ -222,8 +237,12 @@ func _on_data_received(id):
 					if prepare_player_arr.empty():
 						#满足开始游戏
 						print("满足开始游戏")
-						var player_arr_in_game = room_data_dic[room_name]
-						emit_signal("start_game",room_name,player_arr_in_game)
+						var player_network_id_arr_in_game = room_data_dic[room_name]
+						#TODO 临时
+						var player_type_arr := []
+						for index in range(player_network_id_arr_in_game.size()):
+							player_type_arr.push_back("军宏")
+						emit_signal("start_game",room_name,player_network_id_arr_in_game,player_type_arr)
 		elif type == 16:
 			#请求房间内的用户列表
 			if not msg_data.has("data"):
@@ -235,15 +254,19 @@ func _on_data_received(id):
 #				return
 			assert(room_data_dic.has(room_name))
 				
-			var player_arr_in_room = room_data_dic[room_name]
+			var player_id_arr_in_room = room_data_dic[room_name]
 			
 #			if not player_arr_in_room.has(id):
 #				return
-			assert(player_arr_in_room.has(id))
+			assert(player_id_arr_in_room.has(id))
+			var player_name_arr_in_room := []
+			for player_id_item in player_id_arr_in_room:
+				var player_item_data = get_player_data_by_id(player_id_item)
+				player_name_arr_in_room.push_back(player_item_data["player_name"])
 			
 			msg_data["type"] = type + 1
 			msg_data["respond"] = 200
-			msg_data_data["playerList"] = player_arr_in_room
+			msg_data_data["playerList"] = player_name_arr_in_room
 			
 			var repkt = to_json(msg_data).to_utf8()
 			server_socket.get_peer(id).put_packet(repkt)
@@ -313,4 +336,11 @@ func notify_player_join_room(_player_id,_new_player_id):
 	
 	var repkt = to_json(msg_data).to_utf8()
 	server_socket.get_peer(_player_id).put_packet(repkt)
+
+func notify_player_start_game(_player_id):
+	var msg_data := {}
+	msg_data["type"] = 11
+	msg_data["respond"] = 200
 	
+	var repkt = to_json(msg_data).to_utf8()
+	server_socket.get_peer(_player_id).put_packet(repkt)
