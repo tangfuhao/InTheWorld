@@ -236,9 +236,10 @@ func show_stuff_params(_object):
 
 #在场景中选择一个物品
 func object_click(interaction_object):
+	assert(interaction_object)
+
 	show_stuff_params(interaction_object)
-	if not interaction_object:
-		return
+
 	var unselect_num = show_interaction_info_listview.get_child_count()
 	for item in show_interaction_info_listview.get_children():
 		if not item.has_meta("node"):
