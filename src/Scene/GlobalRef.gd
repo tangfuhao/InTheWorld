@@ -1,4 +1,4 @@
-extends Node
+class_name GlobalRef
 
 var cache_ref := {}
 

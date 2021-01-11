@@ -9,8 +9,11 @@ var target_cache_dir := {}
 #目标绑定了哪些类型
 var target_param_dic := {}
 
-func _init(_control_node):
+var message_generator
+
+func _init(_control_node,_message_generator):
 	control_node = _control_node
+	message_generator = _message_generator
 
 
 
@@ -27,7 +30,7 @@ func set_target(_param,_target):
 	var target_arr = CollectionUtilities.get_arr_item_by_key_from_dic(target_cache_dir,_param)
 	if CollectionUtilities.add_item_to_arr_no_repeat(target_arr,_param):
 		_target.connect("disappear_notify",self,"_on_target_disappear_notify")
-		GlobalMessageGenerator.send_player_target_change(control_node,_target)
+		message_generator.send_player_target_change(control_node,_target)
 		emit_signal("target_change",_target)
 
 func get_recently_target():

@@ -15,24 +15,28 @@ onready var player_layer := $PlayerLayer
 var controll_player
 
 
+#当前场景的引用
+var main_scene_ref
 
 
 func _ready():
 	pathfinding.create_navigation_map(ground)
 	binding_customer_node_event()
 	
+func setup(_room_id,_player_arr,_main_scene_ref):
+	main_scene_ref = _main_scene_ref
 
 func _process(delta):
 	if Input.is_action_just_pressed("operation_option"):
 		if controll_player:
-			var interaction_object = GlobalRef.get_key_global(GlobalRef.global_key.mouse_interaction)
+			var interaction_object = main_scene_ref.global_ref.get_key_global(main_scene_ref.global_ref.global_key.mouse_interaction)
 			if interaction_object:
 				player_ui.object_right_click(interaction_object)
 			else:
 				var pos = get_global_mouse_position()
 				controll_player.task_scheduler.add_tasks([["移动",pos]])
 	elif Input.is_action_just_pressed("inv_grab"):
-		var interaction_object = GlobalRef.get_key_global(GlobalRef.global_key.mouse_interaction)
+		var interaction_object = main_scene_ref.global_ref.get_key_global(main_scene_ref.global_ref.global_key.mouse_interaction)
 		if interaction_object is Player:
 			if not controll_player:
 				controll_player = interaction_object
@@ -70,6 +74,7 @@ func binding_customer_node_event():
 		binding_customer_node_item(item)
 
 func binding_customer_node_item(_item):
+	_item.main_scene_ref = main_scene_ref
 	_item.connect("disappear_notify",self,"_on_stuff_disappear")
 	# _item.connect("stuff_update_state",self,"_on_stuff_update_state")
 

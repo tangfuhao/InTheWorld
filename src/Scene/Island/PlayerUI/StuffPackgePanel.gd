@@ -3,6 +3,9 @@ const item_base = preload("res://src/Scene/Island/PlayerUI/inventory/ItemBase.ts
 
 onready var grid_bkpk := $GridBackPack
 
+#当前场景的引用
+var main_scene_ref
+
 func _ready():
 	if not visible:
 		deactivate()
@@ -40,6 +43,7 @@ func synchron_data_to_ui(_item_arr:Array):
 func add_item(item_id,item_text,interaction_objec):
 	var item = item_base.instance()
 	item.interaction_object = interaction_objec
+	item.main_scene_ref = main_scene_ref
 	item.set_meta("id", item_id)
 	item.get_node("Control").text = item_text
 	if !grid_bkpk.insert_item_at_first_available_spot(item):

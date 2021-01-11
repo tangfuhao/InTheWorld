@@ -1,9 +1,9 @@
-extends Node
 #全局消息产生器
+class_name MessageGenerator
+
 signal message_dispatch
 
-enum MessageType { execute_action, stop_action, find_player_in_vision,lost_player_in_vision,find_in_vision,lost_in_vision,
-location }
+enum MessageType { execute_action, stop_action, find_player_in_vision,lost_player_in_vision,find_in_vision,lost_in_vision,location }
 
 
 func create_common_message(_player,_type):

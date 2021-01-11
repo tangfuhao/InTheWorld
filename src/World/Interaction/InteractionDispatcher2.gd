@@ -32,7 +32,7 @@ func traverse_object_item_in_scnece(_node_arr:Array):
 	
 #遍历出所有的对象节点 包括 存储和绑定的
 func traverse_all_object_in_scnece():
-	var root_node = get_tree().get_root().get_child(get_tree().get_root().get_child_count()-1)
+	var root_node = get_parent()
 	var player_layer = root_node.get_node("PlayerLayer")
 	traverse_object_item_in_scnece(player_layer.get_children())
 	var stuff_layer = root_node.get_node("StuffLayer")

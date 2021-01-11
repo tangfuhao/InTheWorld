@@ -47,7 +47,8 @@ func calculate_position_by_direction(_map_position,_direction):
 		return map_position
 #获取随机位置
 func get_random_position() -> Vector2:
-	var map_node = human.get_node("/root/Island/Ground")
+	var main_scence = human.get_parent().get_parent()
+	var map_node = main_scence.ground
 	var map_position_laste:Vector2 = map_node.world_to_map(human.get_global_position())
 	if map_position != map_position_laste:
 		used_random_index_arr.clear()

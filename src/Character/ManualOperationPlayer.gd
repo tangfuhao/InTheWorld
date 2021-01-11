@@ -46,6 +46,9 @@ var interactive_object_list := []
 #作用模板-作用对象
 var interaction_dic := {}
 
+#当前场景的引用
+var main_scene_ref
+
 
 signal disappear_notify(_node)
 signal node_add_concept(_node,_concept_name)
@@ -80,9 +83,10 @@ signal request_input(dialog_text)
 func _ready() -> void:
 	display_name = player_name
 	name_label.set_text(display_name)
-	node_name = display_name + IDGenerator.pop_id_index()
+	node_name = display_name + main_scene_ref.id_generator.pop_id_index()
 	
-	target_system = TargetSystem.new(self)
+	target_system = TargetSystem.new(self,main_scene_ref.message_generator)
+	vision_sensor.message_generator = main_scene_ref.message_generator
 	#加载属性
 	preload_param_config()
 
@@ -129,7 +133,7 @@ func set_response_text(_response_text):
 
 func send_message(_target,_message):
 	var message_text ="%s给:%s 发送消息:%s" % [ display_name,_target.display_name,_message]
-	LogSys.log_i(message_text)
+	main_scene_ref.log_sys.log_i(message_text)
 	
 	
 func can_interaction(_object:Node2D):
@@ -303,11 +307,11 @@ func _on_PlayerParam_param_item_value_change(_param_item,_old_value,_new_value):
 
 
 func _on_ManualOperationPlayer_mouse_entered():
-	GlobalRef.set_key_value_global(GlobalRef.global_key.mouse_interaction,self)
+	main_scene_ref.global_ref.set_key_value_global(main_scene_ref.global_ref.global_key.mouse_interaction,self)
 
 
 func _on_ManualOperationPlayer_mouse_exited():
-	GlobalRef.remove_value_from_key_global(GlobalRef.global_key.mouse_interaction,self)
+	main_scene_ref.global_ref.remove_value_from_key_global(main_scene_ref.global_ref.global_key.mouse_interaction,self)
 
 #某个作用结束
 func _on_interaction_finish(_interaction_implement):

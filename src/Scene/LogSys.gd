@@ -1,4 +1,4 @@
-extends Node
+class_name LogSys
 
 
 var data_arr := []

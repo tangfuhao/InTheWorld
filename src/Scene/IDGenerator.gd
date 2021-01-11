@@ -1,4 +1,4 @@
-extends Node
+class_name IDGenerator
 var id_index = 0
 
 

@@ -61,6 +61,10 @@ var lisnter_node_binding_target_change_dic := {}
 #需要监听的节点的存储对象 更新
 var lisnter_node_storage_target_change_dic := {}
 
+
+#当前场景的引用
+var main_scene_ref
+
 #作用结束
 signal interaction_finish(_interaction_implement)
 
@@ -326,7 +330,7 @@ func check_node_exist():
 	for item in node_dic.keys():
 		var node_item = node_dic[item]
 		if not node_item or node_item.is_queued_for_deletion():
-			LogSys.log_i("因为节点:%s 不存在，作用:%s 不执行" % [item,interaction_name])
+			main_scene_ref.log_sys.log_i("因为节点:%s 不存在，作用:%s 不执行" % [item,interaction_name])
 			
 			return false
 	return true
@@ -338,7 +342,7 @@ func judge_conditions(_traverse_all_condition) -> bool:
 	for condition_item in conditions_arr:
 		if not judge_condition_item(condition_item):
 			is_meet_all_condition = false
-			LogSys.log_i("因为条件:%s 不满足，作用:%s 不执行" % [condition_item,interaction_name])
+			main_scene_ref.log_sys.log_i("因为条件:%s 不满足，作用:%s 不执行" % [condition_item,interaction_name])
 			if not _traverse_all_condition:
 				break
 	return is_meet_all_condition
@@ -541,7 +545,12 @@ func is_equal(_value1,_value2):
 
 	
 func num_of_parent_affiliation(_node:Node2D):
-	var stuff_layer = _node.get_node("/root/Island/StuffLayer")
+	var main_scence = _node.get_parent().get_parent()
+	if not main_scence.has_meta("customer_node_group"):
+		return 1
+
+	var stuff_layer = main_scence.customer_node_group
+
 	if _node.get_parent() == stuff_layer:
 		return 0
 	return 1

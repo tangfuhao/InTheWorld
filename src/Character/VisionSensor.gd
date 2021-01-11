@@ -9,6 +9,8 @@ signal vision_lost_player(_body)
 signal vision_find_stuff(_body)
 signal vision_lost_stuff(_body)
 
+var message_generator:MessageGenerator
+
 #视线遇见
 func _on_RealVision_body_entered(_body):
 	if _body == owner:
@@ -50,11 +52,11 @@ func add_monitoring_arr(_body):
 				listner_target_exist_status(_body)
 				monitoring_arr.push_back(_body)
 				if body_type == "Player":
-					GlobalMessageGenerator.send_player_find_player_in_vision(owner,_body)
+					message_generator.send_player_find_player_in_vision(owner,_body)
 					emit_signal("vision_find_player",_body)
 					
 				else:
-					GlobalMessageGenerator.send_player_find_stuff_in_vision(owner,_body)
+					message_generator.send_player_find_stuff_in_vision(owner,_body)
 					emit_signal("vision_find_stuff",_body)
 	else:
 		print("不被识别的类型 请重视")
@@ -76,10 +78,10 @@ func remove_monitoring_arr(_body):
 				un_listner_target_exist_status(_body)
 				if type_item == "Player":
 					emit_signal("vision_lost_player",_body)
-					GlobalMessageGenerator.send_player_lost_player_in_vision(owner,_body)
+					message_generator.send_player_lost_player_in_vision(owner,_body)
 				else:
 					emit_signal("vision_lost_stuff",_body)
-					GlobalMessageGenerator.send_player_lost_stuff_in_vision(owner,_body)
+					message_generator.send_player_lost_stuff_in_vision(owner,_body)
 	else:
 		print("不被识别的类型 请重视")
 	

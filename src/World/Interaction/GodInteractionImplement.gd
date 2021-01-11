@@ -543,7 +543,11 @@ func is_equal(_value1,_value2):
 
 	
 func num_of_parent_affiliation(_node:Node2D):
-	var stuff_layer = _node.get_node("/root/Island/StuffLayer")
+	var main_scence = _node.get_parent().get_parent()
+	if not main_scence.has_meta("customer_node_group"):
+		return 1
+
+	var stuff_layer = main_scence.customer_node_group
 	if _node.get_parent() == stuff_layer:
 		return 0
 	return 1

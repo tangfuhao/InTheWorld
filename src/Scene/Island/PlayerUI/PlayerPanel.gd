@@ -44,6 +44,9 @@ var temp_emotion_arr := [["开心","快感","满足","解脱","兴奋","悠闲",
 #输入占位符
 var param_placeholder_arr := []
 
+#当前场景的引用
+var main_scene_ref
+
 func active()->void:
 	self.show()
 	pass
@@ -53,7 +56,9 @@ func inactive()->void:
 	pass
 
 func _ready():
-	GlobalMessageGenerator.connect("message_dispatch",self,"_on_global_message_handle")
+	
+	
+
 	interaction_arr = DataManager.get_interaction_arr_by_type("body")
 	interaction_listview.connect("on_item_selected",self,"on_interaction_item_selected")
 	
@@ -72,7 +77,10 @@ func _ready():
 				content = "中性情绪:%s" % item
 			emotion_listview.add_content_text(index,content,"交互文本")
 			index = index + 1
-
+	
+	yield(get_tree(),"idle_frame")
+	object_storage_panel.main_scene_ref = main_scene_ref
+	main_scene_ref.message_generator.connect("message_dispatch",self,"_on_global_message_handle")
 
 
 func _process(delta):
@@ -315,7 +323,7 @@ func on_emotion_item_selected(index):
 	var type_index = index / 7
 	index = index % 7
 	var emotion_content = "%s:%s" % [current_player.display_name,temp_emotion_arr[type_index][index]]
-	LogSys.log_i(emotion_content)
+	main_scene_ref.log_sys.log_i(emotion_content)
 	
 
 
