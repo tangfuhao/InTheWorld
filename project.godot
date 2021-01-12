@@ -618,6 +618,7 @@ DataManager="*res://src/Global/DataManager.gd"
 CollectionUtilities="*res://src/Global/CollectionUtilities.gd"
 ValueCacheManager="*res://src/Global/ValueCacheManager.gd"
 GameState="*res://src/Global/GameState.gd"
+FunctionTools="*res://src/Global/FunctionTool.gd"
 
 [display]
 

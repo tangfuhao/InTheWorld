@@ -16,7 +16,10 @@ func set_release_node(_name):
 
 func _process(_delta,_param_accessor):
 	var node = _param_accessor.get_node_ref(node_name)
-	var main_scence = node.get_node("/root/Island/StuffLayer")
+
+	var main_scence = node.game_wapper_ref.get_main_scence(node)
+	var stuff_layer = main_scence.customer_node_group
+
 	var node_ref = _param_accessor.get_node_ref(release_node_name)
 	var target_global_position = node_ref.get_global_position()
 
@@ -26,14 +29,14 @@ func _process(_delta,_param_accessor):
 		node_ref.notify_node_un_storage_to(node.storage_layer)
 
 		#加入到场景
-		add_to_main_scene(main_scence,node_ref,target_global_position)
+		add_to_main_scene(stuff_layer,node_ref,target_global_position)
 		node_ref.notify_node_add_to_main_scene()
 		
 	elif node.bind_layer.is_bind(node_ref) and node.bind_layer.un_bind(node_ref):
 		node_ref.notify_node_un_binding_to(node.bind_layer)
 
 		#加入到场景
-		add_to_main_scene(main_scence,node_ref,target_global_position)
+		add_to_main_scene(stuff_layer,node_ref,target_global_position)
 		node_ref.notify_node_add_to_main_scene()
 		
 func add_to_main_scene(main_scence,stuff_node,position):

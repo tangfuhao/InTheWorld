@@ -49,6 +49,11 @@ var init_param_dic := {}
 var new_add_concept := []
 
 
+
+#当前场景的引用
+var game_wapper_ref
+
+
 #物品位置的更新
 signal node_position_update(_node)
 signal disappear_notify(_stuff)
@@ -75,12 +80,15 @@ signal node_remove_to_main_scene(_node)
 
 
 
+
 func _set_display_name(_name):
 	display_name = _name
 	if item_display_name:
 		item_display_name.text = _name
 
 func _ready():
+	game_wapper_ref = FunctionTools.get_game_wapper_node(get_path())
+	
 	if load_config_by_stuff_type(stuff_type_name):
 		setup_node_by_config(stuff_type_name)
 		update_stuff_physical_state()
@@ -232,8 +240,8 @@ func load_config_by_stuff_type(_type) -> bool:
 				var create_node_param_arr = item["params"]
 				for node_param_item in create_node_param_arr:
 					be_create_node.add_init_param(node_param_item["param_name"],node_param_item["assign"])
-			var main_scence = get_node("/root/Island")
-			main_scence.add_customer_node(be_create_node)	
+			var main_scence = game_wapper_ref.get_main_scence(self)
+			main_scence.add_customer_node(be_create_node)
 			if self.bind_layer.bind(be_create_node):
 				pass
 				# be_create_node.notify_binding_dependency_change()
@@ -248,7 +256,7 @@ func load_config_by_stuff_type(_type) -> bool:
 				var create_node_param_arr = item["params"]
 				for node_param_item in create_node_param_arr:
 					be_create_node.add_init_param(node_param_item["param_name"],node_param_item["assign"])
-			var main_scence = get_node("/root/Island")
+			var main_scence = game_wapper_ref.get_main_scence(self)
 			main_scence.add_customer_node(be_create_node)
 			if self.storage_layer.store(be_create_node):
 				pass
@@ -257,9 +265,11 @@ func load_config_by_stuff_type(_type) -> bool:
 	return true
 
 
+		
+
 #通过属性 初始化节点
 func setup_node_by_config(_type):
-	self.node_name = _type + IDGenerator.pop_id_index()
+	self.node_name = _type + game_wapper_ref.id_generator.pop_id_index()
 	self.display_name = _type
 	apply_phycis_config()
 
@@ -380,7 +390,9 @@ func disappear():
 	
 
 func notify_before_disappear():
-	var sutfff_layer = get_node("/root/Island/StuffLayer")
+	var main_scence = game_wapper_ref.get_main_scence(self)
+	var sutfff_layer = main_scence.customer_node_group
+
 	var parent_node = get_parent()
 	if parent_node == sutfff_layer:
 		notify_node_remove_to_main_scene()
@@ -505,8 +517,8 @@ func _on_PlayerParam_param_item_value_change(_param_item,_old_value,_new_value):
 
 
 func _on_StuffArea_mouse_entered():
-	GlobalRef.set_key_value_global(GlobalRef.global_key.mouse_interaction,self)
+	game_wapper_ref.global_ref.set_key_value_global(game_wapper_ref.global_ref.global_key.mouse_interaction,self)
 
 
 func _on_StuffArea_mouse_exited():
-	GlobalRef.remove_value_from_key_global(GlobalRef.global_key.mouse_interaction,self)
+	game_wapper_ref.global_ref.remove_value_from_key_global(game_wapper_ref.global_ref.global_key.mouse_interaction,self)

@@ -29,11 +29,14 @@ var player_network_id_arr
 #用户类型
 var player_type_arr
 
+
 #当前场景的引用
-var main_scene_ref
+var game_wapper_ref
 
 
 func _ready():
+	game_wapper_ref = FunctionTools.get_game_wapper_node(get_path())
+	
 	pathfinding.create_navigation_map(ground)
 	binding_customer_node_event()
 	
@@ -41,29 +44,28 @@ func _ready():
 	position_arr.shuffle()
 	for player_item in player_type_arr:
 		var player_node = player_instance.instance()
-		player_node.main_scene_ref = main_scene_ref
 		player_node.player_name = player_item
 		add_child(player_node)
 		player_node.global_position = position_arr.pop_back().global_position
 
+
 #通过传入的房间和用户数据 初始化场景
-func setup(_room_id,_player_network_id_arr,_player_type_arr,_main_scene_ref):
+func setup(_room_id,_player_network_id_arr,_player_type_arr):
 	room_id = _room_id
 	player_network_id_arr = _player_network_id_arr
 	player_type_arr = _player_type_arr
-	main_scene_ref = _main_scene_ref
 
 func _process(delta):
 	if Input.is_action_just_pressed("operation_option"):
 		if controll_player:
-			var interaction_object = main_scene_ref.global_ref.get_key_global(main_scene_ref.global_ref.global_key.mouse_interaction)
+			var interaction_object = game_wapper_ref.global_ref.get_key_global(game_wapper_ref.global_ref.global_key.mouse_interaction)
 			if interaction_object:
 				player_ui.object_right_click(interaction_object)
 			else:
 				var pos = get_global_mouse_position()
 				controll_player.task_scheduler.add_tasks([["移动",pos]])
 	elif Input.is_action_just_pressed("inv_grab"):
-		var interaction_object = main_scene_ref.global_ref.get_key_global(main_scene_ref.global_ref.global_key.mouse_interaction)
+		var interaction_object = game_wapper_ref.global_ref.get_key_global(game_wapper_ref.global_ref.global_key.mouse_interaction)
 		if interaction_object is Player:
 			if not controll_player:
 				controll_player = interaction_object
@@ -73,7 +75,8 @@ func _process(delta):
 			else:
 				player_ui.object_click(interaction_object)
 		else:
-			player_ui.object_click(interaction_object)
+			if interaction_object:
+				player_ui.object_click(interaction_object)
 	
 	update_player_location(delta)
 
@@ -100,7 +103,6 @@ func binding_customer_node_event():
 		binding_customer_node_item(item)
 
 func binding_customer_node_item(_item):
-	_item.main_scene_ref = main_scene_ref
 	_item.connect("disappear_notify",self,"_on_stuff_disappear")
 	# _item.connect("stuff_update_state",self,"_on_stuff_update_state")
 

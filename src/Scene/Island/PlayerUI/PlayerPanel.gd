@@ -44,8 +44,9 @@ var temp_emotion_arr := [["开心","快感","满足","解脱","兴奋","悠闲",
 #输入占位符
 var param_placeholder_arr := []
 
+
 #当前场景的引用
-var main_scene_ref
+var game_wapper_ref
 
 func active()->void:
 	self.show()
@@ -56,8 +57,8 @@ func inactive()->void:
 	pass
 
 func _ready():
-	
-	
+	game_wapper_ref = FunctionTools.get_game_wapper_node(get_path())
+	game_wapper_ref.message_generator.connect("message_dispatch",self,"_on_global_message_handle")
 
 	interaction_arr = DataManager.get_interaction_arr_by_type("body")
 	interaction_listview.connect("on_item_selected",self,"on_interaction_item_selected")
@@ -78,17 +79,16 @@ func _ready():
 			emotion_listview.add_content_text(index,content,"交互文本")
 			index = index + 1
 	
-	yield(get_tree(),"idle_frame")
-	object_storage_panel.main_scene_ref = main_scene_ref
-	main_scene_ref.message_generator.connect("message_dispatch",self,"_on_global_message_handle")
+	
+	
 
 
 func _process(delta):
-	if not LogSys.processed_message_queue.empty():
-		var content_text = LogSys.processed_message_queue.pop_front()
-		var index = LogSys.data_arr.size()
+	if not game_wapper_ref.log_sys.processed_message_queue.empty():
+		var content_text = game_wapper_ref.log_sys.processed_message_queue.pop_front()
+		var index = game_wapper_ref.log_sys.data_arr.size()
 		log_listview.add_content_text(index,content_text,"世界文本")
-		LogSys.data_arr.push_back(content_text)
+		game_wapper_ref.log_sys.data_arr.push_back(content_text)
 	
 	
 	if current_interaction_template:
@@ -324,7 +324,7 @@ func on_emotion_item_selected(index):
 	var type_index = index / 7
 	index = index % 7
 	var emotion_content = "%s:%s" % [current_player.display_name,temp_emotion_arr[type_index][index]]
-	main_scene_ref.log_sys.log_i(emotion_content)
+	game_wapper_ref.log_sys.log_i(emotion_content)
 	
 
 

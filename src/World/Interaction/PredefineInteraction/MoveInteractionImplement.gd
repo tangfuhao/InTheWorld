@@ -194,9 +194,11 @@ func plan_next_destination():
 		human.movement.set_desired_position(target_pos)
 
 func path_finding():
-	var path_finding = human.get_node("/root/Island/Pathfinding")
+	var main_scence = human.game_wapper_ref.get_main_scence(human)
+	var pathfinding = main_scence.pathfinding
+
 	if action_target is CommonStuff and not action_target.is_location:
-		var stuff_interaction_coord_arr = path_finding.get_stuff_interaction_coords(action_target)
+		var stuff_interaction_coord_arr = pathfinding.get_stuff_interaction_coords(action_target)
 		var min_distance = 5000000000
 		var min_coord
 		for coord in stuff_interaction_coord_arr:
@@ -205,12 +207,12 @@ func path_finding():
 				min_coord = coord
 				min_distance = distance
 		if min_coord:
-			var path_world = path_finding.get_new_path(human.get_global_position(),min_coord)
+			var path_world = pathfinding.get_new_path(human.get_global_position(),min_coord)
 			return path_world
 		else:
 			return []
 	else:
-		var path_world = path_finding.get_new_path(human.get_global_position(),target_pos)
+		var path_world = pathfinding.get_new_path(human.get_global_position(),target_pos)
 		return path_world
 
 

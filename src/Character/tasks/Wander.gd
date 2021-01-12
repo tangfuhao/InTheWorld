@@ -6,6 +6,9 @@ var map_position
 var used_random_index_arr := []
 
 
+
+
+
 func process(_delta: float):
 	.process(_delta)
 	var move_interaction = human.get_running_interaction("移动")
@@ -47,7 +50,7 @@ func calculate_position_by_direction(_map_position,_direction):
 		return map_position
 #获取随机位置
 func get_random_position() -> Vector2:
-	var main_scence = human.get_parent().get_parent()
+	var main_scence = human.game_wapper_ref.get_main_scence(human)
 	var map_node = main_scence.ground
 	var map_position_laste:Vector2 = map_node.world_to_map(human.get_global_position())
 	if map_position != map_position_laste:

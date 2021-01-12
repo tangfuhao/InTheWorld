@@ -28,13 +28,17 @@ var need_to_re_plan = false
 
 # var ignore_status_change_re_plan = false
 
-var message_generator:MessageGenerator
+#当前场景的引用
+var game_wapper_ref
 
-func setup(_control_node,_world_status,_motivation,_message_generator):
+func _ready():
+	game_wapper_ref = FunctionTools.get_game_wapper_node(get_path())
+
+func setup(_control_node,_world_status,_motivation):
 	randomize()
 	control_node = _control_node
 	world_status = _world_status
-	message_generator = _message_generator
+	
 	
 	laod_strategy_overview()
 	load_base_task()
@@ -64,7 +68,7 @@ func _process(_delta: float):
 			var  replace_running_task = run_next_task()
 			
 			if replace_running_task == null:
-				message_generator.send_player_strategy_plan_succuss(control_node,current_strategy_chain)
+				game_wapper_ref.message_generator.send_player_strategy_plan_succuss(control_node,current_strategy_chain)
 				
 			current_running_task.terminate()
 			
@@ -75,7 +79,7 @@ func _process(_delta: float):
 				new_create_task = true
 				current_delta = 0
 		elif task_state == Task.STATE.GOAL_FAILED: 
-			message_generator.send_player_strategy_plan_fail(control_node,current_strategy_chain)
+			game_wapper_ref.message_generator.send_player_strategy_plan_fail(control_node,current_strategy_chain)
 			clean_current_task()
 			current_strategy_chain.clean()
 
@@ -150,7 +154,7 @@ func re_plan_strategy():
 		
 	if new_active_motivation and new_active_motivation != active_motivation and new_active_motivation.is_active:
 		active_motivation = new_active_motivation
-		message_generator.send_highest_priority_motivation(control_node,active_motivation)
+		game_wapper_ref.message_generator.send_highest_priority_motivation(control_node,active_motivation)
 
 
 	var strategy = get_strategy_by_task_name(active_motivation.motivation_name)
@@ -237,7 +241,7 @@ func plan_strategy(_strategy,_level,_current_strategy_chain,_new_strategy_chain,
 			#策略规划失败的埋点
 			var strategy_plan_path = generate_strategy_plan_path(select_strategy,_plan_strategy_record)
 			if strategy_plan_path:
-				message_generator.send_player_strategy_plan(control_node,strategy_plan_path,false)
+				game_wapper_ref.message_generator.send_player_strategy_plan(control_node,strategy_plan_path,false)
 
 
 
@@ -257,7 +261,7 @@ func plan_strategy(_strategy,_level,_current_strategy_chain,_new_strategy_chain,
 			#策略规划的路径
 			var strategy_plan_path = generate_strategy_plan_path(select_strategy,_plan_strategy_record)
 			if strategy_plan_path:
-				message_generator.send_player_strategy_plan(control_node,strategy_plan_path,true)
+				game_wapper_ref.message_generator.send_player_strategy_plan(control_node,strategy_plan_path,true)
 				_new_strategy_chain.add_strategy_record(strategy_plan_path)
 			return true
 

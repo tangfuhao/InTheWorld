@@ -9,12 +9,16 @@ var player_status_dic:Dictionary
 signal highest_priority_motivation_change(motivation_model)
 signal motivation_item_value_change(motivation_model)
 
-var message_generator:MessageGenerator
+
+#当前场景的引用
+var game_wapper_ref
+
+func _ready():
+	game_wapper_ref = FunctionTools.get_game_wapper_node(get_path())
 	
-func setup(_control_node,_statusDic,_message_generator):
+func setup(_control_node,_statusDic):
 	control_node = _control_node
 	player_status_dic = _statusDic
-	message_generator = _message_generator
 	laod_motivation_overview()
 	binding_listening_relative()
 	
@@ -54,7 +58,7 @@ func _on_motivation_arr_active_change(motivation_model):
 #动机值改变的激活通知 更新优先级最高的动机
 func _on_motivation_arr_value_change(motivation_model):
 	emit_signal("motivation_item_value_change",motivation_model)
-	message_generator.send_player_motivation_value_change(control_node,motivation_model)
+	game_wapper_ref.message_generator.send_player_motivation_value_change(control_node,motivation_model)
 	if self.highest_priority_motivation == null:
 		if motivation_model.is_active: 
 			self.highest_priority_motivation = motivation_model
