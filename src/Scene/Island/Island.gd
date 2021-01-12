@@ -45,8 +45,8 @@ func _ready():
 	for player_item in player_type_arr:
 		var player_node = player_instance.instance()
 		player_node.player_name = player_item
-		add_child(player_node)
-		player_node.global_position = position_arr.pop_back().global_position
+		
+		add_player_node(player_node,position_arr.pop_back().global_position)
 
 
 #通过传入的房间和用户数据 初始化场景
@@ -105,6 +105,9 @@ func binding_customer_node_event():
 func binding_customer_node_item(_item):
 	_item.connect("disappear_notify",self,"_on_stuff_disappear")
 	# _item.connect("stuff_update_state",self,"_on_stuff_update_state")
+	
+func binding_player_node(_node:Player):
+	_node.connect("disappear_notify",self,"_on_player_disappear")
 
 #把自定义物品 加入到场景
 func add_customer_node(_node:Node2D):
@@ -115,6 +118,14 @@ func add_customer_node(_node:Node2D):
 		#新增物品 加入上帝
 		interaction_dispatcher.add_new_stuff(_node)
 
+func add_player_node(_node:Player,_position:Vector2):
+	if _node:
+		player_layer.add_child(_node)
+		binding_player_node(_node)
+		#新增物品 加入上帝
+		interaction_dispatcher.add_player_node(_node)
+		_node.global_position = _position
+
 
 func _on_CameraMovement_cancle_focus_player():
 	player_ui.inactive()
@@ -123,3 +134,6 @@ func _on_CameraMovement_cancle_focus_player():
 
 func _on_stuff_disappear(_stuff):
 	pathfinding.clear_collision_stuff_global_rect(_stuff)
+
+func _on_player_disappear(_player_node):
+	assert(false)

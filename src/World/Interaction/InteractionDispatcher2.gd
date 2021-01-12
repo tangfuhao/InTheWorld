@@ -594,6 +594,14 @@ func add_new_stuff(_node):
 	print("新增节点：%s 结束" % _node.display_name)
 	print("==================================<")
 
+func add_player_node(_node):
+	print("==================================>")
+	print("新增用户节点：%s 开始"  %  _node.display_name)
+	match_all_node_arr.push_back(_node)
+	make_node_type_relation(_node)
+	create_node_relation_interaction(_node)
+	print("新增用户节点：%s 结束" % _node.display_name)
+	print("==================================<")
 
 
 #节点新增概念
