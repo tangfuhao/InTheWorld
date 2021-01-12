@@ -23,7 +23,7 @@ func setup(_control_node,_statusDic):
 	binding_listening_relative()
 	
 	
-	_control_node.connect("see_new_player",self,"_on_node_found_new_player")
+	# _control_node.connect("see_new_player",self,"_on_node_found_new_player")
 	
 func _on_node_found_new_player(_body):
 	#TODO 对应状态表
