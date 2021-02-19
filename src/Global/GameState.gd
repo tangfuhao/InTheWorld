@@ -7,16 +7,18 @@ var PEER_ID
 
 
 var player_list := []
+#用户数据
 var player_data_dic := {}
 
 #房间列表
 var room_list := []
+
+
 #房间下面的玩家列表
-var room_data_dic := {}
-#用户ID - 拥有的房间
-var player_owner_room := {}
-
-
+var room_player_list_dic := {}
+#用户ID - 所在的房间
+var player_to_room_dic := {}
+#准备启动的房间
 var prepare_running_room := {}
 
 #注册用户
@@ -55,14 +57,39 @@ func stop_server():
 		server_socket.stop()
 
 func get_player_list_in_room(_room_id) -> Array:
-	if room_data_dic.has(_room_id):
-		return room_data_dic[_room_id]
-	return []
+	return CollectionUtilities.get_arr_item_by_key_from_dic(room_player_list_dic,_room_id)
 
 func get_player_data_by_id(_player_id)->Dictionary:
-	if player_data_dic.has(_player_id):
-		return player_data_dic[_player_id]
-	return {}
+	return CollectionUtilities.get_dic_item_by_key_from_dic(player_data_dic,_player_id)
+	
+func remove_player_from_room(_player_id,_room_name):
+	if room_list.has(_room_name):
+		#房间玩家列表
+		var player_list_in_room_arr = get_player_list_in_room(_room_name)
+		var is_room_owner = player_list_in_room_arr.front() == _player_id
+		player_list_in_room_arr.erase(_player_id)
+		#如果是房间主人
+		if is_room_owner and not player_list_in_room_arr.empty():
+			var new_owner = player_list_in_room_arr.front()
+			#通知新的房间主人
+			for item in player_list_in_room_arr:
+				notify_player_own_room(item,new_owner)
+		
+		#通知用户退出房间
+		for item in player_list_in_room_arr:
+			notify_player_quit_room(item,_player_id)
+		
+
+		
+		#如果没有玩家了  关闭房间
+		if player_list_in_room_arr.empty():
+			CollectionUtilities.remove_item_from_arr(room_list,_room_name)
+			CollectionUtilities.remove_key_from_dic(room_player_list_dic,_room_name)
+			#通知房间的关闭
+			emit_signal("remove_room",_room_name)
+		return true
+		
+	return false
 
 func _process(delta):
 	server_socket.poll()
@@ -80,21 +107,13 @@ func _on_client_close_request(id, code, reason):
 	print("Client %d disconnecting with code: %d, reason: %s" % [id, code, reason])
 
 func _on_client_disconnected(id, was_clean = false):
-	if player_owner_room.has(id):
-		var owner_room = player_owner_room[id]
-		CollectionUtilities.remove_item_from_arr(room_list,owner_room)
-		if room_data_dic.has(owner_room):
-			#通知其他用户离开
-			var player_list_in_room = room_data_dic[owner_room]
-			for item_in_room in player_list_in_room:
-				if item_in_room != id:
-					notify_player_quit_room(item_in_room,id)
-			room_data_dic.erase(owner_room)
-#	assert(was_clean)
-	# This is called when a client disconnects, "id" will be the one of the
-	# disconnecting client, "was_clean" will tell you if the disconnection
-	# was correctly notified by the remote peer before closing the socket.
+	#房间清理
+	if player_to_room_dic.has(id):
+		var room_id = player_to_room_dic[id]
+		remove_player_from_room(id,room_id)
+
 	print("Client %d disconnected, clean: %s" % [id, str(was_clean)])
+	#在线列表清理
 	if CollectionUtilities.remove_item_from_arr(player_list,id):
 		var data_dic = player_data_dic[id]
 		var player_name = data_dic["player_name"]
@@ -112,7 +131,7 @@ func _on_data_received(id):
 		return
 	var msg_data = data_parse.result
 	if typeof(msg_data) == TYPE_DICTIONARY:
-		var type = msg_data["type"]
+		var type = msg_data["requestType"]
 		if type == 0:
 			if not msg_data.has("data"):
 				return
@@ -128,14 +147,14 @@ func _on_data_received(id):
 				emit_signal("log_in_player",id,player_name)
 			
 			#回应
-			msg_data["type"] = type + 1
+			msg_data["requestType"] = type + 1
 			msg_data["respond"] = 200
 			msg_data.erase("data")
 			var repkt = to_json(msg_data).to_utf8()
 			server_socket.get_peer(id).put_packet(repkt)
 		elif type == 2:
 			#请求房间列表
-			msg_data["type"] = type + 1
+			msg_data["requestType"] = type + 1
 			msg_data["respond"] = 200
 			var msg_data_data =  CollectionUtilities.get_dic_item_by_key_from_dic(msg_data,"data");
 			msg_data_data["roomList"] = room_list
@@ -149,22 +168,22 @@ func _on_data_received(id):
 		
 			var msg_data_data = msg_data["data"]
 			var room_name = msg_data_data["roomName"]
-			if room_list.has(room_name) or player_owner_room.has(id):
-				msg_data["type"] = type + 1
+			if room_list.has(room_name) or player_to_room_dic.has(id):
+				msg_data["requestType"] = type + 1
 				msg_data["respond"] = 201
 				var repkt = to_json(msg_data).to_utf8()
 				server_socket.get_peer(id).put_packet(repkt)
 			else:
-				player_owner_room[id] = room_name
+				player_to_room_dic[id] = room_name
 				room_list.push_back(room_name)
 				
-				var player_list_in_room_arr = CollectionUtilities.get_arr_item_by_key_from_dic(room_data_dic,room_name)
+				var player_list_in_room_arr = get_player_list_in_room(room_name)
 				player_list_in_room_arr.push_back(id)
 				
 				#通知房间的创建
 				emit_signal("create_room",room_name)
 				
-				msg_data["type"] = type + 1
+				msg_data["requestType"] = type + 1
 				msg_data["respond"] = 200
 				var repkt = to_json(msg_data).to_utf8()
 				server_socket.get_peer(id).put_packet(repkt)
@@ -175,35 +194,17 @@ func _on_data_received(id):
 		
 			var msg_data_data = msg_data["data"]
 			var room_name = msg_data_data["roomName"]
-			if room_list.has(room_name):
-				#通知房间其他玩家
-				var player_list_in_room_arr = CollectionUtilities.get_arr_item_by_key_from_dic(room_data_dic,room_name)
-				player_list_in_room_arr.erase(id)
-				for item in player_list_in_room_arr:
-					notify_player_quit_room(item,id)
-				
-				#如果是房间主人
-				if player_owner_room.has(id):
-					assert(player_owner_room[id] == room_name)
-					player_owner_room.erase(id)
-				
-				#如果还有玩家
-				if not player_list_in_room_arr.empty():
-					var new_room_owner = player_list_in_room_arr.front()
-					if not player_owner_room.has(new_room_owner):
-						#更换第二个玩家为房间主人
-						player_owner_room[new_room_owner] = room_name
-				else:
-					CollectionUtilities.remove_item_from_arr(room_list,room_name)
-					CollectionUtilities.remove_key_from_dic(room_data_dic,room_name)
-					#通知房间的关闭
-					emit_signal("remove_room",room_name)
-				
-				#退出房间 回复
-				msg_data["type"] = type + 1
+			
+			if remove_player_from_room(id,room_name):
+				#回复 退出房间 
+				msg_data["requestType"] = type + 1
 				msg_data["respond"] = 200
 				var repkt = to_json(msg_data).to_utf8()
 				server_socket.get_peer(id).put_packet(repkt)
+			
+
+				
+				
 
 
 		elif type == 10:
@@ -213,10 +214,12 @@ func _on_data_received(id):
 		
 			var msg_data_data = msg_data["data"]
 			var room_name = msg_data_data["roomName"]
-			if room_data_dic.has(room_name):
-				var player_list_in_game = room_data_dic[room_name]
-				player_list_in_game = player_list_in_game.duplicate()
-				prepare_running_room[room_name] = player_list_in_game
+			var player_list_in_game = get_player_list_in_room(room_name)
+			
+			
+			if player_list_in_game.has(id) and player_list_in_game.front() == id:
+				var player_list_in_game_copy = player_list_in_game.duplicate()
+				prepare_running_room[room_name] = player_list_in_game_copy
 
 				#通知房间内所有玩家 游戏可以开始
 				for item in player_list_in_game:
@@ -237,7 +240,7 @@ func _on_data_received(id):
 					if prepare_player_arr.empty():
 						#满足开始游戏
 						print("满足开始游戏")
-						var player_network_id_arr_in_game = room_data_dic[room_name]
+						var player_network_id_arr_in_game = get_player_list_in_room(room_name)
 						#TODO 临时
 						var player_type_arr := []
 						for index in range(player_network_id_arr_in_game.size()):
@@ -249,22 +252,14 @@ func _on_data_received(id):
 				return
 			var msg_data_data = msg_data["data"]
 			var room_name = msg_data_data["roomName"]
-			
-#			if not room_data_dic.has(room_name):
-#				return
-			assert(room_data_dic.has(room_name))
-				
-			var player_id_arr_in_room = room_data_dic[room_name]
-			
-#			if not player_arr_in_room.has(id):
-#				return
-			assert(player_id_arr_in_room.has(id))
+
+			var player_id_arr_in_room = get_player_list_in_room(room_name)
 			var player_name_arr_in_room := []
 			for player_id_item in player_id_arr_in_room:
 				var player_item_data = get_player_data_by_id(player_id_item)
 				player_name_arr_in_room.push_back(player_item_data["player_name"])
 			
-			msg_data["type"] = type + 1
+			msg_data["requestType"] = type + 1
 			msg_data["respond"] = 200
 			msg_data_data["playerList"] = player_name_arr_in_room
 			
@@ -287,7 +282,7 @@ func _on_data_received(id):
 #			if not room_list.has(room_name):
 #				return
 			assert(room_list.has(room_name))
-			var player_arr_in_room = room_data_dic[room_name]
+			var player_arr_in_room = get_player_list_in_room(room_name)
 			#自己是否在房间
 			assert(not player_arr_in_room.has(id))
 			
@@ -297,9 +292,10 @@ func _on_data_received(id):
 			
 			#加入玩家
 			player_arr_in_room.push_back(id)
+			player_to_room_dic[id] = room_name
 			
 			#加入成功 通知新玩家
-			msg_data["type"] = type + 1
+			msg_data["requestType"] = type + 1
 			msg_data["respond"] = 200
 			var repkt = to_json(msg_data).to_utf8()
 			server_socket.get_peer(id).put_packet(repkt)
@@ -313,7 +309,7 @@ func notify_player_quit_room(_player_id,_quit_player_id):
 	
 	
 	var msg_data := {}
-	msg_data["type"] = 9
+	msg_data["requestType"] = 9
 	msg_data["respond"] = 200
 	var msg_data_data =  CollectionUtilities.get_dic_item_by_key_from_dic(msg_data,"data")
 	msg_data_data["playerId"] = _quit_player_id
@@ -328,7 +324,7 @@ func notify_player_join_room(_player_id,_new_player_id):
 	
 	
 	var msg_data := {}
-	msg_data["type"] = 8
+	msg_data["requestType"] = 8
 	msg_data["respond"] = 200
 	var msg_data_data =  CollectionUtilities.get_dic_item_by_key_from_dic(msg_data,"data")
 	msg_data_data["playerId"] = _new_player_id
@@ -339,8 +335,27 @@ func notify_player_join_room(_player_id,_new_player_id):
 
 func notify_player_start_game(_player_id):
 	var msg_data := {}
-	msg_data["type"] = 11
+	msg_data["requestType"] = 11
 	msg_data["respond"] = 200
 	
 	var repkt = to_json(msg_data).to_utf8()
 	server_socket.get_peer(_player_id).put_packet(repkt)
+	
+func notify_player_own_room(_player_id,_owner_id):
+	#TODO
+	print("未实现")
+
+#发送游戏数据
+func message_transfor(_player_id,_message_dic):
+	if player_list.has(_player_id):
+		#在线
+		var msg_data := {}
+		msg_data["requestType"] = 15
+		msg_data["respond"] = 200
+		msg_data["data"] = _message_dic
+
+		var repkt = to_json(msg_data).to_utf8()
+		server_socket.get_peer(_player_id).put_packet(repkt)
+	else:
+		#不在线
+		pass
