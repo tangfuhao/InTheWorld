@@ -23,13 +23,6 @@ func setup(_control_node,_statusDic):
 	binding_listening_relative()
 	
 	
-	# _control_node.connect("see_new_player",self,"_on_node_found_new_player")
-	
-func _on_node_found_new_player(_body):
-	#TODO 对应状态表
-	#print("看见了新玩家在动机里:",body.player_name)
-	pass
-	
 
 func binding_listening_relative():
 	for motivation_model in motivation_dic.values():
@@ -58,7 +51,7 @@ func _on_motivation_arr_active_change(motivation_model):
 #动机值改变的激活通知 更新优先级最高的动机
 func _on_motivation_arr_value_change(motivation_model):
 	emit_signal("motivation_item_value_change",motivation_model)
-	game_wapper_ref.message_generator.send_player_motivation_value_change(control_node,motivation_model)
+#	game_wapper_ref.message_generator.send_player_motivation_value_change(control_node,motivation_model)
 	if self.highest_priority_motivation == null:
 		if motivation_model.is_active: 
 			self.highest_priority_motivation = motivation_model
