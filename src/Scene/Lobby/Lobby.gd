@@ -5,10 +5,11 @@ const game_choreographer = preload("res://src/Scene/GameChoreographer.tscn")
 onready var lobby_player_listview = $"HBoxContainer/VBoxContainer/大厅玩家"
 onready var room_listview = $"HBoxContainer/VBoxContainer2/房间列表"
 onready var player_in_room_listview = $"HBoxContainer/VBoxContainer3/房间任务列表"
-
+onready var game_node_layer = $GameNodes
 
 var player_id_index_dic := {}
 var room_id_arr := []
+
 
 
 
@@ -73,8 +74,13 @@ func _on_room_remove(_room_id):
 func _on_room_start_game(_room_id,_player_network_id_arr,player_type_arr):
 	var game_choreographer_node = game_choreographer.instance()
 	game_choreographer_node.setup(_room_id,_player_network_id_arr,player_type_arr,"island")
-	add_child(game_choreographer_node)
-	
+	game_choreographer_node.visible = false
+	game_node_layer.add_child(game_choreographer_node)
+	game_choreographer_node.message_generator.connect("message_dispatch2",self,"_on_message_dispatch")
+
+func _on_message_dispatch(_player_node,_message_dic):
+	var player_id = _player_node.player_id
+	GameState.message_transfor(player_id,_message_dic)
 
 func _on_room_item_selected(_index):
 	var room_id = room_id_arr[_index]
