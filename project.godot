@@ -297,7 +297,7 @@ _global_script_classes=[ {
 "base": "Reference",
 "class": "MessageGenerator",
 "language": "GDScript",
-"path": "res://src/Scene/GlobalMessageGenerator.gd"
+"path": "res://src/Scene/MessageGenerator.gd"
 }, {
 "base": "Reference",
 "class": "MotivationModel",
