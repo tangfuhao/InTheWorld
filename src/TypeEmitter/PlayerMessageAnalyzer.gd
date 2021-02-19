@@ -25,19 +25,18 @@ var not_like_people_arr = []
 var active_motivation_aar = []
 
 
-
+#聊天窗口
 var stage
+
+#当前场景的引用
+var game_wapper_ref
+
 
 func _ready():
 	stage = owner
 
-	
-
-	
-#	monitor_people_arr.push_back(player_id)
-	
-	
-	GlobalMessageGenerator.connect("message_dispatch",self,"on_global_message_handle")
+	game_wapper_ref = FunctionTools.get_game_wapper_node(get_path())
+	game_wapper_ref.message_generator.connect("message_dispatch",self,"on_global_message_handle")
 
 	action_dic = DataManager.get_player_data(assign_player,"action_to_text")
 	world_status_dic = DataManager.get_player_data(assign_player,"world_status_to_text")
@@ -97,6 +96,7 @@ func binding_user(_message_dic):
 		var player_display_name = _message_dic["player_display_name"]
 		if assign_player == player_display_name:
 			player_id = _message_dic["Player"]
+
 
 func on_global_message_handle(message_dic):
 	binding_user(message_dic)
