@@ -3,6 +3,8 @@ class_name Player
 
 
 export var player_name = "player1"
+
+
 onready var name_label := $NameDisplay
 onready var movement = $Movement
 onready var hurt_box = $HurtBox
@@ -15,7 +17,6 @@ onready var camera_position := $NameDisplay/RemoteTransform2D
 onready var interaction_layer = $InteractionLayer
 onready var bind_layer = $BindLayer
 onready var storage_layer := $Storage
-
 #视觉
 onready var vision_sensor := $VisionSensor
 #目标管理
@@ -29,6 +30,9 @@ var target_system
 var node_name
 #显示名称
 var display_name
+var player_id
+
+
 var stuff_type_name := "Player"
 var new_add_concept := []
 
@@ -43,6 +47,7 @@ var is_rigid_body = true
 var collision_object_arr := []
 #可交互的范围 对象列表
 var interactive_object_list := []
+
 #作用模板-作用对象
 var interaction_dic := {}
 
