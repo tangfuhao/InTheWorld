@@ -42,9 +42,14 @@ func _ready():
 	
 	var position_arr := [position_1,position_2,position_3,position_4]
 	position_arr.shuffle()
-	for player_item in player_type_arr:
+	var player_arr_size = player_type_arr.size()
+	for player_item_index in range(player_arr_size):
+		var player_network_id = player_network_id_arr[player_item_index]
+		var player_type_item = player_type_arr[player_item_index]
+		
 		var player_node = player_instance.instance()
-		player_node.player_name = player_item
+		player_node.player_name = player_type_item
+		player_node.player_id = player_network_id
 		
 		add_player_node(player_node,position_arr.pop_back().global_position)
 
