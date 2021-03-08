@@ -32,3 +32,7 @@ func get_arr_item_by_key_from_dic(_dic:Dictionary,_key) -> Array:
 	_dic[_key] = []
 	return _dic[_key]
 
+func get_var_item_by_key_from_dic(_dic:Dictionary,_key):
+	if _dic.has(_key):
+		return _dic[_key]
+	return null

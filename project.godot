@@ -40,6 +40,11 @@ _global_script_classes=[ {
 "path": "res://src/Character/sensor/AttackRangeSensor.gd"
 }, {
 "base": "Reference",
+"class": "BaseHandler",
+"language": "GDScript",
+"path": "res://src/Network/BaseHandler.gd"
+}, {
+"base": "Reference",
 "class": "CConditionAttributeItem",
 "language": "GDScript",
 "path": "res://src/UI/customization/CConditionAttributeItem.gd"
@@ -78,6 +83,11 @@ _global_script_classes=[ {
 "class": "ComomStuffParam",
 "language": "GDScript",
 "path": "res://src/World/stuff/ComomStuffParam.gd"
+}, {
+"base": "BaseHandler",
+"class": "CreateRoomHandler",
+"language": "GDScript",
+"path": "res://src/Network/Handler/CreateRoomHandler.gd"
 }, {
 "base": "Reference",
 "class": "CustomerObjectModel",
@@ -255,6 +265,11 @@ _global_script_classes=[ {
 "path": "res://src/Scene/GameChoreographer.gd"
 }, {
 "base": "Reference",
+"class": "GameNetworkHandler",
+"language": "GDScript",
+"path": "res://src/Network/GameNetworkHandler.gd"
+}, {
+"base": "Reference",
 "class": "GlobalRef",
 "language": "GDScript",
 "path": "res://src/Scene/GlobalRef.gd"
@@ -284,15 +299,45 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/World/Interaction/InteractionTemplate.gd"
 }, {
+"base": "BaseHandler",
+"class": "JoinRoomHandler",
+"language": "GDScript",
+"path": "res://src/Network/Handler/JoinRoomHandler.gd"
+}, {
+"base": "BaseHandler",
+"class": "LeaveRoomHandler",
+"language": "GDScript",
+"path": "res://src/Network/Handler/LeaveRoomHandler.gd"
+}, {
 "base": "Reference",
 "class": "LogSys",
 "language": "GDScript",
 "path": "res://src/Scene/LogSys.gd"
 }, {
+"base": "BaseHandler",
+"class": "LoginHander",
+"language": "GDScript",
+"path": "res://src/Network/Handler/LoginHander.gd"
+}, {
+"base": "Reference",
+"class": "LoobyModel",
+"language": "GDScript",
+"path": "res://src/Logic/Lobby/LoobyModel.gd"
+}, {
+"base": "Reference",
+"class": "LoobyRepository",
+"language": "GDScript",
+"path": "res://src/Logic/Lobby/LoobyRepository.gd"
+}, {
 "base": "Sensor",
 "class": "MemorySensor",
 "language": "GDScript",
 "path": "res://src/Character/sensor/MemorySensor.gd"
+}, {
+"base": "Reference",
+"class": "MessageEmitter",
+"language": "GDScript",
+"path": "res://src/Network/MessageEmitter.gd"
 }, {
 "base": "Reference",
 "class": "MessageGenerator",
@@ -389,6 +434,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/Character/ManualOperationPlayer.gd"
 }, {
+"base": "BaseHandler",
+"class": "PlayerListInRoomHandler",
+"language": "GDScript",
+"path": "res://src/Network/Handler/PlayerListInRoomHandler.gd"
+}, {
 "base": "Node",
 "class": "PlayerMessageAnalyzer",
 "language": "GDScript",
@@ -404,6 +454,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://src/Character/PlayerParam.gd"
 }, {
+"base": "BaseHandler",
+"class": "PrepareGameHandler",
+"language": "GDScript",
+"path": "res://src/Network/Handler/PrepareGameHandler.gd"
+}, {
 "base": "Reference",
 "class": "RelationshipSystem",
 "language": "GDScript",
@@ -413,6 +468,11 @@ _global_script_classes=[ {
 "class": "ResponseSystem",
 "language": "GDScript",
 "path": "res://src/Character/ResponseSystem.gd"
+}, {
+"base": "BaseHandler",
+"class": "RoomListHandler",
+"language": "GDScript",
+"path": "res://src/Network/Handler/RoomListHandler.gd"
 }, {
 "base": "Sensor",
 "class": "SelfHurtBoxSensor",
@@ -438,6 +498,11 @@ _global_script_classes=[ {
 "class": "Sensor",
 "language": "GDScript",
 "path": "res://src/Character/sensor/Sensor.gd"
+}, {
+"base": "BaseHandler",
+"class": "StartGameHandler",
+"language": "GDScript",
+"path": "res://src/Network/Handler/StartGameHandler.gd"
 }, {
 "base": "Node",
 "class": "Status",
@@ -511,6 +576,7 @@ _global_script_class_icons={
 "AroundPeopleActionSensor": "",
 "AroundPeopleSensor": "",
 "AttackRangeSensor": "",
+"BaseHandler": "",
 "CConditionAttributeItem": "",
 "CConditionModel": "",
 "CConditionRule": "",
@@ -519,6 +585,7 @@ _global_script_class_icons={
 "CameraMovement": "",
 "CommonStuff": "",
 "ComomStuffParam": "",
+"CreateRoomHandler": "",
 "CustomerObjectModel": "",
 "CustomerScene": "",
 "Evaluate": "",
@@ -554,14 +621,21 @@ _global_script_class_icons={
 "GSAITargetAcceleration": "",
 "GSAIUtils": "",
 "GameChoreographer": "",
+"GameNetworkHandler": "",
 "GlobalRef": "",
 "GodInteractionImplement": "",
 "IDGenerator": "",
 "InteractionDispatcher2": "",
 "InteractionImplement": "",
 "InteractionTemplate": "",
+"JoinRoomHandler": "",
+"LeaveRoomHandler": "",
 "LogSys": "",
+"LoginHander": "",
+"LoobyModel": "",
+"LoobyRepository": "",
 "MemorySensor": "",
+"MessageEmitter": "",
 "MessageGenerator": "",
 "MotivationModel": "",
 "MoveInteractionImplement": "",
@@ -581,16 +655,20 @@ _global_script_class_icons={
 "PackgeItemBase": "",
 "Pathfinding": "",
 "Player": "",
+"PlayerListInRoomHandler": "",
 "PlayerMessageAnalyzer": "",
 "PlayerPanel": "",
 "PlayerParam": "",
+"PrepareGameHandler": "",
 "RelationshipSystem": "",
 "ResponseSystem": "",
+"RoomListHandler": "",
 "SelfHurtBoxSensor": "",
 "SelfInventorySensor": "",
 "SelfLocationSensor": "",
 "SelfStateSensor": "",
 "Sensor": "",
+"StartGameHandler": "",
 "Status": "",
 "StatusEffectModel": "",
 "Storage": "",
@@ -619,6 +697,7 @@ CollectionUtilities="*res://src/Global/CollectionUtilities.gd"
 ValueCacheManager="*res://src/Global/ValueCacheManager.gd"
 GameState="*res://src/Global/GameState.gd"
 FunctionTools="*res://src/Global/FunctionTool.gd"
+MyLog="*res://src/Global/MyLog.gd"
 
 [display]
 
