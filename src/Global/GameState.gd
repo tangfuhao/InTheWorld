@@ -16,7 +16,6 @@ func _ready():
 	message_emitter = MessageEmitter.new()
 	message_emitter.connect("data_received",self,"_on_data_received")
 	message_emitter.connect("disconnect",self,"_on_client_disconnected")
-	
 
 
 func _on_client_disconnected(id):
@@ -34,7 +33,7 @@ func start_game(_room_id,_player_list,player_type_arr):
 	var game_choreographer_node = game_choreographer.instance()
 	game_choreographer_node.setup(_room_id,_player_list,player_type_arr,"island")
 	game_choreographer_node.visible = false
-	add_child(game_choreographer_node)
+	get_tree().current_scene.game_node_layer.add_child(game_choreographer_node)
 	game_choreographer_node.message_generator.connect("message_dispatch2",self,"_on_message_dispatch")
 
 

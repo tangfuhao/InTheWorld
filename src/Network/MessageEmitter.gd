@@ -2,7 +2,7 @@
 class_name MessageEmitter
 
 const PORT = 33553
-var server_socket
+var server_socket:WebSocketServer
 var running := false
 
 signal data_received(id,data)

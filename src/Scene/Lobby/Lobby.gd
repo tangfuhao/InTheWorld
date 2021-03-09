@@ -52,6 +52,7 @@ func update_player_list_in_room(_player_list:Array):
 #关闭服务器
 func _on_Button_pressed():
 	GameState.message_emitter.stop_server()
+	get_tree().change_scene("res://src/Scene/Start/Start.tscn")
 
 func _on_game_user_list_change(user_data_list):
 	update_player_list(user_data_list)
@@ -65,8 +66,6 @@ func _on_game_romm_list_change(room_list):
 func _on_game_room_player_list_change(room_name,player_list):
 	if select_room == room_name:
 		update_player_list_in_room(player_list)
-
-
 
 
 func _on_room_item_selected(_index):

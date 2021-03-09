@@ -105,4 +105,6 @@ text = "关闭服务器"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="GameNodes" type="Node2D" parent="."]
 [connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
