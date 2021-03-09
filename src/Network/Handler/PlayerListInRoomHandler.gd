@@ -7,8 +7,8 @@ const cmd = GameState.RequestCmd.PLAYER_LIST_IN_ROOM
 func handle(_socket_id,_packect_dic):
 	var response_data = generate_ack_meessage(_packect_dic)
 	
-	while(false):
-		if not GameState.lobby_model.is_user_login(_socket_id):
+	while(true):
+		if not GameState.lobby_model.is_connect_online(_socket_id):
 			response_data["result"] = false
 			break
 		
@@ -21,3 +21,5 @@ func handle(_socket_id,_packect_dic):
 		response_data["result"] = true
 		
 		GameState.message_emitter.sendMessage(_socket_id,response_data)
+
+		break

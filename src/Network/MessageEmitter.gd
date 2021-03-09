@@ -8,19 +8,22 @@ var running := false
 signal data_received(id,data)
 signal disconnect(id)
 
-#func sendAcK(_socket_id,_packect_dic):
-#	var ack_data := {}
-#	ack_data["cmd"] = GameState.ResponseCmd.ACK
-#	ack_data["seq"] = _packect_dic["seq"]
-#	var repkt = to_json(ack_data).to_utf8()
-#	#TODO 这步需要设计
-#	server_socket.get_peer(_socket_id).put_packet(repkt)
 
 func sendMessage(_socket_id,_packect_dic):
-	if GameState.lobby_model.is_user_login(_socket_id):
+	if GameState.lobby_model.is_connect_online(_socket_id):
 		var repkt = to_json(_packect_dic).to_utf8()
 		#TODO 这步需要设计
 		server_socket.get_peer(_socket_id).put_packet(repkt)
+	else:
+		#TODO 存储
+		pass
+
+func sendDataMessage(_player_name,_packect_dic):
+	var socket_id = GameState.lobby_model.get_socket_id(_player_name)
+	if GameState.lobby_model.is_user_online(_player_name) and GameState.lobby_model.is_prepared(_player_name):
+		var repkt = to_json(_packect_dic).to_utf8()
+		#TODO 这步需要设计
+		server_socket.get_peer(socket_id).put_packet(repkt)
 	else:
 		#TODO 存储
 		pass

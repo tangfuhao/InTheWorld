@@ -7,16 +7,18 @@ const cmd = GameState.RequestCmd.CREATE_ROOM
 func handle(_socket_id,_packect_dic):
 	var response_data = generate_ack_meessage(_packect_dic)
 	
-	while(false):
-		if not GameState.lobby_model.is_user_login(_socket_id):
+	while(true):
+		if not GameState.lobby_model.is_connect_online(_socket_id):
 			response_data["result"] = false
 			break
 		
 		if GameState.lobby_model.get_room_by_owner(_socket_id):
 			response_data["result"] = false
 			break
+			
+		var packect_data = check_data_exsit(_packect_dic)
 		
-		var room_name = CollectionUtilities.get_arr_item_by_key_from_dic(response_data,"room_name")
+		var room_name = CollectionUtilities.get_arr_item_by_key_from_dic(packect_data,"roomName")
 		if not room_name:
 			response_data["result"] = false
 			break
@@ -29,4 +31,6 @@ func handle(_socket_id,_packect_dic):
 		response_data["result"] = true
 		
 		GameState.message_emitter.sendMessage(_socket_id,response_data)
+
+		break
 
