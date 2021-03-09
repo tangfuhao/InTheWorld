@@ -1,8 +1,14 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://src/Scene/Lobby/Lobby.gd" type="Script" id=1]
 [ext_resource path="res://src/UI/customization/listview/CommonListView.tscn" type="PackedScene" id=2]
 [ext_resource path="res://assert/font/interaction_dialog_message_dynamicfont.tres" type="DynamicFont" id=3]
+
+[sub_resource type="StyleBoxFlat" id=1]
+
+[sub_resource type="StyleBoxFlat" id=2]
+
+[sub_resource type="StyleBoxFlat" id=3]
 
 [node name="Lobby" type="Control"]
 anchor_right = 1.0
@@ -11,9 +17,6 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="GameNodes" type="Node2D" parent="."]
-visible = false
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
 anchor_right = 1.0
@@ -31,6 +34,7 @@ size_flags_horizontal = 3
 margin_right = 397.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
+custom_styles/normal = SubResource( 1 )
 custom_fonts/font = ExtResource( 3 )
 text = "在线玩家"
 valign = 1
@@ -53,6 +57,7 @@ size_flags_horizontal = 3
 margin_right = 397.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
+custom_styles/normal = SubResource( 2 )
 custom_fonts/font = ExtResource( 3 )
 text = "房间列表"
 valign = 1
@@ -75,6 +80,7 @@ size_flags_horizontal = 3
 margin_right = 398.0
 margin_bottom = 30.0
 rect_min_size = Vector2( 0, 30 )
+custom_styles/normal = SubResource( 3 )
 custom_fonts/font = ExtResource( 3 )
 text = "房间玩家列表"
 valign = 1

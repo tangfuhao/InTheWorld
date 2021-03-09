@@ -117,7 +117,7 @@ func get_player_list_in_room(_room_name):
 #准备好接收数据
 func is_prepared(_player_name) -> bool:
 	var room_name = player_to_room_dic[_player_name]
-	var player_list = get_player_count_in_prepare_room(room_name)
+	var player_list = prepare_running_room[room_name]
 	return not player_list.has(_player_name)
 
 #准备状态不太一样
